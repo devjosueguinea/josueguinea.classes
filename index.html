@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Clases Universitarias</title>
+    <title>Dashboard - Mis Clases Universitarias</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -12,83 +12,234 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Contenedor para el menú -->
-    <div id="menu-container"></div>
+    <div class="app-container">
+        <!-- Sidebar General -->
+        <aside class="sidebar">
+            <a href="#" class="sidebar-logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>Portal Académico</span>
+            </a>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="index.html" class="sidebar-link active">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clases/redcom/redes-comunicaciones.html" class="sidebar-link">
+                        <i class="bi bi-wifi"></i>
+                        <span>Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clases/bd2/bases-datos-ii.html" class="sidebar-link">
+                        <i class="bi bi-database"></i>
+                        <span>Bases de Datos II</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cpu"></i>
+                        <span>Sistemas Op.</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
-    <!-- Contenido principal -->
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="jumbotron bg-primary text-white p-5 rounded">
-                    <h1 class="display-4"><i class="bi bi-mortarboard-fill"></i> Mis Clases Universitarias</h1>
-                    <p class="lead">Bienvenido a tu espacio de estudio. Aquí encontrarás todas tus clases organizadas.</p>
-                    <hr class="my-4 bg-light">
-                    <p>Selecciona una clase del menú para comenzar.</p>
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="search-bar">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="dashboard-search" placeholder="Buscar materias...">
                 </div>
-            </div>
-        </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                        <div class="d-none d-md-block">
+                            <h6 class="mb-0" style="font-size: 0.9rem; font-weight: 600;">Prof. Josue Guinea</h6>
+                            <span class="text-muted" style="font-size: 0.75rem;">Docente Principal</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-        <!-- Tarjetas de materias -->
-        <div class="row mt-4" id="class-preview">
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-header bg-light text-black">
-                        <h5 class="card-title mb-0"><i class="bi bi-wifi"></i> Redes de Comunicaciones</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Fundamentos de redes, protocolos, arquitectura y comunicaciones digitales.</p>
-                        <a href="clases/redcom/redes-comunicaciones.html" class="btn btn-outline-primary">Ver clase</a>
-                    </div>
+            <!-- Banner de bienvenida -->
+            <section class="welcome-banner">
+                <div style="position: relative; z-index: 2;">
+                    <h1 class="display-6 fw-bold">Bienvenido a tu Espacio de Estudio</h1>
+                    <p class="mb-0 opacity-75">Visualiza el progreso de tus clases y accede a tus materias de manera ágil y organizada.</p>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-header bg-light text-black">
-                        <h5 class="card-title mb-0"><i class="bi bi-database"></i> Bases de Datos II</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">MongoDB, Cassandra, consumo de API y bases de datos NoSQL avanzadas.</p>
-                        <a href="clases/bd2/bases-datos-ii.html" class="btn btn-outline-success">Ver clase</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Tarjetas de materias -->
-        <div class="row mt-4" id="class-preview">
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-header bg-light text-black">
-                        <h5 class="card-title mb-0"><i class="bi bi-book"></i> Sistemas Operativos</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Sistemas Operativos clientes libres y propietarios, SO para servidores libres y propietarios</p>
-                        <a href="clases/redcom/redes-comunicaciones.html" class="btn btn-outline-primary">Ver clase</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-header bg-danger text-white">
-                        <h5 class="card-title mb-0"><i class="bi bi-database"></i> Proximamente</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Proximamente</p>
-                        <a href="#" class="btn btn-outline-success">Ver clase</a>
+            <!-- Estadísticas rápidas -->
+            <section class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="bi bi-book-half"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number">3</div>
+                            <div class="text-muted" style="font-size: 0.85rem;">Materias Totales</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="total-completed-stats">0 / 10</div>
+                            <div class="text-muted" style="font-size: 0.85rem;">Temas Completados</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon primary" style="background-color: rgba(108,92,231,0.1); color: var(--primary);">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number">45h</div>
+                            <div class="text-muted" style="font-size: 0.85rem;">Horas Académicas</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Grid de Materias -->
+            <h4 class="mb-4 fw-bold">Tus Materias</h4>
+            <section class="subject-grid" id="subjects-container">
+                <!-- Redes -->
+                <div class="subject-card-wrapper" data-subject-title="redes de comunicaciones">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-primary">
+                                <i class="bi bi-wifi"></i>
+                            </div>
+                            <span class="subject-badge bg-primary-subtle text-primary">Redes</span>
+                        </div>
+                        <h5 class="subject-title">Redes de Comunicaciones</h5>
+                        <p class="subject-description">Fundamentos de redes, protocolos, arquitectura y comunicaciones digitales.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Progreso de estudio</span>
+                                <span id="progress-text-redes">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill bg-primary" id="progress-bar-redes" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="clases/redcom/redes-comunicaciones.html" class="subject-link">
+                                <span>Acceder a materia</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bases de Datos II -->
+                <div class="subject-card-wrapper" data-subject-title="bases de datos ii">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-success">
+                                <i class="bi bi-database"></i>
+                            </div>
+                            <span class="subject-badge bg-success-subtle text-success">Base de Datos</span>
+                        </div>
+                        <h5 class="subject-title">Bases de Datos II</h5>
+                        <p class="subject-description">MongoDB, Cassandra, consumo de API y bases de datos NoSQL avanzadas.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Progreso de estudio</span>
+                                <span id="progress-text-bd2">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill bg-success" id="progress-bar-bd2" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="clases/bd2/bases-datos-ii.html" class="subject-link">
+                                <span>Acceder a materia</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sistemas Operativos -->
+                <div class="subject-card-wrapper" data-subject-title="sistemas operativos">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-info text-white">
+                                <i class="bi bi-cpu"></i>
+                            </div>
+                            <span class="subject-badge bg-info-subtle text-info">Sistemas</span>
+                        </div>
+                        <h5 class="subject-title">Sistemas Operativos</h5>
+                        <p class="subject-description">Sistemas Operativos clientes libres y propietarios, SO para servidores libres y propietarios.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Progreso de estudio</span>
+                                <span id="progress-text-so">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill bg-info" id="progress-bar-so" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="#" class="subject-link">
+                                <span>Acceder a materia</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximamente -->
+                <div class="subject-card-wrapper" data-subject-title="proximamente">
+                    <div class="subject-card" style="opacity: 0.7;">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-secondary">
+                                <i class="bi bi-plus-circle"></i>
+                            </div>
+                            <span class="subject-badge bg-secondary-subtle text-secondary">Próximamente</span>
+                        </div>
+                        <h5 class="subject-title">Nueva Materia</h5>
+                        <p class="subject-description">Nuevas asignaturas en planificación para complementar tu plan de estudios académico.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Progreso de estudio</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill bg-secondary" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <span class="text-muted" style="font-size: 0.9rem;">No disponible</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-5">
-        <p class="mb-0">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Todos los derechos reservados.</p>
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Todos los derechos reservados.</p>
     </footer>
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/menu.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,312 +1,302 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redes de Comunicaciones</title>
+    <title>Redes de Comunicaciones - Portal Académico</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- CSS Personalizado -->
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
-    <!-- Contenedor para el menú -->
-    <div id="menu-container"></div>
+    <div class="app-container">
+        <!-- Sidebar General -->
+        <aside class="sidebar">
+            <a href="../../index.html" class="sidebar-logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>Portal Académico</span>
+            </a>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="../../index.html" class="sidebar-link">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="redes-comunicaciones.html" class="sidebar-link active">
+                        <i class="bi bi-wifi"></i>
+                        <span>Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../bd2/bases-datos-ii.html" class="sidebar-link">
+                        <i class="bi bi-database"></i>
+                        <span>Bases de Datos II</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cpu"></i>
+                        <span>Sistemas Op.</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
-    <!-- Contenido de la clase -->
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-10 mx-auto">
-                <div class="class-content fade-in">
-                    <!-- Encabezado de la materia -->
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="bg-primary text-white p-3 rounded-circle me-3">
-                            <i class="bi bi-wifi fs-2"></i>
-                        </div>
-                        <div>
-                            <h2 class="mb-0">Redes de Comunicaciones</h2>
-                            <p class="text-muted">Fundamentos y arquitectura de redes</p>
-                        </div>
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="../../index.html" class="btn btn-icon" title="Volver al Dashboard">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Redes de Comunicaciones</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Fundamentos y arquitectura de redes</span>
                     </div>
-
-                    <!-- Descripción general -->
-                    <div class="alert alert-info">
-                        <h5><i class="bi bi-info-circle"></i> Descripción de la materia</h5>
-                        <p class="mb-0">Esta materia cubre los fundamentos de las redes de comunicaciones, incluyendo protocolos, arquitectura de red, capas OSI, TCP/IP, y tecnologías de comunicación moderna.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
                     </div>
+                </div>
+            </header>
 
-                    <!-- Menú de contenidos colapsable -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-list-ul"></i> Contenidos de la Materia
-                            </h5>
+            <!-- Layout de materia con Sidebar de clases -->
+            <div class="subject-layout">
+                <!-- Sidebar de Clases -->
+                <nav class="subject-sidebar">
+                    <h6 class="text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases</h6>
+                    <ul class="class-list" id="class-list-redes">
+                        <li class="class-item active" data-class-id="tema1">
+                            <div class="class-checkbox" data-class-key="redes_tema1">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Tema 1: Introducción a Redes">Tema 1: Introducción a Redes</span>
+                        </li>
+                        <li class="class-item" data-class-id="tema2">
+                            <div class="class-checkbox" data-class-key="redes_tema2">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Tema 2: Modelo OSI y TCP/IP">Tema 2: Modelo OSI y TCP/IP</span>
+                        </li>
+                        <li class="class-item" data-class-id="tema3">
+                            <div class="class-checkbox" data-class-key="redes_tema3">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Tema 3: Protocolos de Comunicación">Tema 3: Protocolos de Comunicación</span>
+                        </li>
+                        <li class="class-item" data-class-id="tema4">
+                            <div class="class-checkbox" data-class-key="redes_tema4">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Tema 4: Arquitectura y Enrutamiento">Tema 4: Arquitectura y Enrutamiento</span>
+                        </li>
+                        <li class="class-item" data-class-id="tema5">
+                            <div class="class-checkbox" data-class-key="redes_tema5">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Tema 5: Seguridad en Redes">Tema 5: Seguridad en Redes</span>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Panel de Contenido de Clase -->
+                <div class="class-content-wrapper">
+                    <!-- Tema 1 -->
+                    <article class="class-detail-section active" id="tema1-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-primary text-white">Tema 1</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="accordion accordion-flush" id="accordionRedes">
-                                <!-- Tema 1 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tema1" aria-expanded="false">
-                                            <div class="d-flex align-items-center w-100">
-                                                <span class="badge bg-primary me-2">Tema 1</span>
-                                                <span>Introducción a las Redes de Comunicaciones</span>
-                                                <span class="ms-auto text-muted small">
-                                                    <i class="bi bi-clock"></i> 4 horas
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="tema1" class="accordion-collapse collapse" data-bs-parent="#accordionRedes">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h6><i class="bi bi-book text-primary"></i> Descripción</h6>
-                                                    <p>Conceptos básicos de redes, evolución histórica, tipos de redes, topologías, y aplicaciones. Se aborda la importancia de las redes en la sociedad actual.</p>
-                                                    <h6><i class="bi bi-list-check"></i> Contenidos</h6>
-                                                    <ul>
-                                                        <li>¿Qué es una red de comunicaciones?</li>
-                                                        <li>Historia y evolución de las redes</li>
-                                                        <li>Clasificación de redes (LAN, MAN, WAN)</li>
-                                                        <li>Topologías de red</li>
-                                                        <li>Aplicaciones y servicios de red</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h6 class="card-title"><i class="bi bi-check-circle text-success"></i> Objetivos</h6>
-                                                            <ul class="list-unstyled">
-                                                                <li><i class="bi bi-arrow-right"></i> Comprender conceptos básicos</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Identificar tipos de redes</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Conocer topologías</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Tema 2 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tema2" aria-expanded="false">
-                                            <div class="d-flex align-items-center w-100">
-                                                <span class="badge bg-success me-2">Tema 2</span>
-                                                <span>Modelo OSI y TCP/IP</span>
-                                                <span class="ms-auto text-muted small">
-                                                    <i class="bi bi-clock"></i> 6 horas
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="tema2" class="accordion-collapse collapse" data-bs-parent="#accordionRedes">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h6><i class="bi bi-book text-primary"></i> Descripción</h6>
-                                                    <p>Estudio detallado del modelo OSI y su comparación con el modelo TCP/IP. Análisis de cada capa y sus funciones principales.</p>
-                                                    <h6><i class="bi bi-list-check"></i> Contenidos</h6>
-                                                    <ul>
-                                                        <li>Modelo OSI: 7 capas y sus funciones</li>
-                                                        <li>Modelo TCP/IP: 4 capas</li>
-                                                        <li>Comparación entre ambos modelos</li>
-                                                        <li>Protocolos más importantes</li>
-                                                        <li>Direccionamiento en redes</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h6 class="card-title"><i class="bi bi-check-circle text-success"></i> Objetivos</h6>
-                                                            <ul class="list-unstyled">
-                                                                <li><i class="bi bi-arrow-right"></i> Entender el modelo OSI</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Conocer TCP/IP</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Identificar protocolos</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Tema 3 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tema3" aria-expanded="false">
-                                            <div class="d-flex align-items-center w-100">
-                                                <span class="badge bg-info me-2">Tema 3</span>
-                                                <span>Protocolos de Comunicación</span>
-                                                <span class="ms-auto text-muted small">
-                                                    <i class="bi bi-clock"></i> 5 horas
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="tema3" class="accordion-collapse collapse" data-bs-parent="#accordionRedes">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h6><i class="bi bi-book text-primary"></i> Descripción</h6>
-                                                    <p>Análisis de los principales protocolos de comunicación en redes, incluyendo TCP, UDP, IP, HTTP/HTTPS, DNS y otros.</p>
-                                                    <h6><i class="bi bi-list-check"></i> Contenidos</h6>
-                                                    <ul>
-                                                        <li>Protocolo TCP: características y funcionamiento</li>
-                                                        <li>Protocolo UDP: diferencias con TCP</li>
-                                                        <li>Protocolo IP: direccionamiento y enrutamiento</li>
-                                                        <li>Protocolos de aplicación (HTTP, DNS, SMTP)</li>
-                                                        <li>Seguridad en protocolos (SSL/TLS)</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h6 class="card-title"><i class="bi bi-check-circle text-success"></i> Objetivos</h6>
-                                                            <ul class="list-unstyled">
-                                                                <li><i class="bi bi-arrow-right"></i> Comprender TCP vs UDP</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Conocer protocolos de aplicación</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Implementar seguridad</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Tema 4 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tema4" aria-expanded="false">
-                                            <div class="d-flex align-items-center w-100">
-                                                <span class="badge bg-warning me-2">Tema 4</span>
-                                                <span>Arquitectura de Red y Enrutamiento</span>
-                                                <span class="ms-auto text-muted small">
-                                                    <i class="bi bi-clock"></i> 4 horas
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="tema4" class="accordion-collapse collapse" data-bs-parent="#accordionRedes">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h6><i class="bi bi-book text-primary"></i> Descripción</h6>
-                                                    <p>Estudio de la arquitectura de red, equipos de interconexión, y algoritmos de enrutamiento para la transmisión eficiente de datos.</p>
-                                                    <h6><i class="bi bi-list-check"></i> Contenidos</h6>
-                                                    <ul>
-                                                        <li>Equipos de red: routers, switches, hubs</li>
-                                                        <li>Arquitectura de red empresarial</li>
-                                                        <li>Algoritmos de enrutamiento</li>
-                                                        <li>Tablas de enrutamiento</li>
-                                                        <li>Protocolos de enrutamiento (RIP, OSPF)</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h6 class="card-title"><i class="bi bi-check-circle text-success"></i> Objetivos</h6>
-                                                            <ul class="list-unstyled">
-                                                                <li><i class="bi bi-arrow-right"></i> Conocer equipos de red</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Entender enrutamiento</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Implementar protocolos</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Tema 5 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tema5" aria-expanded="false">
-                                            <div class="d-flex align-items-center w-100">
-                                                <span class="badge bg-danger me-2">Tema 5</span>
-                                                <span>Seguridad en Redes</span>
-                                                <span class="ms-auto text-muted small">
-                                                    <i class="bi bi-clock"></i> 3 horas
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="tema5" class="accordion-collapse collapse" data-bs-parent="#accordionRedes">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h6><i class="bi bi-book text-primary"></i> Descripción</h6>
-                                                    <p>Fundamentos de seguridad en redes, amenazas comunes, mecanismos de protección, y buenas prácticas para asegurar comunicaciones.</p>
-                                                    <h6><i class="bi bi-list-check"></i> Contenidos</h6>
-                                                    <ul>
-                                                        <li>Amenazas a la seguridad de redes</li>
-                                                        <li>Firewalls y sistemas de detección</li>
-                                                        <li>Cifrado y autenticación</li>
-                                                        <li>VPN y túneles seguros</li>
-                                                        <li>Buenas prácticas de seguridad</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h6 class="card-title"><i class="bi bi-check-circle text-success"></i> Objetivos</h6>
-                                                            <ul class="list-unstyled">
-                                                                <li><i class="bi bi-arrow-right"></i> Identificar amenazas</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Implementar firewalls</li>
-                                                                <li><i class="bi bi-arrow-right"></i> Aplicar cifrado</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <h3 class="fw-bold mb-3">Introducción a las Redes de Comunicaciones</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Conceptos básicos de redes, evolución histórica, tipos de redes, topologías, y aplicaciones. Se aborda la importancia de las redes en la sociedad actual.
+                        </p>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-primary"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> ¿Qué es una red de comunicaciones?</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Historia y evolución de las redes</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Clasificación de redes (LAN, MAN, WAN)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Topologías de red</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Aplicaciones y servicios de red</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Comprender conceptos básicos</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Identificar tipos de redes</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Conocer topologías clásicas</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
 
-                    <!-- Botón de regreso -->
-                    <div class="d-flex justify-content-between mt-4">
-                        <a href="../../index.html" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left"></i> Volver al inicio
-                        </a>
-                    </div>
+                    <!-- Tema 2 -->
+                    <article class="class-detail-section" id="tema2-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-success text-white">Tema 2</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 6 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Modelo OSI y TCP/IP</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Estudio detallado del modelo OSI y su comparación con el modelo TCP/IP. Análisis de cada capa y sus funciones principales.
+                        </p>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Modelo OSI: 7 capas y sus funciones</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Modelo TCP/IP: 4 capas principales</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Comparación detallada entre modelos</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Protocolos más importantes en cada nivel</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Direccionamiento lógico y físico</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Entender el flujo de datos OSI</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Conocer el estándar TCP/IP</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Identificar protocolos de red</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Tema 3 -->
+                    <article class="class-detail-section" id="tema3-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-info text-white">Tema 3</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 5 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Protocolos de Comunicación</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Análisis de los principales protocolos de comunicación en redes, incluyendo TCP, UDP, IP, HTTP/HTTPS, DNS y otros.
+                        </p>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-info"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolo TCP: características y control de flujo</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolo UDP: velocidad sin conexión</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolo IP: direccionamiento y subredes</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolos de aplicación (HTTP, DNS, SMTP)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Seguridad en protocolos (SSL/TLS)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-info"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-info"></i> Diferenciar entre TCP y UDP</li>
+                                        <li><i class="bi bi-arrow-right-short text-info"></i> Comprender la resolución de nombres DNS</li>
+                                        <li><i class="bi bi-arrow-right-short text-info"></i> Explicar el cifrado SSL/TLS</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Tema 4 -->
+                    <article class="class-detail-section" id="tema4-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-warning text-dark">Tema 4</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Arquitectura de Red y Enrutamiento</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Estudio de la arquitectura de red, equipos de interconexión, y algoritmos de enrutamiento para la transmisión eficiente de datos.
+                        </p>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-warning"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Equipos de red: routers, switches, hubs</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Arquitectura de red empresarial</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Algoritmos de enrutamiento dinámico y estático</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Tablas de enrutamiento</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Protocolos de enrutamiento (RIP, OSPF)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-warning"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Identificar dispositivos de red</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Comprender tablas de ruteo</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Distinguir RIP de OSPF</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Tema 5 -->
+                    <article class="class-detail-section" id="tema5-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-danger text-white">Tema 5</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 3 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Seguridad en Redes</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Fundamentos de seguridad en redes, amenazas comunes, mecanismos de protección, y buenas prácticas para asegurar comunicaciones.
+                        </p>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-danger"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Amenazas a la seguridad de redes y vulnerabilidades</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Firewalls (Cortafuegos) y sistemas IDS/IPS</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Mecanismos de cifrado y firma digital</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> VPN (Redes Privadas Virtuales) y túneles</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Buenas prácticas de administración de red</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-danger"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Reconocer tipos de ataques</li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Diseñar políticas con Firewall</li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Entender redes seguras VPN</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-5">
-        <p class="mb-0">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
     </footer>
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/menu.js"></script>
-    <script src="../js/main.js"></script>
-    
-    <script>
-        // Actualizar el menú activo
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPage = window.location.pathname.split('/').pop();
-            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-            navLinks.forEach(link => {
-                const linkPage = link.getAttribute('href').split('/').pop();
-                if (linkPage === 'redes-comunicaciones.html' || linkPage === '../clases/redes-comunicaciones.html') {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
+    <script src="../../js/main.js"></script>
 </body>
 </html>
