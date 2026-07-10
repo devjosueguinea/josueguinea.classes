@@ -33,6 +33,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // === 2. NAVEGACIÓN LATERAL DE CLASES ===
     const classItems = document.querySelectorAll('.class-item');
     const classDetailSections = document.querySelectorAll('.class-detail-section');
+    const subjectSidebar = document.getElementById('subject-sidebar');
+    const fabMenuBtn = document.getElementById('fab-menu-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+    // Toggle para el menú flotante
+    if (fabMenuBtn && subjectSidebar) {
+        fabMenuBtn.addEventListener('click', () => {
+            subjectSidebar.classList.toggle('show');
+        });
+    }
+
+    if (closeSidebarBtn && subjectSidebar) {
+        closeSidebarBtn.addEventListener('click', () => {
+            subjectSidebar.classList.remove('show');
+        });
+    }
 
     classItems.forEach(item => {
         item.addEventListener('click', function(e) {
@@ -55,6 +71,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.getElementById(`${classId}-detail`);
             if (targetSection) {
                 targetSection.classList.add('active');
+            }
+
+            // Ocultar el menú flotante tras seleccionar clase
+            if (subjectSidebar) {
+                subjectSidebar.classList.remove('show');
             }
         });
     });
@@ -191,5 +212,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+    }
+
+    // === 5. MENÚ FLOTANTE EN VISTA DE CLASE DETALLE ===
+    const classFabBtn = document.getElementById('class-fab-btn');
+    const classFloatingSidebar = document.getElementById('class-floating-sidebar');
+    const closeFloatingSidebarBtn = document.getElementById('close-floating-sidebar-btn');
+
+    if (classFabBtn && classFloatingSidebar) {
+        classFabBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            classFloatingSidebar.classList.toggle('show');
+        });
+    }
+
+    if (closeFloatingSidebarBtn && classFloatingSidebar) {
+        closeFloatingSidebarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            classFloatingSidebar.classList.remove('show');
+        });
+    }
+
+    // Cerrar al hacer clic fuera del menú
+    document.addEventListener('click', (e) => {
+        if (classFloatingSidebar && classFloatingSidebar.classList.contains('show')) {
+            if (!classFloatingSidebar.contains(e.target) && e.target !== classFabBtn && !classFabBtn.contains(e.target)) {
+                classFloatingSidebar.classList.remove('show');
+            }
+        }
+    });
+
+    // Activar clase desde parámetro URL (ej: ?class=clase2)
+    const urlParams = new URLSearchParams(window.location.search);
+    const classParam = urlParams.get('class');
+    if (classParam) {
+        const targetItem = document.querySelector(`.class-item[data-class-id="${classParam}"]`);
+        if (targetItem) {
+            targetItem.click();
+        }
     }
 });

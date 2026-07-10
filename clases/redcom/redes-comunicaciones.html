@@ -72,42 +72,53 @@
 
             <!-- Layout de materia con Sidebar de clases -->
             <div class="subject-layout">
-                <!-- Sidebar de Clases -->
-                <nav class="subject-sidebar">
-                    <h6 class="text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases</h6>
-                    <ul class="class-list" id="class-list-redes">
-                        <li class="class-item active" data-class-id="tema1">
-                            <div class="class-checkbox" data-class-key="redes_tema1">
-                                <i class="bi bi-check-lg d-none"></i>
-                            </div>
-                            <span class="class-item-text" title="Tema 1: Introducción a Redes">Tema 1: Introducción a Redes</span>
-                        </li>
-                        <li class="class-item" data-class-id="tema2">
-                            <div class="class-checkbox" data-class-key="redes_tema2">
-                                <i class="bi bi-check-lg d-none"></i>
-                            </div>
-                            <span class="class-item-text" title="Tema 2: Modelo OSI y TCP/IP">Tema 2: Modelo OSI y TCP/IP</span>
-                        </li>
-                        <li class="class-item" data-class-id="tema3">
-                            <div class="class-checkbox" data-class-key="redes_tema3">
-                                <i class="bi bi-check-lg d-none"></i>
-                            </div>
-                            <span class="class-item-text" title="Tema 3: Protocolos de Comunicación">Tema 3: Protocolos de Comunicación</span>
-                        </li>
-                        <li class="class-item" data-class-id="tema4">
-                            <div class="class-checkbox" data-class-key="redes_tema4">
-                                <i class="bi bi-check-lg d-none"></i>
-                            </div>
-                            <span class="class-item-text" title="Tema 4: Arquitectura y Enrutamiento">Tema 4: Arquitectura y Enrutamiento</span>
-                        </li>
-                        <li class="class-item" data-class-id="tema5">
-                            <div class="class-checkbox" data-class-key="redes_tema5">
-                                <i class="bi bi-check-lg d-none"></i>
-                            </div>
-                            <span class="class-item-text" title="Tema 5: Seguridad en Redes">Tema 5: Seguridad en Redes</span>
-                        </li>
-                    </ul>
+                <!-- Sidebar de Clases (Flotante) -->
+                <nav class="subject-sidebar" id="subject-sidebar">
+                    <div class="sidebar-floating-header">
+                        <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases</h6>
+                        <button type="button" class="btn-close" id="close-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+                    </div>
+                    <div class="subject-sidebar-content">
+                        <ul class="class-list" id="class-list-redes">
+                            <li class="class-item active" data-class-id="tema1">
+                                <div class="class-checkbox" data-class-key="redes_tema1">
+                                    <i class="bi bi-check-lg d-none"></i>
+                                </div>
+                                <span class="class-item-text" title="Tema 1: Introducción a Redes">Tema 1: Introducción a Redes</span>
+                            </li>
+                            <li class="class-item" data-class-id="tema2">
+                                <div class="class-checkbox" data-class-key="redes_tema2">
+                                    <i class="bi bi-check-lg d-none"></i>
+                                </div>
+                                <span class="class-item-text" title="Tema 2: Modelo OSI y TCP/IP">Tema 2: Modelo OSI y TCP/IP</span>
+                            </li>
+                            <li class="class-item" data-class-id="tema3">
+                                <div class="class-checkbox" data-class-key="redes_tema3">
+                                    <i class="bi bi-check-lg d-none"></i>
+                                </div>
+                                <span class="class-item-text" title="Tema 3: Protocolos de Comunicación">Tema 3: Protocolos de Comunicación</span>
+                            </li>
+                            <li class="class-item" data-class-id="tema4">
+                                <div class="class-checkbox" data-class-key="redes_tema4">
+                                    <i class="bi bi-check-lg d-none"></i>
+                                </div>
+                                <span class="class-item-text" title="Tema 4: Arquitectura y Enrutamiento">Tema 4: Arquitectura y Enrutamiento</span>
+                            </li>
+                            <li class="class-item" data-class-id="tema5">
+                                <div class="class-checkbox" data-class-key="redes_tema5">
+                                    <i class="bi bi-check-lg d-none"></i>
+                                </div>
+                                <span class="class-item-text" title="Tema 5: Seguridad en Redes">Tema 5: Seguridad en Redes</span>
+                            </li>
+                        </ul>
+                    </div>
                 </nav>
+
+                <!-- Botón Flotante (FAB) -->
+                <button type="button" class="fab-menu-btn" id="fab-menu-btn">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                    <span>Ver Temario</span>
+                </button>
 
                 <!-- Panel de Contenido de Clase -->
                 <div class="class-content-wrapper">

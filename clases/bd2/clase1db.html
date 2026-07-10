@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
             border-radius: 0 16px 16px 0;
             margin-bottom: 20px;
         }
+
         .quiz-card {
             background-color: var(--hover-bg);
             border: 1px solid var(--border-color);
@@ -25,6 +27,7 @@
             padding: 20px;
             margin-bottom: 16px;
         }
+
         .json-code {
             background-color: #1e1e1e;
             color: #d4d4d4;
@@ -34,13 +37,16 @@
             font-size: 0.9rem;
             position: relative;
         }
+
         .table-custom th {
             background-color: var(--hover-bg);
             color: var(--text-primary);
         }
+
         .table-custom td {
             color: var(--text-secondary);
         }
+
         .citation-box {
             font-style: italic;
             border-left: 3px solid var(--text-muted);
@@ -49,6 +55,7 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
+
         .img-container {
             border-radius: 16px;
             overflow: hidden;
@@ -59,6 +66,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar General -->
@@ -121,24 +129,37 @@
                         <h3 class="fw-bold mb-0">1. ¿Qué son las Bases de Datos No Relacionales?</h3>
                     </div>
                     <p class="text-secondary leading-relaxed">
-                        Las bases de datos no relacionales (o NoSQL) son sistemas de almacenamiento de información que no utilizan el modelo relacional tradicional. A diferencia del modelo introducido originalmente por Edgar F. Codd en 1970 <a href="#ref-codd">[1]</a>, las bases de datos NoSQL permiten esquemas dinámicos para manejar datos no estructurados o semiestructurados, ofreciendo alta escalabilidad horizontal y gran flexibilidad.
+                        Las bases de datos no relacionales (o NoSQL) son sistemas de almacenamiento de información que
+                        no utilizan el modelo relacional tradicional. A diferencia del modelo introducido originalmente
+                        por Edgar F. Codd en 1970 <a href="#ref-codd">[1]</a>, las bases de datos NoSQL permiten
+                        esquemas dinámicos para manejar datos no estructurados o semiestructurados, ofreciendo alta
+                        escalabilidad horizontal y gran flexibilidad.
                     </p>
                     <div class="citation-box">
-                        "El modelo relacional ofrece independencia de datos para la programación, pero a costa de límites en el escalado masivo e inmediato que hoy exigen las aplicaciones de gran escala." <br>
+                        "El modelo relacional ofrece independencia de datos para la programación, pero a costa de
+                        límites en el escalado masivo e inmediato que hoy exigen las aplicaciones de gran escala." <br>
                         — Adaptado del concepto original de Edgar F. Codd <a href="#ref-codd">[1]</a>.
                     </div>
 
                     <div class="d-flex flex-column align-items-center">
                         <div class="img-container">
-                            <img src="../../img/sql_vs_nosql.png" alt="Diagrama comparativo SQL vs NoSQL" class="img-fluid">
+                            <img src="../../img/sql_vs_nosql.png" alt="Diagrama comparativo SQL vs NoSQL"
+                                class="img-fluid">
                         </div>
-                        <span class="text-muted small">Figura 1: Estructura y almacenamiento lógico en Bases de Datos SQL vs NoSQL.</span>
+                        <span class="text-muted small">Figura 1: Estructura y almacenamiento lógico en Bases de Datos
+                            SQL vs NoSQL.</span>
                     </div>
 
                     <div class="class-step mt-4">
-                        <h6 class="fw-bold text-primary"><i class="bi bi-lightbulb"></i> El Teorema CAP (Teorema de Brewer)</h6>
+                        <h6 class="fw-bold text-primary"><i class="bi bi-lightbulb"></i> El Teorema CAP (Teorema de
+                            Brewer)</h6>
                         <p class="text-secondary mb-0" style="font-size: 0.9rem;">
-                            Propuesto por Eric Brewer en el año 2000 <a href="#ref-brewer">[2]</a>, el Teorema CAP establece que un sistema de datos distribuido solo puede garantizar dos de las siguientes tres propiedades simultáneamente: <strong>Consistencia</strong> (Consistency), <strong>Disponibilidad</strong> (Availability) y <strong>Tolerancia al particionamiento</strong> (Partition tolerance). Gran parte de las decisiones de diseño NoSQL se basan en este principio.
+                            Propuesto por Eric Brewer en el año 2000 <a href="#ref-brewer">[2]</a>, el Teorema CAP
+                            establece que un sistema de datos distribuido solo puede garantizar dos de las siguientes
+                            tres propiedades simultáneamente: <strong>Consistencia</strong> (Consistency),
+                            <strong>Disponibilidad</strong> (Availability) y <strong>Tolerancia al
+                                particionamiento</strong> (Partition tolerance). Gran parte de las decisiones de diseño
+                            NoSQL se basan en este principio.
                         </p>
                     </div>
                 </section>
@@ -192,27 +213,41 @@
                     </div>
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
-                                <h6 class="fw-bold text-primary"><i class="bi bi-file-earmark-code-fill"></i> Documentales</h6>
-                                <p class="text-secondary small mb-0">Almacenan datos en documentos semiestructurados (normalmente JSON o BSON). Ejemplos: <strong>MongoDB</strong>, CouchDB.</p>
+                            <div class="card h-100 p-3"
+                                style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-file-earmark-code-fill"></i>
+                                    Documentales</h6>
+                                <p class="text-secondary small mb-0">Almacenan datos en documentos semiestructurados
+                                    (normalmente JSON o BSON). Ejemplos: <strong>MongoDB</strong>, CouchDB.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                            <div class="card h-100 p-3"
+                                style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
                                 <h6 class="fw-bold text-primary"><i class="bi bi-key-fill"></i> Clave-Valor</h6>
-                                <p class="text-secondary small mb-0">El tipo más simple donde cada elemento tiene una clave única y un valor asociado. Ejemplos: <strong>Redis</strong>, DynamoDB.</p>
+                                <p class="text-secondary small mb-0">El tipo más simple donde cada elemento tiene una
+                                    clave única y un valor asociado. Ejemplos: <strong>Redis</strong>, DynamoDB.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
-                                <h6 class="fw-bold text-primary"><i class="bi bi-layout-three-columns"></i> Orientadas a Columnas</h6>
-                                <p class="text-secondary small mb-0">Agrupan las columnas en lugar de las filas, ideales para consultas analíticas rápidas en grandes almacenes. Ejemplos: <strong>Cassandra</strong>, HBase.</p>
+                            <div class="card h-100 p-3"
+                                style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-layout-three-columns"></i> Orientadas a
+                                    Columnas</h6>
+                                <p class="text-secondary small mb-0">Agrupan las columnas en lugar de las filas, ideales
+                                    para consultas analíticas rápidas en grandes almacenes. Ejemplos:
+                                    <strong>Cassandra</strong>, HBase.
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
-                                <h6 class="fw-bold text-primary"><i class="bi bi-share-fill"></i> Orientadas a Grafos</h6>
-                                <p class="text-secondary small mb-0">Utilizan nodos y relaciones para representar datos de redes complejas de contactos o redes sociales. Ejemplos: <strong>Neo4j</strong>, Amazon Neptune.</p>
+                            <div class="card h-100 p-3"
+                                style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-share-fill"></i> Orientadas a Grafos
+                                </h6>
+                                <p class="text-secondary small mb-0">Utilizan nodos y relaciones para representar datos
+                                    de redes complejas de contactos o redes sociales. Ejemplos: <strong>Neo4j</strong>,
+                                    Amazon Neptune.</p>
                             </div>
                         </div>
                     </div>
@@ -225,24 +260,30 @@
                         <h3 class="fw-bold mb-0">4. ¿Qué es un archivo JSON y cuál es su estructura?</h3>
                     </div>
                     <p class="text-secondary">
-                        <strong>JSON</strong> (JavaScript Object Notation), popularizado por Douglas Crockford a principios de la década de 2000 <a href="#ref-crockford">[3]</a>, es un formato de texto ligero y fácil de leer para el intercambio de datos.
+                        <strong>JSON</strong> (JavaScript Object Notation), popularizado por Douglas Crockford a
+                        principios de la década de 2000 <a href="#ref-crockford">[3]</a>, es un formato de texto ligero
+                        y fácil de leer para el intercambio de datos.
                     </p>
-                    
+
                     <!-- Validador Interactivo de JSON -->
                     <div class="card p-4 mb-4" style="border: 1px solid var(--border-color); border-radius: 16px;">
-                        <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-terminal-fill"></i> Laboratorio Interactivo: Validador de JSON</h6>
-                        <p class="text-secondary small">Prueba a editar el código JSON de abajo y haz clic en "Validar". Introduce errores (como olvidar una coma) para ver cómo funciona el validador.</p>
-                        
-                        <textarea id="json-editor" class="form-control mb-3" rows="8" style="font-family: monospace; background-color: #1e1e1e; color: #d4d4d4; border-radius: 12px;">{
+                        <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-terminal-fill"></i> Laboratorio
+                            Interactivo: Validador de JSON</h6>
+                        <p class="text-secondary small">Prueba a editar el código JSON de abajo y haz clic en "Validar".
+                            Introduce errores (como olvidar una coma) para ver cómo funciona el validador.</p>
+
+                        <textarea id="json-editor" class="form-control mb-3" rows="8"
+                            style="font-family: monospace; background-color: #1e1e1e; color: #d4d4d4; border-radius: 12px;">{
   "id_estudiante": "EST99834",
   "nombre": "Sofia Romero",
   "edad": 22,
   "materias_inscritas": ["Bases de Datos II", "Redes de Comunicaciones"],
   "activo": true
 }</textarea>
-                        
+
                         <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-primary-gradient" id="btn-validate-json">Validar JSON</button>
+                            <button type="button" class="btn btn-primary-gradient" id="btn-validate-json">Validar
+                                JSON</button>
                             <span id="json-validation-result" class="align-self-center fw-bold"></span>
                         </div>
                     </div>
@@ -255,41 +296,55 @@
                         <h3 class="fw-bold mb-0">5. Guía de Instalación de MongoDB Compass</h3>
                     </div>
                     <p class="text-secondary">
-                        <strong>MongoDB Compass</strong> es la interfaz gráfica oficial para explorar e interactuar con tus datos en MongoDB sin necesidad de escribir comandos en consola. Sigue estos pasos para instalarlo:
+                        <strong>MongoDB Compass</strong> es la interfaz gráfica oficial para explorar e interactuar con
+                        tus datos en MongoDB sin necesidad de escribir comandos en consola. Sigue estos pasos para
+                        instalarlo:
                     </p>
-                    
+
                     <div class="d-flex flex-column align-items-center">
                         <div class="img-container">
-                            <img src="../../img/mongodb_compass.png" alt="Interfaz de MongoDB Compass" class="img-fluid">
+                            <img src="../../img/mongodb_compass.png" alt="Interfaz de MongoDB Compass"
+                                class="img-fluid">
                         </div>
-                        <span class="text-muted small">Figura 2: Interfaz del panel de control de MongoDB Compass.</span>
+                        <span class="text-muted small">Figura 2: Interfaz del panel de control de MongoDB
+                            Compass.</span>
                     </div>
 
                     <div class="row g-3 mt-3">
                         <div class="col-12">
-                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                            <div class="d-flex align-items-start gap-3 p-3"
+                                style="border: 1px solid var(--border-color); border-radius: 12px;">
                                 <span class="badge bg-primary rounded-circle p-2">1</span>
                                 <div>
                                     <h6 class="fw-bold mb-1">Descarga el instalador</h6>
-                                    <p class="text-secondary small mb-0">Ingresa al <a href="https://www.mongodb.com/try/download/compass" target="_blank">Portal de descargas de MongoDB</a> y descarga la versión correspondiente a tu Sistema Operativo.</p>
+                                    <p class="text-secondary small mb-0">Ingresa al <a
+                                            href="https://www.mongodb.com/try/download/compass" target="_blank">Portal
+                                            de descargas de MongoDB</a> y descarga la versión correspondiente a tu
+                                        Sistema Operativo.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                            <div class="d-flex align-items-start gap-3 p-3"
+                                style="border: 1px solid var(--border-color); border-radius: 12px;">
                                 <span class="badge bg-primary rounded-circle p-2">2</span>
                                 <div>
                                     <h6 class="fw-bold mb-1">Ejecuta el archivo</h6>
-                                    <p class="text-secondary small mb-0">Haz doble clic en el instalador descargado y sigue los pasos de configuración rápidos del sistema.</p>
+                                    <p class="text-secondary small mb-0">Haz doble clic en el instalador descargado y
+                                        sigue los pasos de configuración rápidos del sistema.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                            <div class="d-flex align-items-start gap-3 p-3"
+                                style="border: 1px solid var(--border-color); border-radius: 12px;">
                                 <span class="badge bg-primary rounded-circle p-2">3</span>
                                 <div>
                                     <h6 class="fw-bold mb-1">Conéctate a tu base de datos local</h6>
-                                    <p class="text-secondary small mb-0">Abre Compass y utiliza la URI por defecto <code>mongodb://localhost:27017</code> para conectarte a tu servidor local de MongoDB.</p>
+                                    <p class="text-secondary small mb-0">Abre Compass y utiliza la URI por defecto
+                                        <code>mongodb://localhost:27017</code> para conectarte a tu servidor local de
+                                        MongoDB.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -300,9 +355,13 @@
                 <section class="mt-5 pt-4 border-top" style="border-color: var(--border-color) !important;">
                     <h6 class="fw-bold text-secondary mb-3">Referencias Académicas y Citas:</h6>
                     <ul class="list-unstyled text-muted" style="font-size: 0.85rem; line-height: 1.6;">
-                        <li id="ref-codd">[1] <strong>Codd, E. F. (1970).</strong> "A Relational Model of Data for Large Shared Data Banks". <i>Communications of the ACM</i>, 13(6), 377-387.</li>
-                        <li id="ref-brewer">[2] <strong>Brewer, E. A. (2000).</strong> "Towards Robust Distributed Systems". <i>Proceedings of the Annual ACM Symposium on Principles of Distributed Computing</i>.</li>
-                        <li id="ref-crockford">[3] <strong>Crockford, D. (2006).</strong> "The application/json Media Type for JavaScript Object Notation (JSON)". <i>IETF RFC 4627</i>.</li>
+                        <li id="ref-codd">[1] <strong>Codd, E. F. (1970).</strong> "A Relational Model of Data for Large
+                            Shared Data Banks". <i>Communications of the ACM</i>, 13(6), 377-387.</li>
+                        <li id="ref-brewer">[2] <strong>Brewer, E. A. (2000).</strong> "Towards Robust Distributed
+                            Systems". <i>Proceedings of the Annual ACM Symposium on Principles of Distributed
+                                Computing</i>.</li>
+                        <li id="ref-crockford">[3] <strong>Crockford, D. (2006).</strong> "The application/json Media
+                            Type for JavaScript Object Notation (JSON)". <i>IETF RFC 4627</i>.</li>
                     </ul>
                 </section>
             </div>
@@ -313,29 +372,35 @@
                     <i class="bi bi-question-circle-fill text-success fs-3"></i>
                     <h3 class="fw-bold mb-0">Verifica tu Aprendizaje</h3>
                 </div>
-                <p class="text-secondary mb-4">Responde a las siguientes 5 preguntas basadas en la lección para evaluar tus conocimientos:</p>
+                <p class="text-secondary mb-4">Responde a las siguientes 5 preguntas basadas en la lección para evaluar
+                    tus conocimientos:</p>
 
                 <form id="quiz-form">
                     <!-- Pregunta 1 -->
                     <div class="quiz-card">
-                        <h6 class="fw-bold mb-3">1. ¿Cuál es el principal enfoque de la escalabilidad horizontal en NoSQL?</h6>
+                        <h6 class="fw-bold mb-3">1. ¿Cuál es el principal enfoque de la escalabilidad horizontal en
+                            NoSQL?</h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p1" id="p1-a" value="a">
-                            <label class="form-check-label text-secondary" for="p1-a">Aumentar la memoria RAM y procesador en un único servidor de base de datos.</label>
+                            <label class="form-check-label text-secondary" for="p1-a">Aumentar la memoria RAM y
+                                procesador en un único servidor de base de datos.</label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p1" id="p1-b" value="b">
-                            <label class="form-check-label text-secondary" for="p1-b">Dividir y distribuir los datos de forma automática en múltiples nodos de bajo coste.</label>
+                            <label class="form-check-label text-secondary" for="p1-b">Dividir y distribuir los datos de
+                                forma automática en múltiples nodos de bajo coste.</label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="p1" id="p1-c" value="c">
-                            <label class="form-check-label text-secondary" for="p1-c">Convertir las tablas a archivos tipo Excel para almacenamiento externo.</label>
+                            <label class="form-check-label text-secondary" for="p1-c">Convertir las tablas a archivos
+                                tipo Excel para almacenamiento externo.</label>
                         </div>
                     </div>
 
                     <!-- Pregunta 2 -->
                     <div class="quiz-card">
-                        <h6 class="fw-bold mb-3">2. ¿Qué tipo de base de datos NoSQL almacena información en documentos semiestructurados como BSON o JSON?</h6>
+                        <h6 class="fw-bold mb-3">2. ¿Qué tipo de base de datos NoSQL almacena información en documentos
+                            semiestructurados como BSON o JSON?</h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p2" id="p2-a" value="a">
                             <label class="form-check-label text-secondary" for="p2-a">Clave-Valor</label>
@@ -346,7 +411,8 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="p2" id="p2-c" value="c">
-                            <label class="form-check-label text-secondary" for="p2-c">Documentales (como MongoDB)</label>
+                            <label class="form-check-label text-secondary" for="p2-c">Documentales (como
+                                MongoDB)</label>
                         </div>
                     </div>
 
@@ -359,7 +425,8 @@
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p3" id="p3-b" value="b">
-                            <label class="form-check-label text-secondary" for="p3-b">Joint System Online Network</label>
+                            <label class="form-check-label text-secondary" for="p3-b">Joint System Online
+                                Network</label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="p3" id="p3-c" value="c">
@@ -369,7 +436,8 @@
 
                     <!-- Pregunta 4 -->
                     <div class="quiz-card">
-                        <h6 class="fw-bold mb-3">4. En un archivo JSON, ¿qué carácter se utiliza para definir el inicio y fin de una lista o arreglo ordenado?</h6>
+                        <h6 class="fw-bold mb-3">4. En un archivo JSON, ¿qué carácter se utiliza para definir el inicio
+                            y fin de una lista o arreglo ordenado?</h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p4" id="p4-a" value="a">
                             <label class="form-check-label text-secondary" for="p4-a">Corchetes [ ]</label>
@@ -386,7 +454,8 @@
 
                     <!-- Pregunta 5 -->
                     <div class="quiz-card">
-                        <h6 class="fw-bold mb-3">5. ¿Qué herramienta gráfica oficial permite interactuar visualmente con bases de datos MongoDB sin escribir comandos?</h6>
+                        <h6 class="fw-bold mb-3">5. ¿Qué herramienta gráfica oficial permite interactuar visualmente con
+                            bases de datos MongoDB sin escribir comandos?</h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p5" id="p5-a" value="a">
                             <label class="form-check-label text-secondary" for="p5-a">phpMyAdmin</label>
@@ -403,7 +472,8 @@
 
                     <!-- Botón y Resultados -->
                     <div class="d-flex align-items-center gap-3">
-                        <button type="button" class="btn btn-primary-gradient" id="btn-evaluar">Comprobar Respuestas</button>
+                        <button type="button" class="btn btn-primary-gradient" id="btn-evaluar">Comprobar
+                            Respuestas</button>
                         <span id="quiz-result-score" class="fw-bold fs-5 text-primary" style="display: none;"></span>
                     </div>
                 </form>
@@ -411,8 +481,57 @@
         </main>
     </div>
 
+    <!-- Menú Flotante de Clases -->
+    <div class="class-floating-sidebar" id="class-floating-sidebar">
+        <div class="sidebar-floating-header">
+            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+        </div>
+        <div class="class-floating-sidebar-content">
+            <ul class="class-list">
+                <li>
+                    <a href="clase1db.html" class="class-item active text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bases-datos-ii.html?class=clase2" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 2: MongoDB Fundamentos">Clase 2: MongoDB Fundamentos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bases-datos-ii.html?class=clase3" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 3: Cassandra">Clase 3: Cassandra</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bases-datos-ii.html?class=clase4" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 4: Consumo de APIs">Clase 4: Consumo de APIs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bases-datos-ii.html?class=clase5" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 5: Proyecto Integrador">Clase 5: Proyecto Integrador</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) -->
+    <button type="button" class="class-fab-btn" id="class-fab-btn">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Ver Clases</span>
+    </button>
+
     <!-- Footer -->
-    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
         <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p>
     </footer>
 
@@ -421,10 +540,10 @@
     <script src="../../js/main.js"></script>
     <script>
         // Validador de JSON
-        document.getElementById('btn-validate-json').addEventListener('click', function() {
+        document.getElementById('btn-validate-json').addEventListener('click', function () {
             const editorValue = document.getElementById('json-editor').value;
             const resultSpan = document.getElementById('json-validation-result');
-            
+
             try {
                 const parsed = JSON.parse(editorValue);
                 resultSpan.textContent = "¡JSON Válido! ✓";
@@ -438,7 +557,7 @@
         });
 
         // Lógica de evaluación del cuestionario
-        document.getElementById('btn-evaluar').addEventListener('click', function() {
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
             const correctAnswers = {
                 p1: 'b',
                 p2: 'c',
@@ -446,7 +565,7 @@
                 p4: 'a',
                 p5: 'b'
             };
-            
+
             let score = 0;
             let total = 5;
             let unanswered = false;
@@ -470,7 +589,7 @@
             const scoreElement = document.getElementById('quiz-result-score');
             scoreElement.style.display = 'inline-block';
             scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
-            
+
             if (score === total) {
                 scoreElement.className = 'fw-bold fs-5 text-success';
             } else if (score >= 3) {
@@ -481,4 +600,5 @@
         });
     </script>
 </body>
+
 </html>
