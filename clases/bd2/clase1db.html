@@ -94,6 +94,12 @@
                         <span>Bases de Datos II</span>
                     </a>
                 </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cpu"></i>
+                        <span>Sistemas Op.</span>
+                    </a>
+                </li>
             </ul>
         </aside>
 
@@ -366,6 +372,61 @@
                 </section>
             </div>
 
+            <!-- Ejercicios Prácticos -->
+            <div class="class-content-wrapper mt-4 mb-4">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-code-slash text-primary fs-3"></i>
+                    <h3 class="fw-bold mb-0">Práctica de la Clase 1: Ejercicios NoSQL y JSON</h3>
+                </div>
+                <p class="text-secondary mb-4">Realiza los siguientes ejercicios prácticos para reforzar los conocimientos adquiridos sobre bases de datos NoSQL y el formato JSON. Sigue detenidamente las indicaciones para construir las estructuras correctas.</p>
+
+                <!-- Ejercicio 1 -->
+                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-file-earmark-code-fill"></i> Ejercicio 1: Modelado Documental de un Catálogo de Libros</h5>
+                        <p class="text-secondary mb-2">
+                            <strong>Indicaciones:</strong> Debes modelar un documento en formato JSON que represente la información de un libro en una biblioteca escolar. El documento debe contener una estructura jerárquica con tipos de datos variados.
+                        </p>
+                        <div class="text-secondary small mt-2">
+                            <strong>Requerimientos del JSON:</strong>
+                            <ul class="mb-3">
+                                <li><code>titulo</code>: Texto con el nombre del libro.</li>
+                                <li><code>paginas</code>: Número entero con la cantidad de páginas.</li>
+                                <li><code>disponible</code>: Valor booleano (true/false) que indique si está disponible para préstamo.</li>
+                                <li><code>autores</code>: Un arreglo o lista de textos (por lo menos dos autores).</li>
+                                <li><code>detalles</code>: Un objeto anidado que contenga <code>editorial</code> (texto) y <code>anio_publicacion</code> (número entero).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejercicio 2 -->
+                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-hdd-network-fill"></i> Ejercicio 2: Representación JSON de una Red Académica</h5>
+                        <p class="text-secondary mb-2">
+                            <strong>Indicaciones:</strong> Modelar una pequeña red de dispositivos escolares en formato JSON, reflejando cómo se almacena información en una estructura de base de datos documental.
+                        </p>
+                        <div class="text-secondary small mt-2">
+                            <strong>Requerimientos del JSON:</strong>
+                            <ul class="mb-3">
+                                <li><code>nombre_red</code>: Nombre identificador del laboratorio.</li>
+                                <li><code>equipos_activos</code>: Número entero de equipos conectados.</li>
+                                <li><code>configuracion</code>: Un objeto anidado con la dirección <code>ip_servidor</code> (texto) y el estado <code>seguridad_activa</code> (booleano).</li>
+                                <li><code>dispositivos</code>: Un arreglo que contenga por lo menos dos objetos internos, cada uno de ellos representando un dispositivo individual con <code>id</code> (número), <code>tipo</code> (ej. "Impresora" o "PC") y <code>mac_address</code> (texto).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning py-3" role="alert">
+                    <h6 class="alert-heading fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill"></i> Instrucciones de Entrega</h6>
+                    <p class="mb-0 small text-secondary">
+                        Escribe el código JSON de ambos ejercicios en tu editor de texto local. Puedes utilizar el validador interactivo de JSON que se encuentra en la sección superior de esta página para asegurarte de que tu sintaxis sea correcta (sin comas sobrantes y usando comillas dobles). Guarda el archivo final como <code>practica1_nosql.json</code> y envíalo a través de la plataforma de la asignatura.
+                    </p>
+                </div>
+            </div>
+
             <!-- Cuestionario de Aprendizaje -->
             <div class="class-content-wrapper">
                 <div class="d-flex align-items-center gap-2 mb-4">
@@ -496,27 +557,27 @@
                     </a>
                 </li>
                 <li>
-                    <a href="bases-datos-ii.html?class=clase2" class="class-item text-decoration-none">
+                    <a href="clase2db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 2: MongoDB Fundamentos">Clase 2: MongoDB Fundamentos</span>
+                        <span class="class-item-text" title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
                     </a>
                 </li>
                 <li>
-                    <a href="bases-datos-ii.html?class=clase3" class="class-item text-decoration-none">
+                    <a href="clase3db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 3: Cassandra">Clase 3: Cassandra</span>
+                        <span class="class-item-text" title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de Lectura</span>
                     </a>
                 </li>
                 <li>
-                    <a href="bases-datos-ii.html?class=clase4" class="class-item text-decoration-none">
+                    <a href="clase4db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 4: Consumo de APIs">Clase 4: Consumo de APIs</span>
+                        <span class="class-item-text" title="Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo)">Clase 4: CRUD Completo</span>
                     </a>
                 </li>
                 <li>
-                    <a href="bases-datos-ii.html?class=clase5" class="class-item text-decoration-none">
+                    <a href="clase5db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 5: Proyecto Integrador">Clase 5: Proyecto Integrador</span>
+                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas Avanzadas</span>
                     </a>
                 </li>
             </ul>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 3: Operaciones de lectura con MongoDB (find y filtros) - Bases de Datos II</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar General -->
+        <aside class="sidebar">
+            <a href="../../index.html" class="sidebar-logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>Portal Académico</span>
+            </a>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="../../index.html" class="sidebar-link">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../redcom/redes-comunicaciones.html" class="sidebar-link">
+                        <i class="bi bi-wifi"></i>
+                        <span>Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bases-datos-ii.html" class="sidebar-link active">
+                        <i class="bi bi-database"></i>
+                        <span>Bases de Datos II</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cpu"></i>
+                        <span>Sistemas Op.</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 3: Operaciones de Lectura (find)</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="class-content-wrapper">
+                <span class="badge-clase bg-warning text-dark mb-3">Clase 3</span>
+                <h3 class="fw-bold mb-4">Operaciones de lectura con MongoDB (find y filtros)</h3>
+                <div class="alert alert-info py-4" role="alert">
+                    <h5 class="alert-heading fw-bold mb-2"><i class="bi bi-info-circle-fill"></i> Clase en Construcción</h5>
+                    <p class="mb-0">El contenido detallado para esta clase se encuentra en planificación y estará disponible próximamente.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menú Flotante de Clases -->
+    <div class="class-floating-sidebar" id="class-floating-sidebar">
+        <div class="sidebar-floating-header">
+            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+        </div>
+        <div class="class-floating-sidebar-content">
+            <ul class="class-list">
+                <li>
+                    <a href="clase1db.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase2db.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase3db.html" class="class-item active text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de lectura</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase4db.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD Completo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase5db.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas avanzadas</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) -->
+    <button type="button" class="class-fab-btn" id="class-fab-btn">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Ver Clases</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>
