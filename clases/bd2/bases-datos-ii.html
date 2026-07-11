@@ -145,7 +145,107 @@
                                 </div>
                             </div>
                         </div>
-                                      <!-- Clase 2 -->
+
+                        <!-- ===== SECCIÓN INTERACTIVA JSON ===== -->
+                        <div class="json-lab-section mt-5">
+                            <div class="json-lab-header">
+                                <div class="json-lab-title-group">
+                                    <span class="json-lab-icon"><i class="bi bi-braces"></i></span>
+                                    <div>
+                                        <h5 class="fw-bold mb-1">Laboratorio Interactivo: Estructura de un JSON</h5>
+                                        <p class="text-secondary mb-0" style="font-size: 0.88rem;">Explora y compara las dos estructuras fundamentales. Haz clic en cada campo para ver su explicación.</p>
+                                    </div>
+                                </div>
+                                <div class="json-tab-switcher">
+                                    <button class="json-tab-btn active" id="btn-sin-arreglos-bd" onclick="switchJsonTabBd('sin')">
+                                        <i class="bi bi-file-code"></i> Sin Arreglos
+                                    </button>
+                                    <button class="json-tab-btn" id="btn-con-arreglos-bd" onclick="switchJsonTabBd('con')">
+                                        <i class="bi bi-collection"></i> Con Arreglos
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="json-panels-grid">
+                                <!-- Panel JSON Sin Arreglos -->
+                                <div class="json-panel" id="bd-panel-sin">
+                                    <div class="json-panel-topbar">
+                                        <span class="json-panel-dot red"></span>
+                                        <span class="json-panel-dot yellow"></span>
+                                        <span class="json-panel-dot green"></span>
+                                        <span class="json-panel-filename">estudiante_simple.json</span>
+                                        <span class="json-badge-type sin">Sin Arreglos</span>
+                                    </div>
+                                    <pre class="json-code"><code id="bd-json-sin-code"></code></pre>
+                                </div>
+
+                                <!-- Panel JSON Con Arreglos -->
+                                <div class="json-panel" id="bd-panel-con" style="display:none;">
+                                    <div class="json-panel-topbar">
+                                        <span class="json-panel-dot red"></span>
+                                        <span class="json-panel-dot yellow"></span>
+                                        <span class="json-panel-dot green"></span>
+                                        <span class="json-panel-filename">estudiante_completo.json</span>
+                                        <span class="json-badge-type con">Con Arreglos</span>
+                                    </div>
+                                    <pre class="json-code"><code id="bd-json-con-code"></code></pre>
+                                </div>
+
+                                <!-- Panel Explicación -->
+                                <div class="json-info-panel" id="bd-json-info-panel">
+                                    <div class="json-info-placeholder" id="bd-json-info-placeholder">
+                                        <i class="bi bi-cursor-text" style="font-size:2rem; opacity:0.3;"></i>
+                                        <p class="mt-2 mb-0" style="font-size:0.85rem; opacity:0.5;">Haz clic en cualquier<br>campo del JSON</p>
+                                    </div>
+                                    <div class="json-info-content d-none" id="bd-json-info-content">
+                                        <div class="json-info-key-badge" id="bd-info-key"></div>
+                                        <div class="json-info-type-badge" id="bd-info-type"></div>
+                                        <h6 class="fw-bold mt-3 mb-1" id="bd-info-title"></h6>
+                                        <p class="text-secondary mb-2" style="font-size:0.88rem;" id="bd-info-desc"></p>
+                                        <div class="json-info-example" id="bd-info-example"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Leyenda -->
+                            <div class="json-legend">
+                                <span class="json-legend-item"><span class="json-dot key"></span> Clave (Key)</span>
+                                <span class="json-legend-item"><span class="json-dot str"></span> String</span>
+                                <span class="json-legend-item"><span class="json-dot num"></span> Número</span>
+                                <span class="json-legend-item"><span class="json-dot bool"></span> Booleano</span>
+                                <span class="json-legend-item"><span class="json-dot arr"></span> Arreglo</span>
+                                <span class="json-legend-item"><span class="json-dot obj"></span> Objeto</span>
+                            </div>
+
+                            <!-- Diferencias clave -->
+                            <div class="json-diff-cards mt-4">
+                                <div class="json-diff-card sin">
+                                    <div class="json-diff-card-icon"><i class="bi bi-file-earmark-code"></i></div>
+                                    <h6 class="fw-bold mb-2">JSON sin Arreglos</h6>
+                                    <ul class="mb-0" style="font-size:0.85rem; padding-left:1rem;">
+                                        <li>Solo pares <strong>clave: valor</strong> simples</li>
+                                        <li>Valores: texto, número, booleano u objeto</li>
+                                        <li>Ideal para representar <strong>un solo</strong> documento</li>
+                                        <li>Estructura plana, directa y fácil de leer</li>
+                                    </ul>
+                                </div>
+                                <div class="json-diff-card con">
+                                    <div class="json-diff-card-icon"><i class="bi bi-collection-fill"></i></div>
+                                    <h6 class="fw-bold mb-2">JSON con Arreglos</h6>
+                                    <ul class="mb-0" style="font-size:0.85rem; padding-left:1rem;">
+                                        <li>Contiene valores del tipo <strong>array [ ]</strong></li>
+                                        <li>Permite agrupar <strong>múltiples</strong> valores en un campo</li>
+                                        <li>Ideal para colecciones MongoDB con listas</li>
+                                        <li>Mayor expresividad y jerarquía de datos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ===== FIN SECCIÓN INTERACTIVA JSON ===== -->
+
+                    </article>
+
+                    <!-- Clase 2 -->
                     <article class="class-detail-section" id="clase2-detail">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <span class="badge-clase bg-success text-white">Clase 2</span>
@@ -301,5 +401,333 @@
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../js/main.js"></script>
+
+    <!-- ===== ESTILOS JSON LAB ===== -->
+    <style>
+    .json-lab-section {
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 28px;
+        background: var(--hover-bg);
+    }
+    .json-lab-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .json-lab-title-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .json-lab-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+    .json-tab-switcher {
+        display: flex;
+        gap: 8px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        padding: 5px;
+        border-radius: 14px;
+    }
+    .json-tab-btn {
+        border: none;
+        background: transparent;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        font-family: 'Outfit', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .json-tab-btn.active {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 4px 12px rgba(108,92,231,0.35);
+    }
+    .json-tab-btn:hover:not(.active) {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+    }
+    .json-panels-grid {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        gap: 16px;
+        align-items: start;
+    }
+    @media(max-width:768px) { .json-panels-grid { grid-template-columns: 1fr; } }
+    .json-panel {
+        background: #1a1d2e;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        animation: fadeIn 0.3s ease;
+    }
+    .json-panel-topbar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 16px;
+        background: #12141f;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .json-panel-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+    .json-panel-dot.red    { background: #ff5f57; }
+    .json-panel-dot.yellow { background: #febc2e; }
+    .json-panel-dot.green  { background: #28c840; }
+    .json-panel-filename {
+        font-size: 0.78rem;
+        color: rgba(255,255,255,0.4);
+        margin-left: 8px;
+        font-family: 'Courier New', monospace;
+        flex: 1;
+    }
+    .json-badge-type {
+        font-size: 0.7rem; font-weight: 700;
+        padding: 2px 10px; border-radius: 20px; letter-spacing: 0.5px;
+    }
+    .json-badge-type.sin { background: rgba(108,92,231,0.25); color: #a29bfe; }
+    .json-badge-type.con { background: rgba(0,184,148,0.25);  color: #55efc4; }
+    .json-code {
+        margin: 0; padding: 20px;
+        background: transparent;
+        font-size: 0.82rem; line-height: 1.9;
+        overflow-x: auto; color: #cdd6f4;
+        font-family: 'Courier New', 'Consolas', monospace;
+        min-height: 280px;
+    }
+    .json-token {
+        cursor: pointer; border-radius: 4px;
+        padding: 1px 3px; transition: background 0.2s ease; display: inline;
+    }
+    .json-token:hover { filter: brightness(1.4); }
+    .json-token.active-token { outline: 2px solid rgba(255,255,255,0.5); }
+    .json-token.tk-key  { color: #89b4fa; }
+    .json-token.tk-str  { color: #a6e3a1; }
+    .json-token.tk-num  { color: #fab387; }
+    .json-token.tk-bool { color: #cba6f7; }
+    .json-token.tk-null { color: #6c7086; }
+    .json-token.tk-arr  { color: #f38ba8; font-weight:700; }
+    .json-token.tk-obj  { color: #89dceb; font-weight:700; }
+    .json-token.tk-punct { color: rgba(255,255,255,0.35); }
+    .json-info-panel {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px; padding: 20px;
+        min-height: 280px;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        text-align: center; transition: all 0.3s ease;
+    }
+    .json-info-content { width:100%; text-align:left; animation: fadeIn 0.3s ease; }
+    .json-info-key-badge {
+        display: inline-block;
+        background: #1a1d2e; color: #89b4fa;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem; padding: 4px 12px;
+        border-radius: 8px; margin-bottom: 6px; font-weight: 700;
+    }
+    .json-info-type-badge {
+        display: inline-block; font-size: 0.72rem; font-weight: 700;
+        padding: 3px 10px; border-radius: 20px;
+        margin-left: 6px; letter-spacing: 0.5px; vertical-align: middle;
+    }
+    .json-info-example {
+        background: var(--hover-bg);
+        border-left: 3px solid var(--primary);
+        border-radius: 0 8px 8px 0;
+        padding: 8px 12px; font-size: 0.8rem;
+        font-family: 'Courier New', monospace;
+        color: var(--text-secondary); margin-top: 8px;
+    }
+    .json-legend {
+        display: flex; flex-wrap: wrap; gap: 16px;
+        margin-top: 16px; padding: 14px 18px;
+        background: var(--card-bg); border-radius: 12px;
+        border: 1px solid var(--border-color);
+        font-size: 0.82rem; color: var(--text-secondary);
+    }
+    .json-legend-item { display: flex; align-items: center; gap: 6px; }
+    .json-dot { width:10px; height:10px; border-radius:50%; display:inline-block; flex-shrink:0; }
+    .json-dot.key  { background: #89b4fa; }
+    .json-dot.str  { background: #a6e3a1; }
+    .json-dot.num  { background: #fab387; }
+    .json-dot.bool { background: #cba6f7; }
+    .json-dot.arr  { background: #f38ba8; }
+    .json-dot.obj  { background: #89dceb; }
+    .json-diff-cards {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    @media(max-width:600px){ .json-diff-cards { grid-template-columns:1fr; } }
+    .json-diff-card {
+        border-radius: 16px; padding: 20px;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .json-diff-card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow); }
+    .json-diff-card.sin { border-left: 4px solid #6c5ce7; }
+    .json-diff-card.con { border-left: 4px solid #00b894; }
+    .json-diff-card-icon { font-size: 1.4rem; margin-bottom: 10px; }
+    .json-diff-card.sin .json-diff-card-icon { color: #6c5ce7; }
+    .json-diff-card.con .json-diff-card-icon { color: #00b894; }
+    .json-diff-card li { margin-bottom: 4px; color: var(--text-secondary); }
+    </style>
+
+    <!-- ===== SCRIPT JSON LAB BD2 ===== -->
+    <script>
+    const BD_JSON_SIN = {
+        nombre: "Ana García",
+        carnet: "2024-001",
+        carrera: "Ingeniería en Sistemas",
+        semestre: 4,
+        promedio: 88.5,
+        becado: true,
+        correo: "ana.garcia@univ.edu"
+    };
+
+    const BD_JSON_CON = {
+        nombre: "Ana García",
+        carnet: "2024-001",
+        becado: true,
+        semestre: 4,
+        materias: ["Bases de Datos II", "Redes", "Sistemas Operativos"],
+        notas: [85, 92, 78, 95],
+        historial: [
+            { periodo: "2023-I",  promedio: 82 },
+            { periodo: "2023-II", promedio: 87 },
+            { periodo: "2024-I",  promedio: 88 }
+        ],
+        habilidades: ["MongoDB", "SQL", "Python", "Java"]
+    };
+
+    const BD_fieldInfo = {
+        nombre:    { tipo:"string",    titulo:"Nombre del estudiante",   desc:"Cadena de texto entre comillas dobles. Almacena nombres como valores string.",             ej:'"nombre": "Ana García"' },
+        carnet:    { tipo:"string",    titulo:"Carnet universitario",    desc:"Aunque contiene números, va entre comillas porque es un identificador, no un valor numérico.", ej:'"carnet": "2024-001"' },
+        carrera:   { tipo:"string",    titulo:"Carrera académica",       desc:"Texto descriptivo. Cualquier valor de texto siempre va entre comillas dobles.",           ej:'"carrera": "Ingeniería en Sistemas"' },
+        semestre:  { tipo:"number",    titulo:"Número de semestre",      desc:"Valor numérico entero. Los números NO llevan comillas en JSON.",                        ej:'"semestre": 4' },
+        promedio:  { tipo:"number",    titulo:"Promedio académico",      desc:"Número decimal (float). Se usa punto como separador decimal, nunca coma.",             ej:'"promedio": 88.5' },
+        becado:    { tipo:"boolean",   titulo:"Estado de beca",          desc:"Valor booleano: true o false. Sin comillas. Representa condiciones de sí/no.",        ej:'"becado": true' },
+        correo:    { tipo:"string",    titulo:"Correo electrónico",      desc:"Texto entre comillas. Los emails, URLs y códigos siempre se guardan como strings.",    ej:'"correo": "ana@univ.edu"' },
+        materias:  { tipo:"array",     titulo:"Lista de materias",       desc:"Arreglo de strings [ ]. Cada materia es un elemento separado por coma dentro de [ ].", ej:'"materias": ["BD II", "Redes"]' },
+        notas:     { tipo:"array",     titulo:"Arreglo de notas",        desc:"Arreglo de números [ ]. Almacena múltiples calificaciones en un solo campo.",         ej:'"notas": [85, 92, 78]' },
+        historial: { tipo:"array-obj", titulo:"Historial académico",     desc:"Arreglo de objetos { }. Cada elemento es un documento embebido con periodo y promedio.", ej:'"historial": [{"periodo":"2023", "promedio": 82}]' },
+        habilidades:{ tipo:"array",    titulo:"Habilidades técnicas",    desc:"Arreglo de strings con las tecnologías que domina el estudiante.",                  ej:'"habilidades": ["MongoDB", "SQL"]' }
+    };
+
+    const BD_typeColors = {
+        string:    { bg:"rgba(166,227,161,0.2)", color:"#a6e3a1", label:"String" },
+        number:    { bg:"rgba(250,179,135,0.2)", color:"#fab387", label:"Número" },
+        boolean:   { bg:"rgba(203,166,247,0.2)", color:"#cba6f7", label:"Booleano" },
+        array:     { bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array [ ]" },
+        "array-obj":{ bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array de Objetos" }
+    };
+
+    function bdRenderJson(obj, indent, fieldMap) {
+        indent = indent || 0;
+        fieldMap = fieldMap || {};
+        var pad = function(n){ return '  '.repeat(n); };
+        var html = '';
+        var keys = Object.keys(obj);
+        html += '<span class="json-token tk-punct">{</span>\n';
+        keys.forEach(function(key, i) {
+            var val = obj[key];
+            var isLast = i === keys.length - 1;
+            var comma = isLast ? '' : ',';
+            html += pad(indent + 1);
+            var info = fieldMap[key];
+            var dataAttr = info ? 'data-field-bd="' + key + '"' : '';
+            html += '<span class="json-token tk-key" ' + dataAttr + ' onclick="bdShowInfo(\'' + key + '\')">&quot;' + key + '&quot;</span>';
+            html += '<span class="json-token tk-punct">: </span>';
+            html += bdRenderValue(val, key, indent + 1, fieldMap);
+            html += '<span class="json-token tk-punct">' + comma + '</span>\n';
+        });
+        html += pad(indent) + '<span class="json-token tk-punct">}</span>';
+        return html;
+    }
+
+    function bdRenderValue(val, key, indent, fieldMap) {
+        if (val === null) return '<span class="json-token tk-null" onclick="bdShowInfo(\'' + key + '\')">' + 'null' + '</span>';
+        if (typeof val === 'boolean') return '<span class="json-token tk-bool" onclick="bdShowInfo(\'' + key + '\')">' + val + '</span>';
+        if (typeof val === 'number')  return '<span class="json-token tk-num"  onclick="bdShowInfo(\'' + key + '\')">' + val + '</span>';
+        if (typeof val === 'string')  return '<span class="json-token tk-str"  onclick="bdShowInfo(\'' + key + '\')">"' + val + '"</span>';
+        if (Array.isArray(val)) {
+            if (val.length === 0) return '<span class="json-token tk-arr">[]</span>';
+            var isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
+            var html = '<span class="json-token tk-arr" onclick="bdShowInfo(\'' + key + '\')">['  + '</span>\n';
+            val.forEach(function(item, idx) {
+                var isLast = idx === val.length - 1;
+                var comma = isLast ? '' : ',';
+                html += '  '.repeat(indent + 1);
+                if (isObjs) html += bdRenderJson(item, indent + 1, {});
+                else        html += bdRenderValue(item, key, indent + 1, fieldMap);
+                html += '<span class="json-token tk-punct">' + comma + '</span>\n';
+            });
+            html += '  '.repeat(indent) + '<span class="json-token tk-arr">]</span>';
+            return html;
+        }
+        if (typeof val === 'object') return bdRenderJson(val, indent, fieldMap);
+        return String(val);
+    }
+
+    function bdShowInfo(key) {
+        var info = BD_fieldInfo[key];
+        if (!info) return;
+        document.querySelectorAll('.json-token.active-token').forEach(function(t){ t.classList.remove('active-token'); });
+        document.querySelectorAll('[data-field-bd="' + key + '"]').forEach(function(t){ t.classList.add('active-token'); });
+        var placeholder = document.getElementById('bd-json-info-placeholder');
+        var content     = document.getElementById('bd-json-info-content');
+        var typeData    = BD_typeColors[info.tipo] || BD_typeColors.string;
+        placeholder.classList.add('d-none');
+        content.classList.remove('d-none');
+        document.getElementById('bd-info-key').textContent    = '"' + key + '"';
+        document.getElementById('bd-info-type').textContent   = typeData.label;
+        document.getElementById('bd-info-type').style.cssText = 'background:' + typeData.bg + '; color:' + typeData.color + ';';
+        document.getElementById('bd-info-title').textContent  = info.titulo;
+        document.getElementById('bd-info-desc').textContent   = info.desc;
+        document.getElementById('bd-info-example').textContent= info.ej;
+    }
+
+    function switchJsonTabBd(type) {
+        var panelSin = document.getElementById('bd-panel-sin');
+        var panelCon = document.getElementById('bd-panel-con');
+        var btnSin   = document.getElementById('btn-sin-arreglos-bd');
+        var btnCon   = document.getElementById('btn-con-arreglos-bd');
+        var ph       = document.getElementById('bd-json-info-placeholder');
+        var ct       = document.getElementById('bd-json-info-content');
+        if (type === 'sin') {
+            panelSin.style.display = ''; panelCon.style.display = 'none';
+            btnSin.classList.add('active'); btnCon.classList.remove('active');
+        } else {
+            panelSin.style.display = 'none'; panelCon.style.display = '';
+            btnCon.classList.add('active'); btnSin.classList.remove('active');
+        }
+        ph.classList.remove('d-none'); ct.classList.add('d-none');
+        document.querySelectorAll('.json-token.active-token').forEach(function(t){ t.classList.remove('active-token'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('bd-json-sin-code').innerHTML = bdRenderJson(BD_JSON_SIN, 0, BD_fieldInfo);
+        document.getElementById('bd-json-con-code').innerHTML = bdRenderJson(BD_JSON_CON, 0, BD_fieldInfo);
+    });
+    </script>
 </body>
 </html>

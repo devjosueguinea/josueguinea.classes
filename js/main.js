@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calcular y actualizar total de temas completados
         let totalCompleted = 0;
         const keys = ['bd2_clase1', 'bd2_clase2', 'bd2_clase3', 'bd2_clase4', 'bd2_clase5', 
-                      'redes_tema1', 'redes_tema2', 'redes_tema3', 'redes_tema4', 'redes_tema5'];
+                      'redes_clase1', 'redes_clase2', 'redes_clase3', 'redes_clase4', 'redes_clase5'];
         
         keys.forEach(k => {
             if (localStorage.getItem(k) === 'true') {

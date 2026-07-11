@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar General -->
@@ -57,7 +59,8 @@
                     </a>
                     <div>
                         <h4 class="mb-0 fw-bold">Redes de Comunicaciones</h4>
-                        <span class="text-muted" style="font-size: 0.85rem;">Fundamentos y arquitectura de redes</span>
+                        <span class="text-muted" style="font-size: 0.85rem;">CCNA1 – Fundamentos y Arquitectura de
+                            Redes</span>
                     </div>
                 </div>
                 <div class="header-actions">
@@ -72,225 +75,298 @@
 
             <!-- Layout de materia con Sidebar de clases -->
             <div class="subject-layout">
-                <!-- Sidebar de Clases (Flotante) -->
-                <nav class="subject-sidebar" id="subject-sidebar">
-                    <div class="sidebar-floating-header">
-                        <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases</h6>
-                        <button type="button" class="btn-close" id="close-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
-                    </div>
-                    <div class="subject-sidebar-content">
-                        <ul class="class-list" id="class-list-redes">
-                            <li class="class-item active" data-class-id="tema1">
-                                <div class="class-checkbox" data-class-key="redes_tema1">
-                                    <i class="bi bi-check-lg d-none"></i>
-                                </div>
-                                <span class="class-item-text" title="Tema 1: Introducción a Redes">Tema 1: Introducción a Redes</span>
-                            </li>
-                            <li class="class-item" data-class-id="tema2">
-                                <div class="class-checkbox" data-class-key="redes_tema2">
-                                    <i class="bi bi-check-lg d-none"></i>
-                                </div>
-                                <span class="class-item-text" title="Tema 2: Modelo OSI y TCP/IP">Tema 2: Modelo OSI y TCP/IP</span>
-                            </li>
-                            <li class="class-item" data-class-id="tema3">
-                                <div class="class-checkbox" data-class-key="redes_tema3">
-                                    <i class="bi bi-check-lg d-none"></i>
-                                </div>
-                                <span class="class-item-text" title="Tema 3: Protocolos de Comunicación">Tema 3: Protocolos de Comunicación</span>
-                            </li>
-                            <li class="class-item" data-class-id="tema4">
-                                <div class="class-checkbox" data-class-key="redes_tema4">
-                                    <i class="bi bi-check-lg d-none"></i>
-                                </div>
-                                <span class="class-item-text" title="Tema 4: Arquitectura y Enrutamiento">Tema 4: Arquitectura y Enrutamiento</span>
-                            </li>
-                            <li class="class-item" data-class-id="tema5">
-                                <div class="class-checkbox" data-class-key="redes_tema5">
-                                    <i class="bi bi-check-lg d-none"></i>
-                                </div>
-                                <span class="class-item-text" title="Tema 5: Seguridad en Redes">Tema 5: Seguridad en Redes</span>
-                            </li>
-                        </ul>
-                    </div>
+                <!-- Sidebar de Clases -->
+                <nav class="subject-sidebar">
+                    <h6 class="text-muted fw-bold mb-3"
+                        style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases
+                    </h6>
+                    <ul class="class-list" id="class-list-redes">
+                        <li class="class-item active" data-class-id="clase1">
+                            <div class="class-checkbox" data-class-key="redes_clase1">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text"
+                                title="Clase 1: Introducción a la asignatura y al curso CCNA1 e Introducción a las redes informáticas">Clase
+                                1: Introducción a la Asignatura y CCNA1</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase2">
+                            <div class="class-checkbox" data-class-key="redes_clase2">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text"
+                                title="Clase 2: Anatomía de las Redes Informáticas: Dispositivos que participan en la red">Clase
+                                2: Anatomía de Redes – Dispositivos</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase3">
+                            <div class="class-checkbox" data-class-key="redes_clase3">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text"
+                                title="Clase 3: Introducción al Direccionamiento IPv4 e IPv6 – Sistema Numérico Binario">Clase
+                                3: Direccionamiento IPv4/IPv6 y Binario</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase4">
+                            <div class="class-checkbox" data-class-key="redes_clase4">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 4: Direccionamiento IPv4">Clase 4:
+                                Direccionamiento IPv4</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase5">
+                            <div class="class-checkbox" data-class-key="redes_clase5">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text"
+                                title="Clase 5: Retroalimentación de Redes Informáticas y Direccionamiento IP">Clase 5:
+                                Retroalimentación – Redes e IP</span>
+                        </li>
+                    </ul>
                 </nav>
-
-                <!-- Botón Flotante (FAB) -->
-                <button type="button" class="fab-menu-btn" id="fab-menu-btn">
-                    <i class="bi bi-journal-bookmark-fill"></i>
-                    <span>Ver Temario</span>
-                </button>
 
                 <!-- Panel de Contenido de Clase -->
                 <div class="class-content-wrapper">
-                    <!-- Tema 1 -->
-                    <article class="class-detail-section active" id="tema1-detail">
+                    <!-- Clase 1 -->
+                    <article class="class-detail-section active" id="clase1-detail">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <span class="badge-clase bg-primary text-white">Tema 1</span>
+                            <span class="badge-clase bg-primary text-white">Clase 1</span>
                             <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
                         </div>
-                        <h3 class="fw-bold mb-3">Introducción a las Redes de Comunicaciones</h3>
+                        <h3 class="fw-bold mb-3">Introducción a la Asignatura y al Curso CCNA1 e Introducción a las
+                            Redes Informáticas</h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Conceptos básicos de redes, evolución histórica, tipos de redes, topologías, y aplicaciones. Se aborda la importancia de las redes en la sociedad actual.
+                            Presentación del programa de la asignatura, objetivos del curso CCNA1 y conceptos
+                            fundamentales sobre redes informáticas, su importancia y alcance.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-primary"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> ¿Qué es una red de comunicaciones?</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Historia y evolución de las redes</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Clasificación de redes (LAN, MAN, WAN)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Topologías de red</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Aplicaciones y servicios de red</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Presentación del programa y evaluación
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> ¿Qué es una red informática?</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Tipos de redes: LAN, MAN, WAN</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Introducción al curso CCNA1 de Cisco
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Importancia de las redes en la sociedad
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Comprender conceptos básicos</li>
-                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Identificar tipos de redes</li>
-                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Conocer topologías clásicas</li>
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Conocer el programa del
+                                            curso</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Identificar los
+                                            fundamentos de redes</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Comprender el alcance
+                                            del CCNA1</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Tema 2 -->
-                    <article class="class-detail-section" id="tema2-detail">
+                    <!-- Clase 2 -->
+                    <article class="class-detail-section" id="clase2-detail">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <span class="badge-clase bg-success text-white">Tema 2</span>
-                            <span class="text-muted small"><i class="bi bi-clock"></i> 6 horas</span>
+                            <span class="badge-clase bg-success text-white">Clase 2</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
                         </div>
-                        <h3 class="fw-bold mb-3">Modelo OSI y TCP/IP</h3>
+                        <h3 class="fw-bold mb-3">Anatomía de las Redes Informáticas: Dispositivos que Participan en la
+                            Red</h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Estudio detallado del modelo OSI y su comparación con el modelo TCP/IP. Análisis de cada capa y sus funciones principales.
+                            Estudio detallado de los componentes físicos y lógicos que conforman una red: routers,
+                            switches, hubs, access points, cables y medios de transmisión.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Modelo OSI: 7 capas y sus funciones</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Modelo TCP/IP: 4 capas principales</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Comparación detallada entre modelos</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Protocolos más importantes en cada nivel</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Direccionamiento lógico y físico</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Dispositivos de interconexión: routers y
+                                        switches</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Dispositivos de acceso: hubs y access
+                                        points</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Medios de transmisión: cableados e
+                                        inalámbricos</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Tarjetas de red y dispositivos finales
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Topologías físicas y lógicas</li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-success"></i> Entender el flujo de datos OSI</li>
-                                        <li><i class="bi bi-arrow-right-short text-success"></i> Conocer el estándar TCP/IP</li>
-                                        <li><i class="bi bi-arrow-right-short text-success"></i> Identificar protocolos de red</li>
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Identificar
+                                            dispositivos de red</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Distinguir medios de
+                                            transmisión</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Comprender topologías
+                                            de red</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Tema 3 -->
-                    <article class="class-detail-section" id="tema3-detail">
+                    <!-- Clase 3 -->
+                    <article class="class-detail-section" id="clase3-detail">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <span class="badge-clase bg-info text-white">Tema 3</span>
-                            <span class="text-muted small"><i class="bi bi-clock"></i> 5 horas</span>
-                        </div>
-                        <h3 class="fw-bold mb-3">Protocolos de Comunicación</h3>
-                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Análisis de los principales protocolos de comunicación en redes, incluyendo TCP, UDP, IP, HTTP/HTTPS, DNS y otros.
-                        </p>
-                        
-                        <div class="row g-4 mt-2">
-                            <div class="col-md-7">
-                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-info"></i> Contenidos</h5>
-                                <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolo TCP: características y control de flujo</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolo UDP: velocidad sin conexión</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolo IP: direccionamiento y subredes</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Protocolos de aplicación (HTTP, DNS, SMTP)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-info"></i> Seguridad en protocolos (SSL/TLS)</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-info"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-info"></i> Diferenciar entre TCP y UDP</li>
-                                        <li><i class="bi bi-arrow-right-short text-info"></i> Comprender la resolución de nombres DNS</li>
-                                        <li><i class="bi bi-arrow-right-short text-info"></i> Explicar el cifrado SSL/TLS</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Tema 4 -->
-                    <article class="class-detail-section" id="tema4-detail">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <span class="badge-clase bg-warning text-dark">Tema 4</span>
+                            <span class="badge-clase bg-warning text-dark">Clase 3</span>
                             <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
                         </div>
-                        <h3 class="fw-bold mb-3">Arquitectura de Red y Enrutamiento</h3>
+                        <h3 class="fw-bold mb-3">Introducción al Direccionamiento IPv4 e IPv6 – Sistema Numérico Binario
+                        </h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Estudio de la arquitectura de red, equipos de interconexión, y algoritmos de enrutamiento para la transmisión eficiente de datos.
+                            Fundamentos del sistema numérico binario aplicados al direccionamiento IP. Comparación entre
+                            los esquemas de direccionamiento IPv4 e IPv6.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-warning"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Equipos de red: routers, switches, hubs</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Arquitectura de red empresarial</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Algoritmos de enrutamiento dinámico y estático</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Tablas de enrutamiento</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Protocolos de enrutamiento (RIP, OSPF)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Sistema numérico binario y conversiones
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Estructura de una dirección IPv4</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Clases de direcciones IP (A, B, C, D, E)
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Introducción a IPv6 y su estructura</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Diferencias entre IPv4 e IPv6</li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-warning"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Identificar dispositivos de red</li>
-                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Comprender tablas de ruteo</li>
-                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Distinguir RIP de OSPF</li>
+                                    <h5 class="fw-bold mb-3 text-warning"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Convertir entre binario
+                                            y decimal</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Interpretar la
+                                            estructura de una IP</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Diferenciar IPv4 de
+                                            IPv6</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Tema 5 -->
-                    <article class="class-detail-section" id="tema5-detail">
+                    <!-- Clase 4 -->
+                    <article class="class-detail-section" id="clase4-detail">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <span class="badge-clase bg-danger text-white">Tema 5</span>
-                            <span class="text-muted small"><i class="bi bi-clock"></i> 3 horas</span>
+                            <span class="badge-clase bg-danger text-white">Clase 4</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
                         </div>
-                        <h3 class="fw-bold mb-3">Seguridad en Redes</h3>
+                        <h3 class="fw-bold mb-3">Direccionamiento IPv4</h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Fundamentos de seguridad en redes, amenazas comunes, mecanismos de protección, y buenas prácticas para asegurar comunicaciones.
+                            Profundización en el esquema de direccionamiento IPv4: subredes, máscaras de red, notación
+                            CIDR y asignación de direcciones en redes locales y remotas.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-danger"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Amenazas a la seguridad de redes y vulnerabilidades</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Firewalls (Cortafuegos) y sistemas IDS/IPS</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Mecanismos de cifrado y firma digital</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> VPN (Redes Privadas Virtuales) y túneles</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Buenas prácticas de administración de red</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Máscaras de subred y notación CIDR</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Cálculo de subredes (subnetting)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Direcciones de red, host y broadcast</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Direcciones privadas y públicas (RFC
+                                        1918)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> VLSM: Variable Length Subnet Mask</li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-danger"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Reconocer tipos de ataques</li>
-                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Diseñar políticas con Firewall</li>
-                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Entender redes seguras VPN</li>
+                                    <h5 class="fw-bold mb-3 text-danger"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Calcular subredes IPv4
+                                        </li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Aplicar notación CIDR
+                                            correctamente</li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Diseñar esquemas de
+                                            direccionamiento</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 5 -->
+                    <article class="class-detail-section" id="clase5-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-secondary text-white">Clase 5</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Retroalimentación de Redes Informáticas y Direccionamiento IP</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Sesión de repaso y consolidación de los conceptos vistos: fundamentos de redes, anatomía de
+                            dispositivos y todo el bloque de direccionamiento IPv4/IPv6.
+                        </p>
+
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-secondary"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Repaso de fundamentos de redes
+                                        informáticas</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Revisión de dispositivos de red y sus
+                                        funciones</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Ejercicios prácticos de subnetting
+                                        IPv4</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Resolución de dudas y casos prácticos
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Preparación para la evaluación del
+                                        bloque</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Consolidar
+                                            conocimientos del bloque</li>
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Resolver ejercicios
+                                            de direccionamiento</li>
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Prepararse para la
+                                            evaluación</li>
                                     </ul>
                                 </div>
                             </div>
@@ -302,12 +378,446 @@
     </div>
 
     <!-- Footer -->
-    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
-        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
-    </footer>
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones
+        </p>
+</footer>
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../js/main.js"></script>
+
+    <!-- ===== ESTILOS JSON LAB ===== -->
+    <style>
+    /* ─── Sección principal ─── */
+    .json-lab-section {
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 28px;
+        background: var(--hover-bg);
+    }
+    .json-lab-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .json-lab-title-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .json-lab-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    /* ─── Tab switcher ─── */
+    .json-tab-switcher {
+        display: flex;
+        gap: 8px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        padding: 5px;
+        border-radius: 14px;
+    }
+    .json-tab-btn {
+        border: none;
+        background: transparent;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        font-family: 'Outfit', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .json-tab-btn.active {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 4px 12px rgba(108,92,231,0.35);
+    }
+    .json-tab-btn:hover:not(.active) {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+    }
+
+    /* ─── Grid de paneles ─── */
+    .json-panels-grid {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        gap: 16px;
+        align-items: start;
+    }
+    @media(max-width:768px) {
+        .json-panels-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Panel código ─── */
+    .json-panel {
+        background: #1a1d2e;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        animation: fadeIn 0.3s ease;
+    }
+    .json-panel-topbar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 16px;
+        background: #12141f;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .json-panel-dot {
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .json-panel-dot.red    { background: #ff5f57; }
+    .json-panel-dot.yellow { background: #febc2e; }
+    .json-panel-dot.green  { background: #28c840; }
+    .json-panel-filename {
+        font-size: 0.78rem;
+        color: rgba(255,255,255,0.4);
+        margin-left: 8px;
+        font-family: 'Courier New', monospace;
+        flex: 1;
+    }
+    .json-badge-type {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        letter-spacing: 0.5px;
+    }
+    .json-badge-type.sin { background: rgba(108,92,231,0.25); color: #a29bfe; }
+    .json-badge-type.con { background: rgba(0,184,148,0.25);  color: #55efc4; }
+
+    .json-code {
+        margin: 0;
+        padding: 20px;
+        background: transparent;
+        font-size: 0.82rem;
+        line-height: 1.9;
+        overflow-x: auto;
+        color: #cdd6f4;
+        font-family: 'Courier New', 'Consolas', monospace;
+        min-height: 280px;
+    }
+
+    /* ─── Tokens interactivos ─── */
+    .json-token {
+        cursor: pointer;
+        border-radius: 4px;
+        padding: 1px 3px;
+        transition: background 0.2s ease;
+        display: inline;
+    }
+    .json-token:hover { filter: brightness(1.4); }
+    .json-token.active-token { outline: 2px solid rgba(255,255,255,0.5); }
+    .json-token.tk-key  { color: #89b4fa; }
+    .json-token.tk-str  { color: #a6e3a1; }
+    .json-token.tk-num  { color: #fab387; }
+    .json-token.tk-bool { color: #cba6f7; }
+    .json-token.tk-null { color: #6c7086; }
+    .json-token.tk-arr  { color: #f38ba8; font-weight:700; }
+    .json-token.tk-obj  { color: #89dceb; font-weight:700; }
+    .json-token.tk-punct { color: rgba(255,255,255,0.35); }
+
+    /* ─── Panel info ─── */
+    .json-info-panel {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 20px;
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    .json-info-content {
+        width: 100%;
+        text-align: left;
+        animation: fadeIn 0.3s ease;
+    }
+    .json-info-key-badge {
+        display: inline-block;
+        background: #1a1d2e;
+        color: #89b4fa;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        padding: 4px 12px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        font-weight: 700;
+    }
+    .json-info-type-badge {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-left: 6px;
+        letter-spacing: 0.5px;
+        vertical-align: middle;
+    }
+    .json-info-example {
+        background: var(--hover-bg);
+        border-left: 3px solid var(--primary);
+        border-radius: 0 8px 8px 0;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        font-family: 'Courier New', monospace;
+        color: var(--text-secondary);
+        margin-top: 8px;
+    }
+
+    /* ─── Leyenda ─── */
+    .json-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+    }
+    .json-legend-item { display: flex; align-items: center; gap: 6px; }
+    .json-dot {
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+    .json-dot.key  { background: #89b4fa; }
+    .json-dot.str  { background: #a6e3a1; }
+    .json-dot.num  { background: #fab387; }
+    .json-dot.bool { background: #cba6f7; }
+    .json-dot.arr  { background: #f38ba8; }
+    .json-dot.obj  { background: #89dceb; }
+
+    /* ─── Tarjetas de diferencias ─── */
+    .json-diff-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    @media(max-width:600px){ .json-diff-cards { grid-template-columns:1fr; } }
+    .json-diff-card {
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .json-diff-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--card-shadow);
+    }
+    .json-diff-card.sin { border-left: 4px solid #6c5ce7; }
+    .json-diff-card.con { border-left: 4px solid #00b894; }
+    .json-diff-card-icon {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    .json-diff-card.sin .json-diff-card-icon { color: #6c5ce7; }
+    .json-diff-card.con .json-diff-card-icon { color: #00b894; }
+    .json-diff-card li { margin-bottom: 4px; color: var(--text-secondary); }
+    </style>
+
+    <!-- ===== SCRIPT JSON LAB ===== -->
+    <script>
+    // ─── Datos JSON para los ejemplos ───
+    const JSON_SIN = {
+        nombre: "Router Principal",
+        marca: "Cisco",
+        modelo: "ISR 4321",
+        ip_gestion: "192.168.1.1",
+        mascara: "255.255.255.0",
+        activo: true,
+        puertos: 4,
+        ubicacion: "Sala de Servidores"
+    };
+
+    const JSON_CON = {
+        nombre: "Red Universitaria",
+        responsable: "Ing. Guinea",
+        activa: true,
+        total_dispositivos: 12,
+        segmentos: ["LAN Estudiantes", "LAN Docentes", "DMZ", "WAN"],
+        dispositivos: [
+            { tipo: "Router", ip: "192.168.1.1" },
+            { tipo: "Switch Core", ip: "192.168.1.2" },
+            { tipo: "Access Point", ip: "192.168.1.10" }
+        ],
+        protocolos_usados: ["TCP/IP", "OSPF", "DNS", "DHCP"],
+        vlans: [10, 20, 30, 99]
+    };
+
+    // ─── Información explicativa de cada campo ───
+    const fieldInfo = {
+        // Sin arreglos
+        nombre:    { tipo:"string",  titulo:"Nombre del dispositivo",     desc:"Identifica el elemento de la red. Es un texto entre comillas dobles.",   ej:'"nombre": "Router Principal"' },
+        marca:     { tipo:"string",  titulo:"Marca del fabricante",       desc:"Cadena de texto que indica el fabricante del equipo.",                    ej:'"marca": "Cisco"' },
+        modelo:    { tipo:"string",  titulo:"Modelo del equipo",          desc:"Referencia del producto según el fabricante.",                           ej:'"modelo": "ISR 4321"' },
+        ip_gestion:{ tipo:"string",  titulo:"Dirección IP de gestión",    desc:"IP en formato texto. Las IPs se almacenan como string, no como número.", ej:'"ip_gestion": "192.168.1.1"' },
+        mascara:   { tipo:"string",  titulo:"Máscara de subred",          desc:"Notación decimal de la máscara de red, también es un string.",           ej:'"mascara": "255.255.255.0"' },
+        activo:    { tipo:"boolean", titulo:"Estado del dispositivo",     desc:"Valor booleano: true (activo) o false (inactivo). Sin comillas.",        ej:'"activo": true' },
+        puertos:   { tipo:"number",  titulo:"Cantidad de puertos",        desc:"Número entero sin comillas. Los números no llevan comillas en JSON.",    ej:'"puertos": 4' },
+        ubicacion: { tipo:"string",  titulo:"Ubicación física",           desc:"Texto libre que describe dónde está instalado el equipo.",              ej:'"ubicacion": "Sala de Servidores"' },
+        // Con arreglos
+        responsable:         { tipo:"string",  titulo:"Responsable de la red",        desc:"Nombre del administrador o responsable de la infraestructura.",      ej:'"responsable": "Ing. Guinea"' },
+        total_dispositivos:  { tipo:"number",  titulo:"Total de dispositivos",        desc:"Número entero que indica cuántos equipos pertenecen a la red.",       ej:'"total_dispositivos": 12' },
+        segmentos:           { tipo:"array",   titulo:"Segmentos de red",             desc:"Arreglo de strings: lista de segmentos lógicos de la red. Usa [ ].",  ej:'"segmentos": ["LAN", "DMZ", "WAN"]' },
+        dispositivos:        { tipo:"array-obj",titulo:"Lista de dispositivos",       desc:"Arreglo de objetos: cada elemento { } es un dispositivo con sus propiedades.", ej:'"dispositivos": [{...}, {...}]' },
+        protocolos_usados:   { tipo:"array",   titulo:"Protocolos utilizados",        desc:"Arreglo de strings con los protocolos de red activos.",               ej:'"protocolos_usados": ["TCP/IP", "DNS"]' },
+        vlans:               { tipo:"array",   titulo:"IDs de VLANs configuradas",   desc:"Arreglo de números: identificadores numéricos de las VLANs.",         ej:'"vlans": [10, 20, 30, 99]' }
+    };
+
+    const typeColors = {
+        string:    { bg:"rgba(166,227,161,0.2)", color:"#a6e3a1", label:"String" },
+        number:    { bg:"rgba(250,179,135,0.2)", color:"#fab387", label:"Número" },
+        boolean:   { bg:"rgba(203,166,247,0.2)", color:"#cba6f7", label:"Booleano" },
+        array:     { bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array [ ]" },
+        "array-obj":{ bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array de Objetos" }
+    };
+
+    // ─── Renderiza un objeto JSON como HTML con tokens clicables ───
+    function renderJson(obj, indent = 0, fieldMap = {}) {
+        const pad = (n) => '  '.repeat(n);
+        let html = '';
+        const keys = Object.keys(obj);
+        html += `<span class="json-token tk-punct">{</span>\n`;
+        keys.forEach((key, i) => {
+            const val = obj[key];
+            const isLast = i === keys.length - 1;
+            const comma = isLast ? '' : ',';
+            html += pad(indent + 1);
+            // Key
+            const info = fieldMap[key] || fieldMap[key.replace(/\s/g,'_')];
+            const dataAttr = info ? `data-field="${key}"` : '';
+            html += `<span class="json-token tk-key" ${dataAttr} onclick="showInfo('${key}')">"${key}"</span>`;
+            html += `<span class="json-token tk-punct">: </span>`;
+            // Value
+            html += renderValue(val, key, indent + 1, fieldMap);
+            html += `<span class="json-token tk-punct">${comma}</span>\n`;
+        });
+        html += pad(indent) + `<span class="json-token tk-punct">}</span>`;
+        return html;
+    }
+
+    function renderValue(val, key, indent, fieldMap) {
+        if (val === null) {
+            return `<span class="json-token tk-null" onclick="showInfo('${key}')">null</span>`;
+        }
+        if (typeof val === 'boolean') {
+            return `<span class="json-token tk-bool" onclick="showInfo('${key}')">${val}</span>`;
+        }
+        if (typeof val === 'number') {
+            return `<span class="json-token tk-num" onclick="showInfo('${key}')">${val}</span>`;
+        }
+        if (typeof val === 'string') {
+            return `<span class="json-token tk-str" onclick="showInfo('${key}')">"${val}"</span>`;
+        }
+        if (Array.isArray(val)) {
+            if (val.length === 0) return `<span class="json-token tk-arr">[]</span>`;
+            const isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
+            let html = `<span class="json-token tk-arr" onclick="showInfo('${key}')">[</span>\n`;
+            val.forEach((item, idx) => {
+                const isLast = idx === val.length - 1;
+                const comma = isLast ? '' : ',';
+                html += '  '.repeat(indent + 1);
+                if (isObjs) {
+                    html += renderJson(item, indent + 1, {});
+                } else {
+                    html += renderValue(item, key, indent + 1, fieldMap);
+                }
+                html += `<span class="json-token tk-punct">${comma}</span>\n`;
+            });
+            html += '  '.repeat(indent) + `<span class="json-token tk-arr">]</span>`;
+            return html;
+        }
+        if (typeof val === 'object') {
+            return renderJson(val, indent, fieldMap);
+        }
+        return String(val);
+    }
+
+    // ─── Mostrar info de campo ───
+    function showInfo(key) {
+        const info = fieldInfo[key];
+        if (!info) return;
+
+        document.querySelectorAll('.json-token.active-token').forEach(t => t.classList.remove('active-token'));
+        document.querySelectorAll(`.json-token[data-field="${key}"]`).forEach(t => t.classList.add('active-token'));
+
+        const placeholder = document.getElementById('json-info-placeholder');
+        const content    = document.getElementById('json-info-content');
+        const typeData   = typeColors[info.tipo] || typeColors.string;
+
+        placeholder.classList.add('d-none');
+        content.classList.remove('d-none');
+
+        document.getElementById('info-key').textContent   = `"${key}"`;
+        document.getElementById('info-type').textContent  = typeData.label;
+        document.getElementById('info-type').style.cssText= `background:${typeData.bg}; color:${typeData.color};`;
+        document.getElementById('info-title').textContent = info.titulo;
+        document.getElementById('info-desc').textContent  = info.desc;
+        document.getElementById('info-example').textContent = info.ej;
+    }
+
+    // ─── Cambiar entre tab Sin/Con arreglos ───
+    function switchJsonTab(type) {
+        const panelSin = document.getElementById('panel-sin');
+        const panelCon = document.getElementById('panel-con');
+        const btnSin   = document.getElementById('btn-sin-arreglos');
+        const btnCon   = document.getElementById('btn-con-arreglos');
+        const placeholder = document.getElementById('json-info-placeholder');
+        const content     = document.getElementById('json-info-content');
+
+        if (type === 'sin') {
+            panelSin.style.display = '';
+            panelCon.style.display = 'none';
+            btnSin.classList.add('active');
+            btnCon.classList.remove('active');
+        } else {
+            panelSin.style.display = 'none';
+            panelCon.style.display = '';
+            btnCon.classList.add('active');
+            btnSin.classList.remove('active');
+        }
+        placeholder.classList.remove('d-none');
+        content.classList.add('d-none');
+        document.querySelectorAll('.json-token.active-token').forEach(t => t.classList.remove('active-token'));
+    }
+
+    // ─── Inicializar ───
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('json-sin-code').innerHTML = renderJson(JSON_SIN, 0, fieldInfo);
+        document.getElementById('json-con-code').innerHTML = renderJson(JSON_CON, 0, fieldInfo);
+    });
+    </script>
 </body>
 </html>
