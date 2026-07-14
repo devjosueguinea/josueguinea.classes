@@ -56,7 +56,8 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 40px 20px;
-            margin: 0 45px; /* Espacio para las flechas de navegación */
+            margin: 0 45px;
+            /* Espacio para las flechas de navegación */
             min-height: 320px;
             display: flex;
             flex-direction: column;
@@ -117,6 +118,14 @@
         [data-theme="dark"] .command-badge {
             background-color: #11111b;
             color: #a6e3a1;
+        }
+
+        /* Estilos adicionales para el Simulador IP */
+        .simulator-result-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
         }
     </style>
 </head>
@@ -182,7 +191,7 @@
 
             <!-- Contenido Didáctico -->
             <div class="class-content-wrapper mb-5">
-                
+
                 <!-- Sección 1: Componentes y Carrusel -->
                 <section class="mb-5">
                     <div class="d-flex align-items-center gap-2 mb-3">
@@ -190,18 +199,26 @@
                         <h3 class="fw-bold mb-0">1. Componentes de la Infraestructura</h3>
                     </div>
                     <p class="text-secondary leading-relaxed mb-4">
-                        Para comprender la anatomía de una red, debemos clasificar sus elementos esenciales. Cada componente cumple un rol lógico y físico crítico para asegurar que los datos viajen de forma óptima, segura y sin pérdidas desde su origen hasta su destino.
+                        Para comprender la anatomía de una red, debemos clasificar sus elementos esenciales. Cada
+                        componente cumple un rol lógico y físico crítico para asegurar que los datos viajen de forma
+                        óptima, segura y sin pérdidas desde su origen hasta su destino.
                     </p>
 
                     <!-- Carrusel de Dispositivos de Red -->
-                    <div id="carouselNetworkDevices" class="carousel carousel-dark slide mt-4 mb-4" data-bs-ride="carousel">
+                    <div id="carouselNetworkDevices" class="carousel carousel-dark slide mt-4 mb-4"
+                        data-bs-ride="carousel">
                         <!-- Indicadores del Carrusel -->
                         <div class="carousel-indicators" style="bottom: -25px;">
-                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Router"></button>
-                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="1" aria-label="Switch"></button>
-                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="2" aria-label="Dispositivos Finales"></button>
-                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="3" aria-label="Access Point"></button>
-                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="4" aria-label="Firewall"></button>
+                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Router"></button>
+                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="1"
+                                aria-label="Switch"></button>
+                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="2"
+                                aria-label="Dispositivos Finales"></button>
+                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="3"
+                                aria-label="Access Point"></button>
+                            <button type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide-to="4"
+                                aria-label="Firewall"></button>
                         </div>
 
                         <!-- Slides del Carrusel -->
@@ -213,7 +230,10 @@
                                     <h4 class="fw-bold mt-3 text-dark">Router (Enrutador)</h4>
                                     <h6 class="text-primary fw-semibold mb-2">Capa 3: Red</h6>
                                     <p class="text-secondary small max-w-xl px-md-5">
-                                        Es el cerebro de la interconexión. Su función principal es **unir redes completamente distintas** (como la LAN de tu empresa e Internet). Analiza las direcciones IP de los paquetes de datos y decide, mediante tablas de enrutamiento, cuál es el camino más rápido y eficiente para enviarlos.
+                                        Es el cerebro de la interconexión. Su función principal es **unir redes
+                                        completamente distintas** (como la LAN de tu empresa e Internet). Analiza las
+                                        direcciones IP de los paquetes de datos y decide, mediante tablas de
+                                        enrutamiento, cuál es el camino más rápido y eficiente para enviarlos.
                                     </p>
                                 </div>
                             </div>
@@ -225,7 +245,10 @@
                                     <h4 class="fw-bold mt-3 text-dark">Switch (Conmutador)</h4>
                                     <h6 class="text-primary fw-semibold mb-2">Capa 2: Enlace de Datos</h6>
                                     <p class="text-secondary small max-w-xl px-md-5">
-                                        Se encarga de **conectar los dispositivos locales dentro de una misma red** (LAN). A diferencia de los antiguos Hubs, el Switch es inteligente: lee las direcciones MAC físicas de las tarjetas de red y envía los datos exclusivamente al puerto del destinatario real, optimizando el ancho de banda.
+                                        Se encarga de **conectar los dispositivos locales dentro de una misma red**
+                                        (LAN). A diferencia de los antiguos Hubs, el Switch es inteligente: lee las
+                                        direcciones MAC físicas de las tarjetas de red y envía los datos exclusivamente
+                                        al puerto del destinatario real, optimizando el ancho de banda.
                                     </p>
                                 </div>
                             </div>
@@ -237,7 +260,10 @@
                                     <h4 class="fw-bold mt-3 text-dark">Dispositivos Finales (Hosts)</h4>
                                     <h6 class="text-primary fw-semibold mb-2">Punto de Origen y Destino</h6>
                                     <p class="text-secondary small max-w-xl px-md-5">
-                                        Comprende todas las computadoras, servidores, impresoras de red, cámaras IP y teléfonos inteligentes. Son los elementos con los que interactúa el usuario; actúan como los **generadores o consumidores de la información**, iniciando solicitudes o respondiendo peticiones de servicios.
+                                        Comprende todas las computadoras, servidores, impresoras de red, cámaras IP y
+                                        teléfonos inteligentes. Son los elementos con los que interactúa el usuario;
+                                        actúan como los **generadores o consumidores de la información**, iniciando
+                                        solicitudes o respondiendo peticiones de servicios.
                                     </p>
                                 </div>
                             </div>
@@ -249,7 +275,10 @@
                                     <h4 class="fw-bold mt-3 text-dark">Punto de Acceso Inalámbrico (AP)</h4>
                                     <h6 class="text-primary fw-semibold mb-2">Extensión de Medios</h6>
                                     <p class="text-secondary small max-w-xl px-md-5">
-                                        Actúa como un puente de comunicación. Recibe la señal de red cableada del Switch y **la transforma en ondas de radiofrecuencia (Wi-Fi)**. Su propósito es permitir la movilidad de los dispositivos finales sin perder acceso a los recursos de la red local o corporativa.
+                                        Actúa como un puente de comunicación. Recibe la señal de red cableada del Switch
+                                        y **la transforma en ondas de radiofrecuencia (Wi-Fi)**. Su propósito es
+                                        permitir la movilidad de los dispositivos finales sin perder acceso a los
+                                        recursos de la red local o corporativa.
                                     </p>
                                 </div>
                             </div>
@@ -261,18 +290,23 @@
                                     <h4 class="fw-bold mt-3 text-dark">Firewall (Cortafuegos)</h4>
                                     <h6 class="text-danger fw-semibold mb-2">Filtro de Seguridad de Red</h6>
                                     <p class="text-secondary small max-w-xl px-md-5">
-                                        Es la barrera de defensa perimetral. Inspecciona de forma exhaustiva todo el tráfico de datos entrante y saliente. Su rol es **bloquear accesos no autorizados y mitigar amenazas cibernéticas**, basándose en un conjunto estricto de reglas de seguridad corporativas previamente configuradas.
+                                        Es la barrera de defensa perimetral. Inspecciona de forma exhaustiva todo el
+                                        tráfico de datos entrante y saliente. Su rol es **bloquear accesos no
+                                        autorizados y mitigar amenazas cibernéticas**, basándose en un conjunto estricto
+                                        de reglas de seguridad corporativas previamente configuradas.
                                     </p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Controles de Navegación -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNetworkDevices"
+                            data-bs-slide="prev">
                             <i class="bi bi-chevron-left fs-2 text-dark" aria-hidden="true"></i>
                             <span class="visually-hidden">Anterior</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselNetworkDevices" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselNetworkDevices"
+                            data-bs-slide="next">
                             <i class="bi bi-chevron-right fs-2 text-dark" aria-hidden="true"></i>
                             <span class="visually-hidden">Siguiente</span>
                         </button>
@@ -288,7 +322,8 @@
                         <h3 class="fw-bold mb-0">2. Métodos de Acceso a los Dispositivos</h3>
                     </div>
                     <p class="text-secondary mb-4">
-                        Antes de configurar el cerebro de un switch o router, necesitamos saber cómo conectarnos físicamente o lógicamente a él. Existen tres vías principales de acceso administrativo:
+                        Antes de configurar el cerebro de un switch o router, necesitamos saber cómo conectarnos
+                        físicamente o lógicamente a él. Existen tres vías principales de acceso administrativo:
                     </p>
 
                     <div class="row g-3">
@@ -296,15 +331,21 @@
                             <div class="access-box h-100">
                                 <h6 class="fw-bold text-primary"><i class="bi bi-cable"></i> Puerto de Consola</h6>
                                 <p class="text-secondary small mb-0">
-                                    Es una conexión física directa <strong>fuera de banda (Out-of-Band)</strong>. Se usa un cable de consola especial conectado desde la PC al equipo de red. No requiere que el dispositivo tenga configuración de red previa; es ideal para configuraciones iniciales o rescates.
+                                    Es una conexión física directa <strong>fuera de banda (Out-of-Band)</strong>. Se usa
+                                    un cable de consola especial conectado desde la PC al equipo de red. No requiere que
+                                    el dispositivo tenga configuración de red previa; es ideal para configuraciones
+                                    iniciales o rescates.
                                 </p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="access-box h-100">
-                                <h6 class="fw-bold text-primary"><i class="bi bi-terminal-dash"></i> Secure Shell (SSH)</h6>
+                                <h6 class="fw-bold text-primary"><i class="bi bi-terminal-dash"></i> Secure Shell (SSH)
+                                </h6>
                                 <p class="text-secondary small mb-0">
-                                    Método seguro de acceso remoto <strong>dentro de banda (In-Band)</strong>. Cifra toda la comunicación (usuario, claves y comandos), evitando que atacantes intercepten los datos en tránsito por la red. Requiere una dirección IP configurada.
+                                    Método seguro de acceso remoto <strong>dentro de banda (In-Band)</strong>. Cifra
+                                    toda la comunicación (usuario, claves y comandos), evitando que atacantes
+                                    intercepten los datos en tránsito por la red. Requiere una dirección IP configurada.
                                 </p>
                             </div>
                         </div>
@@ -312,7 +353,9 @@
                             <div class="access-box h-100">
                                 <h6 class="fw-bold text-danger"><i class="bi bi-exclamation-triangle"></i> Telnet</h6>
                                 <p class="text-secondary small mb-0">
-                                    Método remoto inseguro dentro de banda. A diferencia de SSH, transmite todo el tráfico en <strong>texto plano</strong>. Hoy en día se considera una mala práctica de seguridad y se encuentra en desuso en entornos corporativos reales.
+                                    Método remoto inseguro dentro de banda. A diferencia de SSH, transmite todo el
+                                    tráfico en <strong>texto plano</strong>. Hoy en día se considera una mala práctica
+                                    de seguridad y se encuentra en desuso en entornos corporativos reales.
                                 </p>
                             </div>
                         </div>
@@ -321,32 +364,40 @@
 
                 <hr style="border-color: var(--border-color);">
 
-                <!-- Sección 3: Anatomía del CLI: Modos de Acceso y Comandos (Actualizada a Acordeón Expandible) -->
+                <!-- Sección 3: Anatomía del CLI: Modos de Acceso y Comandos -->
                 <section class="mb-5">
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <i class="bi bi-shield-lock text-primary fs-3"></i>
                         <h3 class="fw-bold mb-0">3. Anatomía del CLI: Modos de Acceso y Comandos</h3>
                     </div>
                     <p class="text-secondary mb-4">
-                        Una vez conectados al sistema operativo (Cisco IOS), interactuamos con una interfaz de comando jerárquica. Despliega cada menú para explorar el propósito de cada nivel y los comandos fundamentales de red que puedes ejecutar en ellos:
+                        Una vez conectados al sistema operativo (Cisco IOS), interactuamos con una interfaz de comando
+                        jerárquica. Despliega cada menú para explorar el propósito de cada nivel y los comandos
+                        fundamentales de red que puedes ejecutar en ellos:
                     </p>
 
                     <!-- Acordeón de Modos -->
                     <div class="accordion" id="accordionCiscoModes">
-                        
+
                         <!-- MODO 1: USUARIO -->
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingUser">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
-                                    <span class="badge bg-secondary me-2">Modo 1</span> Modo de Ejecución de Usuario (Prompt: Router&gt;)
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+                                    <span class="badge bg-secondary me-2">Modo 1</span> Modo de Ejecución de Usuario
+                                    (Prompt: Router&gt;)
                                 </button>
                             </h2>
-                            <div id="collapseUser" class="accordion-collapse collapse" aria-labelledby="headingUser" data-bs-parent="#accordionCiscoModes">
+                            <div id="collapseUser" class="accordion-collapse collapse" aria-labelledby="headingUser"
+                                data-bs-parent="#accordionCiscoModes">
                                 <div class="accordion-body">
                                     <p class="small text-secondary mb-3">
-                                        <strong>Descripción:</strong> Es el modo de entrada por defecto al iniciar sesión. Está diseñado para tareas operativas extremadamente básicas de monitoreo y diagnóstico inicial. No permite modificar ningún parámetro físico o lógico del dispositivo.
+                                        <strong>Descripción:</strong> Es el modo de entrada por defecto al iniciar
+                                        sesión. Está diseñado para tareas operativas extremadamente básicas de monitoreo
+                                        y diagnóstico inicial. No permite modificar ningún parámetro físico o lógico del
+                                        dispositivo.
                                     </p>
-                                    
+
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-custom align-middle">
                                             <thead>
@@ -360,27 +411,36 @@
                                                 <tr>
                                                     <td><span class="command-badge">enable</span></td>
                                                     <td><span class="badge bg-primary">Transición</span></td>
-                                                    <td class="small text-secondary">Eleva tus privilegios en el sistema. Te desplaza directamente hacia el <strong>Modo de Ejecución Privilegiado</strong>.</td>
+                                                    <td class="small text-secondary">Eleva tus privilegios en el
+                                                        sistema. Te desplaza directamente hacia el <strong>Modo de
+                                                            Ejecución Privilegiado</strong>.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">ping [IP_Destino]</span></td>
                                                     <td><span class="badge bg-success">Diagnóstico</span></td>
-                                                    <td class="small text-secondary">Envía paquetes de prueba ICMP Echo Request para comprobar la disponibilidad y latencia de un dispositivo remoto en la red.</td>
+                                                    <td class="small text-secondary">Envía paquetes de prueba ICMP Echo
+                                                        Request para comprobar la disponibilidad y latencia de un
+                                                        dispositivo remoto en la red.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">traceroute [IP_Destino]</span></td>
                                                     <td><span class="badge bg-success">Diagnóstico</span></td>
-                                                    <td class="small text-secondary">Rastrea la ruta física exacta (saltos de routers intermediarios) que toma un paquete de datos para alcanzar su destino.</td>
+                                                    <td class="small text-secondary">Rastrea la ruta física exacta
+                                                        (saltos de routers intermediarios) que toma un paquete de datos
+                                                        para alcanzar su destino.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">show version</span></td>
                                                     <td><span class="badge bg-info text-dark">Información</span></td>
-                                                    <td class="small text-secondary">Muestra información del hardware del router/switch, la versión exacta del sistema operativo Cisco IOS y el tiempo de actividad del equipo.</td>
+                                                    <td class="small text-secondary">Muestra información del hardware
+                                                        del router/switch, la versión exacta del sistema operativo Cisco
+                                                        IOS y el tiempo de actividad del equipo.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">exit</span></td>
                                                     <td><span class="badge bg-danger">Sesión</span></td>
-                                                    <td class="small text-secondary">Cierra de forma segura la sesión activa de consola o terminal remota.</td>
+                                                    <td class="small text-secondary">Cierra de forma segura la sesión
+                                                        activa de consola o terminal remota.</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -392,16 +452,22 @@
                         <!-- MODO 2: PRIVILEGIADO -->
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingPrivileged">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrivileged" aria-expanded="false" aria-controls="collapsePrivileged">
-                                    <span class="badge bg-success me-2 text-white">Modo 2</span> Modo de Ejecución Privilegiado (Prompt: Router#)
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePrivileged" aria-expanded="false"
+                                    aria-controls="collapsePrivileged">
+                                    <span class="badge bg-success me-2 text-white">Modo 2</span> Modo de Ejecución
+                                    Privilegiado (Prompt: Router#)
                                 </button>
                             </h2>
-                            <div id="collapsePrivileged" class="accordion-collapse collapse" aria-labelledby="headingPrivileged" data-bs-parent="#accordionCiscoModes">
+                            <div id="collapsePrivileged" class="accordion-collapse collapse"
+                                aria-labelledby="headingPrivileged" data-bs-parent="#accordionCiscoModes">
                                 <div class="accordion-body">
                                     <p class="small text-secondary mb-3">
-                                        <strong>Descripción:</strong> También conocido como <i>Enable Mode</i> o modo de monitoreo avanzado. Otorga visibilidad completa de los archivos internos del sistema y el estado general de la memoria del router o switch.
+                                        <strong>Descripción:</strong> También conocido como <i>Enable Mode</i> o modo de
+                                        monitoreo avanzado. Otorga visibilidad completa de los archivos internos del
+                                        sistema y el estado general de la memoria del router o switch.
                                     </p>
-                                    
+
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-custom align-middle">
                                             <thead>
@@ -415,32 +481,46 @@
                                                 <tr>
                                                     <td><span class="command-badge">configure terminal</span></td>
                                                     <td><span class="badge bg-primary">Transición</span></td>
-                                                    <td class="small text-secondary">Permite dar el salto al <strong>Modo de Configuración Global</strong> para realizar cambios operacionales.</td>
+                                                    <td class="small text-secondary">Permite dar el salto al
+                                                        <strong>Modo de Configuración Global</strong> para realizar
+                                                        cambios operacionales.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">show running-config</span></td>
                                                     <td><span class="badge bg-info text-dark">Información</span></td>
-                                                    <td class="small text-secondary">Visualiza la configuración que se está ejecutando actualmente en la memoria RAM volátil. Los cambios no guardados se listan aquí.</td>
+                                                    <td class="small text-secondary">Visualiza la configuración que se
+                                                        está ejecutando actualmente en la memoria RAM volátil. Los
+                                                        cambios no guardados se listan aquí.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">show startup-config</span></td>
                                                     <td><span class="badge bg-info text-dark">Información</span></td>
-                                                    <td class="small text-secondary">Muestra el archivo de configuración almacenado de forma permanente en la memoria NVRAM (la configuración de inicio al encender el equipo).</td>
+                                                    <td class="small text-secondary">Muestra el archivo de configuración
+                                                        almacenado de forma permanente en la memoria NVRAM (la
+                                                        configuración de inicio al encender el equipo).</td>
                                                 </tr>
                                                 <tr>
-                                                    <td><span class="command-badge">copy running-config startup-config</span></td>
-                                                    <td><span class="badge bg-warning text-dark">Almacenamiento</span></td>
-                                                    <td class="small text-secondary">Guarda y clona toda la configuración activa (RAM) dentro de la memoria permanente (NVRAM) para evitar pérdidas si el equipo se apaga.</td>
+                                                    <td><span class="command-badge">copy running-config
+                                                            startup-config</span></td>
+                                                    <td><span class="badge bg-warning text-dark">Almacenamiento</span>
+                                                    </td>
+                                                    <td class="small text-secondary">Guarda y clona toda la
+                                                        configuración activa (RAM) dentro de la memoria permanente
+                                                        (NVRAM) para evitar pérdidas si el equipo se apaga.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">reload</span></td>
                                                     <td><span class="badge bg-danger">Sistema</span></td>
-                                                    <td class="small text-secondary">Reinicia físicamente el hardware del equipo. Es útil para aplicar actualizaciones o restaurar valores de fábrica.</td>
+                                                    <td class="small text-secondary">Reinicia físicamente el hardware
+                                                        del equipo. Es útil para aplicar actualizaciones o restaurar
+                                                        valores de fábrica.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">disable</span></td>
                                                     <td><span class="badge bg-secondary">Sesión</span></td>
-                                                    <td class="small text-secondary">Reduce los privilegios de sesión, devolviendo al usuario al Modo de Ejecución de Usuario básico.</td>
+                                                    <td class="small text-secondary">Reduce los privilegios de sesión,
+                                                        devolviendo al usuario al Modo de Ejecución de Usuario básico.
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -452,16 +532,23 @@
                         <!-- MODO 3: CONFIGURACIÓN GLOBAL -->
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingGlobal">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGlobal" aria-expanded="false" aria-controls="collapseGlobal">
-                                    <span class="badge bg-warning me-2 text-dark">Modo 3</span> Modo de Configuración Global (Prompt: Router(config)#)
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseGlobal" aria-expanded="false"
+                                    aria-controls="collapseGlobal">
+                                    <span class="badge bg-warning me-2 text-dark">Modo 3</span> Modo de Configuración
+                                    Global (Prompt: Router(config)#)
                                 </button>
                             </h2>
-                            <div id="collapseGlobal" class="accordion-collapse collapse" aria-labelledby="headingGlobal" data-bs-parent="#accordionCiscoModes">
+                            <div id="collapseGlobal" class="accordion-collapse collapse" aria-labelledby="headingGlobal"
+                                data-bs-parent="#accordionCiscoModes">
                                 <div class="accordion-body">
                                     <p class="small text-secondary mb-3">
-                                        <strong>Descripción:</strong> Es el centro operacional real. Cualquier cambio que se ejecute en este entorno altera directamente los componentes físicos y lógicos de todo el dispositivo. Permite el ingreso a submodos de configuración específicos (puertos o líneas de comunicación).
+                                        <strong>Descripción:</strong> Es el centro operacional real. Cualquier cambio
+                                        que se ejecute en este entorno altera directamente los componentes físicos y
+                                        lógicos de todo el dispositivo. Permite el ingreso a submodos de configuración
+                                        específicos (puertos o líneas de comunicación).
                                     </p>
-                                    
+
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-custom align-middle">
                                             <thead>
@@ -475,37 +562,55 @@
                                                 <tr>
                                                     <td><span class="command-badge">hostname [Nuevo_Nombre]</span></td>
                                                     <td><span class="badge bg-success">Configuración</span></td>
-                                                    <td class="small text-secondary">Cambia el nombre de identificación lógica de la máquina. Este cambio altera de inmediato el texto mostrado en el prompt de comandos.</td>
+                                                    <td class="small text-secondary">Cambia el nombre de identificación
+                                                        lógica de la máquina. Este cambio altera de inmediato el texto
+                                                        mostrado en el prompt de comandos.</td>
                                                 </tr>
                                                 <tr>
-                                                    <td><span class="command-badge">enable secret [Contraseña]</span></td>
+                                                    <td><span class="command-badge">enable secret [Contraseña]</span>
+                                                    </td>
                                                     <td><span class="badge bg-danger">Seguridad</span></td>
-                                                    <td class="small text-secondary">Establece una contraseña fuertemente encriptada con algoritmos hashing (MD5/SHA) para proteger la entrada al Modo Privilegiado.</td>
+                                                    <td class="small text-secondary">Establece una contraseña
+                                                        fuertemente encriptada con algoritmos hashing (MD5/SHA) para
+                                                        proteger la entrada al Modo Privilegiado.</td>
                                                 </tr>
                                                 <tr>
-                                                    <td><span class="command-badge">interface [Nombre_Puerto]</span></td>
+                                                    <td><span class="command-badge">interface [Nombre_Puerto]</span>
+                                                    </td>
                                                     <td><span class="badge bg-primary">Transición</span></td>
-                                                    <td class="small text-secondary">Te traslada al submodo de configuración de una interfaz de red física o virtual para asignarle direccionamiento IP (Ej: <span class="small font-monospace">interface FastEthernet 0/1</span>).</td>
+                                                    <td class="small text-secondary">Te traslada al submodo de
+                                                        configuración de una interfaz de red física o virtual para
+                                                        asignarle direccionamiento IP (Ej: <span
+                                                            class="small font-monospace">interface FastEthernet
+                                                            0/1</span>).</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">line console 0</span></td>
                                                     <td><span class="badge bg-primary">Transición</span></td>
-                                                    <td class="small text-secondary">Ingresa al submodo para configurar las políticas de acceso físico del puerto de consola (como contraseñas o tiempos de espera).</td>
+                                                    <td class="small text-secondary">Ingresa al submodo para configurar
+                                                        las políticas de acceso físico del puerto de consola (como
+                                                        contraseñas o tiempos de espera).</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">line vty 0 4</span></td>
                                                     <td><span class="badge bg-primary">Transición</span></td>
-                                                    <td class="small text-secondary">Accede a las líneas de terminal virtuales para configurar accesos remotos seguros vía SSH o inseguros con Telnet.</td>
+                                                    <td class="small text-secondary">Accede a las líneas de terminal
+                                                        virtuales para configurar accesos remotos seguros vía SSH o
+                                                        inseguros con Telnet.</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">exit</span></td>
                                                     <td><span class="badge bg-secondary">Sesión</span></td>
-                                                    <td class="small text-secondary">Retrocede un nivel en la jerarquía del árbol de comandos (vuelve al Modo Privilegiado).</td>
+                                                    <td class="small text-secondary">Retrocede un nivel en la jerarquía
+                                                        del árbol de comandos (vuelve al Modo Privilegiado).</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="command-badge">end</span></td>
                                                     <td><span class="badge bg-secondary">Sesión</span></td>
-                                                    <td class="small text-secondary">Sale de cualquier submodo en el que te encuentres de forma directa, regresando al Modo Privilegiado (<span class="small font-monospace">Router#</span>) de un solo golpe.</td>
+                                                    <td class="small text-secondary">Sale de cualquier submodo en el que
+                                                        te encuentres de forma directa, regresando al Modo Privilegiado
+                                                        (<span class="small font-monospace">Router#</span>) de un solo
+                                                        golpe.</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -514,6 +619,100 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <!-- Simulador Interactivo de Clasificación de Clases IP -->
+                    <div class="card mt-4"
+                        style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold text-primary mb-3">
+                                <i class="bi bi-cpu-fill text-primary"></i> Simulador Interactivo: Clasificador de
+                                Direcciones IP
+                            </h5>
+                            <p class="text-secondary small mb-4">
+                                Las direcciones IPv4 se dividen tradicionalmente en **5 clases (A, B, C, D y E)** de
+                                acuerdo con el valor decimal de su primer octeto. Utiliza este simulador para ingresar
+                                cualquier dirección IP, identificar su clase correspondiente, conocer su máscara por
+                                defecto e investigar si es de rango público, privado o especial.
+                            </p>
+
+                            <!-- Interfaz del Simulador -->
+                            <div class="row g-3 align-items-end mb-4">
+                                <div class="col-md-8">
+                                    <label for="ip-input" class="form-label text-dark fw-semibold small">Escribe una
+                                        dirección IPv4:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-dark border-secondary text-light"><i
+                                                class="bi bi-hdd-network-fill"></i></span>
+                                        <input type="text" class="form-control" id="ip-input"
+                                            placeholder="Ej: 192.168.1.25" aria-label="Dirección IP">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary w-100" type="button" onclick="classifyIP()">
+                                        <i class="bi bi-play-fill"></i> Analizar IP
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Botones Rápidos de Prueba -->
+                            <div class="mb-4">
+                                <span class="text-secondary small d-block mb-2 fw-semibold">Probar ejemplos típicos de
+                                    red:</span>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="testIP('10.15.2.1')">10.15.2.1 (Clase A Privada)</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="testIP('8.8.8.8')">8.8.8.8 (Clase A Pública)</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="testIP('172.16.45.10')">172.16.45.10 (Clase B Privada)</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="testIP('192.168.1.1')">192.168.1.1 (Clase C Privada)</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="testIP('224.0.0.10')">224.0.0.10 (Clase D Multicast)</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="testIP('244.12.0.1')">244.12.0.1 (Clase E Experimental)</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="testIP('127.0.0.1')">127.0.0.1 (Loopback local)</button>
+                                </div>
+                            </div>
+
+                            <!-- Contenedor de Error del Simulador -->
+                            <div id="ip-simulator-error" class="alert alert-danger"
+                                style="display: none; border-radius: 12px;" role="alert"></div>
+
+                            <!-- Contenedor de Resultados del Simulador -->
+                            <div id="ip-simulator-result" class="simulator-result-box" style="display: none;">
+                                <h6 class="fw-bold mb-3 text-dark d-flex align-items-center gap-2">
+                                    <i class="bi bi-clipboard-data-fill text-success"></i> Diagnóstico de
+                                    Direccionamiento IP
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-12 col-sm-6 col-md-3">
+                                        <span class="text-muted small d-block">IP Ingresada</span>
+                                        <strong id="res-ip" class="text-dark"></strong>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-3">
+                                        <span class="text-muted small d-block">Clase Identificada</span>
+                                        <span id="res-class" class="badge"></span>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-3">
+                                        <span class="text-muted small d-block">Máscara por Defecto</span>
+                                        <strong id="res-mask" class="text-dark"></strong>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-3">
+                                        <span class="text-muted small d-block">Naturaleza / Ámbito</span>
+                                        <span id="res-type" class="badge bg-secondary text-white"></span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="text-muted small d-block mb-1">Análisis Técnico y
+                                            Comportamiento:</span>
+                                        <p id="res-desc" class="text-secondary small mb-0"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </section>
             </div>
@@ -524,18 +723,24 @@
                     <i class="bi bi-journal-code text-primary fs-3"></i>
                     <h3 class="fw-bold mb-0">Práctica de la Clase 1: El Flujo de Acceso</h3>
                 </div>
-                
-                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+
+                <div class="card mb-4"
+                    style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
                     <div class="card-body p-4">
                         <h5 class="fw-bold text-primary mb-3"><i class="bi bi-diagram-3"></i> Caso Práctico</h5>
                         <p class="text-secondary small">
-                            Acabas de sacar un switch Cisco completamente nuevo de su caja de fábrica para instalarlo en el rack de servidores. No tiene dirección IP ni configuración previa. 
+                            Acabas de sacar un switch Cisco completamente nuevo de su caja de fábrica para instalarlo en
+                            el rack de servidores. No tiene dirección IP ni configuración previa.
                         </p>
                         <hr>
                         <ol class="text-secondary small mb-0">
-                            <li class="mb-2">¿Qué tipo de acceso físico debes emplear para realizar la configuración de primer uso? Explica por qué.</li>
-                            <li class="mb-2">Escribe la palabra o comando exacto necesario para pasar del prompt elemental <code>Switch&gt;</code> al modo donde puedes revisar la memoria del sistema.</li>
-                            <li class="mb-2">Menciona qué cambio drástico sufrirá el prompt en pantalla una vez que ejecutes exitosamente el comando <code>configure terminal</code>.</li>
+                            <li class="mb-2">¿Qué tipo de acceso físico debes emplear para realizar la configuración de
+                                primer uso? Explica por qué.</li>
+                            <li class="mb-2">Escribe la palabra o comando exacto necesario para pasar del prompt
+                                elemental <code>Switch&gt;</code> al modo donde puedes revisar la memoria del sistema.
+                            </li>
+                            <li class="mb-2">Menciona qué cambio drástico sufrirá el prompt en pantalla una vez que
+                                ejecutes exitosamente el comando <code>configure terminal</code>.</li>
                         </ol>
                     </div>
                 </div>
@@ -551,27 +756,32 @@
                 <form id="quiz-form">
                     <!-- Pregunta 1 -->
                     <div class="quiz-card">
-                        <h6 class="fw-bold mb-3">1. ¿Cuál de los siguientes métodos permite configurar un dispositivo de red que viene de fábrica y no tiene ninguna dirección IP asignada?</h6>
+                        <h6 class="fw-bold mb-3">1. ¿Cuál de los siguientes métodos permite configurar un dispositivo de
+                            red que viene de fábrica y no tiene ninguna dirección IP asignada?</h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p1" id="p1-a" value="a">
                             <label class="form-check-label text-secondary" for="p1-a">Acceso remoto vía SSH</label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p1" id="p1-b" value="b">
-                            <label class="form-check-label text-secondary" for="p1-b">Conexión física directa al puerto de Consola</label>
+                            <label class="form-check-label text-secondary" for="p1-b">Conexión física directa al puerto
+                                de Consola</label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="p1" id="p1-c" value="c">
-                            <label class="form-check-label text-secondary" for="p1-c">Llamada remota mediante Telnet</label>
+                            <label class="form-check-label text-secondary" for="p1-c">Llamada remota mediante
+                                Telnet</label>
                         </div>
                     </div>
 
                     <!-- Pregunta 2 -->
                     <div class="quiz-card">
-                        <h6 class="fw-bold mb-3">2. Si ves el prompt "Router>", ¿en qué estado de privilegios te encuentras?</h6>
+                        <h6 class="fw-bold mb-3">2. Si ves el prompt "Router>", ¿en qué estado de privilegios te
+                            encuentras?</h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p2" id="p2-a" value="a">
-                            <label class="form-check-label text-secondary" for="p2-a">Modo de Configuración Global</label>
+                            <label class="form-check-label text-secondary" for="p2-a">Modo de Configuración
+                                Global</label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p2" id="p2-b" value="b">
@@ -579,13 +789,15 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="p2" id="p2-c" value="c">
-                            <label class="form-check-label text-secondary" for="p2-c">Modo de Ejecución de Usuario</label>
+                            <label class="form-check-label text-secondary" for="p2-c">Modo de Ejecución de
+                                Usuario</label>
                         </div>
                     </div>
 
                     <!-- Pregunta 3 -->
                     <div class="quiz-card">
-                        <h6 class="fw-bold mb-3">3. ¿Qué comando exacto te permite elevar los privilegios desde el modo usuario al modo privilegiado?</h6>
+                        <h6 class="fw-bold mb-3">3. ¿Qué comando exacto te permite elevar los privilegios desde el modo
+                            usuario al modo privilegiado?</h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="p3" id="p3-a" value="a">
                             <label class="form-check-label text-secondary" for="p3-a">configure terminal</label>
@@ -613,27 +825,32 @@
     <!-- Menú Flotante de Clases -->
     <div class="class-floating-sidebar" id="class-floating-sidebar">
         <div class="sidebar-floating-header">
-            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
-            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+            <h6 class="text-muted fw-bold mb-0"
+                style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close"
+                style="font-size: 0.8rem;"></button>
         </div>
         <div class="class-floating-sidebar-content">
             <ul class="class-list">
                 <li>
                     <a href="clase1redes.html" class="class-item active text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 1: Anatomía de las redes">Clase 1: Anatomía de las Redes</span>
+                        <span class="class-item-text" title="Clase 1: Anatomía de las redes">Clase 1: Anatomía de las
+                            Redes</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase2redes.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 2: Introducción a las redes y CISCO">Clase 2: Intro a Redes y Cisco</span>
+                        <span class="class-item-text" title="Clase 2: Introducción a las redes y CISCO">Clase 2: Intro a
+                            Redes y Cisco</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase3redes.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 3: Direccionamiento IP y Subneteo">Clase 3: Direccionamiento IPv4</span>
+                        <span class="class-item-text" title="Clase 3: Direccionamiento IP y Subneteo">Clase 3:
+                            Direccionamiento IPv4</span>
                     </a>
                 </li>
             </ul>
@@ -647,8 +864,10 @@
     </button>
 
     <!-- Footer -->
-    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
-        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones
+        </p>
     </footer>
 
     <!-- JavaScript -->
@@ -695,6 +914,123 @@
                 scoreElement.className = 'fw-bold fs-5 text-danger';
             }
         });
+
+        // Lógica del simulador de clases IP
+        function classifyIP() {
+            const ipInput = document.getElementById('ip-input').value.trim();
+            const resultContainer = document.getElementById('ip-simulator-result');
+            const errorContainer = document.getElementById('ip-simulator-error');
+
+            // Ocultar estados previos
+            resultContainer.style.display = 'none';
+            errorContainer.style.display = 'none';
+
+            // Expresión regular para validar formato básico IPv4
+            const ipv4Regex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+            const match = ipInput.match(ipv4Regex);
+
+            if (!match) {
+                errorContainer.textContent = "Formato inválido. Asegúrate de escribir la dirección IP con formato numérico decimal de cuatro octetos separados por puntos (ej. 192.168.10.25).";
+                errorContainer.style.display = 'block';
+                return;
+            }
+
+            // Convertir octetos a enteros decimales
+            const octets = match.slice(1, 5).map(Number);
+
+            // Validar que cada octeto esté estrictamente entre 0 y 255
+            for (let i = 0; i < 4; i++) {
+                if (octets[i] < 0 || octets[i] > 255) {
+                    errorContainer.textContent = `Dirección IP incorrecta. El octeto número ${i + 1} (${octets[i]}) excede el límite permitido de la arquitectura IPv4 (valores permitidos: 0 a 255).`;
+                    errorContainer.style.display = 'block';
+                    return;
+                }
+            }
+
+            const firstOctet = octets[0];
+            let ipClass = '';
+            let subnetMask = '';
+            let ipType = 'Pública';
+            let description = '';
+            let badgeColor = 'bg-primary text-white';
+
+            // Evaluación lógica de Clases de IP basadas en su primer octeto
+            if (firstOctet >= 0 && firstOctet <= 127) {
+                ipClass = 'Clase A';
+                subnetMask = '255.0.0.0 (/8)';
+                badgeColor = 'bg-success text-white';
+
+                if (firstOctet === 127) {
+                    ipType = 'Especial (Loopback)';
+                    description = 'Este rango está reservado para propósitos de autocomprobación de red interna del propio equipo. Ningún tráfico enviado a direcciones que inicien con el octeto 127 sale nunca a una red externa o interfaz de red física.';
+                } else if (firstOctet === 10) {
+                    ipType = 'Privada';
+                    description = 'Pertenece al rango de red privada definido por la RFC 1918 (10.0.0.0 a 10.255.255.255). Es óptima para organizar esquemas de direccionamiento interno dentro de corporaciones masivas.';
+                } else if (firstOctet === 0) {
+                    ipType = 'Especial';
+                    description = 'La dirección IP que comienza con 0 se utiliza para identificar "este host" en la red local actual, usualmente en procesos dinámicos de arranque del sistema.';
+                } else {
+                    description = 'Clase A estándar. Utilizada para redes extremadamente amplias ya que admite hasta 16,777,214 dispositivos individuales por segmento de red.';
+                }
+            } else if (firstOctet >= 128 && firstOctet <= 191) {
+                ipClass = 'Clase B';
+                subnetMask = '255.255.0.0 (/16)';
+                badgeColor = 'bg-primary text-white';
+
+                if (firstOctet === 172 && octets[1] >= 16 && octets[1] <= 31) {
+                    ipType = 'Privada';
+                    description = 'Pertenece al bloque de direccionamiento privado establecido por la RFC 1918 (172.16.0.0 a 172.31.255.255). Se emplea con regularidad en campus universitarios y corporaciones de tamaño medio.';
+                } else if (firstOctet === 169 && octets[1] === 254) {
+                    ipType = 'Especial (APIPA)';
+                    description = 'Direccionamiento IP Privado Automático (APIPA). Tu sistema operativo se autoasigna esta IP cuando está configurado como cliente DHCP pero no logra comunicarse con ningún servidor para obtener direccionamiento.';
+                } else {
+                    description = 'Clase B estándar. Diseñada originalmente para su distribución en redes de organizaciones medianas, soportando hasta 65,534 direcciones por segmento.';
+                }
+            } else if (firstOctet >= 192 && firstOctet <= 223) {
+                ipClass = 'Clase C';
+                subnetMask = '255.255.255.0 (/24)';
+                badgeColor = 'bg-warning text-dark';
+
+                if (firstOctet === 192 && octets[1] === 168) {
+                    ipType = 'Privada';
+                    description = 'Pertenece al rango privado más popular de la especificación RFC 1918 (192.168.0.0 a 192.168.255.255). Es el estándar de enrutamiento local para routers residenciales y pequeñas empresas (SOHO).';
+                } else {
+                    description = 'Clase C estándar. Estructura destinada originalmente para pequeñas redes corporativas e institucionales, permitiendo un máximo de 254 computadoras por segmento de red.';
+                }
+            } else if (firstOctet >= 224 && firstOctet <= 239) {
+                ipClass = 'Clase D';
+                subnetMask = 'No aplica';
+                badgeColor = 'bg-danger text-white';
+                ipType = 'Multicast (Multidifusión)';
+                description = 'Este bloque está reservado para transmisiones Multicast (Multidifusión). Las direcciones no se asignan de forma permanente a dispositivos físicos, sino que identifican grupos de hosts suscritos a flujos concurrentes (por ejemplo, transmisiones multimedia u OSPF).';
+            } else if (firstOctet >= 240 && firstOctet <= 255) {
+                ipClass = 'Clase E';
+                subnetMask = 'No aplica';
+                badgeColor = 'bg-info text-dark';
+                ipType = 'Experimental / Reservada';
+                description = 'Direcciones reservadas estrictamente para fines de investigación, desarrollo científico y experimentación por parte del IETF y la IANA. El tráfico asociado es descartado por el hardware comercial en la red global.';
+            }
+
+            // Inyectar datos en la interfaz
+            document.getElementById('res-ip').textContent = ipInput;
+            document.getElementById('res-class').textContent = ipClass;
+            document.getElementById('res-class').className = `badge ${badgeColor} fs-6`;
+            document.getElementById('res-mask').textContent = subnetMask;
+            document.getElementById('res-type').textContent = ipType;
+            document.getElementById('res-desc').textContent = description;
+
+            resultContainer.style.display = 'block';
+        }
+
+        // Lógica auxiliar para rellenar campos rápidamente desde los botones
+        function testIP(ip) {
+            document.getElementById('ip-input').value = ip;
+            classifyIP();
+        }
+
+        // Registrar funciones de forma global para entornos restringidos o contenedores Web
+        window.classifyIP = classifyIP;
+        window.testIP = testIP;
     </script>
 </body>
 
