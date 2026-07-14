@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 1: Introducción a las Redes y CISCO - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .table-custom th {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .table-custom td {
+            color: var(--text-secondary);
+        }
+
+        .citation-box {
+            font-style: italic;
+            border-left: 3px solid var(--text-muted);
+            padding-left: 12px;
+            margin: 10px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .img-container {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Estilo para Consola de Cisco */
+        .cisco-terminal {
+            background-color: #0c0d14;
+            color: #39ff14;
+            font-family: 'Courier New', Courier, monospace;
+            height: 280px;
+            border-radius: 12px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            border: 1px solid #222;
+            padding: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .cisco-terminal input {
+            background: transparent !important;
+            border: none !important;
+            color: #39ff14 !important;
+            font-family: 'Courier New', Courier, monospace !important;
+            outline: none !important;
+            width: 80%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cisco-terminal input:focus {
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar General -->
+        <aside class="sidebar">
+            <a href="../../index.html" class="sidebar-logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>Portal Académico</span>
+            </a>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="../../index.html" class="sidebar-link">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="redes-comunicaciones.html" class="sidebar-link active">
+                        <i class="bi bi-wifi"></i>
+                        <span>Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../basedatos/bases-datos-ii.html" class="sidebar-link">
+                        <i class="bi bi-database"></i>
+                        <span>Bases de Datos II</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cpu"></i>
+                        <span>Sistemas Op.</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 1: Introducción a las Redes y CISCO</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <!-- Sección 1: Introducción -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-info-circle-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. ¿Qué es CISCO y su ecosistema de Redes?</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed">
+                        Cisco Systems es el líder mundial indiscutible en el diseño, fabricación y venta de equipos de telecomunicaciones para redes <a href="#ref-cisco-guide">[1]</a>. El núcleo operativo de sus routers y switches tradicionales reside en el <strong>Cisco IOS</strong> (Internetwork Operating System), un sistema operativo de línea de comandos (CLI) altamente eficiente y estandarizado que rige el comportamiento de la infraestructura empresarial global.
+                    </p>
+                    <div class="citation-box">
+                        "Dominar el CLI de Cisco IOS no solo capacita para administrar equipos de esta marca, sino que establece las bases lógicas universales para interactuar con casi cualquier sistema operativo de red del mercado." <br>
+                        — Adaptado de CCNA Study Guide, Cisco Press <a href="#ref-cisco-guide">[1]</a>.
+                    </div>
+
+                    <div class="class-step mt-4">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-terminal-fill"></i> ¿Por qué se utiliza Línea de Comandos (CLI)?</h6>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem;">
+                            A diferencia de los entornos gráficos interactivos, la línea de comandos de Cisco IOS consume una cantidad mínima de ancho de banda y recursos de procesamiento. Esto permite que los ingenieros de red configuren y realicen diagnósticos de manera remota mediante protocolos seguros como <strong>SSH</strong> (Secure Shell) incluso en condiciones críticas de la red <a href="#ref-kurose-redes">[2]</a>.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Sección 2: Modos de Operación -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-gear-wide-connected text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Modos de Operación de Cisco IOS</h3>
+                    </div>
+                    <p class="text-secondary mb-3">
+                        Para proteger la integridad del equipo, Cisco IOS utiliza un sistema jerárquico de accesos divididos en "modos". El prompt de la terminal cambia visualmente para indicar en qué nivel te encuentras:
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-custom text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Modo de Operación</th>
+                                    <th>Prompt Visual</th>
+                                    <th>Nivel de Acceso y Funcionalidad</th>
+                                    <th>Comando de Entrada</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold">Modo de Ejecución de Usuario</td>
+                                    <td><code>Router&gt;</code></td>
+                                    <td>Solo permite comandos de visualización muy básicos y pruebas de ping/traceroute. No altera configuraciones.</td>
+                                    <td>Modo inicial al conectarse.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Modo de Ejecución Privilegiado</td>
+                                    <td><code>Router#</code></td>
+                                    <td>Permite ver configuraciones detalladas, depurar y guardar cambios permanentes en el equipo.</td>
+                                    <td><code>enable</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Modo de Configuración Global</td>
+                                    <td><code>Router(config)#</code></td>
+                                    <td>Permite realizar cambios que afectan a todo el equipo de red (cambiar nombre, contraseñas, etc.).</td>
+                                    <td><code>configure terminal</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Modo de Configuración de Interfaz</td>
+                                    <td><code>Router(config-if)#</code></td>
+                                    <td>Configura puertos físicos específicos (FastEthernet, GigabitEthernet) del dispositivo.</td>
+                                    <td><code>interface [nombre]</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Sección 3: Comandos Esenciales -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-code-slash text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Comandos Esenciales de Configuración Inicial</h3>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-tag-fill"></i> Identificación del Equipo</h6>
+                                <p class="text-secondary small mb-0">Utiliza <code>hostname [Nombre]</code> en el modo global para dar una identidad lógica única al router o switch dentro de la topología de la red.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-shield-lock-fill"></i> Seguridad Básica</h6>
+                                <p class="text-secondary small mb-0">Configura la contraseña de acceso privilegiado mediante <code>enable secret [Contraseña]</code>. Este comando cifra automáticamente la clave para mayor seguridad.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-power"></i> Encender Interfaces</h6>
+                                <p class="text-secondary small mb-0">Por defecto, los routers Cisco tienen sus puertos apagados administrativamente. Utiliza <code>no shutdown</code> dentro del modo de interfaz para activarlos.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-floppy2-fill"></i> Guardar Cambios</h6>
+                                <p class="text-secondary small mb-0">Los cambios que realizas van a la RAM volátil. Para guardarlos permanentemente en la NVRAM, utiliza el comando <code>copy running-config startup-config</code>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 4: Laboratorio Interactivo Cisco CLI -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-terminal text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Laboratorio Interactivo: Simulador de Consola Cisco IOS</h3>
+                    </div>
+                    <p class="text-secondary">
+                        Experimenta con los conceptos aprendidos. Sigue la guía paso a paso para configurar este dispositivo simulado:
+                    </p>
+
+                    <div class="card p-4 mb-4" style="border: 1px solid var(--border-color); border-radius: 16px;">
+                        <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-terminal-fill"></i> Consola Cisco CLI (Simulada)</h6>
+                        <p class="text-secondary small mb-3">
+                            <strong>Instrucciones:</strong> Haz clic dentro de la caja negra para escribir. Sigue esta secuencia exacta:<br>
+                            1. Escribe <code>enable</code> y presiona Enter para entrar al modo privilegiado.<br>
+                            2. Escribe <code>configure terminal</code> y presiona Enter para entrar a configuración global.<br>
+                            3. Escribe <code>hostname Lab-Switch</code> y presiona Enter para cambiar el nombre del equipo.<br>
+                            4. Escribe <code>exit</code> para regresar.
+                        </p>
+
+                        <!-- Estructura del Simulador CLI -->
+                        <div class="cisco-terminal mb-3" id="cli-container" onclick="focusCliInput()">
+                            <div id="cli-history">
+                                Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4<br>
+                                Press ENTER to get started!<br><br>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span id="cli-prompt" class="fw-bold me-2" style="color: #39ff14;">Router&gt;</span>
+                                <input type="text" id="cli-input" autocomplete="off" spellcheck="false" placeholder="Escribe aquí...">
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-cli">Reiniciar Consola</button>
+                            <span id="cli-validation-msg" class="align-self-center fw-bold ms-3"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 5: Cisco Packet Tracer -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-download text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Guía de Inicio: Cisco Packet Tracer</h3>
+                    </div>
+                    <p class="text-secondary">
+                        <strong>Cisco Packet Tracer</strong> es la herramienta oficial de simulación visual que utilizaremos para diseñar y configurar redes complejas con routers, switches y PC de forma virtual.
+                    </p>
+
+                    <div class="row g-3 mt-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                                <span class="badge bg-primary rounded-circle p-2">1</span>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Descarga el Software</h6>
+                                    <p class="text-secondary small mb-0">Crea una cuenta gratuita en la plataforma oficial de <a href="https://www.netacad.com" target="_blank">Cisco Networking Academy (NetAcad)</a> e ingresa al área de descargas de Packet Tracer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                                <span class="badge bg-primary rounded-circle p-2">2</span>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Abre el Entorno de Trabajo</h6>
+                                    <p class="text-secondary small mb-0">Ejecuta el programa. Encontrarás la paleta de dispositivos abajo a la izquierda, lista para arrastrar cables y routers a la pizarra blanca.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                                <span class="badge bg-primary rounded-circle p-2">3</span>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Acceso a la CLI</h6>
+                                    <p class="text-secondary small mb-0">Haz clic sobre cualquier switch o router Cisco, dirígete a la pestaña superior <strong>"CLI"</strong> y presiona Enter para iniciar la interfaz de comandos igual a nuestro simulador anterior.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Citas bibliográficas / Referencias -->
+                <section class="mt-5 pt-4 border-top" style="border-color: var(--border-color) !important;">
+                    <h6 class="fw-bold text-secondary mb-3">Referencias Académicas y Citas:</h6>
+                    <ul class="list-unstyled text-muted" style="font-size: 0.85rem; line-height: 1.6;">
+                        <li id="ref-cisco-guide">[1] <strong>Cisco Systems Inc. (2020).</strong> <i>CCNA Certification Study Guide: Volume 2</i>. Cisco Press.</li>
+                        <li id="ref-kurose-redes">[2] <strong>Kurose, J. F., & Ross, K. W. (2017).</strong> <i>Redes de computadoras: Un enfoque descendente</i>. Pearson.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Ejercicios Prácticos -->
+            <div class="class-content-wrapper mt-4 mb-4">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-journal-code text-primary fs-3"></i>
+                    <h3 class="fw-bold mb-0">Práctica de la Clase 2: Configuración de Router Cisco</h3>
+                </div>
+                <p class="text-secondary mb-4">Escribe la secuencia de comandos de Cisco IOS que daría solución a los siguientes requisitos lógicos empresariales.</p>
+
+                <!-- Ejercicio 1 -->
+                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-shield-check"></i> Ejercicio 1: Securización Básica del Router</h5>
+                        <p class="text-secondary mb-2">
+                            <strong>Indicaciones:</strong> Elabora la lista de comandos ordenada paso a paso que ejecutas a partir del prompt inicial <code>Router&gt;</code> para:
+                        </p>
+                        <div class="text-secondary small mt-2">
+                            <ul class="mb-0">
+                                <li>Ingresar al modo global de configuración.</li>
+                                <li>Asignar el nombre <strong>Sede-Central</strong> al equipo.</li>
+                                <li>Establecer la clave encriptada de modo privilegiado como <code>Cisco123</code>.</li>
+                                <li>Regresar de forma segura al inicio y guardar permanentemente los cambios.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejercicio 2 -->
+                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-lightning-charge-fill"></i> Ejercicio 2: Activación de una Interfaz Local</h5>
+                        <p class="text-secondary mb-2">
+                            <strong>Indicaciones:</strong> Un router Cisco posee la interfaz física apagada por defecto. Escribe la secuencia exacta de comandos en modo privilegiado (<code>Router#</code>) para:
+                        </p>
+                        <div class="text-secondary small mt-2">
+                            <ul class="mb-0">
+                                <li>Ingresar al modo de configuración de la interfaz <strong>FastEthernet 0/0</strong>.</li>
+                                <li>Asignarle la dirección IP <strong>192.168.1.1</strong> con una máscara de red de <strong>255.255.255.0</strong>.</li>
+                                <li>Encender la interfaz físicamente para habilitar la transmisión de datos.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cuestionario de Aprendizaje -->
+            <div class="class-content-wrapper">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-question-circle-fill text-success fs-3"></i>
+                    <h3 class="fw-bold mb-0">Verifica tu Aprendizaje</h3>
+                </div>
+                <p class="text-secondary mb-4">Responde a las siguientes 5 preguntas basadas en la lección para evaluar tus conocimientos:</p>
+
+                <form id="quiz-form">
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">1. ¿Qué prompt visual indica que te encuentras en el Modo de Configuración Global en Cisco IOS?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-a" value="a">
+                            <label class="form-check-label text-secondary" for="p1-a">Router&gt;</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-b" value="b">
+                            <label class="form-check-label text-secondary" for="p1-b">Router#</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-c" value="c">
+                            <label class="form-check-label text-secondary" for="p1-c">Router(config)#</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">2. ¿Qué comando te permite transitar del modo privilegiado (#) al modo global (config)#?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-a" value="a">
+                            <label class="form-check-label text-secondary" for="p2-a">enable</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-b" value="b">
+                            <label class="form-check-label text-secondary" for="p2-b">configure terminal</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-c" value="c">
+                            <label class="form-check-label text-secondary" for="p2-c">no shutdown</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">3. ¿Por qué es importante configurar la clave privilegiada con el comando "enable secret" en lugar de "enable password"?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-a" value="a">
+                            <label class="form-check-label text-secondary" for="p3-a">Porque "enable secret" cifra la contraseña de forma automática y segura en la configuración.</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-b" value="b">
+                            <label class="form-check-label text-secondary" for="p3-b">Porque "enable password" no permite contraseñas de más de 4 dígitos.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-c" value="c">
+                            <label class="form-check-label text-secondary" for="p3-c">No hay ninguna diferencia, ambos comandos hacen exactamente lo mismo de igual manera.</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">4. Si realizas una configuración y no guardas los cambios, ¿en qué tipo de memoria volátil se perderán al reiniciar el router Cisco?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p4" id="p4-a" value="a">
+                            <label class="form-check-label text-secondary" for="p4-a">Memoria NVRAM</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p4" id="p4-b" value="b">
+                            <label class="form-check-label text-secondary" for="p4-b">Memoria RAM (donde está la running-config)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p4" id="p4-c" value="c">
+                            <label class="form-check-label text-secondary" for="p4-c">Memoria Flash</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">5. ¿Qué comando se utiliza dentro de un modo de interfaz de red para habilitar y encender físicamente el puerto?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p5" id="p5-a" value="a">
+                            <label class="form-check-label text-secondary" for="p5-a">no shutdown</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p5" id="p5-b" value="b">
+                            <label class="form-check-label text-secondary" for="p5-b">interface up</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p5" id="p5-c" value="c">
+                            <label class="form-check-label text-secondary" for="p5-c">enable port</label>
+                        </div>
+                    </div>
+
+                    <!-- Botón y Resultados -->
+                    <div class="d-flex align-items-center gap-3">
+                        <button type="button" class="btn btn-primary" id="btn-evaluar">Comprobar Respuestas</button>
+                        <span id="quiz-result-score" class="fw-bold fs-5 text-primary" style="display: none;"></span>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menú Flotante de Clases -->
+    <div class="class-floating-sidebar" id="class-floating-sidebar">
+        <div class="sidebar-floating-header">
+            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+        </div>
+        <div class="class-floating-sidebar-content">
+            <ul class="class-list">
+                <li>
+                    <a href="clase1redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 1: Anatomía de las redes">Clase 1: Anatomía de las Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase2redes.html" class="class-item active text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 2: Introducción a las redes y CISCO">Clase 2: Intro a Redes y Cisco</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase3redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 3: Direccionamiento IP y Subneteo">Clase 3: Direccionamiento IPv4</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) -->
+    <button type="button" class="class-fab-btn" id="class-fab-btn">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Ver Clases</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // Simulador CLI de Cisco
+        let cliState = {
+            hostname: "Router",
+            mode: "user" // "user", "priv", "config"
+        };
+
+        const cliInput = document.getElementById('cli-input');
+        const cliPrompt = document.getElementById('cli-prompt');
+        const cliHistory = document.getElementById('cli-history');
+        const cliContainer = document.getElementById('cli-container');
+        const validationMsg = document.getElementById('cli-validation-msg');
+
+        function focusCliInput() {
+            cliInput.focus();
+        }
+
+        function updatePrompt() {
+            if (cliState.mode === "user") {
+                cliPrompt.textContent = cliState.hostname + ">";
+            } else if (cliState.mode === "priv") {
+                cliPrompt.textContent = cliState.hostname + "#";
+            } else if (cliState.mode === "config") {
+                cliPrompt.textContent = cliState.hostname + "(config)#";
+            }
+        }
+
+        cliInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const cmd = cliInput.value.trim();
+                const cmdLower = cmd.toLowerCase();
+                
+                if (cmd === "") return;
+
+                // Agregar el comando tipeado al historial
+                cliHistory.innerHTML += `<span>${cliPrompt.textContent} ${cmd}</span><br>`;
+
+                // Lógica de parser de comandos
+                if (cliState.mode === "user") {
+                    if (cmdLower === "enable" || cmdLower === "en") {
+                        cliState.mode = "priv";
+                    } else if (cmdLower === "exit") {
+                        cliHistory.innerHTML += "<span>Connection closed. Please click Reset to start again.</span><br>";
+                    } else {
+                        cliHistory.innerHTML += `<span class="text-danger">% Unrecognized command or incomplete input.</span><br>`;
+                    }
+                } 
+                else if (cliState.mode === "priv") {
+                    if (cmdLower === "configure terminal" || cmdLower === "conf t" || cmdLower === "config t") {
+                        cliState.mode = "config";
+                        cliHistory.innerHTML += "<span>Enter configuration commands, one per line. End with CNTL/Z.</span><br>";
+                    } else if (cmdLower === "disable") {
+                        cliState.mode = "user";
+                    } else if (cmdLower === "exit") {
+                        cliState.mode = "user";
+                    } else {
+                        cliHistory.innerHTML += `<span class="text-danger">% Unrecognized command or incomplete input.</span><br>`;
+                    }
+                } 
+                else if (cliState.mode === "config") {
+                    if (cmdLower.startsWith("hostname ")) {
+                        const parts = cmd.split(" ");
+                        if (parts.length > 1 && parts[1].trim() !== "") {
+                            cliState.hostname = parts[1].trim();
+                        } else {
+                            cliHistory.innerHTML += `<span class="text-danger">% Incomplete command.</span><br>`;
+                        }
+                    } else if (cmdLower === "exit" || cmdLower === "end") {
+                        cliState.mode = "priv";
+                    } else {
+                        cliHistory.innerHTML += `<span class="text-danger">% Unrecognized command or invalid setting.</span><br>`;
+                    }
+                }
+
+                // Evaluar si completó la secuencia didáctica requerida
+                if (cliState.hostname === "Lab-Switch" && cliState.mode === "priv") {
+                    validationMsg.textContent = "¡Reto CLI Completado con Éxito! ✓";
+                    validationMsg.className = "align-self-center fw-bold text-success ms-3";
+                }
+
+                updatePrompt();
+                cliInput.value = "";
+                cliContainer.scrollTop = cliContainer.scrollHeight;
+            }
+        });
+
+        // Botón Reiniciar Consola
+        document.getElementById('btn-reset-cli').addEventListener('click', function () {
+            cliState.hostname = "Router";
+            cliState.mode = "user";
+            updatePrompt();
+            cliHistory.innerHTML = `Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4<br>Press RETURN to get started!<br><br>`;
+            validationMsg.textContent = "";
+            cliInput.value = "";
+        });
+
+
+        // Lógica de evaluación del cuestionario
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = {
+                p1: 'c', // Router(config)#
+                p2: 'b', // configure terminal
+                p3: 'a', // Cifra contraseñas
+                p4: 'b', // RAM (running-config)
+                p5: 'a'  // no shutdown
+            };
+
+            let score = 0;
+            let total = 5;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="p${i}"]:checked`);
+                if (!checkedOption) {
+                    unanswered = true;
+                    break;
+                }
+                if (checkedOption.value === correctAnswers[`p${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('quiz-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                scoreElement.className = 'fw-bold fs-5 text-success';
+            } else if (score >= 3) {
+                scoreElement.className = 'fw-bold fs-5 text-warning';
+            } else {
+                scoreElement.className = 'fw-bold fs-5 text-danger';
+            }
+        });
+    </script>
+</body>
+
+</html>

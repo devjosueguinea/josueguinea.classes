@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 2: Anatomía de las Redes - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .table-custom th {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .table-custom td {
+            color: var(--text-secondary);
+        }
+
+        .citation-box {
+            font-style: italic;
+            border-left: 3px solid var(--text-muted);
+            padding-left: 12px;
+            margin: 10px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .img-container {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar General -->
+        <aside class="sidebar">
+            <a href="../../index.html" class="sidebar-logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>Portal Académico</span>
+            </a>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="../../index.html" class="sidebar-link">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="redes-comunicaciones.html" class="sidebar-link active">
+                        <i class="bi bi-wifi"></i>
+                        <span>Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../basedatos/bases-datos-ii.html" class="sidebar-link">
+                        <i class="bi bi-database"></i>
+                        <span>Bases de Datos II</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cpu"></i>
+                        <span>Sistemas Op.</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 1: Anatomía de las Redes</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <!-- Sección 1: Introducción -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-info-circle-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. ¿Qué es una Red de Computadoras?</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed">
+                        Una red de computadoras es un conjunto de dispositivos interconectados que comparten recursos, datos e información. La "anatomía" de una red comprende tres categorías fundamentales de componentes: <strong>dispositivos finales</strong> (hosts como PCs o teléfonos), <strong>dispositivos intermediarios</strong> (routers, switches) y los <strong>medios de red</strong> (cables de cobre, fibra óptica o conexiones inalámbricas).
+                    </p>
+                    <div class="citation-box">
+                        "El propósito fundamental de una red de computadoras es la compartición de recursos y la comunicación a distancia, ocultando la complejidad del hardware subyacente al usuario final." <br>
+                        — Adaptado de Andrew S. Tanenbaum, Redes de Computadoras <a href="#ref-tanenbaum">[1]</a>.
+                    </div>
+
+                    <div class="class-step mt-4">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-diagram-3-fill"></i> El Modelo Cliente-Servidor vs Peer-to-Peer</h6>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem;">
+                            En la anatomía lógica de las redes, las arquitecturas definen cómo interactúan los nodos. En el modelo <strong>Cliente-Servidor</strong>, un host dedicado proporciona servicios a los clientes. En una red <strong>Peer-to-Peer (P2P)</strong>, todos los nodos actúan como clientes y servidores simultáneamente.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Sección 2: Clasificación por Alcance -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-arrows-fullscreen text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Clasificación de Redes según su Alcance</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-custom text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de Red</th>
+                                    <th>Siglas</th>
+                                    <th>Alcance Típico</th>
+                                    <th>Ejemplo Común</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold">Red de Área Personal</td>
+                                    <td>PAN</td>
+                                    <td>Metros (Alcance personal)</td>
+                                    <td>Conexión Bluetooth entre un smartphone y audífonos inalámbricos.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Red de Área Local</td>
+                                    <td>LAN</td>
+                                    <td>Un edificio o campus (Hasta ~1km)</td>
+                                    <td>La red Wi-Fi o cableada dentro de tu casa, escuela u oficina.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Red de Área Metropolitana</td>
+                                    <td>MAN</td>
+                                    <td>Una ciudad entera (5km - 50km)</td>
+                                    <td>Red de fibra óptica que conecta varias sucursales de un banco en la capital.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Red de Área Amplia</td>
+                                    <td>WAN</td>
+                                    <td>Países o continentes</td>
+                                    <td>El Internet, o redes que usan enlaces satelitales globales.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Sección 3: Topologías -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-share text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Topologías Físicas Comunes</h3>
+                    </div>
+                    <p class="text-secondary mb-4">La topología física es la disposición geométrica real de las estaciones de trabajo. Estas son las arquitecturas base más reconocidas:</p>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-asterisk"></i> Topología en Estrella</h6>
+                                <p class="text-secondary small mb-0">Todos los nodos están conectados a un dispositivo central (Switch o Hub). Si un cable falla, solo ese nodo se desconecta. Es la más usada actualmente.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-distribute-horizontal"></i> Topología en Bus</h6>
+                                <p class="text-secondary small mb-0">Todos los equipos comparten un único cable principal (troncal). Si el cable principal se rompe, toda la red se cae. Histórica y obsoleta.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-record-circle"></i> Topología en Anillo</h6>
+                                <p class="text-secondary small mb-0">Cada equipo tiene exactamente dos vecinos. Los datos viajan en una sola dirección. Se utilizaba mucho en redes Token Ring de IBM.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 p-3" style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-bounding-box-circles"></i> Topología en Malla</h6>
+                                <p class="text-secondary small mb-0">Cada nodo está conectado a todos los demás. Ofrece alta redundancia; si un enlace falla, hay múltiples caminos alternativos. Típica en enrutadores de Internet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 4: Laboratorio Interactivo IP -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-pc-display text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. El Identificador Lógico: Direcciones IP</h3>
+                    </div>
+                    <p class="text-secondary">
+                        Para que los dispositivos puedan comunicarse a través de una red, necesitan una dirección lógica única. En el protocolo IPv4, esta dirección consta de 32 bits, representados como cuatro números decimales (octetos) separados por puntos.
+                    </p>
+
+                    <!-- Validador Interactivo de IPv4 -->
+                    <div class="card p-4 mb-4" style="border: 1px solid var(--border-color); border-radius: 16px;">
+                        <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-terminal-fill"></i> Laboratorio Interactivo: Inspector de Direcciones IPv4</h6>
+                        <p class="text-secondary small">Introduce una dirección IP en notación decimal punteada (ej. 192.168.1.10) para validar su formato y descubrir a qué clase pertenece históricamente.</p>
+
+                        <div class="input-group mb-3" style="max-width: 400px;">
+                            <span class="input-group-text bg-dark text-light border-secondary">IP:</span>
+                            <input type="text" id="ip-input" class="form-control" placeholder="Ej: 10.0.0.1" value="192.168.1.50" style="font-family: monospace; font-size: 1.1rem;">
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-primary" id="btn-validate-ip">Analizar IP</button>
+                            <span id="ip-validation-result" class="align-self-center fw-bold ms-3"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 5: Componentes Intermediarios -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-hdd-network text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Dispositivos Intermediarios Básicos</h3>
+                    </div>
+                    <p class="text-secondary">
+                        Son el "esqueleto" que interconecta a los dispositivos finales. Conocerlos es fundamental para entender la anatomía de la red.
+                    </p>
+
+                    <div class="row g-3 mt-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                                <div class="bg-primary rounded-circle p-2 text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-ethernet"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Switch (Conmutador)</h6>
+                                    <p class="text-secondary small mb-0">Dispositivo que opera en capa 2. Conecta dispositivos dentro de una misma red local (LAN) y utiliza direcciones MAC para reenviar datos solo al puerto de destino correcto.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                                <div class="bg-primary rounded-circle p-2 text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-router-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Router (Enrutador)</h6>
+                                    <p class="text-secondary small mb-0">Opera en la capa 3. Interconecta redes diferentes (por ejemplo, tu LAN con el proveedor de Internet o WAN) tomando decisiones basadas en direcciones IP.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start gap-3 p-3" style="border: 1px solid var(--border-color); border-radius: 12px;">
+                                <div class="bg-primary rounded-circle p-2 text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-broadcast"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Access Point (Punto de Acceso)</h6>
+                                    <p class="text-secondary small mb-0">Permite la conexión de dispositivos inalámbricos a una red cableada existente. Convierte las señales eléctricas de los cables de cobre en ondas de radiofrecuencia.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Citas bibliográficas / Referencias -->
+                <section class="mt-5 pt-4 border-top" style="border-color: var(--border-color) !important;">
+                    <h6 class="fw-bold text-secondary mb-3">Referencias Académicas y Citas:</h6>
+                    <ul class="list-unstyled text-muted" style="font-size: 0.85rem; line-height: 1.6;">
+                        <li id="ref-tanenbaum">[1] <strong>Tanenbaum, A. S., & Wetherall, D. J. (2012).</strong> <i>Redes de computadoras</i> (5a. ed.). Pearson Educación.</li>
+                        <li id="ref-kurose">[2] <strong>Kurose, J. F., & Ross, K. W. (2017).</strong> <i>Computer Networking: A Top-Down Approach</i> (7a. ed.). Pearson.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Ejercicios Prácticos -->
+            <div class="class-content-wrapper mt-4 mb-4">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-journal-code text-primary fs-3"></i>
+                    <h3 class="fw-bold mb-0">Práctica de la Clase 2: Análisis Anatómico</h3>
+                </div>
+                <p class="text-secondary mb-4">Realiza los siguientes ejercicios para afianzar tu comprensión anatómica sobre el diseño y componentes de redes. Guarda tus respuestas en un documento de texto.</p>
+
+                <!-- Ejercicio 1 -->
+                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-building"></i> Ejercicio 1: Diseño Físico Básico</h5>
+                        <p class="text-secondary mb-2">
+                            <strong>Caso de Estudio:</strong> Tienes la tarea de conectar un pequeño laboratorio de 15 computadoras que se encuentran en el mismo salón. Necesitas que la falla de un equipo o su cable no afecte a los demás, y la red debe ser muy rápida para transferencias locales. No hay necesidad de salir a Internet por el momento.
+                        </p>
+                        <div class="text-secondary small mt-2">
+                            <strong>Responde:</strong>
+                            <ol>
+                                <li>¿Qué tipo de red (según su alcance) estarías implementando?</li>
+                                <li>¿Qué topología física elegirías y por qué?</li>
+                                <li>¿Qué dispositivo intermediario principal utilizarías en el centro de la red?</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejercicio 2 -->
+                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-diagram-2"></i> Ejercicio 2: Trazado de Ruta Lógica</h5>
+                        <p class="text-secondary mb-2">
+                            <strong>Indicaciones:</strong> Observa los componentes a tu alrededor (en tu casa o trabajo) e identifica la anatomía de tu propia conexión. Haz un listado de los dispositivos desde tu dispositivo final hasta tu salida a la red exterior.
+                        </p>
+                        <div class="text-secondary small mt-2">
+                            <strong>Debes identificar:</strong>
+                            <ul class="mb-3">
+                                <li>El <strong>Dispositivo Final</strong> (Ej. "Mi Laptop Mac").</li>
+                                <li>El <strong>Medio</strong> que usas en primera instancia (Ej. "Wi-Fi" o "Cable UTP").</li>
+                                <li>El <strong>Dispositivo Intermediario</strong> que recibe tu señal localmente.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cuestionario de Aprendizaje -->
+            <div class="class-content-wrapper">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-question-circle-fill text-success fs-3"></i>
+                    <h3 class="fw-bold mb-0">Verifica tu Aprendizaje</h3>
+                </div>
+                <p class="text-secondary mb-4">Responde a las siguientes 5 preguntas basadas en la lección para evaluar tus conocimientos:</p>
+
+                <form id="quiz-form">
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">1. ¿Qué dispositivo intermediario toma decisiones basadas en direcciones IP para conectar diferentes redes?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-a" value="a">
+                            <label class="form-check-label text-secondary" for="p1-a">Hub (Concentrador)</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-b" value="b">
+                            <label class="form-check-label text-secondary" for="p1-b">Router (Enrutador)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-c" value="c">
+                            <label class="form-check-label text-secondary" for="p1-c">Switch (Conmutador)</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">2. ¿Qué tipo de red abarcaría toda la infraestructura de la ciudad de San Salvador?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-a" value="a">
+                            <label class="form-check-label text-secondary" for="p2-a">PAN</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-b" value="b">
+                            <label class="form-check-label text-secondary" for="p2-b">LAN</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-c" value="c">
+                            <label class="form-check-label text-secondary" for="p2-c">MAN</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">3. ¿Cuál es la topología física más común hoy en día, donde todos los nodos se conectan a un switch central?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-a" value="a">
+                            <label class="form-check-label text-secondary" for="p3-a">Estrella</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-b" value="b">
+                            <label class="form-check-label text-secondary" for="p3-b">Anillo</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-c" value="c">
+                            <label class="form-check-label text-secondary" for="p3-c">Bus</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">4. Si tienes una IP que empieza con 192, como "192.168.1.1", ¿cuántos bits conforman esa dirección completa en IPv4?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p4" id="p4-a" value="a">
+                            <label class="form-check-label text-secondary" for="p4-a">32 bits</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p4" id="p4-b" value="b">
+                            <label class="form-check-label text-secondary" for="p4-b">64 bits</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p4" id="p4-c" value="c">
+                            <label class="form-check-label text-secondary" for="p4-c">128 bits</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">5. ¿Qué elemento NO pertenece a la anatomía fundamental de una red?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p5" id="p5-a" value="a">
+                            <label class="form-check-label text-secondary" for="p5-a">Medios de red (cables, wifi)</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p5" id="p5-b" value="b">
+                            <label class="form-check-label text-secondary" for="p5-b">Dispositivos finales e intermediarios</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p5" id="p5-c" value="c">
+                            <label class="form-check-label text-secondary" for="p5-c">Monitor y Teclado</label>
+                        </div>
+                    </div>
+
+                    <!-- Botón y Resultados -->
+                    <div class="d-flex align-items-center gap-3">
+                        <button type="button" class="btn btn-primary" id="btn-evaluar">Comprobar Respuestas</button>
+                        <span id="quiz-result-score" class="fw-bold fs-5 text-primary" style="display: none;"></span>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menú Flotante de Clases -->
+    <div class="class-floating-sidebar" id="class-floating-sidebar">
+        <div class="sidebar-floating-header">
+            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+        </div>
+        <div class="class-floating-sidebar-content">
+            <ul class="class-list">
+                <li>
+                    <a href="clase1redes.html" class="class-item active text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 1: Anatomía de las redes">Clase 1: Anatomía de las Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase2redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 2: Modelo OSI vs TCP/IP">Clase 2: Modelo OSI vs TCP/IP</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase3redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 3: Direccionamiento IP y Subneteo">Clase 3: Direccionamiento IPv4</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) -->
+    <button type="button" class="class-fab-btn" id="class-fab-btn">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Ver Clases</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // Laboratorio de IP
+        document.getElementById('btn-validate-ip').addEventListener('click', function () {
+            const ipString = document.getElementById('ip-input').value.trim();
+            const resultSpan = document.getElementById('ip-validation-result');
+            
+            const octets = ipString.split('.');
+            let isValid = true;
+            let classType = '';
+
+            if(octets.length !== 4) {
+                isValid = false;
+            } else {
+                for(let octet of octets) {
+                    let num = parseInt(octet, 10);
+                    if(isNaN(num) || num < 0 || num > 255 || String(num) !== octet) {
+                        isValid = false;
+                        break;
+                    }
+                }
+            }
+
+            if(isValid) {
+                const firstOctet = parseInt(octets[0], 10);
+                if(firstOctet >= 1 && firstOctet <= 126) classType = 'Clase A';
+                else if(firstOctet >= 128 && firstOctet <= 191) classType = 'Clase B';
+                else if(firstOctet >= 192 && firstOctet <= 223) classType = 'Clase C';
+                else if(firstOctet >= 224 && firstOctet <= 239) classType = 'Clase D (Multicast)';
+                else classType = 'Clase E o Especial';
+
+                resultSpan.textContent = `¡IP Válida! Históricamente pertenece a: ${classType}`;
+                resultSpan.className = "align-self-center fw-bold text-success ms-3";
+            } else {
+                resultSpan.textContent = "Error: Formato de IPv4 inválido.";
+                resultSpan.className = "align-self-center fw-bold text-danger ms-3";
+            }
+        });
+
+        // Lógica de evaluación del cuestionario
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = {
+                p1: 'b', // Router
+                p2: 'c', // MAN
+                p3: 'a', // Estrella
+                p4: 'a', // 32 bits
+                p5: 'c'  // Monitor y Teclado
+            };
+
+            let score = 0;
+            let total = 5;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="p${i}"]:checked`);
+                if (!checkedOption) {
+                    unanswered = true;
+                    break;
+                }
+                if (checkedOption.value === correctAnswers[`p${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('quiz-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                scoreElement.className = 'fw-bold fs-5 text-success';
+            } else if (score >= 3) {
+                scoreElement.className = 'fw-bold fs-5 text-warning';
+            } else {
+                scoreElement.className = 'fw-bold fs-5 text-danger';
+            }
+        });
+    </script>
+</body>
+</html>
