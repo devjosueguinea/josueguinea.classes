@@ -20,21 +20,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 </a>
             </li>
             <li>
+                <a href="clases/bdr/bases-datos-relacionales.html" class="sidebar-link" id="link-bdr">
+                    <i class="bi bi-database-fill"></i>
+                    <span>Bases de Datos I (SQL)</span>
+                </a>
+            </li>
+            <li>
                 <a href="clases/bd2/bases-datos-ii.html" class="sidebar-link" id="link-bd2">
                     <i class="bi bi-database"></i>
-                    <span>Bases de Datos II</span>
+                    <span>Bases de Datos II (noSQL)</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="sidebar-link" id="link-so">
                     <i class="bi bi-cpu"></i>
                     <span>Sistemas Op.</span>
-                </a>
-            </li>
-            <li>
-                <a href="clases/bdr/bases-datos-relacionales.html" class="sidebar-link" id="link-bdr">
-                    <i class="bi bi-database-fill"></i>
-                    <span>Bases de Datos Rel.</span>
                 </a>
             </li>
             <li>
