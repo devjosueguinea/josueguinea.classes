@@ -1,47 +1,373 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página no encontrada - 404</title>
-    <!-- Bootstrap CSS -->
+    <title>Error 404: Route Not Found</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <!-- CSS Personalizado -->
-    <link rel="stylesheet" href="css/styles.css">
     <style>
-        .error-container {
-            min-height: 100vh;
+        :root {
+            --term-green: #39ff14;
+            --term-dark: #0a0b10;
+            --term-dim: rgba(57, 255, 20, 0.15);
+        }
+
+        body {
+            background-color: var(--term-dark);
+            color: var(--term-green);
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            padding: 24px;
+            overflow: hidden;
+            position: relative;
         }
-        .error-code {
-            font-size: 8rem;
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-            margin-bottom: 16px;
+
+        /* Efecto de pantalla CRT vieja */
+        body::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            aspect-ratio: auto;
+            background-size: 100% 4px, 6px 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Fondo interactivo de paquetes flotantes (Canvas) */
+        #matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        .terminal-container {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            background-color: rgba(10, 11, 16, 0.9);
+            border: 2px solid var(--term-green);
+            border-radius: 8px;
+            box-shadow: 0 0 20px var(--term-dim);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            background-color: rgba(57, 255, 20, 0.1);
+            border-bottom: 2px solid var(--term-green);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-dots span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .dot-red {
+            background-color: #ff5f56;
+        }
+
+        .dot-yellow {
+            background-color: #ffbd2e;
+        }
+
+        .dot-green {
+            background-color: #27c93f;
+        }
+
+        .terminal-body {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-history {
+            flex-grow: 1;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            font-weight: bold;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: var(--term-green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            outline: none;
+            flex-grow: 1;
+            caret-color: var(--term-green);
+        }
+
+        /* Parpadeo del cursor custom si se prefiere */
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .btn-retro {
+            border: 1px solid var(--term-green);
+            background-color: transparent;
+            color: var(--term-green);
+            transition: all 0.3s ease;
+        }
+
+        .btn-retro:hover {
+            background-color: var(--term-green);
+            color: var(--term-dark);
+            box-shadow: 0 0 10px var(--term-green);
         }
     </style>
 </head>
 
 <body>
-    <div class="error-container">
-        <div class="error-code">404</div>
-        <h2 class="fw-bold mb-3">Página no encontrada</h2>
-        <p class="text-secondary mb-4" style="max-width: 500px;"> Lo sentimos, la página que estás buscando no existe o ha sido movida. Verifica la dirección URL e intenta nuevamente.</p>
-        <a href="index.html" class="btn btn-primary-gradient">
-            <i class="bi bi-house-door-fill me-2"></i> Volver al Dashboard
-        </a>
+
+    <!-- Canvas para el fondo interactivo (lluvia de bits/paquetes) -->
+    <canvas id="matrix-bg"></canvas>
+
+    <!-- Ventana de la Terminal -->
+    <div class="container d-flex justify-content-center px-3">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <span class="dot-red"></span>
+                    <span class="dot-yellow"></span>
+                    <span class="dot-green"></span>
+                </div>
+                <div class="small fw-bold text-uppercase" style="letter-spacing: 1px;">IOS-Console - Destination
+                    Unreachable</div>
+                <div></div>
+            </div>
+
+            <div class="terminal-body" onclick="focusConsole()">
+                <div class="terminal-history" id="term-history">--- ALERTA DE RED DE COMUNICACIONES ---
+                    Error 404: HOST_UNREACHABLE (Ruta no encontrada)
+                    Los paquetes enviados a esta dirección se han perdido en la capa de transporte.
+
+                    Escribe "help" para ver los comandos disponibles para resolver el problema.
+                </div>
+
+                <div class="terminal-input-row">
+                    <span class="terminal-prompt" id="term-prompt">Router-404#</span>
+                    <input type="text" id="term-input" class="terminal-input" autocomplete="off" autofocus
+                        spellcheck="false">
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- JavaScript para Interactividad -->
+    <script>
+        const termInput = document.getElementById('term-input');
+        const termHistory = document.getElementById('term-history');
+        const termPrompt = document.getElementById('term-prompt');
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        // Enfocar consola automáticamente
+        function focusConsole() {
+            termInput.focus();
+        }
+
+        // --- SISTEMA DE LOGICA DE COMANDOS ---
+        const commands = {
+            help: () => {
+                return `Comandos disponibles:
+  help        - Muestra este menú de ayuda.
+  ping [host] - Prueba la conectividad (Ej: ping home, ping 8.8.8.8).
+  traceroute  - Rastrea los saltos de red buscando la falla.
+  show ip route - Muestra la tabla de enrutamiento actual.
+  clear       - Limpia la pantalla de la consola.
+  reboot      - Reinicia la sesión y te redirige a la página de inicio.`;
+            },
+            clear: () => {
+                termHistory.innerHTML = '';
+                return '';
+            },
+            traceroute: () => {
+                let steps = [
+                    "1  192.168.1.1 (Puerta de enlace local) - 2 ms",
+                    "2  10.0.0.1 (Proveedor de Servicios ISP) - 12 ms",
+                    "3  187.23.45.9 (Nodo Troncal Nacional) - 25 ms",
+                    "4  * * * (Tiempo de espera agotado para la solicitud)",
+                    "5  * * * (Host de destino no encontrado - ERROR 404)",
+                    "\nAnálisis: El paquete se descarriló después de salir de la red del ISP.\nEscribe 'ping home' para volver a la ruta segura."
+                ];
+
+                // Simulación de retraso en la traza
+                let i = 0;
+                termInput.disabled = true;
+                const interval = setInterval(() => {
+                    if (i < steps.length) {
+                        termHistory.innerHTML += steps[i] + "\n";
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        termInput.disabled = false;
+                        focusConsole();
+                    }
+                }, 400);
+
+                return "Iniciando traceroute hacia la URL solicitada...\n";
+            },
+            "show ip route": () => {
+                return `Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+Gateway of last resort is not set (¡Por eso estás perdido!)
+
+C    192.168.1.0/24 is directly connected, FastEthernet0/0
+S*   0.0.0.0/0 [1/0] via NULL0 (Descartando tráfico erróneo)
+S    10.40.4.0/24 [1/0] is UNREACHABLE`;
+            },
+            reboot: () => {
+                termHistory.innerHTML += "\nReiniciando sistema de enrutamiento...\n";
+                setTimeout(() => {
+                    window.location.href = "redes-comunicaciones.html"; // Cambia al index de tu proyecto
+                }, 1500);
+                return "Cargando bootstrap del router...";
+            }
+        };
+
+        // Procesamiento de comandos avanzados como PING
+        function processPing(target) {
+            if (!target) {
+                return "Error syntax: use 'ping [destino]' (ej: ping home o ping 8.8.8.8)";
+            }
+
+            if (target.toLowerCase() === 'home' || target.toLowerCase() === 'inicio') {
+                let output = `Haciendo ping a Sede-Central [Ruta de Inicio] con 32 bytes de datos:\n`;
+                let count = 0;
+                termInput.disabled = true;
+
+                const interval = setInterval(() => {
+                    if (count < 4) {
+                        output = `Respuesta desde Sede-Central: bytes=32 tiempo=${10 + count}ms TTL=64\n`;
+                        termHistory.innerHTML += output;
+                        count++;
+                    } else {
+                        clearInterval(interval);
+                        termHistory.innerHTML += `\n¡Paquete recuperado con éxito! Redirigiendo a zona segura...\n`;
+                        termInput.disabled = false;
+                        setTimeout(() => {
+                            window.location.href = "redes-comunicaciones.html"; // Cambia al index de tu proyecto
+                        }, 1500);
+                    }
+                }, 300);
+
+                return output;
+            } else {
+                return `Haciendo ping a ${target}...\n* * * Solicitud de ping fallida (Host de destino inalcanzable).\n% Pérdida de paquetes del 100%. Prueba con 'ping home'.`;
+            }
+        }
+
+        // Listener del teclado
+        termInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const rawInput = termInput.value.trim();
+                const inputLower = rawInput.toLowerCase();
+
+                if (rawInput === '') return;
+
+                // Imprimir el comando tipeado en el historial
+                termHistory.innerHTML += `\n${termPrompt.textContent} ${rawInput}\n`;
+
+                // Ejecución
+                if (commands[inputLower]) {
+                    const result = commands[inputLower]();
+                    if (result) termHistory.innerHTML += result + "\n";
+                } else if (inputLower.startsWith('ping')) {
+                    const parts = rawInput.split(' ');
+                    const result = processPing(parts[1]);
+                    termHistory.innerHTML += result + "\n";
+                } else {
+                    termHistory.innerHTML += `% Unrecognized command: "${rawInput}". Type "help" for a list of valid commands.\n`;
+                }
+
+                // Resetear campo y bajar scroll
+                termInput.value = '';
+                const body = document.querySelector('.terminal-body');
+                body.scrollTop = body.scrollHeight;
+            }
+        });
+
+
+        // --- EFECTO VISUAL MATRIX/PAQUETES DE FONDO ---
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(1);
+        const chars = "01010101010101010101010101010101010101010101010101010101010101";
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(10, 11, 16, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#39ff14';
+            ctx.font = '15px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * 20, drops[i] * 20);
+
+                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 40);
+
+        // Ajustar canvas si cambia de tamaño la pantalla
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 
 </html>
