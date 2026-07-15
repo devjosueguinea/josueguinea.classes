@@ -15,39 +15,7 @@
 
 <body>
     <div class="app-container">
-        <!-- Sidebar General -->
-        <aside class="sidebar">
-            <a href="#" class="sidebar-logo">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span>Portal Académico</span>
-            </a>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="index.html" class="sidebar-link active">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clases/redcom/redes-comunicaciones.html" class="sidebar-link">
-                        <i class="bi bi-wifi"></i>
-                        <span>Redes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clases/bd2/bases-datos-ii.html" class="sidebar-link">
-                        <i class="bi bi-database"></i>
-                        <span>Bases de Datos II</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-cpu"></i>
-                        <span>Sistemas Op.</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
+        <!-- El menú (Sidebar) se inyectará aquí de forma dinámica mediante JS -->
 
         <!-- Contenido principal -->
         <main class="main-content">
@@ -88,7 +56,7 @@
                             <i class="bi bi-book-half"></i>
                         </div>
                         <div>
-                            <div class="stat-number">3</div>
+                            <div class="stat-number">6</div>
                             <div class="text-muted" style="font-size: 0.85rem;">Materias Totales</div>
                         </div>
                     </div>
@@ -152,6 +120,36 @@
                     </div>
                 </div>
 
+                <!-- Bases de Datos Relacionales -->
+                <div class="subject-card-wrapper" data-subject-title="bases de datos relacionales">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-warning text-dark">
+                                <i class="bi bi-database-fill"></i>
+                            </div>
+                            <span class="subject-badge bg-warning-subtle text-warning">BD Relacionales</span>
+                        </div>
+                        <h5 class="subject-title">Bases de Datos I (SQL)</h5>
+                        <p class="subject-description">Diseño conceptual, modelado de diagramas entidad-relación,
+                            lenguaje SQL estructurado, normalización y transacciones.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Progreso de estudio</span>
+                                <span id="progress-text-bdr">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill bg-warning" id="progress-bar-bdr" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="clases/bdr/bases-datos-relacionales.html" class="subject-link">
+                                <span>Acceder a materia</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Bases de Datos II -->
                 <div class="subject-card-wrapper" data-subject-title="bases de datos ii">
                     <div class="subject-card">
@@ -161,7 +159,7 @@
                             </div>
                             <span class="subject-badge bg-success-subtle text-success">Base de Datos</span>
                         </div>
-                        <h5 class="subject-title">Bases de Datos II</h5>
+                        <h5 class="subject-title">Bases de Datos II (noSQL)</h5>
                         <p class="subject-description">MongoDB, Cassandra, consumo de API y bases de datos NoSQL
                             avanzadas.</p>
                         <div class="subject-progress-container">
@@ -212,6 +210,70 @@
                     </div>
                 </div>
 
+
+
+                <!-- Análisis y Diseño de Sistemas (UML) -->
+                <div class="subject-card-wrapper" data-subject-title="analisis y diseño de sistemas (uml)">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-danger text-white">
+                                <i class="bi bi-diagram-3"></i>
+                            </div>
+                            <span class="subject-badge bg-danger-subtle text-danger">Diseño / UML</span>
+                        </div>
+                        <h5 class="subject-title">Análisis y Diseño de Sistemas (UML)</h5>
+                        <p class="subject-description">Modelado de software orientado a objetos, especificación de
+                            requisitos, diagramas estructurales y de comportamiento.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Progreso de estudio</span>
+                                <span id="progress-text-ads">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill bg-danger" id="progress-bar-ads" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="clases/ads/ads.html" class="subject-link">
+                                <span>Acceder a materia</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Programación Orientada a Objetos -->
+                <div class="subject-card-wrapper" data-subject-title="programacion orientada a objetos">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon text-white" style="background-color: #6c5ce7;">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            <span class="subject-badge"
+                                style="background-color: rgba(108,92,231,0.1); color: #6c5ce7;">Prog. Objetos</span>
+                        </div>
+                        <h5 class="subject-title">Programación Orientada a Objetos</h5>
+                        <p class="subject-description">Conceptos fundamentales de desarrollo de software: clases,
+                            herencia, polimorfismo, encapsulación y diseño de modularidad.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Progreso de estudio</span>
+                                <span id="progress-text-poo">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" id="progress-bar-poo"
+                                    style="width: 0%; background-color: #6c5ce7;"></div>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="clases/poo/programacion-orientada-objetos.html" class="subject-link">
+                                <span>Acceder a materia</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Próximamente -->
                 <div class="subject-card-wrapper" data-subject-title="proximamente">
                     <div class="subject-card" style="opacity: 0.7;">
@@ -251,6 +313,7 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="js/main.js"></script>
 </body>
 

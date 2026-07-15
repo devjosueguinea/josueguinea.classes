@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,41 +12,10 @@
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar General -->
-        <aside class="sidebar">
-            <a href="../../index.html" class="sidebar-logo">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span>Portal Académico</span>
-            </a>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="../../index.html" class="sidebar-link">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../redcom/redes-comunicaciones.html" class="sidebar-link">
-                        <i class="bi bi-wifi"></i>
-                        <span>Redes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="bases-datos-ii.html" class="sidebar-link active">
-                        <i class="bi bi-database"></i>
-                        <span>Bases de Datos II</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-cpu"></i>
-                        <span>Sistemas Op.</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
 
         <!-- Contenido principal -->
         <main class="main-content">
@@ -74,37 +44,48 @@
             <div class="subject-layout">
                 <!-- Sidebar de Clases -->
                 <nav class="subject-sidebar">
-                    <h6 class="text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases</h6>
+                    <h6 class="text-muted fw-bold mb-3"
+                        style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases
+                    </h6>
                     <ul class="class-list" id="class-list-bd2">
                         <li class="class-item active" data-class-id="clase1">
                             <div class="class-checkbox" data-class-key="bd2_clase1">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
-                            <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
+                            <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a
+                                NoSQL</span>
                         </li>
                         <li class="class-item" data-class-id="clase2">
                             <div class="class-checkbox" data-class-key="bd2_clase2">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
-                            <span class="class-item-text" title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
+                            <span class="class-item-text"
+                                title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación
+                                de DBs y Colecciones</span>
                         </li>
                         <li class="class-item" data-class-id="clase3">
                             <div class="class-checkbox" data-class-key="bd2_clase3">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
-                            <span class="class-item-text" title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de Lectura</span>
+                            <span class="class-item-text"
+                                title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3:
+                                Operaciones de Lectura</span>
                         </li>
                         <li class="class-item" data-class-id="clase4">
                             <div class="class-checkbox" data-class-key="bd2_clase4">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
-                            <span class="class-item-text" title="Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo)">Clase 4: CRUD Completo</span>
+                            <span class="class-item-text"
+                                title="Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo)">Clase
+                                4: CRUD Completo</span>
                         </li>
                         <li class="class-item" data-class-id="clase5">
                             <div class="class-checkbox" data-class-key="bd2_clase5">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
-                            <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas Avanzadas</span>
+                            <span class="class-item-text"
+                                title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas
+                                Avanzadas</span>
                         </li>
                     </ul>
                 </nav>
@@ -119,29 +100,41 @@
                         </div>
                         <h3 class="fw-bold mb-3">Introducción a NoSQL</h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Conceptos fundamentales de bases de datos NoSQL, comparación con SQL, tipos de bases de datos NoSQL y casos de uso.
+                            Conceptos fundamentales de bases de datos NoSQL, comparación con SQL, tipos de bases de
+                            datos NoSQL y casos de uso.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-primary"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> ¿Qué es NoSQL?</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Diferencias entre SQL y NoSQL</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Tipos de bases de datos NoSQL</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Ventajas y desventajas</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-primary"></i> Casos de uso en la industria</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> ¿Qué es NoSQL?</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Diferencias entre SQL y NoSQL</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Tipos de bases de datos NoSQL</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Ventajas y desventajas</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Casos de uso en la industria</li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Entender el ecosistema NoSQL</li>
-                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Diferenciar tipos de bases de datos</li>
-                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Identificar casos prácticos</li>
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Entender el ecosistema
+                                            NoSQL</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Diferenciar tipos de
+                                            bases de datos</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Identificar casos
+                                            prácticos</li>
                                     </ul>
-                                    <a href="clase1db.html" class="btn btn-primary-gradient w-100 mt-3"><i class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                    <a href="clase1db.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
                                 </div>
                             </div>
                         </div>
@@ -153,14 +146,18 @@
                                     <span class="json-lab-icon"><i class="bi bi-braces"></i></span>
                                     <div>
                                         <h5 class="fw-bold mb-1">Laboratorio Interactivo: Estructura de un JSON</h5>
-                                        <p class="text-secondary mb-0" style="font-size: 0.88rem;">Explora y compara las dos estructuras fundamentales. Haz clic en cada campo para ver su explicación.</p>
+                                        <p class="text-secondary mb-0" style="font-size: 0.88rem;">Explora y compara las
+                                            dos estructuras fundamentales. Haz clic en cada campo para ver su
+                                            explicación.</p>
                                     </div>
                                 </div>
                                 <div class="json-tab-switcher">
-                                    <button class="json-tab-btn active" id="btn-sin-arreglos-bd" onclick="switchJsonTabBd('sin')">
+                                    <button class="json-tab-btn active" id="btn-sin-arreglos-bd"
+                                        onclick="switchJsonTabBd('sin')">
                                         <i class="bi bi-file-code"></i> Sin Arreglos
                                     </button>
-                                    <button class="json-tab-btn" id="btn-con-arreglos-bd" onclick="switchJsonTabBd('con')">
+                                    <button class="json-tab-btn" id="btn-con-arreglos-bd"
+                                        onclick="switchJsonTabBd('con')">
                                         <i class="bi bi-collection"></i> Con Arreglos
                                     </button>
                                 </div>
@@ -195,7 +192,8 @@
                                 <div class="json-info-panel" id="bd-json-info-panel">
                                     <div class="json-info-placeholder" id="bd-json-info-placeholder">
                                         <i class="bi bi-cursor-text" style="font-size:2rem; opacity:0.3;"></i>
-                                        <p class="mt-2 mb-0" style="font-size:0.85rem; opacity:0.5;">Haz clic en cualquier<br>campo del JSON</p>
+                                        <p class="mt-2 mb-0" style="font-size:0.85rem; opacity:0.5;">Haz clic en
+                                            cualquier<br>campo del JSON</p>
                                     </div>
                                     <div class="json-info-content d-none" id="bd-json-info-content">
                                         <div class="json-info-key-badge" id="bd-info-key"></div>
@@ -253,29 +251,45 @@
                         </div>
                         <h3 class="fw-bold mb-3">Creación de bases de datos y colecciones en MongoDB</h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Introducción práctica a la creación de bases de datos, colecciones y estructura documental en MongoDB shell y MongoDB Compass.
+                            Introducción práctica a la creación de bases de datos, colecciones y estructura documental
+                            en MongoDB shell y MongoDB Compass.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Creación de base de datos y colecciones</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Tipos de datos en BSON/JSON</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Estructuración de colecciones y documentos</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Uso de MongoDB Compass y Mongo Shell</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-success"></i> Creación de colecciones con validación de esquemas</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Creación de base de datos y colecciones
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Tipos de datos en BSON/JSON</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Estructuración de colecciones y
+                                        documentos</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Uso de MongoDB Compass y Mongo Shell
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Creación de colecciones con validación
+                                        de esquemas</li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-success"></i> Crear bases de datos y colecciones</li>
-                                        <li><i class="bi bi-arrow-right-short text-success"></i> Comprender la estructura BSON</li>
-                                        <li><i class="bi bi-arrow-right-short text-success"></i> Validar esquemas de colecciones</li>
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Crear bases de datos y
+                                            colecciones</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Comprender la
+                                            estructura BSON</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Validar esquemas de
+                                            colecciones</li>
                                     </ul>
-                                    <a href="clase2db.html" class="btn btn-success w-100 mt-3"><i class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                    <a href="clase2db.html" class="btn btn-success w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
                                 </div>
                             </div>
                         </div>
@@ -289,29 +303,44 @@
                         </div>
                         <h3 class="fw-bold mb-3">Operaciones de lectura con MongoDB (find y filtros)</h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Métodos y filtros avanzados de lectura en MongoDB. Uso de find, operadores de comparación y de elemento.
+                            Métodos y filtros avanzados de lectura en MongoDB. Uso de find, operadores de comparación y
+                            de elemento.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-warning"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Consultas básicas con find()</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Operadores de comparación ($gt, $lt, $eq, $ne)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Proyección de campos en consultas</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Ordenamiento (sort), paginación (skip) y límites (limit)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-warning"></i> Operadores de elementos ($exists, $type)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Consultas básicas con find()</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Operadores de comparación ($gt, $lt,
+                                        $eq, $ne)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Proyección de campos en consultas</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Ordenamiento (sort), paginación (skip) y
+                                        límites (limit)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Operadores de elementos ($exists, $type)
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-warning"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Realizar consultas filtradas</li>
-                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Proyectar campos específicos</li>
-                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Aplicar paginación y ordenamiento</li>
+                                    <h5 class="fw-bold mb-3 text-warning"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Realizar consultas
+                                            filtradas</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Proyectar campos
+                                            específicos</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Aplicar paginación y
+                                            ordenamiento</li>
                                     </ul>
-                                    <a href="clase3db.html" class="btn btn-warning w-100 mt-3"><i class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                    <a href="clase3db.html" class="btn btn-warning w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
                                 </div>
                             </div>
                         </div>
@@ -323,31 +352,49 @@
                             <span class="badge-clase bg-danger text-white">Clase 4</span>
                             <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
                         </div>
-                        <h3 class="fw-bold mb-3">Operaciones de escritura, actualización y eliminación (CRUD completo)</h3>
+                        <h3 class="fw-bold mb-3">Operaciones de escritura, actualización y eliminación (CRUD completo)
+                        </h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Modificación de datos en MongoDB. Métodos insert, update y delete. Actualización de campos y arrays.
+                            Modificación de datos en MongoDB. Métodos insert, update y delete. Actualización de campos y
+                            arrays.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-danger"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Inserción de documentos (insertOne, insertMany)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Actualización básica (updateOne, updateMany)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Operadores de actualización ($set, $unset, $inc)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Modificación de elementos en arrays ($push, $pull, $addToSet)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-danger"></i> Eliminación de documentos (deleteOne, deleteMany)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Inserción de documentos (insertOne,
+                                        insertMany)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Actualización básica (updateOne,
+                                        updateMany)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Operadores de actualización ($set,
+                                        $unset, $inc)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Modificación de elementos en arrays
+                                        ($push, $pull, $addToSet)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Eliminación de documentos (deleteOne,
+                                        deleteMany)</li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-danger"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Insertar registros simples y masivos</li>
-                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Actualizar campos y listas complejas</li>
-                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Eliminar documentos con criterios precisos</li>
+                                    <h5 class="fw-bold mb-3 text-danger"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Insertar registros
+                                            simples y masivos</li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Actualizar campos y
+                                            listas complejas</li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Eliminar documentos con
+                                            criterios precisos</li>
                                     </ul>
-                                    <a href="clase4db.html" class="btn btn-danger w-100 mt-3"><i class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                    <a href="clase4db.html" class="btn btn-danger w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
                                 </div>
                             </div>
                         </div>
@@ -361,29 +408,46 @@
                         </div>
                         <h3 class="fw-bold mb-3">Consultas avanzadas y operadores lógicos</h3>
                         <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
-                            Uso de operadores lógicos ($and, $or, $not, $nor), expresiones regulares y consultas en documentos embebidos y arrays.
+                            Uso de operadores lógicos ($and, $or, $not, $nor), expresiones regulares y consultas en
+                            documentos embebidos y arrays.
                         </p>
-                        
+
                         <div class="row g-4 mt-2">
                             <div class="col-md-7">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-secondary"></i> Contenidos</h5>
                                 <ul class="list-group list-group-flush" style="background: transparent;">
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-secondary"></i> Operadores lógicos compuestos ($or, $and, $not, $nor)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-secondary"></i> Consultas en documentos embebidos (dot notation)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-secondary"></i> Consultas en arrays ($all, $elemMatch, $size)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-secondary"></i> Búsqueda con expresiones regulares ($regex)</li>
-                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i class="bi bi-dot text-secondary"></i> Introducción básica al Pipeline de Agregación</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Operadores lógicos compuestos ($or,
+                                        $and, $not, $nor)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Consultas en documentos embebidos (dot
+                                        notation)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Consultas en arrays ($all, $elemMatch,
+                                        $size)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Búsqueda con expresiones regulares
+                                        ($regex)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Introducción básica al Pipeline de
+                                        Agregación</li>
                                 </ul>
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
-                                    <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-check-circle-fill"></i> Objetivos</h5>
-                                    <ul class="list-unstyled text-secondary" style="font-size: 0.9rem; line-height: 1.8;">
-                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Combinar múltiples condiciones lógicas</li>
-                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Consultar datos anidados y arreglos</li>
-                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Utilizar expresiones regulares en filtros</li>
+                                    <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Combinar múltiples
+                                            condiciones lógicas</li>
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Consultar datos
+                                            anidados y arreglos</li>
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Utilizar expresiones
+                                            regulares en filtros</li>
                                     </ul>
-                                    <a href="clase5db.html" class="btn btn-secondary w-100 mt-3"><i class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                    <a href="clase5db.html" class="btn btn-secondary w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
                                 </div>
                             </div>
                         </div>
@@ -394,340 +458,520 @@
     </div>
 
     <!-- Footer -->
-    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
         <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p>
     </footer>
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script> <!-- Llamado dinámico al menú -->
     <script src="../../js/main.js"></script>
 
     <!-- ===== ESTILOS JSON LAB ===== -->
     <style>
-    .json-lab-section {
-        border: 1px solid var(--border-color);
-        border-radius: 20px;
-        padding: 28px;
-        background: var(--hover-bg);
-    }
-    .json-lab-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 24px;
-    }
-    .json-lab-title-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-    }
-    .json-lab-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: var(--primary-gradient);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.3rem;
-        flex-shrink: 0;
-    }
-    .json-tab-switcher {
-        display: flex;
-        gap: 8px;
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        padding: 5px;
-        border-radius: 14px;
-    }
-    .json-tab-btn {
-        border: none;
-        background: transparent;
-        padding: 8px 18px;
-        border-radius: 10px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.25s ease;
-        font-family: 'Outfit', sans-serif;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .json-tab-btn.active {
-        background: var(--primary-gradient);
-        color: white;
-        box-shadow: 0 4px 12px rgba(108,92,231,0.35);
-    }
-    .json-tab-btn:hover:not(.active) {
-        background: var(--hover-bg);
-        color: var(--text-primary);
-    }
-    .json-panels-grid {
-        display: grid;
-        grid-template-columns: 1fr 260px;
-        gap: 16px;
-        align-items: start;
-    }
-    @media(max-width:768px) { .json-panels-grid { grid-template-columns: 1fr; } }
-    .json-panel {
-        background: #1a1d2e;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-        animation: fadeIn 0.3s ease;
-    }
-    .json-panel-topbar {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 10px 16px;
-        background: #12141f;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .json-panel-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
-    .json-panel-dot.red    { background: #ff5f57; }
-    .json-panel-dot.yellow { background: #febc2e; }
-    .json-panel-dot.green  { background: #28c840; }
-    .json-panel-filename {
-        font-size: 0.78rem;
-        color: rgba(255,255,255,0.4);
-        margin-left: 8px;
-        font-family: 'Courier New', monospace;
-        flex: 1;
-    }
-    .json-badge-type {
-        font-size: 0.7rem; font-weight: 700;
-        padding: 2px 10px; border-radius: 20px; letter-spacing: 0.5px;
-    }
-    .json-badge-type.sin { background: rgba(108,92,231,0.25); color: #a29bfe; }
-    .json-badge-type.con { background: rgba(0,184,148,0.25);  color: #55efc4; }
-    .json-code {
-        margin: 0; padding: 20px;
-        background: transparent;
-        font-size: 0.82rem; line-height: 1.9;
-        overflow-x: auto; color: #cdd6f4;
-        font-family: 'Courier New', 'Consolas', monospace;
-        min-height: 280px;
-    }
-    .json-token {
-        cursor: pointer; border-radius: 4px;
-        padding: 1px 3px; transition: background 0.2s ease; display: inline;
-    }
-    .json-token:hover { filter: brightness(1.4); }
-    .json-token.active-token { outline: 2px solid rgba(255,255,255,0.5); }
-    .json-token.tk-key  { color: #89b4fa; }
-    .json-token.tk-str  { color: #a6e3a1; }
-    .json-token.tk-num  { color: #fab387; }
-    .json-token.tk-bool { color: #cba6f7; }
-    .json-token.tk-null { color: #6c7086; }
-    .json-token.tk-arr  { color: #f38ba8; font-weight:700; }
-    .json-token.tk-obj  { color: #89dceb; font-weight:700; }
-    .json-token.tk-punct { color: rgba(255,255,255,0.35); }
-    .json-info-panel {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 16px; padding: 20px;
-        min-height: 280px;
-        display: flex; flex-direction: column;
-        align-items: center; justify-content: center;
-        text-align: center; transition: all 0.3s ease;
-    }
-    .json-info-content { width:100%; text-align:left; animation: fadeIn 0.3s ease; }
-    .json-info-key-badge {
-        display: inline-block;
-        background: #1a1d2e; color: #89b4fa;
-        font-family: 'Courier New', monospace;
-        font-size: 0.85rem; padding: 4px 12px;
-        border-radius: 8px; margin-bottom: 6px; font-weight: 700;
-    }
-    .json-info-type-badge {
-        display: inline-block; font-size: 0.72rem; font-weight: 700;
-        padding: 3px 10px; border-radius: 20px;
-        margin-left: 6px; letter-spacing: 0.5px; vertical-align: middle;
-    }
-    .json-info-example {
-        background: var(--hover-bg);
-        border-left: 3px solid var(--primary);
-        border-radius: 0 8px 8px 0;
-        padding: 8px 12px; font-size: 0.8rem;
-        font-family: 'Courier New', monospace;
-        color: var(--text-secondary); margin-top: 8px;
-    }
-    .json-legend {
-        display: flex; flex-wrap: wrap; gap: 16px;
-        margin-top: 16px; padding: 14px 18px;
-        background: var(--card-bg); border-radius: 12px;
-        border: 1px solid var(--border-color);
-        font-size: 0.82rem; color: var(--text-secondary);
-    }
-    .json-legend-item { display: flex; align-items: center; gap: 6px; }
-    .json-dot { width:10px; height:10px; border-radius:50%; display:inline-block; flex-shrink:0; }
-    .json-dot.key  { background: #89b4fa; }
-    .json-dot.str  { background: #a6e3a1; }
-    .json-dot.num  { background: #fab387; }
-    .json-dot.bool { background: #cba6f7; }
-    .json-dot.arr  { background: #f38ba8; }
-    .json-dot.obj  { background: #89dceb; }
-    .json-diff-cards {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-    }
-    @media(max-width:600px){ .json-diff-cards { grid-template-columns:1fr; } }
-    .json-diff-card {
-        border-radius: 16px; padding: 20px;
-        border: 1px solid var(--border-color);
-        background: var(--card-bg);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .json-diff-card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow); }
-    .json-diff-card.sin { border-left: 4px solid #6c5ce7; }
-    .json-diff-card.con { border-left: 4px solid #00b894; }
-    .json-diff-card-icon { font-size: 1.4rem; margin-bottom: 10px; }
-    .json-diff-card.sin .json-diff-card-icon { color: #6c5ce7; }
-    .json-diff-card.con .json-diff-card-icon { color: #00b894; }
-    .json-diff-card li { margin-bottom: 4px; color: var(--text-secondary); }
+        .json-lab-section {
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            background: var(--hover-bg);
+        }
+
+        .json-lab-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .json-lab-title-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .json-lab-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .json-tab-switcher {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            border-radius: 14px;
+        }
+
+        .json-tab-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
+        }
+
+        .json-tab-btn:hover:not(.active) {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .json-panels-grid {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media(max-width:768px) {
+            .json-panels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .json-panel {
+            background: #1a1d2e;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .json-panel-topbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: #12141f;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .json-panel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .json-panel-dot.red {
+            background: #ff5f57;
+        }
+
+        .json-panel-dot.yellow {
+            background: #febc2e;
+        }
+
+        .json-panel-dot.green {
+            background: #28c840;
+        }
+
+        .json-panel-filename {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-left: 8px;
+            font-family: 'Courier New', monospace;
+            flex: 1;
+        }
+
+        .json-badge-type {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .json-badge-type.sin {
+            background: rgba(108, 92, 231, 0.25);
+            color: #a29bfe;
+        }
+
+        .json-badge-type.con {
+            background: rgba(0, 184, 148, 0.25);
+            color: #55efc4;
+        }
+
+        .json-code {
+            margin: 0;
+            padding: 20px;
+            background: transparent;
+            font-size: 0.82rem;
+            line-height: 1.9;
+            overflow-x: auto;
+            color: #cdd6f4;
+            font-family: 'Courier New', 'Consolas', monospace;
+            min-height: 280px;
+        }
+
+        .json-token {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 1px 3px;
+            transition: background 0.2s ease;
+            display: inline;
+        }
+
+        .json-token:hover {
+            filter: brightness(1.4);
+        }
+
+        .json-token.active-token {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .json-token.tk-key {
+            color: #89b4fa;
+        }
+
+        .json-token.tk-str {
+            color: #a6e3a1;
+        }
+
+        .json-token.tk-num {
+            color: #fab387;
+        }
+
+        .json-token.tk-bool {
+            color: #cba6f7;
+        }
+
+        .json-token.tk-null {
+            color: #6c7086;
+        }
+
+        .json-token.tk-arr {
+            color: #f38ba8;
+            font-weight: 700;
+        }
+
+        .json-token.tk-obj {
+            color: #89dceb;
+            font-weight: 700;
+        }
+
+        .json-token.tk-punct {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .json-info-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .json-info-content {
+            width: 100%;
+            text-align: left;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .json-info-key-badge {
+            display: inline-block;
+            background: #1a1d2e;
+            color: #89b4fa;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .json-info-type-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 6px;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .json-info-example {
+            background: var(--hover-bg);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .json-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 16px;
+            padding: 14px 18px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .json-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .json-dot.key {
+            background: #89b4fa;
+        }
+
+        .json-dot.str {
+            background: #a6e3a1;
+        }
+
+        .json-dot.num {
+            background: #fab387;
+        }
+
+        .json-dot.bool {
+            background: #cba6f7;
+        }
+
+        .json-dot.arr {
+            background: #f38ba8;
+        }
+
+        .json-dot.obj {
+            background: #89dceb;
+        }
+
+        .json-diff-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media(max-width:600px) {
+            .json-diff-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .json-diff-card {
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .json-diff-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .json-diff-card.sin {
+            border-left: 4px solid #6c5ce7;
+        }
+
+        .json-diff-card.con {
+            border-left: 4px solid #00b894;
+        }
+
+        .json-diff-card-icon {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .json-diff-card.sin .json-diff-card-icon {
+            color: #6c5ce7;
+        }
+
+        .json-diff-card.con .json-diff-card-icon {
+            color: #00b894;
+        }
+
+        .json-diff-card li {
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
     </style>
 
     <!-- ===== SCRIPT JSON LAB BD2 ===== -->
     <script>
-    const BD_JSON_SIN = {
-        nombre: "Ana García",
-        carnet: "2024-001",
-        carrera: "Ingeniería en Sistemas",
-        semestre: 4,
-        promedio: 88.5,
-        becado: true,
-        correo: "ana.garcia@univ.edu"
-    };
+        const BD_JSON_SIN = {
+            nombre: "Ana García",
+            carnet: "2024-001",
+            carrera: "Ingeniería en Sistemas",
+            semestre: 4,
+            promedio: 88.5,
+            becado: true,
+            correo: "ana.garcia@univ.edu"
+        };
 
-    const BD_JSON_CON = {
-        nombre: "Ana García",
-        carnet: "2024-001",
-        becado: true,
-        semestre: 4,
-        materias: ["Bases de Datos II", "Redes", "Sistemas Operativos"],
-        notas: [85, 92, 78, 95],
-        historial: [
-            { periodo: "2023-I",  promedio: 82 },
-            { periodo: "2023-II", promedio: 87 },
-            { periodo: "2024-I",  promedio: 88 }
-        ],
-        habilidades: ["MongoDB", "SQL", "Python", "Java"]
-    };
+        const BD_JSON_CON = {
+            nombre: "Ana García",
+            carnet: "2024-001",
+            becado: true,
+            semestre: 4,
+            materias: ["Bases de Datos II", "Redes", "Sistemas Operativos"],
+            notas: [85, 92, 78, 95],
+            historial: [
+                { periodo: "2023-I", promedio: 82 },
+                { periodo: "2023-II", promedio: 87 },
+                { periodo: "2024-I", promedio: 88 }
+            ],
+            habilidades: ["MongoDB", "SQL", "Python", "Java"]
+        };
 
-    const BD_fieldInfo = {
-        nombre:    { tipo:"string",    titulo:"Nombre del estudiante",   desc:"Cadena de texto entre comillas dobles. Almacena nombres como valores string.",             ej:'"nombre": "Ana García"' },
-        carnet:    { tipo:"string",    titulo:"Carnet universitario",    desc:"Aunque contiene números, va entre comillas porque es un identificador, no un valor numérico.", ej:'"carnet": "2024-001"' },
-        carrera:   { tipo:"string",    titulo:"Carrera académica",       desc:"Texto descriptivo. Cualquier valor de texto siempre va entre comillas dobles.",           ej:'"carrera": "Ingeniería en Sistemas"' },
-        semestre:  { tipo:"number",    titulo:"Número de semestre",      desc:"Valor numérico entero. Los números NO llevan comillas en JSON.",                        ej:'"semestre": 4' },
-        promedio:  { tipo:"number",    titulo:"Promedio académico",      desc:"Número decimal (float). Se usa punto como separador decimal, nunca coma.",             ej:'"promedio": 88.5' },
-        becado:    { tipo:"boolean",   titulo:"Estado de beca",          desc:"Valor booleano: true o false. Sin comillas. Representa condiciones de sí/no.",        ej:'"becado": true' },
-        correo:    { tipo:"string",    titulo:"Correo electrónico",      desc:"Texto entre comillas. Los emails, URLs y códigos siempre se guardan como strings.",    ej:'"correo": "ana@univ.edu"' },
-        materias:  { tipo:"array",     titulo:"Lista de materias",       desc:"Arreglo de strings [ ]. Cada materia es un elemento separado por coma dentro de [ ].", ej:'"materias": ["BD II", "Redes"]' },
-        notas:     { tipo:"array",     titulo:"Arreglo de notas",        desc:"Arreglo de números [ ]. Almacena múltiples calificaciones en un solo campo.",         ej:'"notas": [85, 92, 78]' },
-        historial: { tipo:"array-obj", titulo:"Historial académico",     desc:"Arreglo de objetos { }. Cada elemento es un documento embebido con periodo y promedio.", ej:'"historial": [{"periodo":"2023", "promedio": 82}]' },
-        habilidades:{ tipo:"array",    titulo:"Habilidades técnicas",    desc:"Arreglo de strings con las tecnologías que domina el estudiante.",                  ej:'"habilidades": ["MongoDB", "SQL"]' }
-    };
+        const BD_fieldInfo = {
+            nombre: { tipo: "string", titulo: "Nombre del estudiante", desc: "Cadena de texto entre comillas dobles. Almacena nombres como valores string.", ej: '"nombre": "Ana García"' },
+            carnet: { tipo: "string", titulo: "Carnet universitario", desc: "Aunque contiene números, va entre comillas porque es un identificador, no un valor numérico.", ej: '"carnet": "2024-001"' },
+            carrera: { tipo: "string", titulo: "Carrera académica", desc: "Texto descriptivo. Cualquier valor de texto siempre va entre comillas dobles.", ej: '"carrera": "Ingeniería en Sistemas"' },
+            semestre: { tipo: "number", titulo: "Número de semestre", desc: "Valor numérico entero. Los números NO llevan comillas en JSON.", ej: '"semestre": 4' },
+            promedio: { tipo: "number", titulo: "Promedio académico", desc: "Número decimal (float). Se usa punto como separador decimal, nunca coma.", ej: '"promedio": 88.5' },
+            becado: { tipo: "boolean", titulo: "Estado de beca", desc: "Valor booleano: true o false. Sin comillas. Representa condiciones de sí/no.", ej: '"becado": true' },
+            correo: { tipo: "string", titulo: "Correo electrónico", desc: "Texto entre comillas. Los emails, URLs y códigos siempre se guardan como strings.", ej: '"correo": "ana@univ.edu"' },
+            materias: { tipo: "array", titulo: "Lista de materias", desc: "Arreglo de strings [ ]. Cada materia es un elemento separado por coma dentro de [ ].", ej: '"materias": ["BD II", "Redes"]' },
+            notas: { tipo: "array", titulo: "Arreglo de notas", desc: "Arreglo de números [ ]. Almacena múltiples calificaciones en un solo campo.", ej: '"notas": [85, 92, 78]' },
+            historial: { tipo: "array-obj", titulo: "Historial académico", desc: "Arreglo de objetos { }. Cada elemento es un documento embebido con periodo y promedio.", ej: '"historial": [{"periodo":"2023", "promedio": 82}]' },
+            habilidades: { tipo: "array", titulo: "Habilidades técnicas", desc: "Arreglo de strings con las tecnologías que domina el estudiante.", ej: '"habilidades": ["MongoDB", "SQL"]' }
+        };
 
-    const BD_typeColors = {
-        string:    { bg:"rgba(166,227,161,0.2)", color:"#a6e3a1", label:"String" },
-        number:    { bg:"rgba(250,179,135,0.2)", color:"#fab387", label:"Número" },
-        boolean:   { bg:"rgba(203,166,247,0.2)", color:"#cba6f7", label:"Booleano" },
-        array:     { bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array [ ]" },
-        "array-obj":{ bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array de Objetos" }
-    };
+        const BD_typeColors = {
+            string: { bg: "rgba(166,227,161,0.2)", color: "#a6e3a1", label: "String" },
+            number: { bg: "rgba(250,179,135,0.2)", color: "#fab387", label: "Número" },
+            boolean: { bg: "rgba(203,166,247,0.2)", color: "#cba6f7", label: "Booleano" },
+            array: { bg: "rgba(243,139,168,0.2)", color: "#f38ba8", label: "Array [ ]" },
+            "array-obj": { bg: "rgba(243,139,168,0.2)", color: "#f38ba8", label: "Array de Objetos" }
+        };
 
-    function bdRenderJson(obj, indent, fieldMap) {
-        indent = indent || 0;
-        fieldMap = fieldMap || {};
-        var pad = function(n){ return '  '.repeat(n); };
-        var html = '';
-        var keys = Object.keys(obj);
-        html += '<span class="json-token tk-punct">{</span>\n';
-        keys.forEach(function(key, i) {
-            var val = obj[key];
-            var isLast = i === keys.length - 1;
-            var comma = isLast ? '' : ',';
-            html += pad(indent + 1);
-            var info = fieldMap[key];
-            var dataAttr = info ? 'data-field-bd="' + key + '"' : '';
-            html += '<span class="json-token tk-key" ' + dataAttr + ' onclick="bdShowInfo(\'' + key + '\')">&quot;' + key + '&quot;</span>';
-            html += '<span class="json-token tk-punct">: </span>';
-            html += bdRenderValue(val, key, indent + 1, fieldMap);
-            html += '<span class="json-token tk-punct">' + comma + '</span>\n';
-        });
-        html += pad(indent) + '<span class="json-token tk-punct">}</span>';
-        return html;
-    }
-
-    function bdRenderValue(val, key, indent, fieldMap) {
-        if (val === null) return '<span class="json-token tk-null" onclick="bdShowInfo(\'' + key + '\')">' + 'null' + '</span>';
-        if (typeof val === 'boolean') return '<span class="json-token tk-bool" onclick="bdShowInfo(\'' + key + '\')">' + val + '</span>';
-        if (typeof val === 'number')  return '<span class="json-token tk-num"  onclick="bdShowInfo(\'' + key + '\')">' + val + '</span>';
-        if (typeof val === 'string')  return '<span class="json-token tk-str"  onclick="bdShowInfo(\'' + key + '\')">"' + val + '"</span>';
-        if (Array.isArray(val)) {
-            if (val.length === 0) return '<span class="json-token tk-arr">[]</span>';
-            var isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
-            var html = '<span class="json-token tk-arr" onclick="bdShowInfo(\'' + key + '\')">['  + '</span>\n';
-            val.forEach(function(item, idx) {
-                var isLast = idx === val.length - 1;
+        function bdRenderJson(obj, indent, fieldMap) {
+            indent = indent || 0;
+            fieldMap = fieldMap || {};
+            var pad = function (n) { return '  '.repeat(n); };
+            var html = '';
+            var keys = Object.keys(obj);
+            html += '<span class="json-token tk-punct">{</span>\n';
+            keys.forEach(function (key, i) {
+                var val = obj[key];
+                var isLast = i === keys.length - 1;
                 var comma = isLast ? '' : ',';
-                html += '  '.repeat(indent + 1);
-                if (isObjs) html += bdRenderJson(item, indent + 1, {});
-                else        html += bdRenderValue(item, key, indent + 1, fieldMap);
+                html += pad(indent + 1);
+                var info = fieldMap[key];
+                var dataAttr = info ? 'data-field-bd="' + key + '"' : '';
+                html += '<span class="json-token tk-key" ' + dataAttr + ' onclick="bdShowInfo(\'' + key + '\')">&quot;' + key + '&quot;</span>';
+                html += '<span class="json-token tk-punct">: </span>';
+                html += bdRenderValue(val, key, indent + 1, fieldMap);
                 html += '<span class="json-token tk-punct">' + comma + '</span>\n';
             });
-            html += '  '.repeat(indent) + '<span class="json-token tk-arr">]</span>';
+            html += pad(indent) + '<span class="json-token tk-punct">}</span>';
             return html;
         }
-        if (typeof val === 'object') return bdRenderJson(val, indent, fieldMap);
-        return String(val);
-    }
 
-    function bdShowInfo(key) {
-        var info = BD_fieldInfo[key];
-        if (!info) return;
-        document.querySelectorAll('.json-token.active-token').forEach(function(t){ t.classList.remove('active-token'); });
-        document.querySelectorAll('[data-field-bd="' + key + '"]').forEach(function(t){ t.classList.add('active-token'); });
-        var placeholder = document.getElementById('bd-json-info-placeholder');
-        var content     = document.getElementById('bd-json-info-content');
-        var typeData    = BD_typeColors[info.tipo] || BD_typeColors.string;
-        placeholder.classList.add('d-none');
-        content.classList.remove('d-none');
-        document.getElementById('bd-info-key').textContent    = '"' + key + '"';
-        document.getElementById('bd-info-type').textContent   = typeData.label;
-        document.getElementById('bd-info-type').style.cssText = 'background:' + typeData.bg + '; color:' + typeData.color + ';';
-        document.getElementById('bd-info-title').textContent  = info.titulo;
-        document.getElementById('bd-info-desc').textContent   = info.desc;
-        document.getElementById('bd-info-example').textContent= info.ej;
-    }
-
-    function switchJsonTabBd(type) {
-        var panelSin = document.getElementById('bd-panel-sin');
-        var panelCon = document.getElementById('bd-panel-con');
-        var btnSin   = document.getElementById('btn-sin-arreglos-bd');
-        var btnCon   = document.getElementById('btn-con-arreglos-bd');
-        var ph       = document.getElementById('bd-json-info-placeholder');
-        var ct       = document.getElementById('bd-json-info-content');
-        if (type === 'sin') {
-            panelSin.style.display = ''; panelCon.style.display = 'none';
-            btnSin.classList.add('active'); btnCon.classList.remove('active');
-        } else {
-            panelSin.style.display = 'none'; panelCon.style.display = '';
-            btnCon.classList.add('active'); btnSin.classList.remove('active');
+        function bdRenderValue(val, key, indent, fieldMap) {
+            if (val === null) return '<span class="json-token tk-null" onclick="bdShowInfo(\'' + key + '\')">' + 'null' + '</span>';
+            if (typeof val === 'boolean') return '<span class="json-token tk-bool" onclick="bdShowInfo(\'' + key + '\')">' + val + '</span>';
+            if (typeof val === 'number') return '<span class="json-token tk-num"  onclick="bdShowInfo(\'' + key + '\')">' + val + '</span>';
+            if (typeof val === 'string') return '<span class="json-token tk-str"  onclick="bdShowInfo(\'' + key + '\')">"' + val + '"</span>';
+            if (Array.isArray(val)) {
+                if (val.length === 0) return '<span class="json-token tk-arr">[]</span>';
+                var isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
+                var html = '<span class="json-token tk-arr" onclick="bdShowInfo(\'' + key + '\')">[' + '</span>\n';
+                val.forEach(function (item, idx) {
+                    var isLast = idx === val.length - 1;
+                    var comma = isLast ? '' : ',';
+                    html += '  '.repeat(indent + 1);
+                    if (isObjs) html += bdRenderJson(item, indent + 1, {});
+                    else html += bdRenderValue(item, key, indent + 1, fieldMap);
+                    html += '<span class="json-token tk-punct">' + comma + '</span>\n';
+                });
+                html += '  '.repeat(indent) + '<span class="json-token tk-arr">]</span>';
+                return html;
+            }
+            if (typeof val === 'object') return bdRenderJson(val, indent, fieldMap);
+            return String(val);
         }
-        ph.classList.remove('d-none'); ct.classList.add('d-none');
-        document.querySelectorAll('.json-token.active-token').forEach(function(t){ t.classList.remove('active-token'); });
-    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('bd-json-sin-code').innerHTML = bdRenderJson(BD_JSON_SIN, 0, BD_fieldInfo);
-        document.getElementById('bd-json-con-code').innerHTML = bdRenderJson(BD_JSON_CON, 0, BD_fieldInfo);
-    });
+        function bdShowInfo(key) {
+            var info = BD_fieldInfo[key];
+            if (!info) return;
+            document.querySelectorAll('.json-token.active-token').forEach(function (t) { t.classList.remove('active-token'); });
+            document.querySelectorAll('[data-field-bd="' + key + '"]').forEach(function (t) { t.classList.add('active-token'); });
+            var placeholder = document.getElementById('bd-json-info-placeholder');
+            var content = document.getElementById('bd-json-info-content');
+            var typeData = BD_typeColors[info.tipo] || BD_typeColors.string;
+            placeholder.classList.add('d-none');
+            content.classList.remove('d-none');
+            document.getElementById('bd-info-key').textContent = '"' + key + '"';
+            document.getElementById('bd-info-type').textContent = typeData.label;
+            document.getElementById('bd-info-type').style.cssText = 'background:' + typeData.bg + '; color:' + typeData.color + ';';
+            document.getElementById('bd-info-title').textContent = info.titulo;
+            document.getElementById('bd-info-desc').textContent = info.desc;
+            document.getElementById('bd-info-example').textContent = info.ej;
+        }
+
+        function switchJsonTabBd(type) {
+            var panelSin = document.getElementById('bd-panel-sin');
+            var panelCon = document.getElementById('bd-panel-con');
+            var btnSin = document.getElementById('btn-sin-arreglos-bd');
+            var btnCon = document.getElementById('btn-con-arreglos-bd');
+            var ph = document.getElementById('bd-json-info-placeholder');
+            var ct = document.getElementById('bd-json-info-content');
+            if (type === 'sin') {
+                panelSin.style.display = ''; panelCon.style.display = 'none';
+                btnSin.classList.add('active'); btnCon.classList.remove('active');
+            } else {
+                panelSin.style.display = 'none'; panelCon.style.display = '';
+                btnCon.classList.add('active'); btnSin.classList.remove('active');
+            }
+            ph.classList.remove('d-none'); ct.classList.add('d-none');
+            document.querySelectorAll('.json-token.active-token').forEach(function (t) { t.classList.remove('active-token'); });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('bd-json-sin-code').innerHTML = bdRenderJson(BD_JSON_SIN, 0, BD_fieldInfo);
+            document.getElementById('bd-json-con-code').innerHTML = bdRenderJson(BD_JSON_CON, 0, BD_fieldInfo);
+        });
     </script>
 </body>
+
 </html>

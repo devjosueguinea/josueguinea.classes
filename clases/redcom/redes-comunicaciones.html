@@ -16,38 +16,7 @@
 <body>
     <div class="app-container">
         <!-- Sidebar General -->
-        <aside class="sidebar">
-            <a href="../../index.html" class="sidebar-logo">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span>Portal Académico</span>
-            </a>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="../../index.html" class="sidebar-link">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="redes-comunicaciones.html" class="sidebar-link active">
-                        <i class="bi bi-wifi"></i>
-                        <span>Redes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../bd2/bases-datos-ii.html" class="sidebar-link">
-                        <i class="bi bi-database"></i>
-                        <span>Bases de Datos II</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-cpu"></i>
-                        <span>Sistemas Op.</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
+
 
         <!-- Contenido principal -->
         <main class="main-content">
@@ -74,7 +43,7 @@
             </header>
 
             <!-- Layout de materia con Sidebar de clases -->
-            <div class="subject-layout">
+            <div class="subject-layout mb-5">
                 <!-- Sidebar de Clases -->
                 <nav class="subject-sidebar">
                     <h6 class="text-muted fw-bold mb-3"
@@ -156,7 +125,7 @@
                                             class="bi bi-dot text-primary"></i> Importancia de las redes en la sociedad
                                     </li>
                                 </ul>
-                                <a href="../redcom/clase1redes.html" class="btn btn-primary-gradient w-100 mt-3"><i class="bi bi-journal-text"></i> Ver Clase Completa</a>
+
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
@@ -171,6 +140,8 @@
                                         <li><i class="bi bi-arrow-right-short text-primary"></i> Comprender el alcance
                                             del CCNA1</li>
                                     </ul>
+                                    <a href="../redcom/clase1redes.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
                                 </div>
                             </div>
                         </div>
@@ -208,7 +179,7 @@
                                     <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
                                             class="bi bi-dot text-success"></i> Topologías físicas y lógicas</li>
                                 </ul>
-                                <a href="../redcom/clase2redes.html" class="btn btn-primary-gradient w-100 mt-3"><i class="bi bi-journal-text"></i> Ver Clase Completa</a>
+
                             </div>
                             <div class="col-md-5">
                                 <div class="card-objetivos">
@@ -223,6 +194,8 @@
                                         <li><i class="bi bi-arrow-right-short text-success"></i> Comprender topologías
                                             de red</li>
                                     </ul>
+                                    <a href="../redcom/clase2redes.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
                                 </div>
                             </div>
                         </div>
@@ -384,442 +357,390 @@
         style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
         <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones
         </p>
-</footer>
+    </footer>
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script> <!-- Llamado dinámico al menú -->
     <script src="../../js/main.js"></script>
 
     <!-- ===== ESTILOS JSON LAB ===== -->
     <style>
-    /* ─── Sección principal ─── */
-    .json-lab-section {
-        border: 1px solid var(--border-color);
-        border-radius: 20px;
-        padding: 28px;
-        background: var(--hover-bg);
-    }
-    .json-lab-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 24px;
-    }
-    .json-lab-title-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-    }
-    .json-lab-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: var(--primary-gradient);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.3rem;
-        flex-shrink: 0;
-    }
+        /* ─── Sección principal ─── */
+        .json-lab-section {
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            background: var(--hover-bg);
+        }
 
-    /* ─── Tab switcher ─── */
-    .json-tab-switcher {
-        display: flex;
-        gap: 8px;
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        padding: 5px;
-        border-radius: 14px;
-    }
-    .json-tab-btn {
-        border: none;
-        background: transparent;
-        padding: 8px 18px;
-        border-radius: 10px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.25s ease;
-        font-family: 'Outfit', sans-serif;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .json-tab-btn.active {
-        background: var(--primary-gradient);
-        color: white;
-        box-shadow: 0 4px 12px rgba(108,92,231,0.35);
-    }
-    .json-tab-btn:hover:not(.active) {
-        background: var(--hover-bg);
-        color: var(--text-primary);
-    }
+        .json-lab-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
 
-    /* ─── Grid de paneles ─── */
-    .json-panels-grid {
-        display: grid;
-        grid-template-columns: 1fr 260px;
-        gap: 16px;
-        align-items: start;
-    }
-    @media(max-width:768px) {
-        .json-panels-grid { grid-template-columns: 1fr; }
-    }
+        .json-lab-title-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
 
-    /* ─── Panel código ─── */
-    .json-panel {
-        background: #1a1d2e;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-        animation: fadeIn 0.3s ease;
-    }
-    .json-panel-topbar {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 10px 16px;
-        background: #12141f;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .json-panel-dot {
-        width: 12px; height: 12px;
-        border-radius: 50%;
-        display: inline-block;
-    }
-    .json-panel-dot.red    { background: #ff5f57; }
-    .json-panel-dot.yellow { background: #febc2e; }
-    .json-panel-dot.green  { background: #28c840; }
-    .json-panel-filename {
-        font-size: 0.78rem;
-        color: rgba(255,255,255,0.4);
-        margin-left: 8px;
-        font-family: 'Courier New', monospace;
-        flex: 1;
-    }
-    .json-badge-type {
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 2px 10px;
-        border-radius: 20px;
-        letter-spacing: 0.5px;
-    }
-    .json-badge-type.sin { background: rgba(108,92,231,0.25); color: #a29bfe; }
-    .json-badge-type.con { background: rgba(0,184,148,0.25);  color: #55efc4; }
+        .json-lab-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
 
-    .json-code {
-        margin: 0;
-        padding: 20px;
-        background: transparent;
-        font-size: 0.82rem;
-        line-height: 1.9;
-        overflow-x: auto;
-        color: #cdd6f4;
-        font-family: 'Courier New', 'Consolas', monospace;
-        min-height: 280px;
-    }
+        /* ─── Tab switcher ─── */
+        .json-tab-switcher {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            border-radius: 14px;
+        }
 
-    /* ─── Tokens interactivos ─── */
-    .json-token {
-        cursor: pointer;
-        border-radius: 4px;
-        padding: 1px 3px;
-        transition: background 0.2s ease;
-        display: inline;
-    }
-    .json-token:hover { filter: brightness(1.4); }
-    .json-token.active-token { outline: 2px solid rgba(255,255,255,0.5); }
-    .json-token.tk-key  { color: #89b4fa; }
-    .json-token.tk-str  { color: #a6e3a1; }
-    .json-token.tk-num  { color: #fab387; }
-    .json-token.tk-bool { color: #cba6f7; }
-    .json-token.tk-null { color: #6c7086; }
-    .json-token.tk-arr  { color: #f38ba8; font-weight:700; }
-    .json-token.tk-obj  { color: #89dceb; font-weight:700; }
-    .json-token.tk-punct { color: rgba(255,255,255,0.35); }
+        .json-tab-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    /* ─── Panel info ─── */
-    .json-info-panel {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        padding: 20px;
-        min-height: 280px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-    .json-info-content {
-        width: 100%;
-        text-align: left;
-        animation: fadeIn 0.3s ease;
-    }
-    .json-info-key-badge {
-        display: inline-block;
-        background: #1a1d2e;
-        color: #89b4fa;
-        font-family: 'Courier New', monospace;
-        font-size: 0.85rem;
-        padding: 4px 12px;
-        border-radius: 8px;
-        margin-bottom: 6px;
-        font-weight: 700;
-    }
-    .json-info-type-badge {
-        display: inline-block;
-        font-size: 0.72rem;
-        font-weight: 700;
-        padding: 3px 10px;
-        border-radius: 20px;
-        margin-left: 6px;
-        letter-spacing: 0.5px;
-        vertical-align: middle;
-    }
-    .json-info-example {
-        background: var(--hover-bg);
-        border-left: 3px solid var(--primary);
-        border-radius: 0 8px 8px 0;
-        padding: 8px 12px;
-        font-size: 0.8rem;
-        font-family: 'Courier New', monospace;
-        color: var(--text-secondary);
-        margin-top: 8px;
-    }
+        .json-tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
+        }
 
-    /* ─── Leyenda ─── */
-    .json-legend {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-top: 16px;
-        padding: 14px 18px;
-        background: var(--card-bg);
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-        font-size: 0.82rem;
-        color: var(--text-secondary);
-    }
-    .json-legend-item { display: flex; align-items: center; gap: 6px; }
-    .json-dot {
-        width: 10px; height: 10px;
-        border-radius: 50%;
-        display: inline-block;
-        flex-shrink: 0;
-    }
-    .json-dot.key  { background: #89b4fa; }
-    .json-dot.str  { background: #a6e3a1; }
-    .json-dot.num  { background: #fab387; }
-    .json-dot.bool { background: #cba6f7; }
-    .json-dot.arr  { background: #f38ba8; }
-    .json-dot.obj  { background: #89dceb; }
+        .json-tab-btn:hover:not(.active) {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
 
-    /* ─── Tarjetas de diferencias ─── */
-    .json-diff-cards {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
-    @media(max-width:600px){ .json-diff-cards { grid-template-columns:1fr; } }
-    .json-diff-card {
-        border-radius: 16px;
-        padding: 20px;
-        border: 1px solid var(--border-color);
-        background: var(--card-bg);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .json-diff-card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--card-shadow);
-    }
-    .json-diff-card.sin { border-left: 4px solid #6c5ce7; }
-    .json-diff-card.con { border-left: 4px solid #00b894; }
-    .json-diff-card-icon {
-        font-size: 1.4rem;
-        margin-bottom: 10px;
-    }
-    .json-diff-card.sin .json-diff-card-icon { color: #6c5ce7; }
-    .json-diff-card.con .json-diff-card-icon { color: #00b894; }
-    .json-diff-card li { margin-bottom: 4px; color: var(--text-secondary); }
+        /* ─── Grid de paneles ─── */
+        .json-panels-grid {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media(max-width:768px) {
+            .json-panels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── Panel código ─── */
+        .json-panel {
+            background: #1a1d2e;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .json-panel-topbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: #12141f;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .json-panel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .json-panel-dot.red {
+            background: #ff5f57;
+        }
+
+        .json-panel-dot.yellow {
+            background: #febc2e;
+        }
+
+        .json-panel-dot.green {
+            background: #28c840;
+        }
+
+        .json-panel-filename {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-left: 8px;
+            font-family: 'Courier New', monospace;
+            flex: 1;
+        }
+
+        .json-badge-type {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .json-badge-type.sin {
+            background: rgba(108, 92, 231, 0.25);
+            color: #a29bfe;
+        }
+
+        .json-badge-type.con {
+            background: rgba(0, 184, 148, 0.25);
+            color: #55efc4;
+        }
+
+        .json-code {
+            margin: 0;
+            padding: 20px;
+            background: transparent;
+            font-size: 0.82rem;
+            line-height: 1.9;
+            overflow-x: auto;
+            color: #cdd6f4;
+            font-family: 'Courier New', 'Consolas', monospace;
+            min-height: 280px;
+        }
+
+        /* ─── Tokens interactivos ─── */
+        .json-token {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 1px 3px;
+            transition: background 0.2s ease;
+            display: inline;
+        }
+
+        .json-token:hover {
+            filter: brightness(1.4);
+        }
+
+        .json-token.active-token {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .json-token.tk-key {
+            color: #89b4fa;
+        }
+
+        .json-token.tk-str {
+            color: #a6e3a1;
+        }
+
+        .json-token.tk-num {
+            color: #fab387;
+        }
+
+        .json-token.tk-bool {
+            color: #cba6f7;
+        }
+
+        .json-token.tk-null {
+            color: #6c7086;
+        }
+
+        .json-token.tk-arr {
+            color: #f38ba8;
+            font-weight: 700;
+        }
+
+        .json-token.tk-obj {
+            color: #89dceb;
+            font-weight: 700;
+        }
+
+        .json-token.tk-punct {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ─── Panel info ─── */
+        .json-info-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .json-info-content {
+            width: 100%;
+            text-align: left;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .json-info-key-badge {
+            display: inline-block;
+            background: #1a1d2e;
+            color: #89b4fa;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .json-info-type-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 6px;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .json-info-example {
+            background: var(--hover-bg);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* ─── Leyenda ─── */
+        .json-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 16px;
+            padding: 14px 18px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .json-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .json-dot.key {
+            background: #89b4fa;
+        }
+
+        .json-dot.str {
+            background: #a6e3a1;
+        }
+
+        .json-dot.num {
+            background: #fab387;
+        }
+
+        .json-dot.bool {
+            background: #cba6f7;
+        }
+
+        .json-dot.arr {
+            background: #f38ba8;
+        }
+
+        .json-dot.obj {
+            background: #89dceb;
+        }
+
+        /* ─── Tarjetas de diferencias ─── */
+        .json-diff-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media(max-width:600px) {
+            .json-diff-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .json-diff-card {
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .json-diff-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .json-diff-card.sin {
+            border-left: 4px solid #6c5ce7;
+        }
+
+        .json-diff-card.con {
+            border-left: 4px solid #00b894;
+        }
+
+        .json-diff-card-icon {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .json-diff-card.sin .json-diff-card-icon {
+            color: #6c5ce7;
+        }
+
+        .json-diff-card.con .json-diff-card-icon {
+            color: #00b894;
+        }
+
+        .json-diff-card li {
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
     </style>
 
     <!-- ===== SCRIPT JSON LAB ===== -->
-    <script>
-    // ─── Datos JSON para los ejemplos ───
-    const JSON_SIN = {
-        nombre: "Router Principal",
-        marca: "Cisco",
-        modelo: "ISR 4321",
-        ip_gestion: "192.168.1.1",
-        mascara: "255.255.255.0",
-        activo: true,
-        puertos: 4,
-        ubicacion: "Sala de Servidores"
-    };
 
-    const JSON_CON = {
-        nombre: "Red Universitaria",
-        responsable: "Ing. Guinea",
-        activa: true,
-        total_dispositivos: 12,
-        segmentos: ["LAN Estudiantes", "LAN Docentes", "DMZ", "WAN"],
-        dispositivos: [
-            { tipo: "Router", ip: "192.168.1.1" },
-            { tipo: "Switch Core", ip: "192.168.1.2" },
-            { tipo: "Access Point", ip: "192.168.1.10" }
-        ],
-        protocolos_usados: ["TCP/IP", "OSPF", "DNS", "DHCP"],
-        vlans: [10, 20, 30, 99]
-    };
-
-    // ─── Información explicativa de cada campo ───
-    const fieldInfo = {
-        // Sin arreglos
-        nombre:    { tipo:"string",  titulo:"Nombre del dispositivo",     desc:"Identifica el elemento de la red. Es un texto entre comillas dobles.",   ej:'"nombre": "Router Principal"' },
-        marca:     { tipo:"string",  titulo:"Marca del fabricante",       desc:"Cadena de texto que indica el fabricante del equipo.",                    ej:'"marca": "Cisco"' },
-        modelo:    { tipo:"string",  titulo:"Modelo del equipo",          desc:"Referencia del producto según el fabricante.",                           ej:'"modelo": "ISR 4321"' },
-        ip_gestion:{ tipo:"string",  titulo:"Dirección IP de gestión",    desc:"IP en formato texto. Las IPs se almacenan como string, no como número.", ej:'"ip_gestion": "192.168.1.1"' },
-        mascara:   { tipo:"string",  titulo:"Máscara de subred",          desc:"Notación decimal de la máscara de red, también es un string.",           ej:'"mascara": "255.255.255.0"' },
-        activo:    { tipo:"boolean", titulo:"Estado del dispositivo",     desc:"Valor booleano: true (activo) o false (inactivo). Sin comillas.",        ej:'"activo": true' },
-        puertos:   { tipo:"number",  titulo:"Cantidad de puertos",        desc:"Número entero sin comillas. Los números no llevan comillas en JSON.",    ej:'"puertos": 4' },
-        ubicacion: { tipo:"string",  titulo:"Ubicación física",           desc:"Texto libre que describe dónde está instalado el equipo.",              ej:'"ubicacion": "Sala de Servidores"' },
-        // Con arreglos
-        responsable:         { tipo:"string",  titulo:"Responsable de la red",        desc:"Nombre del administrador o responsable de la infraestructura.",      ej:'"responsable": "Ing. Guinea"' },
-        total_dispositivos:  { tipo:"number",  titulo:"Total de dispositivos",        desc:"Número entero que indica cuántos equipos pertenecen a la red.",       ej:'"total_dispositivos": 12' },
-        segmentos:           { tipo:"array",   titulo:"Segmentos de red",             desc:"Arreglo de strings: lista de segmentos lógicos de la red. Usa [ ].",  ej:'"segmentos": ["LAN", "DMZ", "WAN"]' },
-        dispositivos:        { tipo:"array-obj",titulo:"Lista de dispositivos",       desc:"Arreglo de objetos: cada elemento { } es un dispositivo con sus propiedades.", ej:'"dispositivos": [{...}, {...}]' },
-        protocolos_usados:   { tipo:"array",   titulo:"Protocolos utilizados",        desc:"Arreglo de strings con los protocolos de red activos.",               ej:'"protocolos_usados": ["TCP/IP", "DNS"]' },
-        vlans:               { tipo:"array",   titulo:"IDs de VLANs configuradas",   desc:"Arreglo de números: identificadores numéricos de las VLANs.",         ej:'"vlans": [10, 20, 30, 99]' }
-    };
-
-    const typeColors = {
-        string:    { bg:"rgba(166,227,161,0.2)", color:"#a6e3a1", label:"String" },
-        number:    { bg:"rgba(250,179,135,0.2)", color:"#fab387", label:"Número" },
-        boolean:   { bg:"rgba(203,166,247,0.2)", color:"#cba6f7", label:"Booleano" },
-        array:     { bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array [ ]" },
-        "array-obj":{ bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array de Objetos" }
-    };
-
-    // ─── Renderiza un objeto JSON como HTML con tokens clicables ───
-    function renderJson(obj, indent = 0, fieldMap = {}) {
-        const pad = (n) => '  '.repeat(n);
-        let html = '';
-        const keys = Object.keys(obj);
-        html += `<span class="json-token tk-punct">{</span>\n`;
-        keys.forEach((key, i) => {
-            const val = obj[key];
-            const isLast = i === keys.length - 1;
-            const comma = isLast ? '' : ',';
-            html += pad(indent + 1);
-            // Key
-            const info = fieldMap[key] || fieldMap[key.replace(/\s/g,'_')];
-            const dataAttr = info ? `data-field="${key}"` : '';
-            html += `<span class="json-token tk-key" ${dataAttr} onclick="showInfo('${key}')">"${key}"</span>`;
-            html += `<span class="json-token tk-punct">: </span>`;
-            // Value
-            html += renderValue(val, key, indent + 1, fieldMap);
-            html += `<span class="json-token tk-punct">${comma}</span>\n`;
-        });
-        html += pad(indent) + `<span class="json-token tk-punct">}</span>`;
-        return html;
-    }
-
-    function renderValue(val, key, indent, fieldMap) {
-        if (val === null) {
-            return `<span class="json-token tk-null" onclick="showInfo('${key}')">null</span>`;
-        }
-        if (typeof val === 'boolean') {
-            return `<span class="json-token tk-bool" onclick="showInfo('${key}')">${val}</span>`;
-        }
-        if (typeof val === 'number') {
-            return `<span class="json-token tk-num" onclick="showInfo('${key}')">${val}</span>`;
-        }
-        if (typeof val === 'string') {
-            return `<span class="json-token tk-str" onclick="showInfo('${key}')">"${val}"</span>`;
-        }
-        if (Array.isArray(val)) {
-            if (val.length === 0) return `<span class="json-token tk-arr">[]</span>`;
-            const isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
-            let html = `<span class="json-token tk-arr" onclick="showInfo('${key}')">[</span>\n`;
-            val.forEach((item, idx) => {
-                const isLast = idx === val.length - 1;
-                const comma = isLast ? '' : ',';
-                html += '  '.repeat(indent + 1);
-                if (isObjs) {
-                    html += renderJson(item, indent + 1, {});
-                } else {
-                    html += renderValue(item, key, indent + 1, fieldMap);
-                }
-                html += `<span class="json-token tk-punct">${comma}</span>\n`;
-            });
-            html += '  '.repeat(indent) + `<span class="json-token tk-arr">]</span>`;
-            return html;
-        }
-        if (typeof val === 'object') {
-            return renderJson(val, indent, fieldMap);
-        }
-        return String(val);
-    }
-
-    // ─── Mostrar info de campo ───
-    function showInfo(key) {
-        const info = fieldInfo[key];
-        if (!info) return;
-
-        document.querySelectorAll('.json-token.active-token').forEach(t => t.classList.remove('active-token'));
-        document.querySelectorAll(`.json-token[data-field="${key}"]`).forEach(t => t.classList.add('active-token'));
-
-        const placeholder = document.getElementById('json-info-placeholder');
-        const content    = document.getElementById('json-info-content');
-        const typeData   = typeColors[info.tipo] || typeColors.string;
-
-        placeholder.classList.add('d-none');
-        content.classList.remove('d-none');
-
-        document.getElementById('info-key').textContent   = `"${key}"`;
-        document.getElementById('info-type').textContent  = typeData.label;
-        document.getElementById('info-type').style.cssText= `background:${typeData.bg}; color:${typeData.color};`;
-        document.getElementById('info-title').textContent = info.titulo;
-        document.getElementById('info-desc').textContent  = info.desc;
-        document.getElementById('info-example').textContent = info.ej;
-    }
-
-    // ─── Cambiar entre tab Sin/Con arreglos ───
-    function switchJsonTab(type) {
-        const panelSin = document.getElementById('panel-sin');
-        const panelCon = document.getElementById('panel-con');
-        const btnSin   = document.getElementById('btn-sin-arreglos');
-        const btnCon   = document.getElementById('btn-con-arreglos');
-        const placeholder = document.getElementById('json-info-placeholder');
-        const content     = document.getElementById('json-info-content');
-
-        if (type === 'sin') {
-            panelSin.style.display = '';
-            panelCon.style.display = 'none';
-            btnSin.classList.add('active');
-            btnCon.classList.remove('active');
-        } else {
-            panelSin.style.display = 'none';
-            panelCon.style.display = '';
-            btnCon.classList.add('active');
-            btnSin.classList.remove('active');
-        }
-        placeholder.classList.remove('d-none');
-        content.classList.add('d-none');
-        document.querySelectorAll('.json-token.active-token').forEach(t => t.classList.remove('active-token'));
-    }
-
-    // ─── Inicializar ───
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('json-sin-code').innerHTML = renderJson(JSON_SIN, 0, fieldInfo);
-        document.getElementById('json-con-code').innerHTML = renderJson(JSON_CON, 0, fieldInfo);
-    });
-    </script>
 </body>
+
 </html>

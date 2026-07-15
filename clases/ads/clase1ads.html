@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 1: Introducción al Diseño de Sistemas Informáticos y Modelos SDLC - Portal Académico</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS General de la Plantilla -->
+    <link rel="stylesheet" href="../../css/styles.css">
+
+    <!-- CSS Integrado para Componentes de la Clase -->
+    <style>
+        /* Variables de colores adaptativas al modo oscuro */
+        html[data-theme="dark"] {
+            --card-bg: #1e1e2f;
+            --border-color: #383854;
+            --text-color: #f8fafc;
+            --canvas-bg: #11111d;
+            --header-bg: #1a1a2b;
+            --text-muted: #94a3b8;
+            --quiz-option-hover: #2d2d44;
+            --quiz-correct: #064e3b;
+            --quiz-correct-text: #34d399;
+            --quiz-incorrect: #7f1d1d;
+            --quiz-incorrect-text: #fca5a5;
+        }
+
+        html[data-theme="light"] {
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-color: #1e293b;
+            --canvas-bg: #f8fafc;
+            --header-bg: #f1f5f9;
+            --text-muted: #64748b;
+            --quiz-option-hover: #f1f5f9;
+            --quiz-correct: #dcfce7;
+            --quiz-correct-text: #166534;
+            --quiz-incorrect: #fee2e2;
+            --quiz-incorrect-text: #991b1b;
+        }
+
+        /* Rejilla de Conceptos Clave */
+        .diagram-elements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .concept-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--bs-danger);
+        }
+
+        /* Caja de Información Estilizada */
+        .info-box {
+            background-color: rgba(220, 53, 69, 0.05);
+            border-left: 4px solid var(--bs-danger);
+            padding: 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+            line-height: 1.6;
+        }
+
+        /* Estructura del Diagrama UML interactivo */
+        .uml-diagram-container {
+            width: 100%;
+            overflow-x: auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .uml-diagram-canvas {
+            position: relative;
+            width: 960px;
+            height: 500px;
+            margin: 0 auto;
+            background-color: var(--canvas-bg);
+        }
+
+        .uml-svg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            /* Asegura que las líneas y flechas se dibujen SIEMPRE por encima */
+        }
+
+        .uml-relation-path {
+            fill: none;
+            transition: stroke-width 0.2s, stroke 0.2s;
+        }
+
+        .uml-relation-path.dashed {
+            stroke-dasharray: 5, 5;
+        }
+
+        .uml-card-new {
+            position: absolute;
+            z-index: 2;
+            /* Debajo de la capa SVG */
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-top: 5px solid #cbd5e1;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            font-size: 0.82rem;
+            color: var(--text-color);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .uml-card-new:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        .uml-card-new-header {
+            background: var(--header-bg);
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .uml-card-new-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .uml-card-new-stereotype {
+            display: block;
+            font-size: 0.7rem;
+        }
+
+        .uml-card-new-section {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .uml-card-new-section:last-child {
+            border-bottom: none;
+        }
+
+        /* Acordeones Desplegables Estilizados */
+        .details-styled {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .details-styled summary {
+            padding: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+            user-select: none;
+        }
+
+        .details-styled summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .details-styled summary::after {
+            content: '\F282';
+            font-family: 'bootstrap-icons';
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .details-styled[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .details-content {
+            padding: 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--canvas-bg);
+            line-height: 1.6;
+        }
+
+        /* Tabla Comparativa de Modelos */
+        .sdlc-table {
+            width: 100%;
+            margin: 1.5rem 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            border-collapse: collapse;
+        }
+
+        .sdlc-table th,
+        .sdlc-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sdlc-table th {
+            background-color: var(--header-bg);
+            font-weight: 700;
+        }
+
+        .sdlc-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-check {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-warn {
+            background-color: #fef9c3;
+            color: #854d0e;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Recurso Audiovisual */
+        .video-card {
+            display: flex;
+            gap: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 576px) {
+            .video-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .video-icon {
+            font-size: 3rem;
+        }
+
+        .btn-video {
+            display: inline-block;
+            background-color: #db2777;
+            color: white !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 0.75rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-video:hover {
+            background-color: #be185d;
+        }
+
+        /* Estructura Interactiva del Cuestionario (Quiz) */
+        .quiz-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .quiz-header {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .quiz-question:last-of-type {
+            border-bottom: none;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: var(--quiz-option-hover);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin: 0;
+            width: 1.1rem;
+            height: 1.1rem;
+            accent-color: var(--bs-danger);
+        }
+
+        .feedback-explanation {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .feedback-explanation.correct {
+            display: block;
+            background-color: var(--quiz-correct);
+            color: var(--quiz-correct-text);
+            border: 1px solid var(--quiz-correct-text);
+        }
+
+        .feedback-explanation.incorrect {
+            display: block;
+            background-color: var(--quiz-incorrect);
+            color: var(--quiz-incorrect-text);
+            border: 1px solid var(--quiz-incorrect-text);
+        }
+
+        .quiz-result-card {
+            display: none;
+            background: var(--canvas-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-result-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--bs-danger);
+            margin: 0.5rem 0;
+        }
+
+        .quiz-action-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-quiz {
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+
+        .btn-quiz:not(.btn-reset) {
+            background-color: var(--bs-danger);
+            color: white;
+        }
+
+        .btn-quiz.btn-reset {
+            background-color: var(--bs-secondary);
+            color: white;
+        }
+
+        .btn-quiz:hover {
+            filter: brightness(0.9);
+        }
+
+        /* Estilos del Menú Flotante Lateral de Clases */
+        .class-floating-sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--card-bg);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            transition: right 0.3s ease;
+        }
+
+        .class-floating-sidebar.active {
+            right: 0;
+        }
+
+        .class-fab-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background-color: var(--bs-danger);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .class-fab-btn:hover {
+            transform: scale(1.05);
+            background-color: #bd2130;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar General -->
+        <aside class="sidebar">
+            <a href="../../index.html" class="sidebar-logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>Portal Académico</span>
+            </a>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="../../index.html" class="sidebar-link">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../redcom/redes-comunicaciones.html" class="sidebar-link">
+                        <i class="bi bi-wifi"></i>
+                        <span>Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../bd2/bases-datos-ii.html" class="sidebar-link">
+                        <i class="bi bi-database"></i>
+                        <span>Bases de Datos II</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cpu"></i>
+                        <span>Sistemas Op.</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../bdr/bases-datos-relacionales.html" class="sidebar-link">
+                        <i class="bi bi-database-fill"></i>
+                        <span>Bases de Datos Rel.</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="analisis-diseno-sistemas.html" class="sidebar-link active">
+                        <i class="bi bi-diagram-3"></i>
+                        <span>Análisis y Diseño</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../poo/programacion-orientada-objetos.html" class="sidebar-link">
+                        <i class="bi bi-code-slash"></i>
+                        <span>Prog. Objetos (POO)</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="../ads/ads.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 1: Introducción y Ciclos SDLC</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Análisis y Diseño de Sistemas</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="class-content-wrapper">
+                <span class="badge-clase bg-danger text-white mb-3">Clase 1</span>
+                <h3 class="fw-bold mb-3">Introducción al Diseño de Sistemas Informáticos y Modelos SDLC</h3>
+                <p class="text-secondary mb-4" style="line-height: 1.7;">
+                    El Diseño de Sistemas Informáticos es la disciplina que define la arquitectura, módulos, interfaces
+                    y datos de un sistema de software para satisfacer requisitos específicos del negocio. En esta clase
+                    inicial, exploraremos cómo dar inicio a un proyecto tecnológico viable, las propiedades
+                    estructurales
+                    esenciales del código y las metodologías del ciclo de vida del desarrollo de software (SDLC).
+                </p>
+
+                <!-- Sección 1: Cómo Iniciar un Proyecto y Atributos de Calidad -->
+                <section class="mb-5">
+                    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-rocket-takeoff text-danger"></i> Inicio de un
+                        Proyecto y Atributos Críticos del Sistema</h4>
+                    <p class="text-secondary">
+                        El ciclo de vida de todo sistema informático comienza mucho antes de escribir código. Definir
+                        los cimientos
+                        arquitectónicos del software asegura que la solución pueda responder de forma eficiente a la
+                        demanda esperada de
+                        los usuarios y del negocio.
+                    </p>
+
+                    <div class="diagram-elements-grid">
+                        <div class="concept-card">
+                            <h3>🚀 Inicio del Proyecto</h3>
+                            <p class="text-secondary" style="font-size: 0.9rem;">
+                                Consiste en la identificación de la necesidad del negocio, la recopilación formal de
+                                <strong>requerimientos
+                                    funcionales</strong> (lo que hace el sistema) y <strong>no funcionales</strong>
+                                (cómo lo hace,
+                                rendimiento, seguridad), el análisis de factibilidad y la delimitación estricta del
+                                alcance.
+                            </p>
+                        </div>
+                        <div class="concept-card">
+                            <h3>📈 Escalabilidad</h3>
+                            <p class="text-secondary" style="font-size: 0.9rem;">
+                                Capacidad de una aplicación para responder óptimamente ante el incremento del volumen de
+                                trabajo sin perder rendimiento.
+                            </p>
+                            <ul class="ps-3 text-secondary" style="font-size: 0.85rem; line-height: 1.4;">
+                                <li><strong>Vertical (Scale-up):</strong> Incrementar recursos (CPU, RAM) al servidor
+                                    existente.</li>
+                                <li><strong>Horizontal (Scale-out):</strong> Añadir servidores en una red distribuida.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="concept-card">
+                            <h3>🛡️ Disponibilidad</h3>
+                            <p class="text-secondary" style="font-size: 0.9rem;">
+                                Proporción de tiempo que un sistema está operativo, accesible y listo para realizar su
+                                función programada.
+                            </p>
+                            <p class="text-secondary mb-0" style="font-size: 0.85rem;">
+                                Se mide en porcentajes conocidos como <i>"los nueves"</i> (ej. <strong>99.9%</strong>).
+                                Requiere mecanismos de redundancia y tolerancia a fallos.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 2: Acoplamiento vs Cohesión -->
+                <section class="mb-5">
+                    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-box-seam text-danger"></i> Métricas de Diseño de
+                        Componentes: Acoplamiento y Cohesión</h4>
+                    <p class="text-secondary">
+                        Para construir software que sea fácil de mantener, escalar y probar, los arquitectos se apoyan
+                        en dos conceptos
+                        métricos centrales de la Programación y el Diseño Orientado a Objetos:
+                    </p>
+
+                    <div class="info-box">
+                        <strong>La Regla de Oro del Diseño:</strong> Se debe buscar siempre el <strong>Bajo
+                            Acoplamiento</strong> (módulos comunicados mediante interfaces sencillas con mínimas
+                        dependencias mutuas) junto con una
+                        <strong>Alta Cohesión</strong> (cada clase o módulo se enfoca en hacer una única cosa
+                        extremadamente bien).
+                    </div>
+
+                    <!-- Diagrama Gráfico Interactivo de Acoplamiento y Cohesión -->
+                    <div class="uml-diagram-container">
+                        <div class="uml-diagram-canvas" id="uml-diagram-canvas">
+                            <!-- SVG Connections Overlay (Con Z-Index Superior) -->
+                            <svg class="uml-svg-overlay">
+                                <!-- Conexión recomendada (Verde - Abajo) -->
+                                <path class="uml-relation-path dashed" id="path-ideal" d="M 175,190 L 175,310"
+                                    style="stroke: #16a34a; stroke-width: 2.5;" />
+                                <path class="uml-marker-triangle" d="M 175,310 L 170,300 L 180,300 Z"
+                                    style="fill: #16a34a; stroke: #16a34a;" />
+
+                                <!-- Conexión deficiente (Roja 1 - Izquierda) -->
+                                <path class="uml-relation-path" id="path-bad-1" d="M 710,125 L 650,125"
+                                    style="stroke: #dc2626; stroke-width: 2.5;" />
+                                <path class="uml-marker-triangle" d="M 650,125 L 660,120 L 660,130 Z"
+                                    style="fill: #dc2626; stroke: #dc2626;" />
+
+                                <!-- Conexión deficiente (Roja 2 - Arriba) -->
+                                <path class="uml-relation-path" id="path-bad-2" d="M 530,310 L 530,230"
+                                    style="stroke: #dc2626; stroke-width: 2.5;" />
+                                <path class="uml-marker-triangle" d="M 530,230 L 525,240 L 535,240 Z"
+                                    style="fill: #dc2626; stroke: #dc2626;" />
+                            </svg>
+
+                            <div
+                                style="position: absolute; left: 60px; top: 20px; font-weight: bold; color: #166534; font-size: 0.8rem; background: #dcfce7; padding: 4px 10px; border: 1px solid #bbf7d0; border-radius: 4px; font-family: sans-serif;">
+                                Diseño Ideal (Mantenible)
+                            </div>
+
+                            <div
+                                style="position: absolute; left: 410px; top: 20px; font-weight: bold; color: #991b1b; font-size: 0.8rem; background: #fee2e2; padding: 4px 10px; border: 1px solid #fecaca; border-radius: 4px; font-family: sans-serif;">
+                                Antipatrón Acoplado (Código Espagueti)
+                            </div>
+
+                            <!-- ModuloClientes -->
+                            <div class="uml-card-new" id="card-clientes"
+                                style="left: 60px; top: 70px; width: 230px; border-top-color: #16a34a;">
+                                <div class="uml-card-new-header">
+                                    <span class="uml-card-new-title">ModuloClientes</span>
+                                    <span class="uml-card-new-stereotype"
+                                        style="color: #16a34a; font-weight: bold; font-size: 0.65rem;">[Alta
+                                        Cohesión]</span>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>- listaClientes: List&lt;Cliente&gt;</div>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>+ registrarCliente(): void</div>
+                                    <div>+ obtenerInfo(): Cliente</div>
+                                </div>
+                            </div>
+
+                            <!-- ModuloNotificaciones -->
+                            <div class="uml-card-new" id="card-notif"
+                                style="left: 60px; top: 310px; width: 230px; border-top-color: #16a34a;">
+                                <div class="uml-card-new-header">
+                                    <span class="uml-card-new-title">ModuloNotificaciones</span>
+                                    <span class="uml-card-new-stereotype"
+                                        style="color: #16a34a; font-weight: bold; font-size: 0.65rem;">[Alta
+                                        Cohesión]</span>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>- smtpServer: String</div>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>+ enviarCorreo(c: Cliente): void</div>
+                                </div>
+                            </div>
+
+                            <!-- SuperModuloTodoEnUno (God class) -->
+                            <div class="uml-card-new" id="card-god"
+                                style="left: 410px; top: 70px; width: 240px; border-top-color: #dc2626;">
+                                <div class="uml-card-new-header">
+                                    <span class="uml-card-new-title">SuperModuloTodoEnUno</span>
+                                    <span class="uml-card-new-stereotype"
+                                        style="color: #dc2626; font-weight: bold; font-size: 0.65rem;">[Baja Cohesión /
+                                        God Class]</span>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>- clientes: List</div>
+                                    <div>- facturas: List</div>
+                                    <div>- smtpServer: String</div>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>+ registrarCliente(): void</div>
+                                    <div>+ procesarPago(): void</div>
+                                    <div>+ enviarCorreo(): void</div>
+                                </div>
+                            </div>
+
+                            <!-- ModuloReportes -->
+                            <div class="uml-card-new" id="card-reportes"
+                                style="left: 710px; top: 70px; width: 200px; border-top-color: #dc2626;">
+                                <div class="uml-card-new-header">
+                                    <span class="uml-card-new-title">ModuloReportes</span>
+                                    <span class="uml-card-new-stereotype"
+                                        style="color: #dc2626; font-weight: bold; font-size: 0.65rem;">[Alto
+                                        Acoplamiento]</span>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>/* Acceso directo a variables */</div>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>+ imprimirReportes(): void</div>
+                                </div>
+                            </div>
+
+                            <!-- ModuloFacturacion -->
+                            <div class="uml-card-new" id="card-facturacion"
+                                style="left: 410px; top: 310px; width: 240px; border-top-color: #dc2626;">
+                                <div class="uml-card-new-header">
+                                    <span class="uml-card-new-title">ModuloFacturacion</span>
+                                    <span class="uml-card-new-stereotype"
+                                        style="color: #dc2626; font-weight: bold; font-size: 0.65rem;">[Alto
+                                        Acoplamiento]</span>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>/* Depende de estado interno */</div>
+                                </div>
+                                <div class="uml-card-new-section">
+                                    <div>+ emitirFactura(): void</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 3: Modelos de Ciclo de Vida del Software (SDLC) -->
+                <section class="mb-5">
+                    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-arrow-repeat text-danger"></i> Modelos de Ciclo
+                        de Vida del Software (SDLC)</h4>
+                    <p class="text-secondary">
+                        El Ciclo de Vida del Desarrollo de Software (SDLC) representa las metodologías y marcos de
+                        trabajo adoptados
+                        para estructurar, planificar y controlar el proceso de desarrollo de sistemas de información.
+                    </p>
+
+                    <!-- Modelo en Cascada -->
+                    <details class="details-styled">
+                        <summary>
+                            <span>🌊 <strong>1. Modelo en Cascada (Waterfall)</strong></span>
+                        </summary>
+                        <div class="details-content">
+                            Es el enfoque metodológico clásico y predictivo. El desarrollo fluye de forma secuencial
+                            hacia abajo a través de fases rígidas e inflexibles:
+                            <ol class="mt-2 text-secondary" style="line-height: 1.6;">
+                                <li><strong>Requisitos:</strong> Capturados y congelados al inicio.</li>
+                                <li><strong>Diseño:</strong> Definición de arquitectura detallada.</li>
+                                <li><strong>Implementación:</strong> Escritura del código del sistema.</li>
+                                <li><strong>Pruebas:</strong> Control de calidad generalizado.</li>
+                                <li><strong>Despliegue:</strong> Entrega final al cliente.</li>
+                            </ol>
+                            <strong>Ventajas:</strong> Estructura clara y de fácil gestión en proyectos con requisitos
+                            estáticos.
+                            <br>
+                            <strong>Desventajas:</strong> Inflexible al cambio; el cliente no ve software funcional
+                            hasta el final, elevando el riesgo de fallo.
+                        </div>
+                    </details>
+
+                    <!-- Modelo Ágil -->
+                    <details class="details-styled">
+                        <summary>
+                            <span>⚡ <strong>2. Modelo Ágil (Agile)</strong></span>
+                        </summary>
+                        <div class="details-content">
+                            Enfoque incremental y adaptativo, enfocado en entregas tempranas de software funcional en
+                            ciclos fijos y cortos (<i>sprints</i>).
+                            <p class="mt-2 mb-1 text-secondary"><strong>Pilares del Manifiesto Ágil:</strong></p>
+                            <ul class="text-secondary ps-3">
+                                <li>Priorizar de forma primordial a los individuos e interacciones sobre procesos y
+                                    herramientas.</li>
+                                <li>Dar mayor importancia al software funcional por encima de la documentación
+                                    exhaustiva.</li>
+                                <li>Mantener colaboración activa con el cliente durante todo el proceso.</li>
+                                <li>Respuesta oportuna ante el cambio sobre seguir un plan estricto.</li>
+                            </ul>
+                            <strong>Ventajas:</strong> Excelente adaptación al cambio y retroalimentación constante del
+                            cliente.
+                            <br>
+                            <strong>Desventajas:</strong> Dificultad para estimar tiempos y presupuestos finales
+                            exactos.
+                        </div>
+                    </details>
+
+                    <!-- Modelo en Espiral -->
+                    <details class="details-styled">
+                        <summary>
+                            <span>🌀 <strong>3. Modelo en Espiral (Spiral)</strong></span>
+                        </summary>
+                        <div class="details-content">
+                            Creado por Barry Boehm, es un modelo guiado de forma sistemática por el <strong>Análisis y
+                                Gestión de Riesgos</strong>. Combina la naturaleza iterativa del prototipado con el
+                            control secuencial.
+                            <p class="mt-2 text-secondary">Cada iteración recorre obligatoriamente cuatro cuadrantes:
+                            </p>
+                            <ol class="text-secondary ps-3">
+                                <li><strong>Determinar objetivos:</strong> Identificar requisitos y restricciones.</li>
+                                <li><strong>Analizar riesgos:</strong> Crear prototipos para mitigar problemas
+                                    potenciales.</li>
+                                <li><strong>Desarrollar y probar:</strong> Escribir el código y validar el software.
+                                </li>
+                                <li><strong>Planificar:</strong> Evaluar resultados y preparar el siguiente ciclo.</li>
+                            </ol>
+                            <strong>Ventajas:</strong> Gestión de riesgos robusta, excelente para sistemas críticos (ej.
+                            militar, médico).
+                            <br>
+                            <strong>Desventajas:</strong> Complejo y costoso; depende críticamente de la experiencia en
+                            análisis de riesgos.
+                        </div>
+                    </details>
+                </section>
+
+                <!-- Sección 4: Tabla Comparativa de Modelos SDLC -->
+                <section class="mb-5">
+                    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-grid-3x3-gap text-danger"></i> Tabla Comparativa:
+                        ¿Qué Modelo SDLC Elegir?</h4>
+                    <p class="text-secondary">Comparativa de metodologías según los factores de decisión clave en
+                        ingeniería de software:</p>
+
+                    <div class="table-responsive">
+                        <table class="sdlc-table">
+                            <thead>
+                                <tr>
+                                    <th>Característica</th>
+                                    <th>Cascada (Waterfall)</th>
+                                    <th>Ágil (Agile)</th>
+                                    <th>Espiral (Spiral)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Flexibilidad ante cambios</strong></td>
+                                    <td><span class="badge-danger">Baja / Inflexible</span></td>
+                                    <td><span class="badge-check">Muy Alta / Adaptativo</span></td>
+                                    <td><span class="badge-warn">Media-Alta</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Gestión de Riesgos</strong></td>
+                                    <td><span class="badge-danger">Mínima / Tardía</span></td>
+                                    <td><span class="badge-warn">Media / Iterativa</span></td>
+                                    <td><span class="badge-check">Excelente (Eje Central)</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Participación del Cliente</strong></td>
+                                    <td>Inicial y Final únicamente</td>
+                                    <td><span class="badge-check">Constante (Cada Sprint)</span></td>
+                                    <td>Alta (Evaluación de ciclos)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Costo de errores de diseño</strong></td>
+                                    <td><span class="badge-danger">Extremadamente Alto</span></td>
+                                    <td>Bajo (Corregible en sprints)</td>
+                                    <td>Medio (Mitigado en fases)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Adecuado para...</strong></td>
+                                    <td>Proyectos simples con requisitos fijos</td>
+                                    <td>Startups y proyectos cambiantes</td>
+                                    <td>Proyectos críticos complejos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Sección 5: Recurso Audiovisual -->
+                <section class="mb-5">
+                    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-play-btn text-danger"></i> Material de Soporte
+                        Audiovisual</h4>
+                    <p class="text-secondary">Visualiza el siguiente video complementario para afianzar el conocimiento
+                        sobre los ciclos de vida de desarrollo:</p>
+
+                    <div class="video-card">
+                        <div class="video-icon">🎥</div>
+                        <div>
+                            <h5 class="fw-bold text-danger mb-1">Introducción a los Modelos de Ciclo de Vida (SDLC)</h5>
+                            <p class="text-secondary mb-2" style="font-size: 0.9rem;">
+                                Conoce con mayor profundidad cómo elegir y aplicar Waterfall, Agile y Spiral en entornos
+                                de producción.
+                            </p>
+                            <a href="https://youtu.be/TLVDBAo1aEY?si=ok1yakOcoTqNNeZh" target="_blank"
+                                class="btn-video">Reproducir Video</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 6: Quiz Evaluativo -->
+                <section class="quiz-container">
+                    <div class="quiz-header">
+                        <h4 class="fw-bold text-dark"><i class="bi bi-patch-question text-danger"></i> Cuestionario:
+                            Diseño de Sistemas y SDLC</h4>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem;">Responde las siguientes 5 preguntas de
+                            autoevaluación para consolidar tu aprendizaje teórico.</p>
+                    </div>
+
+                    <form id="quizForm">
+                        <!-- Pregunta 1 -->
+                        <div class="quiz-question" data-question-id="1">
+                            <div class="question-text">1. ¿Qué tipo de escalabilidad se realiza cuando se añaden más
+                                servidores o nodos a un sistema distribuido en lugar de aumentar la capacidad de
+                                hardware del servidor actual?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="a"> A) Escalabilidad Vertical (Scale-up)
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="b"> B) Escalabilidad Diagonal
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="c"> C) Escalabilidad Horizontal (Scale-out)
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="d"> D) Escalabilidad de Redundancia
+                                </label>
+                            </div>
+                            <div class="feedback-explanation"></div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="quiz-question" data-question-id="2">
+                            <div class="question-text">2. En el diseño estructurado de componentes de software, el
+                                escenario arquitectónico ideal es contar con:</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="a"> A) Alto acoplamiento y alta cohesión.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="b"> B) Bajo acoplamiento y alta cohesión.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="c"> C) Alto acoplamiento y baja cohesión.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="d"> D) Bajo acoplamiento y baja cohesión.
+                                </label>
+                            </div>
+                            <div class="feedback-explanation"></div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="quiz-question" data-question-id="3">
+                            <div class="question-text">3. ¿Cuál es la característica clave que distingue al Modelo en
+                                Espiral de Barry Boehm frente a otras metodologías de ciclo de vida?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="a"> A) Su linealidad estricta y fases sin
+                                    solapamiento alguno.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="b"> B) La ausencia de documentación en favor de
+                                    la velocidad extrema.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="c"> C) El análisis y gestión de riesgos
+                                    sistemática en cada iteración del desarrollo.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="d"> D) Su adecuación única para páginas web
+                                    estáticas simples.
+                                </label>
+                            </div>
+                            <div class="feedback-explanation"></div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="quiz-question" data-question-id="4">
+                            <div class="question-text">4. Si vas a desarrollar una plataforma bancaria altamente
+                                regulada, con requisitos inmutables y establecidos legalmente, ¿cuál es el modelo
+                                predictivo más adecuado?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="a"> A) Modelo Ágil (Scrum)
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="b"> B) Modelo en Cascada (Waterfall)
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="c"> C) Desarrollo de prototipos iterativos
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="d"> D) Modelo Caótico
+                                </label>
+                            </div>
+                            <div class="feedback-explanation"></div>
+                        </div>
+
+                        <!-- Pregunta 5 -->
+                        <div class="quiz-question" data-question-id="5">
+                            <div class="question-text">5. ¿Qué mide el porcentaje de "Disponibilidad" (Availability) en
+                                el diseño de infraestructura?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="a"> A) La cantidad de memoria libre en los
+                                    servidores de la empresa.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="b"> B) El número de programadores listos para
+                                    codificar un módulo.
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="c"> C) El porcentaje de tiempo que el sistema
+                                    permanece funcional y accesible (ej. 99.9%).
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="d"> D) La velocidad de respuesta del sistema
+                                    bajo pruebas de estrés.
+                                </label>
+                            </div>
+                            <div class="feedback-explanation"></div>
+                        </div>
+
+                        <div class="quiz-result-card" id="quizResult">
+                            <h5 class="fw-bold">Resultado de la Calificación</h5>
+                            <div class="quiz-result-score" id="scoreValue">0/5</div>
+                            <p id="resultFeedbackText" class="mb-0"></p>
+                        </div>
+
+                        <div class="quiz-action-bar">
+                            <button type="button" class="btn-quiz btn-reset"
+                                onclick="reiniciarCuestionario()">Reiniciar</button>
+                            <button type="button" class="btn-quiz" onclick="calificarCuestionario()">Calificar
+                                Cuestionario</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menú Flotante de Clases de la materia -->
+    <div class="class-floating-sidebar" id="class-floating-sidebar">
+        <div class="sidebar-floating-header d-flex justify-content-between align-items-center p-3 border-bottom">
+            <h6 class="text-muted fw-bold mb-0"
+                style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close"
+                style="font-size: 0.8rem;"></button>
+        </div>
+        <div class="class-floating-sidebar-content p-3">
+            <ul class="class-list list-unstyled d-flex flex-column gap-2">
+                <li>
+                    <a href="clase1.html"
+                        class="class-item active text-decoration-none d-flex align-items-center gap-2 p-2 rounded">
+                        <i class="bi bi-journal-text text-danger"></i>
+                        <span class="class-item-text text-dark" title="Clase 1: Introducción y SDLC">Clase 1:
+                            Introducción y SDLC</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase2.html"
+                        class="class-item text-decoration-none d-flex align-items-center gap-2 p-2 rounded">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text text-muted" title="Clase 2: Requisitos y Casos de Uso">Clase 2:
+                            Requisitos y Casos de Uso</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase3.html"
+                        class="class-item text-decoration-none d-flex align-items-center gap-2 p-2 rounded">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text text-muted" title="Clase 3: Diagramas de Clases">Clase 3: Diagramas
+                            de Clases</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase4.html"
+                        class="class-item text-decoration-none d-flex align-items-center gap-2 p-2 rounded">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text text-muted" title="Clase 4: Diagramas de Secuencia">Clase 4:
+                            Diagramas de Secuencia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase5.html"
+                        class="class-item text-decoration-none d-flex align-items-center gap-2 p-2 rounded">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text text-muted" title="Clase 5: Arquitectura">Clase 5:
+                            Arquitectura</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) -->
+    <button type="button" class="class-fab-btn" id="class-fab-btn">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Ver Clases</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Análisis y Diseño de
+            Sistemas</p>
+    </footer>
+
+    <!-- JavaScript Unificado -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ----------------------------------------------------
+        // 1. Control del Modo Oscuro
+        // ----------------------------------------------------
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-sun-fill';
+            } else {
+                themeIcon.className = 'bi bi-moon-fill';
+            }
+        }
+
+        // Cargar tema inicial guardado
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        // ----------------------------------------------------
+        // 2. Control de la Barra Lateral de Clases (Menú Flotante)
+        // ----------------------------------------------------
+        const fabBtn = document.getElementById('class-fab-btn');
+        const floatingSidebar = document.getElementById('class-floating-sidebar');
+        const closeSidebarBtn = document.getElementById('close-floating-sidebar-btn');
+
+        if (fabBtn && floatingSidebar && closeSidebarBtn) {
+            fabBtn.addEventListener('click', () => {
+                floatingSidebar.classList.add('active');
+            });
+            closeSidebarBtn.addEventListener('click', () => {
+                floatingSidebar.classList.remove('active');
+            });
+        }
+
+        // ----------------------------------------------------
+        // 3. Diagrama UML Interactivo (Efecto Hover y Enfoque de Relaciones)
+        // ----------------------------------------------------
+        const cards = {
+            'card-clientes': ['path-ideal'],
+            'card-notif': ['path-ideal'],
+            'card-god': ['path-bad-1', 'path-bad-2'],
+            'card-reportes': ['path-bad-1'],
+            'card-facturacion': ['path-bad-2']
+        };
+
+        Object.keys(cards).forEach(cardId => {
+            const cardEl = document.getElementById(cardId);
+            if (cardEl) {
+                cardEl.addEventListener('mouseenter', () => {
+                    // Resaltar tarjeta
+                    cardEl.style.transform = 'scale(1.03) translateY(-4px)';
+                    cardEl.style.boxShadow = '0 12px 20px -3px rgba(0, 0, 0, 0.2)';
+
+                    // Resaltar caminos asociados (al estar z-index en 5 se ven perfectamente arriba)
+                    cards[cardId].forEach(pathId => {
+                        const pathEl = document.getElementById(pathId);
+                        if (pathEl) {
+                            pathEl.style.strokeWidth = '4.5px';
+                            if (pathId === 'path-ideal') {
+                                pathEl.style.stroke = '#22c55e'; // Verde brillante
+                            } else {
+                                pathEl.style.stroke = '#ef4444'; // Rojo brillante
+                            }
+                        }
+                    });
+                });
+
+                cardEl.addEventListener('mouseleave', () => {
+                    // Restaurar tarjeta
+                    cardEl.style.transform = 'scale(1) translateY(0)';
+                    cardEl.style.boxShadow = '';
+
+                    // Restaurar caminos a su estado base
+                    cards[cardId].forEach(pathId => {
+                        const pathEl = document.getElementById(pathId);
+                        if (pathEl) {
+                            pathEl.style.strokeWidth = '2.5px';
+                            if (pathId === 'path-ideal') {
+                                pathEl.style.stroke = '#16a34a';
+                            } else {
+                                pathEl.style.stroke = '#dc2626';
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        // ----------------------------------------------------
+        // 4. Calificación Interactiva del Quiz
+        // ----------------------------------------------------
+        const correctAnswers = {
+            q1: 'c',
+            q2: 'b',
+            q3: 'c',
+            q4: 'b',
+            q5: 'c'
+        };
+
+        const explanations = {
+            q1: '¡Correcto! La escalabilidad horizontal (Scale-out) añade más nodos o servidores distribuidos en lugar de escalar un único servidor físico.',
+            q2: '¡Correcto! El acoplamiento bajo y la alta cohesión forman la regla de oro para un diseño de componentes modular, mantenible y robusto.',
+            q3: '¡Correcto! El análisis y mitigación de riesgos sistemática en cada iteración es la característica fundamental de la espiral de Boehm.',
+            q4: '¡Correcto! El modelo en Cascada es de carácter predictivo e ideal para requisitos estrictos, inmutables y lineales.',
+            q5: '¡Correcto! La disponibilidad representa la proporción de tiempo útil en el que el sistema se encuentra completamente operativo (los famosos "nueves").'
+        };
+
+        const failExplanations = {
+            q1: 'Incorrecto. Añadir más servidores es Escalabilidad Horizontal. La vertical incrementa los recursos del servidor ya existente (RAM/CPU).',
+            q2: 'Incorrecto. Se busca siempre tener un Bajo Acoplamiento para reducir dependencias, y una Alta Cohesión para que las clases tengan una sola responsabilidad.',
+            q3: 'Incorrecto. El pilar indispensable del Modelo en Espiral es el Análisis y Gestión Sistemática de Riesgos.',
+            q4: 'Incorrecto. Al tratarse de fases rígidas e inmutables controladas de forma secuencial, el Modelo en Cascada es el adecuado.',
+            q5: 'Incorrecto. La disponibilidad mide la proporción de tiempo que un sistema está operativo, accesible y listo para realizar su función.'
+        };
+
+        function calificarCuestionario() {
+            let score = 0;
+            const totalQuestions = 5;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                const feedbackDiv = document.querySelector(`.quiz-question[data-question-id="${i}"] .feedback-explanation`);
+
+                if (!feedbackDiv) continue;
+
+                if (selectedOption) {
+                    const value = selectedOption.value;
+                    if (value === correctAnswers[`q${i}`]) {
+                        score++;
+                        feedbackDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${explanations[`q${i}`]}`;
+                        feedbackDiv.className = 'feedback-explanation correct';
+                    } else {
+                        feedbackDiv.innerHTML = `<i class="bi bi-exclamation-triangle-fill"></i> ${failExplanations[`q${i}`]}`;
+                        feedbackDiv.className = 'feedback-explanation incorrect';
+                    }
+                } else {
+                    feedbackDiv.innerHTML = `<i class="bi bi-exclamation-circle-fill"></i> No has respondido esta pregunta. Respuesta correcta: ${correctAnswers[`q${i}`].toUpperCase()}`;
+                    feedbackDiv.className = 'feedback-explanation incorrect';
+                }
+            }
+
+            // Mostrar el bloque con el resultado final
+            const resultCard = document.getElementById('quizResult');
+            const scoreValue = document.getElementById('scoreValue');
+            const resultFeedbackText = document.getElementById('resultFeedbackText');
+
+            scoreValue.innerText = `${score} / ${totalQuestions}`;
+            resultCard.style.display = 'block';
+
+            if (score === totalQuestions) {
+                resultFeedbackText.innerText = '¡Excelente! Has comprendido perfectamente todos los fundamentos de diseño y ciclos de vida.';
+                resultFeedbackText.className = 'text-success fw-bold';
+            } else if (score >= 3) {
+                resultFeedbackText.innerText = '¡Buen trabajo! Tienes bases sólidas, pero te recomendamos revisar los temas en los que fallaste.';
+                resultFeedbackText.className = 'text-warning fw-bold';
+            } else {
+                resultFeedbackText.innerText = 'Te sugerimos repasar nuevamente el contenido teórico y los cuadrantes de los modelos SDLC.';
+                resultFeedbackText.className = 'text-danger fw-bold';
+            }
+
+            // Desplazamiento suave hasta el panel de resultados
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function reiniciarCuestionario() {
+            // Desmarcar radio buttons
+            document.querySelectorAll('#quizForm input[type="radio"]').forEach(radio => radio.checked = false);
+            // Ocultar explicaciones individuales
+            document.querySelectorAll('.feedback-explanation').forEach(div => {
+                div.style.display = 'none';
+                div.className = 'feedback-explanation';
+            });
+            // Ocultar tarjeta de resultados
+            document.getElementById('quizResult').style.display = 'none';
+        }
+    </script>
+
+</body>
+
+</html>

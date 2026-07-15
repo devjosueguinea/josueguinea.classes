@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis y Diseño de Sistemas - Portal Académico</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- El menú dinámico (Sidebar) se inyectará aquí mediante js/menu.js -->
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="../../index.html" class="btn btn-icon" title="Volver al Dashboard">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Análisis y Diseño de Sistemas</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">ADS1 – Ciclo de Vida, Requisitos y Modelado
+                            de Software</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Layout de materia con Sidebar de clases -->
+            <div class="subject-layout">
+                <!-- Sidebar de Clases -->
+                <nav class="subject-sidebar">
+                    <h6 class="text-muted fw-bold mb-3"
+                        style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Temario de Clases
+                    </h6>
+                    <ul class="class-list" id="class-list-analisis">
+                        <li class="class-item active" data-class-id="clase1">
+                            <div class="class-checkbox" data-class-key="analisis_clase1">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text"
+                                title="Clase 1: Introducción al Diseño de Sistemas Informáticos y Modelos SDLC">Clase 1:
+                                Introducción y Modelos SDLC</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase2">
+                            <div class="class-checkbox" data-class-key="analisis_clase2">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 2: Fundamentos de UML">Clase 2: Fundamentos de
+                                UML</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase3">
+                            <div class="class-checkbox" data-class-key="analisis_clase3">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text"
+                                title="Clase 3: Modelado de datos (Casos de uso y sus escenarios)">Clase 3: Modelado de
+                                Datos (Casos de Uso)</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase4">
+                            <div class="class-checkbox" data-class-key="analisis_clase4">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 4: Diagramas de secuencia">Clase 4: Diagramas de
+                                Secuencia</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase5">
+                            <div class="class-checkbox" data-class-key="analisis_clase5">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 5: Diagrama de clase">Clase 5: Diagramas de
+                                Clase</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase6">
+                            <div class="class-checkbox" data-class-key="analisis_clase6">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 6: Relación de herencia y abstracción">Clase 6:
+                                Herencia y Abstracción</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase7">
+                            <div class="class-checkbox" data-class-key="analisis_clase7">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 7: Relación de agregación">Clase 7: Relación de
+                                Agregación</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase8">
+                            <div class="class-checkbox" data-class-key="analisis_clase8">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 8: Relación de composición">Clase 8: Relación de
+                                Composición</span>
+                        </li>
+                        <li class="class-item" data-class-id="clase9">
+                            <div class="class-checkbox" data-class-key="analisis_clase9">
+                                <i class="bi bi-check-lg d-none"></i>
+                            </div>
+                            <span class="class-item-text" title="Clase 9: Diccionario de datos">Clase 9: Diccionario de
+                                Datos</span>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Panel de Contenido de Clase -->
+                <div class="class-content-wrapper">
+
+                    <!-- Clase 1 -->
+                    <article class="class-detail-section active" id="clase1-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-primary text-white">Clase 1</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Introducción al Diseño de Sistemas Informáticos y Modelos SDLC</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Conceptos fundamentales sobre el diseño arquitectónico de sistemas y el análisis comparativo
+                            de los ciclos de vida de desarrollo de software tradicionales y ágiles.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-primary"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> ¿Qué es el diseño de sistemas
+                                        informáticos?</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Fases del ciclo de vida del software
+                                        (SDLC)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Modelos predictivos vs. Modelos
+                                        adaptativos</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Introducción a la agilidad y marcos
+                                        iterativos</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Entender el ecosistema
+                                            del SDLC</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Diferenciar
+                                            metodologías ágiles de predictivas</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Seleccionar ciclos de
+                                            vida apropiados</li>
+                                    </ul>
+                                    <a href="../ads/clase1ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 2 -->
+                    <article class="class-detail-section" id="clase2-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-success text-white">Clase 2</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Fundamentos de UML</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Estudio del Lenguaje de Modelado Unificado (UML) como el estándar de la industria para
+                            visualizar, especificar y documentar componentes de software.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Historia, evolución y propósito de UML
+                                    </li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Clasificación: Diagramas estructurales y
+                                        de comportamiento</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Bloques de construcción, relaciones y
+                                        reglas comunes</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Herramientas de modelado asistido por
+                                        computadora (CASE)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Comprender la
+                                            importancia del modelado visual</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Clasificar diagramas
+                                            según su propósito</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Dominar la notación
+                                            estándar de UML</li>
+                                    </ul>
+                                    <a href="../analisis/clase2ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 3 -->
+                    <article class="class-detail-section" id="clase3-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-warning text-dark">Clase 3</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Modelado de datos (Casos de uso y sus escenarios)</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Estructuración de requerimientos funcionales a través del modelado de interacciones entre
+                            actores y el sistema mediante especificaciones completas de escenarios de negocio.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-warning"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Diagrama de Casos de Uso: Actores y
+                                        límites del sistema</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Relaciones lógicas: Include, Extend y
+                                        Generalización</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Escenarios y flujos: Eventos principales
+                                        y alternativos</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-warning"></i> Plantillas descriptivas para
+                                        documentación estructurada</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-warning"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Modelar comportamientos
+                                            funcionales en UML</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Redactar
+                                            especificaciones y escenarios lógicos</li>
+                                        <li><i class="bi bi-arrow-right-short text-warning"></i> Definir límites claros
+                                            para sistemas</li>
+                                    </ul>
+                                    <a href="../analisis/clase3ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 4 -->
+                    <article class="class-detail-section" id="clase4-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-danger text-white">Clase 4</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Diagramas de secuencia</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Representación de la dimensión temporal del software, detallando el intercambio de mensajes
+                            e interacciones entre objetos a lo largo del tiempo.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-danger"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Líneas de vida, focos de control y
+                                        activación</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Tipos de mensajes: Síncronos, asíncronos
+                                        y de retorno</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Estructuras lógicas avanzadas: Fragmentos
+                                        combinados (alt, opt, loop)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-danger"></i> Mapeo entre Casos de Uso y Diagramas de
+                                        Secuencia</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-danger"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Modelar dinámicas
+                                            interactivas temporales</li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Diagramar flujos lógicos
+                                            con fragmentos</li>
+                                        <li><i class="bi bi-arrow-right-short text-danger"></i> Validar mensajes e hilos
+                                            de ejecución</li>
+                                    </ul>
+                                    <a href="../analisis/clase4ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 5 -->
+                    <article class="class-detail-section" id="clase5-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-secondary text-white">Clase 5</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Diagrama de clase</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Construcción estructural del sistema lógico mediante la definición estática de clases, sus
+                            atributos principales, métodos y reglas de visibilidad.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-secondary"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Anatomía de una clase: Atributos,
+                                        firmas de métodos y tipos</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Modificadores de visibilidad: Público
+                                        (+), Privado (-) y Protegido (#)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Asociaciones simples y relaciones de
+                                        multiplicidad</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-secondary"></i> Representación de clases asociativas e
+                                        interfaces</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Diseñar planos
+                                            estáticos de arquitectura lógica</li>
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Aplicar buenas
+                                            prácticas de encapsulamiento</li>
+                                        <li><i class="bi bi-arrow-right-short text-secondary"></i> Establecer
+                                            cardinalidades precisas entre clases</li>
+                                    </ul>
+                                    <a href="../analisis/clase5ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 6 -->
+                    <article class="class-detail-section" id="clase6-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-info text-dark">Clase 6</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Relación de herencia y abstracción</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Implementación avanzada de jerarquías de clase con herencia para la reutilización de código
+                            y uso de abstracción para definir plantillas lógicas comunes.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-info"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-info"></i> Concepto de Generalización /
+                                        Especialización en UML</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-info"></i> Modelado de superclases y subclases
+                                        herederas</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-info"></i> Clases abstractas y firmas de métodos
+                                        virtuales puros</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-info"></i> Relación de herencia vs. Composición de
+                                        software</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-info"><i class="bi bi-check-circle-fill"></i> Objetivos
+                                    </h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-info"></i> Modelar herencias
+                                            estructuradas jerárquicamente</li>
+                                        <li><i class="bi bi-arrow-right-short text-info"></i> Diseñar plantillas lógicas
+                                            usando abstracción</li>
+                                        <li><i class="bi bi-arrow-right-short text-info"></i> Promover la reutilización
+                                            óptima de código</li>
+                                    </ul>
+                                    <a href="../analisis/clase6ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 7 -->
+                    <article class="class-detail-section" id="clase7-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-dark text-white">Clase 7</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Relación de agregación</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Estudio del acoplamiento estructural débil del tipo "todo-parte" (has-a) donde el objeto
+                            parte puede subsistir con independencia del objeto contenedor.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-dark"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-dark"></i> Definición formal de la relación de
+                                        agregación en UML</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-dark"></i> Representación gráfica: Sintaxis del rombo
+                                        vacío</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-dark"></i> Ciclo de vida independiente de objetos
+                                        componentes</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-dark"></i> Casos de uso prácticos (Ej: Universidades y
+                                        Profesores)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-check-circle-fill"></i> Objetivos
+                                    </h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-dark"></i> Identificar relaciones
+                                            "todo-parte" desacopladas</li>
+                                        <li><i class="bi bi-arrow-right-short text-dark"></i> Modelar relaciones con
+                                            agregación en UML</li>
+                                        <li><i class="bi bi-arrow-right-short text-dark"></i> Diseñar sistemas con bajo
+                                            nivel de dependencia</li>
+                                    </ul>
+                                    <a href="../analisis/clase7ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 8 -->
+                    <article class="class-detail-section" id="clase8-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-primary text-white">Clase 8</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Relación de composición</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Modelado de la relación fuerte y restrictiva "todo-parte" donde las partes constituyentes
+                            son destruidas en cascada al eliminarse la clase contenedora.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-primary"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Fundamento lógico de la relación de
+                                        composición</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Representación gráfica: Sintaxis del
+                                        rombo relleno/sólido</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Ciclo de vida dependiente y destrucción
+                                        estricta en cascada</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-primary"></i> Cuadro comparativo definitivo:
+                                        Agregación vs. Composición</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Modelar acoplamientos
+                                            fuertes con composición</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Asegurar la integridad
+                                            del ciclo de vida de objetos</li>
+                                        <li><i class="bi bi-arrow-right-short text-primary"></i> Elegir correctamente
+                                            entre agregación y composición</li>
+                                    </ul>
+                                    <a href="../analisis/clase8ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Clase 9 -->
+                    <article class="class-detail-section" id="clase9-detail">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <span class="badge-clase bg-success text-white">Clase 9</span>
+                            <span class="text-muted small"><i class="bi bi-clock"></i> 4 horas</span>
+                        </div>
+                        <h3 class="fw-bold mb-3">Diccionario de datos</h3>
+                        <p class="lead text-secondary" style="font-size: 1rem; line-height: 1.6;">
+                            Documentación técnica de metadatos estructurales para estandarizar los nombres de datos,
+                            rangos permitidos y estructuras de almacenamiento del sistema.
+                        </p>
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-7">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-list-check text-success"></i> Contenidos</h5>
+                                <ul class="list-group list-group-flush" style="background: transparent;">
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> ¿Qué es un diccionario de datos y cuál
+                                        es su utilidad?</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Estructura de metadatos: Nombre, alias,
+                                        tipo, rango y longitud</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Notación formal de estructuras de datos
+                                        (secuencias, selecciones)</li>
+                                    <li class="list-group-item bg-transparent border-light px-0 py-2 text-secondary"><i
+                                            class="bi bi-dot text-success"></i> Integración del diccionario con
+                                        diagramas UML y de flujo</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card-objetivos">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill"></i>
+                                        Objetivos</h5>
+                                    <ul class="list-unstyled text-secondary"
+                                        style="font-size: 0.9rem; line-height: 1.8;">
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Documentar
+                                            sistemáticamente metadatos del sistema</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Estandarizar
+                                            estructuras de entrada y persistencia</li>
+                                        <li><i class="bi bi-arrow-right-short text-success"></i> Eliminar
+                                            inconsistencias de datos en la arquitectura</li>
+                                    </ul>
+                                    <a href="../analisis/clase9ads.html" class="btn btn-primary-gradient w-100 mt-3"><i
+                                            class="bi bi-journal-text"></i> Ver Clase Completa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Análisis y Diseño de
+            Sistemas
+        </p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script> <!-- Llamado dinámico al menú -->
+    <script src="../../js/main.js"></script>
+
+    <!-- ===== ESTILOS ADAPTADOS UML & REQUISITOS LAB ===== -->
+    <style>
+        /* ─── Sección principal ─── */
+        .json-lab-section {
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            background: var(--hover-bg);
+        }
+
+        .json-lab-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .json-lab-title-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .json-lab-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ─── Tab switcher ─── */
+        .json-tab-switcher {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            border-radius: 14px;
+        }
+
+        .json-tab-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
+        }
+
+        .json-tab-btn:hover:not(.active) {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        /* ─── Grid de paneles ─── */
+        .json-panels-grid {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media(max-width:768px) {
+            .json-panels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── Panel código ─── */
+        .json-panel {
+            background: #1a1d2e;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .json-panel-topbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: #12141f;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .json-panel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .json-panel-dot.red {
+            background: #ff5f57;
+        }
+
+        .json-panel-dot.yellow {
+            background: #febc2e;
+        }
+
+        .json-panel-dot.green {
+            background: #28c840;
+        }
+
+        .json-panel-filename {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-left: 8px;
+            font-family: 'Courier New', monospace;
+            flex: 1;
+        }
+
+        .json-badge-type {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .json-badge-type.sin {
+            background: rgba(108, 92, 231, 0.25);
+            color: #a29bfe;
+        }
+
+        .json-badge-type.con {
+            background: rgba(0, 184, 148, 0.25);
+            color: #55efc4;
+        }
+
+        .json-code {
+            margin: 0;
+            padding: 20px;
+            background: transparent;
+            font-size: 0.82rem;
+            line-height: 1.9;
+            overflow-x: auto;
+            color: #cdd6f4;
+            font-family: 'Courier New', 'Consolas', monospace;
+            min-height: 280px;
+        }
+
+        /* ─── Tokens interactivos ─── */
+        .json-token {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 1px 3px;
+            transition: background 0.2s ease;
+            display: inline;
+        }
+
+        .json-token:hover {
+            filter: brightness(1.4);
+        }
+
+        .json-token.active-token {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .json-token.tk-key {
+            color: #89b4fa;
+        }
+
+        .json-token.tk-str {
+            color: #a6e3a1;
+        }
+
+        .json-token.tk-num {
+            color: #fab387;
+        }
+
+        .json-token.tk-bool {
+            color: #cba6f7;
+        }
+
+        .json-token.tk-null {
+            color: #6c7086;
+        }
+
+        .json-token.tk-arr {
+            color: #f38ba8;
+            font-weight: 700;
+        }
+
+        .json-token.tk-obj {
+            color: #89dceb;
+            font-weight: 700;
+        }
+
+        .json-token.tk-punct {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ─── Panel info ─── */
+        .json-info-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .json-info-content {
+            width: 100%;
+            text-align: left;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .json-info-key-badge {
+            display: inline-block;
+            background: #1a1d2e;
+            color: #89b4fa;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .json-info-type-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 6px;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .json-info-example {
+            background: var(--hover-bg);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* ─── Leyenda ─── */
+        .json-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 16px;
+            padding: 14px 18px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .json-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .json-dot.key {
+            background: #89b4fa;
+        }
+
+        .json-dot.str {
+            background: #a6e3a1;
+        }
+
+        .json-dot.num {
+            background: #fab387;
+        }
+
+        .json-dot.bool {
+            background: #cba6f7;
+        }
+
+        .json-dot.arr {
+            background: #f38ba8;
+        }
+
+        .json-dot.obj {
+            background: #89dceb;
+        }
+
+        /* ─── Tarjetas de diferencias ─── */
+        .json-diff-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media(max-width:600px) {
+            .json-diff-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .json-diff-card {
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .json-diff-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .json-diff-card.sin {
+            border-left: 4px solid #6c5ce7;
+        }
+
+        .json-diff-card.con {
+            border-left: 4px solid #00b894;
+        }
+
+        .json-diff-card-icon {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .json-diff-card.sin .json-diff-card-icon {
+            color: #6c5ce7;
+        }
+
+        .json-diff-card.con .json-diff-card-icon {
+            color: #00b894;
+        }
+
+        .json-diff-card li {
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
+    </style>
+
+    <!-- ===== SCRIPT ADAPTADO UML & REQUISITOS LAB ===== -->
+    <script>
+        // ─── Estructuras de Datos Orientadas a Análisis y Diseño de Sistemas ───
+        const JSON_SIN = {
+            requisito_id: "RF-101",
+            nombre: "Iniciar Sesión",
+            tipo: "Funcional",
+            prioridad: "Alta",
+            actor_principal: "Usuario Común",
+            dificultad: "Baja",
+            completo: true,
+            descripcion: "El sistema debe permitir a los usuarios autenticarse mediante correo electrónico y contraseña."
+        };
+
+        const JSON_CON = {
+            caso_de_uso: "Procesar Pago de Pedido",
+            id: "CU-04",
+            critico: true,
+            complejidad_puntos: 8,
+            actores: [
+                { rol: "Cliente", tipo: "Humano" },
+                { rol: "Pasarela Stripe", tipo: "Sistema Externo" },
+                { rol: "Admin de Ventas", tipo: "Soporte" }
+            ],
+            flujo_principal: [
+                "El cliente selecciona los productos e inicia checkout.",
+                "El sistema solicita la confirmación de la pasarela de pagos.",
+                "La pasarela procesa el cobro bancario de forma segura.",
+                "El sistema registra la orden como completada."
+            ],
+            flujos_alternativos: ["Fallo de autenticación de tarjeta", "Tiempo de espera del servidor agotado"],
+            codigos_respuesta: [200, 400, 402, 503]
+        };
+
+        // ─── Explicaciones de ingeniería de software para cada campo ───
+        const fieldInfo = {
+            // Requisito Simple (JSON_SIN)
+            requisito_id: { tipo: "string", titulo: "ID del Requisito", desc: "Identificador alfanumérico único para realizar la trazabilidad en la matriz de requisitos.", ej: '"requisito_id": "RF-101"' },
+            nombre: { tipo: "string", titulo: "Nombre del Requisito", desc: "Título descriptivo breve que sintetiza la funcionalidad esperada en el sistema.", ej: '"nombre": "Iniciar Sesión"' },
+            tipo: { tipo: "string", titulo: "Clasificación de Tipo", desc: "Indica si es un requerimiento Funcional (comportamiento) o No Funcional (atributo de calidad).", ej: '"tipo": "Funcional"' },
+            prioridad: { tipo: "string", titulo: "Prioridad de Negocio", desc: "Nivel de importancia según los stakeholders (Alta, Media, Baja). Suele definirse por el método MoSCoW.", ej: '"prioridad": "Alta"' },
+            actor_principal: { tipo: "string", titulo: "Actor Destinatario", desc: "Indica qué tipo de rol o entidad interactúa directamente para detonar esta funcionalidad.", ej: '"actor_principal": "Usuario Común"' },
+            dificultad: { tipo: "string", titulo: "Esfuerzo Estimado", desc: "Evaluación preliminar del equipo de desarrollo sobre la complejidad de programar la solución.", ej: '"dificultad": "Baja"' },
+            completo: { tipo: "boolean", titulo: "Estado de Aprobación", desc: "Indica con valores booleanos (true/false) si el requerimiento ha sido validado formalmente por el cliente.", ej: '"completo": true' },
+            descripcion: { tipo: "string", titulo: "Especificación Narrativa", desc: "Explicación textual y detallada del comportamiento esperado bajo condiciones ideales.", ej: '"descripcion": "El sistema debe..."' },
+
+            // Caso de Uso Completo (JSON_CON)
+            caso_de_uso: { tipo: "string", titulo: "Nombre de Caso de Uso", desc: "Verbo en infinitivo más el objeto sobre el que recae la acción del sistema.", ej: '"caso_de_uso": "Procesar Pago de Pedido"' },
+            id: { tipo: "string", titulo: "ID del Caso de Uso", desc: "Código de rastreo para el diagrama conceptual de Casos de Uso UML.", ej: '"id": "CU-04"' },
+            critico: { tipo: "boolean", titulo: "Crítico para el Negocio", desc: "Determina si es un proceso central cuya falla detendría totalmente la operación de la empresa.", ej: '"critico": true' },
+            complejidad_puntos: { tipo: "number", titulo: "Puntos de Casos de Uso", desc: "Métrica estandarizada para estimar el esfuerzo de desarrollo basada en transacciones y actores.", ej: '"complejidad_puntos": 8' },
+            actores: { tipo: "array-obj", titulo: "Matriz de Actores", desc: "Lista estructurada con todos los usuarios e interfaces externas que intervienen en el flujo de operaciones.", ej: '"actores": [{...}, {...}]' },
+            flujo_principal: { tipo: "array", titulo: "Flujo Normal de Eventos", desc: "Lista ordenada de pasos secuenciales o camino feliz para cumplir la meta con éxito.", ej: '"flujo_principal": ["1. Cliente...", "2. El sistema..."]' },
+            flujos_alternativos: { tipo: "array", titulo: "Caminos Excepcionales", desc: "Extensiones del caso de uso que cubren fallos, cancelaciones o errores lógicos imprevistos.", ej: '"flujos_alternativos": ["Error de red", "Tarjeta rechazada"]' },
+            codigos_respuesta: { tipo: "array", titulo: "Códigos de Eventos", desc: "Matriz de códigos numéricos de control del protocolo para validar respuestas del flujo.", ej: '"codigos_respuesta": [200, 400]' }
+        };
+
+        const typeColors = {
+            string: { bg: "rgba(166,227,161,0.2)", color: "#a6e3a1", label: "String (Texto)" },
+            number: { bg: "rgba(250,179,135,0.2)", color: "#fab387", label: "Número (Valor)" },
+            boolean: { bg: "rgba(203,166,247,0.2)", color: "#cba6f7", label: "Booleano (Estado)" },
+            array: { bg: "rgba(243,139,168,0.2)", color: "#f38ba8", label: "Lista de Datos [ ]" },
+            "array-obj": { bg: "rgba(243,139,168,0.2)", color: "#f38ba8", label: "Lista de Objetos Compuestos" }
+        };
+
+        // ─── Renderiza un objeto JSON como HTML con tokens clicables ───
+        function renderJson(obj, indent = 0, fieldMap = {}) {
+            const pad = (n) => '  '.repeat(n);
+            let html = '';
+            const keys = Object.keys(obj);
+            html += `<span class="json-token tk-punct">{</span>\n`;
+            keys.forEach((key, i) => {
+                const val = obj[key];
+                const isLast = i === keys.length - 1;
+                const comma = isLast ? '' : ',';
+                html += pad(indent + 1);
+                // Key
+                const info = fieldMap[key] || fieldMap[key.replace(/\s/g, '_')];
+                const dataAttr = info ? `data-field="${key}"` : '';
+                html += `<span class="json-token tk-key" ${dataAttr} onclick="showInfo('${key}')">"${key}"</span>`;
+                html += `<span class="json-token tk-punct">: </span>`;
+                // Value
+                html += renderValue(val, key, indent + 1, fieldMap);
+                html += `<span class="json-token tk-punct">${comma}</span>\n`;
+            });
+            html += pad(indent) + `<span class="json-token tk-punct">}</span>`;
+            return html;
+        }
+
+        function renderValue(val, key, indent, fieldMap) {
+            if (val === null) {
+                return `<span class="json-token tk-null" onclick="showInfo('${key}')">null</span>`;
+            }
+            if (typeof val === 'boolean') {
+                return `<span class="json-token tk-bool" onclick="showInfo('${key}')">${val}</span>`;
+            }
+            if (typeof val === 'number') {
+                return `<span class="json-token tk-num" onclick="showInfo('${key}')">${val}</span>`;
+            }
+            if (typeof val === 'string') {
+                return `<span class="json-token tk-str" onclick="showInfo('${key}')">"${val}"</span>`;
+            }
+            if (Array.isArray(val)) {
+                if (val.length === 0) return `<span class="json-token tk-arr">[]</span>`;
+                const isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
+                let html = `<span class="json-token tk-arr" onclick="showInfo('${key}')">[</span>\n`;
+                val.forEach((item, idx) => {
+                    const isLast = idx === val.length - 1;
+                    const comma = isLast ? '' : ',';
+                    html += '  '.repeat(indent + 1);
+                    if (isObjs) {
+                        html += renderJson(item, indent + 1, {});
+                    } else {
+                        html += renderValue(item, key, indent + 1, fieldMap);
+                    }
+                    html += `<span class="json-token tk-punct">${comma}</span>\n`;
+                });
+                html += '  '.repeat(indent) + `<span class="json-token tk-arr">]</span>`;
+                return html;
+            }
+            if (typeof val === 'object') {
+                return renderJson(val, indent, fieldMap);
+            }
+            return String(val);
+        }
+
+        // ─── Mostrar info de campo ───
+        function showInfo(key) {
+            const info = fieldInfo[key];
+            if (!info) return;
+
+            document.querySelectorAll('.json-token.active-token').forEach(t => t.classList.remove('active-token'));
+            document.querySelectorAll(`.json-token[data-field="${key}"]`).forEach(t => t.classList.add('active-token'));
+
+            const placeholder = document.getElementById('json-info-placeholder');
+            const content = document.getElementById('json-info-content');
+            const typeData = typeColors[info.tipo] || typeColors.string;
+
+            placeholder.classList.add('d-none');
+            content.classList.remove('d-none');
+
+            document.getElementById('info-key').textContent = `"${key}"`;
+            document.getElementById('info-type').textContent = typeData.label;
+            document.getElementById('info-type').style.cssText = `background:${typeData.bg}; color:${typeData.color};`;
+            document.getElementById('info-title').textContent = info.titulo;
+            document.getElementById('info-desc').textContent = info.desc;
+            document.getElementById('info-example').textContent = info.ej;
+        }
+
+        // ─── Cambiar entre tab Sin/Con arreglos ───
+        function switchJsonTab(type) {
+            const btnSin = document.getElementById('btn-sin-arreglos');
+            const btnCon = document.getElementById('btn-con-arreglos');
+            const filename = document.getElementById('json-filename');
+            const badge = document.getElementById('badge-tipo-estructura');
+            const placeholder = document.getElementById('json-info-placeholder');
+            const content = document.getElementById('json-info-content');
+
+            if (type === 'sin') {
+                document.getElementById('json-sin-code').style.display = '';
+                document.getElementById('json-con-code').style.display = 'none';
+                btnSin.classList.add('active');
+                btnCon.classList.remove('active');
+                filename.textContent = "requisito_funcional.json";
+                badge.textContent = "REQUISITO";
+                badge.className = "json-badge-type sin";
+            } else {
+                document.getElementById('json-sin-code').style.display = 'none';
+                document.getElementById('json-con-code').style.display = '';
+                btnCon.classList.add('active');
+                btnSin.classList.remove('active');
+                filename.textContent = "caso_de_uso_compuesto.json";
+                badge.textContent = "CASO DE USO";
+                badge.className = "json-badge-type con";
+            }
+            placeholder.classList.remove('d-none');
+            content.classList.add('d-none');
+            document.querySelectorAll('.json-token.active-token').forEach(t => t.classList.remove('active-token'));
+        }
+
+        // ─── Inicializar render de diagramas estructurados ───
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('json-sin-code').innerHTML = renderJson(JSON_SIN, 0, fieldInfo);
+            document.getElementById('json-con-code').innerHTML = renderJson(JSON_CON, 0, fieldInfo);
+        });
+    </script>
+</body>
+
+</html>

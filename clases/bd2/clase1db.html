@@ -69,39 +69,6 @@
 
 <body>
     <div class="app-container">
-        <!-- Sidebar General -->
-        <aside class="sidebar">
-            <a href="../../index.html" class="sidebar-logo">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span>Portal Académico</span>
-            </a>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="../../index.html" class="sidebar-link">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../redcom/redes-comunicaciones.html" class="sidebar-link">
-                        <i class="bi bi-wifi"></i>
-                        <span>Redes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="bases-datos-ii.html" class="sidebar-link active">
-                        <i class="bi bi-database"></i>
-                        <span>Bases de Datos II</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-cpu"></i>
-                        <span>Sistemas Op.</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
 
         <!-- Contenido principal -->
         <main class="main-content">
@@ -378,51 +345,74 @@
                     <i class="bi bi-code-slash text-primary fs-3"></i>
                     <h3 class="fw-bold mb-0">Práctica de la Clase 1: Ejercicios NoSQL y JSON</h3>
                 </div>
-                <p class="text-secondary mb-4">Realiza los siguientes ejercicios prácticos para reforzar los conocimientos adquiridos sobre bases de datos NoSQL y el formato JSON. Sigue detenidamente las indicaciones para construir las estructuras correctas.</p>
+                <p class="text-secondary mb-4">Realiza los siguientes ejercicios prácticos para reforzar los
+                    conocimientos adquiridos sobre bases de datos NoSQL y el formato JSON. Sigue detenidamente las
+                    indicaciones para construir las estructuras correctas.</p>
 
                 <!-- Ejercicio 1 -->
-                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                <div class="card mb-4"
+                    style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
                     <div class="card-body p-4">
-                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-file-earmark-code-fill"></i> Ejercicio 1: Modelado Documental de un Catálogo de Libros</h5>
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-file-earmark-code-fill"></i> Ejercicio 1:
+                            Modelado Documental de un Catálogo de Libros</h5>
                         <p class="text-secondary mb-2">
-                            <strong>Indicaciones:</strong> Debes modelar un documento en formato JSON que represente la información de un libro en una biblioteca escolar. El documento debe contener una estructura jerárquica con tipos de datos variados.
+                            <strong>Indicaciones:</strong> Debes modelar un documento en formato JSON que represente la
+                            información de un libro en una biblioteca escolar. El documento debe contener una estructura
+                            jerárquica con tipos de datos variados.
                         </p>
                         <div class="text-secondary small mt-2">
                             <strong>Requerimientos del JSON:</strong>
                             <ul class="mb-3">
                                 <li><code>titulo</code>: Texto con el nombre del libro.</li>
                                 <li><code>paginas</code>: Número entero con la cantidad de páginas.</li>
-                                <li><code>disponible</code>: Valor booleano (true/false) que indique si está disponible para préstamo.</li>
+                                <li><code>disponible</code>: Valor booleano (true/false) que indique si está disponible
+                                    para préstamo.</li>
                                 <li><code>autores</code>: Un arreglo o lista de textos (por lo menos dos autores).</li>
-                                <li><code>detalles</code>: Un objeto anidado que contenga <code>editorial</code> (texto) y <code>anio_publicacion</code> (número entero).</li>
+                                <li><code>detalles</code>: Un objeto anidado que contenga <code>editorial</code> (texto)
+                                    y <code>anio_publicacion</code> (número entero).</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <!-- Ejercicio 2 -->
-                <div class="card mb-4" style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                <div class="card mb-4"
+                    style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
                     <div class="card-body p-4">
-                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-hdd-network-fill"></i> Ejercicio 2: Representación JSON de una Red Académica</h5>
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-hdd-network-fill"></i> Ejercicio 2:
+                            Representación JSON de una Red Académica</h5>
                         <p class="text-secondary mb-2">
-                            <strong>Indicaciones:</strong> Modelar una pequeña red de dispositivos escolares en formato JSON, reflejando cómo se almacena información en una estructura de base de datos documental.
+                            <strong>Indicaciones:</strong> Modelar una pequeña red de dispositivos escolares en formato
+                            JSON, reflejando cómo se almacena información en una estructura de base de datos documental.
                         </p>
                         <div class="text-secondary small mt-2">
                             <strong>Requerimientos del JSON:</strong>
                             <ul class="mb-3">
                                 <li><code>nombre_red</code>: Nombre identificador del laboratorio.</li>
                                 <li><code>equipos_activos</code>: Número entero de equipos conectados.</li>
-                                <li><code>configuracion</code>: Un objeto anidado con la dirección <code>ip_servidor</code> (texto) y el estado <code>seguridad_activa</code> (booleano).</li>
-                                <li><code>dispositivos</code>: Un arreglo que contenga por lo menos dos objetos internos, cada uno de ellos representando un dispositivo individual con <code>id</code> (número), <code>tipo</code> (ej. "Impresora" o "PC") y <code>mac_address</code> (texto).</li>
+                                <li><code>configuracion</code>: Un objeto anidado con la dirección
+                                    <code>ip_servidor</code> (texto) y el estado <code>seguridad_activa</code>
+                                    (booleano).
+                                </li>
+                                <li><code>dispositivos</code>: Un arreglo que contenga por lo menos dos objetos
+                                    internos, cada uno de ellos representando un dispositivo individual con
+                                    <code>id</code> (número), <code>tipo</code> (ej. "Impresora" o "PC") y
+                                    <code>mac_address</code> (texto).
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="alert alert-warning py-3" role="alert">
-                    <h6 class="alert-heading fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill"></i> Instrucciones de Entrega</h6>
+                    <h6 class="alert-heading fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill"></i> Instrucciones
+                        de Entrega</h6>
                     <p class="mb-0 small text-secondary">
-                        Escribe el código JSON de ambos ejercicios en tu editor de texto local. Puedes utilizar el validador interactivo de JSON que se encuentra en la sección superior de esta página para asegurarte de que tu sintaxis sea correcta (sin comas sobrantes y usando comillas dobles). Guarda el archivo final como <code>practica1_nosql.json</code> y envíalo a través de la plataforma de la asignatura.
+                        Escribe el código JSON de ambos ejercicios en tu editor de texto local. Puedes utilizar el
+                        validador interactivo de JSON que se encuentra en la sección superior de esta página para
+                        asegurarte de que tu sintaxis sea correcta (sin comas sobrantes y usando comillas dobles).
+                        Guarda el archivo final como <code>practica1_nosql.json</code> y envíalo a través de la
+                        plataforma de la asignatura.
                     </p>
                 </div>
             </div>
@@ -545,39 +535,49 @@
     <!-- Menú Flotante de Clases -->
     <div class="class-floating-sidebar" id="class-floating-sidebar">
         <div class="sidebar-floating-header">
-            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
-            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+            <h6 class="text-muted fw-bold mb-0"
+                style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close"
+                style="font-size: 0.8rem;"></button>
         </div>
         <div class="class-floating-sidebar-content">
             <ul class="class-list">
                 <li>
                     <a href="clase1db.html" class="class-item active text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
+                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a
+                            NoSQL</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase2db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
+                        <span class="class-item-text"
+                            title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de
+                            DBs y Colecciones</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase3db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de Lectura</span>
+                        <span class="class-item-text"
+                            title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de
+                            Lectura</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase4db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo)">Clase 4: CRUD Completo</span>
+                        <span class="class-item-text"
+                            title="Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo)">Clase
+                            4: CRUD Completo</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase5db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas Avanzadas</span>
+                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5:
+                            Consultas Avanzadas</span>
                     </a>
                 </li>
             </ul>
@@ -598,6 +598,7 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script>
     <script src="../../js/main.js"></script>
     <script>
         // Validador de JSON
@@ -663,264 +664,502 @@
 
     <!-- ===== ESTILOS LABORATORIO JSON ===== -->
     <style>
-    .json-lab-section {
-        border: 1px solid var(--border-color);
-        border-radius: 20px;
-        padding: 28px;
-        background: var(--hover-bg);
-    }
-    .json-lab-header {
-        display: flex; align-items: flex-start;
-        justify-content: space-between; flex-wrap: wrap;
-        gap: 16px; margin-bottom: 24px;
-    }
-    .json-lab-title-group { display: flex; align-items: flex-start; gap: 14px; }
-    .json-lab-icon {
-        width: 44px; height: 44px; border-radius: 12px;
-        background: var(--primary-gradient);
-        display: flex; align-items: center; justify-content: center;
-        color: white; font-size: 1.3rem; flex-shrink: 0;
-    }
-    .json-tab-switcher {
-        display: flex; gap: 8px; background: var(--card-bg);
-        border: 1px solid var(--border-color); padding: 5px; border-radius: 14px;
-    }
-    .json-tab-btn {
-        border: none; background: transparent; padding: 8px 18px;
-        border-radius: 10px; font-size: 0.85rem; font-weight: 600;
-        color: var(--text-secondary); cursor: pointer; transition: all 0.25s ease;
-        font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 6px;
-    }
-    .json-tab-btn.active { background: var(--primary-gradient); color: white; box-shadow: 0 4px 12px rgba(108,92,231,0.35); }
-    .json-tab-btn:hover:not(.active) { background: var(--hover-bg); color: var(--text-primary); }
-    .json-panels-grid {
-        display: grid; grid-template-columns: 1fr 260px; gap: 16px; align-items: start;
-    }
-    @media(max-width:768px) { .json-panels-grid { grid-template-columns: 1fr; } }
-    .json-panel {
-        background: #1a1d2e; border-radius: 16px; overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    }
-    .json-panel-topbar {
-        display: flex; align-items: center; gap: 6px;
-        padding: 10px 16px; background: #12141f;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .json-panel-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
-    .json-panel-dot.red    { background: #ff5f57; }
-    .json-panel-dot.yellow { background: #febc2e; }
-    .json-panel-dot.green  { background: #28c840; }
-    .json-panel-filename {
-        font-size: 0.78rem; color: rgba(255,255,255,0.4);
-        margin-left: 8px; font-family: 'Courier New', monospace; flex: 1;
-    }
-    .json-badge-type { font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; letter-spacing: 0.5px; }
-    .json-badge-type.sin { background: rgba(108,92,231,0.25); color: #a29bfe; }
-    .json-badge-type.con { background: rgba(0,184,148,0.25);  color: #55efc4; }
-    .json-code-lab {
-        margin: 0; padding: 20px; background: transparent;
-        font-size: 0.82rem; line-height: 1.9; overflow-x: auto; color: #cdd6f4;
-        font-family: 'Courier New', 'Consolas', monospace; min-height: 280px;
-    }
-    .json-tok {
-        cursor: pointer; border-radius: 4px; padding: 1px 3px;
-        transition: background 0.2s ease; display: inline;
-    }
-    .json-tok:hover { filter: brightness(1.4); }
-    .json-tok.active-tok { outline: 2px solid rgba(255,255,255,0.5); }
-    .json-tok.tk-key  { color: #89b4fa; }
-    .json-tok.tk-str  { color: #a6e3a1; }
-    .json-tok.tk-num  { color: #fab387; }
-    .json-tok.tk-bool { color: #cba6f7; }
-    .json-tok.tk-null { color: #6c7086; }
-    .json-tok.tk-arr  { color: #f38ba8; font-weight:700; }
-    .json-tok.tk-obj  { color: #89dceb; font-weight:700; }
-    .json-tok.tk-punct { color: rgba(255,255,255,0.35); }
-    .json-info-panel {
-        background: var(--card-bg); border: 1px solid var(--border-color);
-        border-radius: 16px; padding: 20px; min-height: 280px;
-        display: flex; flex-direction: column; align-items: center;
-        justify-content: center; text-align: center; transition: all 0.3s ease;
-    }
-    .json-info-content { width:100%; text-align:left; animation: fadeIn 0.3s ease; }
-    .json-info-key-badge {
-        display: inline-block; background: #1a1d2e; color: #89b4fa;
-        font-family: 'Courier New', monospace; font-size: 0.85rem;
-        padding: 4px 12px; border-radius: 8px; margin-bottom: 6px; font-weight: 700;
-    }
-    .json-info-type-badge {
-        display: inline-block; font-size: 0.72rem; font-weight: 700;
-        padding: 3px 10px; border-radius: 20px; margin-left: 6px;
-        letter-spacing: 0.5px; vertical-align: middle;
-    }
-    .json-info-example {
-        background: var(--hover-bg); border-left: 3px solid var(--primary);
-        border-radius: 0 8px 8px 0; padding: 8px 12px;
-        font-size: 0.8rem; font-family: 'Courier New', monospace;
-        color: var(--text-secondary); margin-top: 8px;
-    }
-    .json-legend {
-        display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px;
-        padding: 14px 18px; background: var(--card-bg);
-        border-radius: 12px; border: 1px solid var(--border-color);
-        font-size: 0.82rem; color: var(--text-secondary);
-    }
-    .json-legend-item { display: flex; align-items: center; gap: 6px; }
-    .json-dot { width:10px; height:10px; border-radius:50%; display:inline-block; flex-shrink:0; }
-    .json-dot.key  { background: #89b4fa; }
-    .json-dot.str  { background: #a6e3a1; }
-    .json-dot.num  { background: #fab387; }
-    .json-dot.bool { background: #cba6f7; }
-    .json-dot.arr  { background: #f38ba8; }
-    .json-dot.obj  { background: #89dceb; }
-    .json-diff-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media(max-width:600px){ .json-diff-cards { grid-template-columns:1fr; } }
-    .json-diff-card {
-        border-radius: 16px; padding: 20px;
-        border: 1px solid var(--border-color); background: var(--card-bg);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .json-diff-card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow); }
-    .json-diff-card.sin { border-left: 4px solid #6c5ce7; }
-    .json-diff-card.con { border-left: 4px solid #00b894; }
-    .json-diff-card-icon { font-size: 1.4rem; margin-bottom: 10px; }
-    .json-diff-card.sin .json-diff-card-icon { color: #6c5ce7; }
-    .json-diff-card.con .json-diff-card-icon { color: #00b894; }
-    .json-diff-card li { margin-bottom: 4px; color: var(--text-secondary); }
+        .json-lab-section {
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            background: var(--hover-bg);
+        }
+
+        .json-lab-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .json-lab-title-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .json-lab-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .json-tab-switcher {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            border-radius: 14px;
+        }
+
+        .json-tab-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
+        }
+
+        .json-tab-btn:hover:not(.active) {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .json-panels-grid {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media(max-width:768px) {
+            .json-panels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .json-panel {
+            background: #1a1d2e;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .json-panel-topbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: #12141f;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .json-panel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .json-panel-dot.red {
+            background: #ff5f57;
+        }
+
+        .json-panel-dot.yellow {
+            background: #febc2e;
+        }
+
+        .json-panel-dot.green {
+            background: #28c840;
+        }
+
+        .json-panel-filename {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-left: 8px;
+            font-family: 'Courier New', monospace;
+            flex: 1;
+        }
+
+        .json-badge-type {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .json-badge-type.sin {
+            background: rgba(108, 92, 231, 0.25);
+            color: #a29bfe;
+        }
+
+        .json-badge-type.con {
+            background: rgba(0, 184, 148, 0.25);
+            color: #55efc4;
+        }
+
+        .json-code-lab {
+            margin: 0;
+            padding: 20px;
+            background: transparent;
+            font-size: 0.82rem;
+            line-height: 1.9;
+            overflow-x: auto;
+            color: #cdd6f4;
+            font-family: 'Courier New', 'Consolas', monospace;
+            min-height: 280px;
+        }
+
+        .json-tok {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 1px 3px;
+            transition: background 0.2s ease;
+            display: inline;
+        }
+
+        .json-tok:hover {
+            filter: brightness(1.4);
+        }
+
+        .json-tok.active-tok {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .json-tok.tk-key {
+            color: #89b4fa;
+        }
+
+        .json-tok.tk-str {
+            color: #a6e3a1;
+        }
+
+        .json-tok.tk-num {
+            color: #fab387;
+        }
+
+        .json-tok.tk-bool {
+            color: #cba6f7;
+        }
+
+        .json-tok.tk-null {
+            color: #6c7086;
+        }
+
+        .json-tok.tk-arr {
+            color: #f38ba8;
+            font-weight: 700;
+        }
+
+        .json-tok.tk-obj {
+            color: #89dceb;
+            font-weight: 700;
+        }
+
+        .json-tok.tk-punct {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .json-info-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .json-info-content {
+            width: 100%;
+            text-align: left;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .json-info-key-badge {
+            display: inline-block;
+            background: #1a1d2e;
+            color: #89b4fa;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .json-info-type-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 6px;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .json-info-example {
+            background: var(--hover-bg);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .json-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 16px;
+            padding: 14px 18px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .json-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .json-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .json-dot.key {
+            background: #89b4fa;
+        }
+
+        .json-dot.str {
+            background: #a6e3a1;
+        }
+
+        .json-dot.num {
+            background: #fab387;
+        }
+
+        .json-dot.bool {
+            background: #cba6f7;
+        }
+
+        .json-dot.arr {
+            background: #f38ba8;
+        }
+
+        .json-dot.obj {
+            background: #89dceb;
+        }
+
+        .json-diff-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media(max-width:600px) {
+            .json-diff-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .json-diff-card {
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .json-diff-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .json-diff-card.sin {
+            border-left: 4px solid #6c5ce7;
+        }
+
+        .json-diff-card.con {
+            border-left: 4px solid #00b894;
+        }
+
+        .json-diff-card-icon {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .json-diff-card.sin .json-diff-card-icon {
+            color: #6c5ce7;
+        }
+
+        .json-diff-card.con .json-diff-card-icon {
+            color: #00b894;
+        }
+
+        .json-diff-card li {
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
     </style>
 
     <!-- ===== SCRIPT LABORATORIO JSON ===== -->
     <script>
-    var C1_JSON_SIN = {
-        nombre: "Ana García",
-        carnet: "2024-001",
-        carrera: "Ingeniería en Sistemas",
-        semestre: 4,
-        promedio: 88.5,
-        becado: true,
-        correo: "ana.garcia@univ.edu"
-    };
+        var C1_JSON_SIN = {
+            nombre: "Ana García",
+            carnet: "2024-001",
+            carrera: "Ingeniería en Sistemas",
+            semestre: 4,
+            promedio: 88.5,
+            becado: true,
+            correo: "ana.garcia@univ.edu"
+        };
 
-    var C1_JSON_CON = {
-        nombre: "Ana García",
-        carnet: "2024-001",
-        becado: true,
-        semestre: 4,
-        materias: ["Bases de Datos II", "Redes", "Sistemas Operativos"],
-        notas: [85, 92, 78, 95],
-        historial: [
-            { periodo: "2023-I",  promedio: 82 },
-            { periodo: "2023-II", promedio: 87 },
-            { periodo: "2024-I",  promedio: 88 }
-        ],
-        habilidades: ["MongoDB", "SQL", "Python", "Java"]
-    };
+        var C1_JSON_CON = {
+            nombre: "Ana García",
+            carnet: "2024-001",
+            becado: true,
+            semestre: 4,
+            materias: ["Bases de Datos II", "Redes", "Sistemas Operativos"],
+            notas: [85, 92, 78, 95],
+            historial: [
+                { periodo: "2023-I", promedio: 82 },
+                { periodo: "2023-II", promedio: 87 },
+                { periodo: "2024-I", promedio: 88 }
+            ],
+            habilidades: ["MongoDB", "SQL", "Python", "Java"]
+        };
 
-    var C1_fieldInfo = {
-        nombre:     { tipo:"string",    titulo:"Nombre del estudiante",   desc:"Cadena de texto entre comillas dobles. Los nombres siempre son de tipo string.",               ej:'"nombre": "Ana García"' },
-        carnet:     { tipo:"string",    titulo:"Carnet universitario",    desc:"Aunque contiene números, va entre comillas porque es un identificador, no un valor numérico.",   ej:'"carnet": "2024-001"' },
-        carrera:    { tipo:"string",    titulo:"Carrera académica",       desc:"Texto descriptivo. Cualquier valor de texto siempre va entre comillas dobles en JSON.",         ej:'"carrera": "Ing. en Sistemas"' },
-        semestre:   { tipo:"number",    titulo:"Número de semestre",      desc:"Valor numérico entero. Los números NO llevan comillas en JSON.",                          ej:'"semestre": 4' },
-        promedio:   { tipo:"number",    titulo:"Promedio académico",      desc:"Número decimal (float). Se usa punto como separador decimal, nunca coma.",               ej:'"promedio": 88.5' },
-        becado:     { tipo:"boolean",   titulo:"Estado de beca",          desc:"Valor booleano: true o false. Sin comillas. Representa condiciones de sí / no.",          ej:'"becado": true' },
-        correo:     { tipo:"string",    titulo:"Correo electrónico",      desc:"Texto entre comillas. Emails, URLs y códigos siempre se guardan como strings.",           ej:'"correo": "ana@univ.edu"' },
-        materias:   { tipo:"array",     titulo:"Lista de materias",       desc:"Arreglo de strings [ ]. Cada materia es un elemento separado por coma dentro de los corchetes.", ej:'"materias": ["BD II", "Redes"]' },
-        notas:      { tipo:"array",     titulo:"Arreglo de notas",        desc:"Arreglo de números [ ]. Almacena múltiples calificaciones en un solo campo del documento.",     ej:'"notas": [85, 92, 78]' },
-        historial:  { tipo:"array-obj", titulo:"Historial académico",     desc:"Arreglo de objetos { }. Cada elemento { } es un documento embebido con sus propias claves.",    ej:'"historial": [{"periodo":"2023", "promedio": 82}]' },
-        habilidades:{ tipo:"array",     titulo:"Habilidades técnicas",    desc:"Arreglo de strings con las tecnologías que domina el estudiante.",                         ej:'"habilidades": ["MongoDB", "SQL"]' }
-    };
+        var C1_fieldInfo = {
+            nombre: { tipo: "string", titulo: "Nombre del estudiante", desc: "Cadena de texto entre comillas dobles. Los nombres siempre son de tipo string.", ej: '"nombre": "Ana García"' },
+            carnet: { tipo: "string", titulo: "Carnet universitario", desc: "Aunque contiene números, va entre comillas porque es un identificador, no un valor numérico.", ej: '"carnet": "2024-001"' },
+            carrera: { tipo: "string", titulo: "Carrera académica", desc: "Texto descriptivo. Cualquier valor de texto siempre va entre comillas dobles en JSON.", ej: '"carrera": "Ing. en Sistemas"' },
+            semestre: { tipo: "number", titulo: "Número de semestre", desc: "Valor numérico entero. Los números NO llevan comillas en JSON.", ej: '"semestre": 4' },
+            promedio: { tipo: "number", titulo: "Promedio académico", desc: "Número decimal (float). Se usa punto como separador decimal, nunca coma.", ej: '"promedio": 88.5' },
+            becado: { tipo: "boolean", titulo: "Estado de beca", desc: "Valor booleano: true o false. Sin comillas. Representa condiciones de sí / no.", ej: '"becado": true' },
+            correo: { tipo: "string", titulo: "Correo electrónico", desc: "Texto entre comillas. Emails, URLs y códigos siempre se guardan como strings.", ej: '"correo": "ana@univ.edu"' },
+            materias: { tipo: "array", titulo: "Lista de materias", desc: "Arreglo de strings [ ]. Cada materia es un elemento separado por coma dentro de los corchetes.", ej: '"materias": ["BD II", "Redes"]' },
+            notas: { tipo: "array", titulo: "Arreglo de notas", desc: "Arreglo de números [ ]. Almacena múltiples calificaciones en un solo campo del documento.", ej: '"notas": [85, 92, 78]' },
+            historial: { tipo: "array-obj", titulo: "Historial académico", desc: "Arreglo de objetos { }. Cada elemento { } es un documento embebido con sus propias claves.", ej: '"historial": [{"periodo":"2023", "promedio": 82}]' },
+            habilidades: { tipo: "array", titulo: "Habilidades técnicas", desc: "Arreglo de strings con las tecnologías que domina el estudiante.", ej: '"habilidades": ["MongoDB", "SQL"]' }
+        };
 
-    var C1_typeColors = {
-        string:     { bg:"rgba(166,227,161,0.2)", color:"#a6e3a1", label:"String" },
-        number:     { bg:"rgba(250,179,135,0.2)", color:"#fab387", label:"Número" },
-        boolean:    { bg:"rgba(203,166,247,0.2)", color:"#cba6f7", label:"Booleano" },
-        array:      { bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array [ ]" },
-        "array-obj":{ bg:"rgba(243,139,168,0.2)", color:"#f38ba8", label:"Array de Objetos" }
-    };
+        var C1_typeColors = {
+            string: { bg: "rgba(166,227,161,0.2)", color: "#a6e3a1", label: "String" },
+            number: { bg: "rgba(250,179,135,0.2)", color: "#fab387", label: "Número" },
+            boolean: { bg: "rgba(203,166,247,0.2)", color: "#cba6f7", label: "Booleano" },
+            array: { bg: "rgba(243,139,168,0.2)", color: "#f38ba8", label: "Array [ ]" },
+            "array-obj": { bg: "rgba(243,139,168,0.2)", color: "#f38ba8", label: "Array de Objetos" }
+        };
 
-    function c1RenderJson(obj, indent, fieldMap) {
-        indent = indent || 0;
-        fieldMap = fieldMap || {};
-        var pad = function(n){ return '  '.repeat(n); };
-        var html = '<span class="json-tok tk-punct">{</span>\n';
-        var keys = Object.keys(obj);
-        keys.forEach(function(key, i) {
-            var val = obj[key];
-            var comma = i < keys.length - 1 ? ',' : '';
-            html += pad(indent + 1);
-            var info = fieldMap[key];
-            var da = info ? ' data-c1-field="' + key + '"' : '';
-            html += '<span class="json-tok tk-key"' + da + ' onclick="c1ShowInfo(\'' + key + '\')">&quot;' + key + '&quot;</span>';
-            html += '<span class="json-tok tk-punct">: </span>';
-            html += c1RenderValue(val, key, indent + 1, fieldMap);
-            html += '<span class="json-tok tk-punct">' + comma + '</span>\n';
-        });
-        html += pad(indent) + '<span class="json-tok tk-punct">}</span>';
-        return html;
-    }
-
-    function c1RenderValue(val, key, indent, fieldMap) {
-        if (val === null)            return '<span class="json-tok tk-null" onclick="c1ShowInfo(\'' + key + '\')">null</span>';
-        if (typeof val === 'boolean')return '<span class="json-tok tk-bool" onclick="c1ShowInfo(\'' + key + '\')">'+val+'</span>';
-        if (typeof val === 'number') return '<span class="json-tok tk-num"  onclick="c1ShowInfo(\'' + key + '\')">'+val+'</span>';
-        if (typeof val === 'string') return '<span class="json-tok tk-str"  onclick="c1ShowInfo(\'' + key + '\')">"'+val+'"</span>';
-        if (Array.isArray(val)) {
-            if (!val.length) return '<span class="json-tok tk-arr">[]</span>';
-            var isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
-            var h = '<span class="json-tok tk-arr" onclick="c1ShowInfo(\'' + key + '\')">[</span>\n';
-            val.forEach(function(item, idx) {
-                var comma = idx < val.length - 1 ? ',' : '';
-                h += '  '.repeat(indent + 1);
-                h += isObjs ? c1RenderJson(item, indent + 1, {}) : c1RenderValue(item, key, indent + 1, fieldMap);
-                h += '<span class="json-tok tk-punct">' + comma + '</span>\n';
+        function c1RenderJson(obj, indent, fieldMap) {
+            indent = indent || 0;
+            fieldMap = fieldMap || {};
+            var pad = function (n) { return '  '.repeat(n); };
+            var html = '<span class="json-tok tk-punct">{</span>\n';
+            var keys = Object.keys(obj);
+            keys.forEach(function (key, i) {
+                var val = obj[key];
+                var comma = i < keys.length - 1 ? ',' : '';
+                html += pad(indent + 1);
+                var info = fieldMap[key];
+                var da = info ? ' data-c1-field="' + key + '"' : '';
+                html += '<span class="json-tok tk-key"' + da + ' onclick="c1ShowInfo(\'' + key + '\')">&quot;' + key + '&quot;</span>';
+                html += '<span class="json-tok tk-punct">: </span>';
+                html += c1RenderValue(val, key, indent + 1, fieldMap);
+                html += '<span class="json-tok tk-punct">' + comma + '</span>\n';
             });
-            h += '  '.repeat(indent) + '<span class="json-tok tk-arr">]</span>';
-            return h;
+            html += pad(indent) + '<span class="json-tok tk-punct">}</span>';
+            return html;
         }
-        if (typeof val === 'object') return c1RenderJson(val, indent, fieldMap);
-        return String(val);
-    }
 
-    function c1ShowInfo(key) {
-        var info = C1_fieldInfo[key];
-        if (!info) return;
-        document.querySelectorAll('.json-tok.active-tok').forEach(function(t){ t.classList.remove('active-tok'); });
-        document.querySelectorAll('[data-c1-field="'+key+'"]').forEach(function(t){ t.classList.add('active-tok'); });
-        var ph = document.getElementById('c1-json-info-placeholder');
-        var ct = document.getElementById('c1-json-info-content');
-        var td = C1_typeColors[info.tipo] || C1_typeColors.string;
-        ph.classList.add('d-none');
-        ct.classList.remove('d-none');
-        document.getElementById('c1-info-key').textContent    = '"' + key + '"';
-        document.getElementById('c1-info-type').textContent   = td.label;
-        document.getElementById('c1-info-type').style.cssText = 'background:'+td.bg+'; color:'+td.color+';';
-        document.getElementById('c1-info-title').textContent  = info.titulo;
-        document.getElementById('c1-info-desc').textContent   = info.desc;
-        document.getElementById('c1-info-example').textContent= info.ej;
-    }
-
-    function switchJsonTabC1(type) {
-        var ps = document.getElementById('c1-panel-sin');
-        var pc = document.getElementById('c1-panel-con');
-        var bs = document.getElementById('btn-sin-arreglos-c1');
-        var bc = document.getElementById('btn-con-arreglos-c1');
-        var ph = document.getElementById('c1-json-info-placeholder');
-        var ct = document.getElementById('c1-json-info-content');
-        if (type === 'sin') {
-            ps.style.display=''; pc.style.display='none';
-            bs.classList.add('active'); bc.classList.remove('active');
-        } else {
-            ps.style.display='none'; pc.style.display='';
-            bc.classList.add('active'); bs.classList.remove('active');
+        function c1RenderValue(val, key, indent, fieldMap) {
+            if (val === null) return '<span class="json-tok tk-null" onclick="c1ShowInfo(\'' + key + '\')">null</span>';
+            if (typeof val === 'boolean') return '<span class="json-tok tk-bool" onclick="c1ShowInfo(\'' + key + '\')">' + val + '</span>';
+            if (typeof val === 'number') return '<span class="json-tok tk-num"  onclick="c1ShowInfo(\'' + key + '\')">' + val + '</span>';
+            if (typeof val === 'string') return '<span class="json-tok tk-str"  onclick="c1ShowInfo(\'' + key + '\')">"' + val + '"</span>';
+            if (Array.isArray(val)) {
+                if (!val.length) return '<span class="json-tok tk-arr">[]</span>';
+                var isObjs = typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0]);
+                var h = '<span class="json-tok tk-arr" onclick="c1ShowInfo(\'' + key + '\')">[</span>\n';
+                val.forEach(function (item, idx) {
+                    var comma = idx < val.length - 1 ? ',' : '';
+                    h += '  '.repeat(indent + 1);
+                    h += isObjs ? c1RenderJson(item, indent + 1, {}) : c1RenderValue(item, key, indent + 1, fieldMap);
+                    h += '<span class="json-tok tk-punct">' + comma + '</span>\n';
+                });
+                h += '  '.repeat(indent) + '<span class="json-tok tk-arr">]</span>';
+                return h;
+            }
+            if (typeof val === 'object') return c1RenderJson(val, indent, fieldMap);
+            return String(val);
         }
-        ph.classList.remove('d-none'); ct.classList.add('d-none');
-        document.querySelectorAll('.json-tok.active-tok').forEach(function(t){ t.classList.remove('active-tok'); });
-    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('c1-json-sin-code').innerHTML = c1RenderJson(C1_JSON_SIN, 0, C1_fieldInfo);
-        document.getElementById('c1-json-con-code').innerHTML = c1RenderJson(C1_JSON_CON, 0, C1_fieldInfo);
-    });
+        function c1ShowInfo(key) {
+            var info = C1_fieldInfo[key];
+            if (!info) return;
+            document.querySelectorAll('.json-tok.active-tok').forEach(function (t) { t.classList.remove('active-tok'); });
+            document.querySelectorAll('[data-c1-field="' + key + '"]').forEach(function (t) { t.classList.add('active-tok'); });
+            var ph = document.getElementById('c1-json-info-placeholder');
+            var ct = document.getElementById('c1-json-info-content');
+            var td = C1_typeColors[info.tipo] || C1_typeColors.string;
+            ph.classList.add('d-none');
+            ct.classList.remove('d-none');
+            document.getElementById('c1-info-key').textContent = '"' + key + '"';
+            document.getElementById('c1-info-type').textContent = td.label;
+            document.getElementById('c1-info-type').style.cssText = 'background:' + td.bg + '; color:' + td.color + ';';
+            document.getElementById('c1-info-title').textContent = info.titulo;
+            document.getElementById('c1-info-desc').textContent = info.desc;
+            document.getElementById('c1-info-example').textContent = info.ej;
+        }
+
+        function switchJsonTabC1(type) {
+            var ps = document.getElementById('c1-panel-sin');
+            var pc = document.getElementById('c1-panel-con');
+            var bs = document.getElementById('btn-sin-arreglos-c1');
+            var bc = document.getElementById('btn-con-arreglos-c1');
+            var ph = document.getElementById('c1-json-info-placeholder');
+            var ct = document.getElementById('c1-json-info-content');
+            if (type === 'sin') {
+                ps.style.display = ''; pc.style.display = 'none';
+                bs.classList.add('active'); bc.classList.remove('active');
+            } else {
+                ps.style.display = 'none'; pc.style.display = '';
+                bc.classList.add('active'); bs.classList.remove('active');
+            }
+            ph.classList.remove('d-none'); ct.classList.add('d-none');
+            document.querySelectorAll('.json-tok.active-tok').forEach(function (t) { t.classList.remove('active-tok'); });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('c1-json-sin-code').innerHTML = c1RenderJson(C1_JSON_SIN, 0, C1_fieldInfo);
+            document.getElementById('c1-json-con-code').innerHTML = c1RenderJson(C1_JSON_CON, 0, C1_fieldInfo);
+        });
     </script>
 </body>
 
