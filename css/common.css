@@ -1,0 +1,66 @@
+/* --- ESTILOS RESPONSIVOS PARA EL MENÚ --- */
+
+/* 1. Ocultar el botón hamburguesa y el overlay en pantallas grandes (Desktop) */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: #4f46e5; /* Cambia al color de tu tema */
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* 2. Reglas para dispositivos móviles (usualmente menos de 768px) */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Mostrar botón hamburguesa */
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+        opacity: 1;
+        pointer-events: auto; /* Activar clics en el overlay */
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px; /* Esconde el menú a la izquierda. Ajusta según el ancho de tu sidebar */
+        width: 260px;  /* Ancho del menú móvil */
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* Clase que inyectamos con JS para abrir el menú */
+    .sidebar.open {
+        left: 0; 
+    }
+
+    /* Ajustar el contenedor de tu app en móvil para que no se desfase */
+    .app-container {
+        padding-top: 70px; /* Deja espacio arriba para que el botón hamburguesa no tape el contenido */
+    }
+}

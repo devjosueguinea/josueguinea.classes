@@ -1,7 +1,81 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Definimos el HTML del menú manteniendo exactamente la estructura y clases originales
+    // ==========================================
+    // 1. INYECTAR CSS (Sin comentarios para evitar alertas en el editor)
+    // ==========================================
+    const menuStyles = document.createElement('style');
+    menuStyles.textContent = `
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    .sidebar-overlay.active {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 260px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    .sidebar.open {
+        left: 0;
+    }
+    .app-container {
+        padding-top: 70px;
+    }
+}
+    `;
+    document.head.appendChild(menuStyles);
+
+    // ==========================================
+    // 2. DEFINIR EL HTML DEL MENÚ
+    // ==========================================
     const menuHTML = `
-    <aside class="sidebar">
+    <!-- Botón Hamburguesa -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
         <a href="#" class="sidebar-logo">
             <i class="bi bi-mortarboard-fill"></i>
             <span>Portal Académico</span>
@@ -57,33 +131,56 @@ document.addEventListener("DOMContentLoaded", () => {
     const appContainer = document.querySelector('.app-container');
     
     if (appContainer) {
-        // Inyectamos el menú al principio del contenedor para respetar la estructura CSS
+        // Inyectamos el menú
         appContainer.insertAdjacentHTML('afterbegin', menuHTML);
         
-        // --- LÓGICA DE RUTAS Y CLASE ACTIVA ---
+        // ==========================================
+        // 3. COMPORTAMIENTO DEL MENÚ HAMBURGUESA
+        // ==========================================
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        if (sidebar && menuToggle && sidebarOverlay) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                sidebarOverlay.classList.toggle('active');
+                
+                const icon = menuToggle.querySelector('i');
+                if (sidebar.classList.contains('open')) {
+                    icon.className = 'bi bi-x-lg';
+                } else {
+                    icon.className = 'bi bi-list';
+                }
+            });
+
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('active');
+                menuToggle.querySelector('i').className = 'bi bi-list';
+            });
+        }
+        
+        // ==========================================
+        // 4. LÓGICA DE RUTAS Y CLASE ACTIVA
+        // ==========================================
         const currentPath = window.location.pathname;
         const links = appContainer.querySelectorAll('.sidebar-link');
         
-        // 1. Corregir rutas relativas si estamos dentro de carpetas (ej. clases/redcom/)
         const depth = (currentPath.match(/\//g) || []).length;
-        // Asumiendo que el proyecto corre en un entorno local o raíz de servidor
-        // Si estás en subcarpetas de profundidad mayor a 1, adaptamos los enlaces:
         if (depth > 1) {
             links.forEach(link => {
                 const href = link.getAttribute('href');
                 if (href && href !== '#') {
-                    // Calculamos los niveles de retroceso necesarios (../)
                     const stepsBack = "../".repeat(depth - 1);
                     link.setAttribute('href', stepsBack + href);
                 }
             });
         }
 
-        // 2. Asignar dinámicamente la clase 'active' a la página actual
         links.forEach(link => {
             const href = link.getAttribute('href');
             if (href && href !== '#') {
-                // Obtenemos solo el nombre del archivo final
                 const pageName = href.split('/').pop();
                 if (currentPath.endsWith(pageName)) {
                     link.classList.add('active');
