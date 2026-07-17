@@ -11,12 +11,137 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
+
+    <!-- ===== ADECUACIONES DE DISEÑO RESPONSIVO PARA MÓVIL ===== -->
+    <!-- ===== ADECUACIONES DE DISEÑO RESPONSIVO PARA MÓVIL ===== -->
+    <style>
+        @media (max-width: 992px) {
+            /* 1. Forzar contenedor principal a un flujo de columna natural */
+            .subject-layout {
+                display: flex !important;
+                flex-direction: column !important;
+                position: relative !important;
+                height: auto !important;
+                min-height: auto !important;
+                gap: 30px !important;
+                padding: 15px !important;
+            }
+
+            /* 2. Forzar al temario a comportarse de manera relativa y ocupar su espacio con márgenes */
+            .subject-sidebar {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: none !important;
+                border-right: none !important;
+                border-bottom: 1px solid var(--border-color, #e2e8f0) !important;
+                padding: 15px 10px 25px 10px !important;
+                box-shadow: none !important;
+                height: auto !important;
+                display: block !important;
+            }
+
+            /* 3. Evitar que la lista de clases colapse o flote */
+            .class-list {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 10px !important;
+                position: relative !important;
+                height: auto !important;
+            }
+
+            .class-item {
+                position: relative !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+
+            .class-item-text {
+                white-space: normal !important;
+                word-break: break-word !important;
+            }
+
+            /* 4. SOLUCIÓN AL BORDE PEgado: Padding lateral simétrico para el contenido */
+            .class-content-wrapper {
+                position: relative !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                padding: 10px 24px !important; /* Genera el margen interno izquierdo y derecho */
+                margin: 0 !important;
+                box-sizing: border-box !important;
+            }
+
+            .class-detail-section {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                padding: 10px 0 !important;
+                margin: 0 !important;
+            }
+
+            /* Solo mostrar la clase activa */
+            .class-detail-section:not(.active) {
+                display: none !important;
+            }
+
+            /* 5. Asegurar que las filas de contenidos y objetivos tengan aire entre sí */
+            .class-detail-section .row {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 30px !important;
+                margin: 0 !important;
+            }
+
+            .class-detail-section .col-md-7,
+            .class-detail-section .col-md-5 {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: none !important;
+                padding: 0 !important;
+            }
+
+            /* Ajustar cabecera superior */
+            .header-top {
+                flex-wrap: wrap !important;
+                gap: 12px !important;
+                padding: 15px 24px !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .class-content-wrapper {
+                padding: 10px 16px !important; /* Un poco menos de padding en pantallas muy pequeñas */
+            }
+
+            .json-lab-header {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+
+            .json-tab-switcher {
+                width: 100% !important;
+                justify-content: space-between !important;
+            }
+
+            .json-tab-btn {
+                flex: 1 !important;
+                justify-content: center !important;
+                font-size: 0.75rem !important;
+                padding: 6px 10px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <div class="app-container">
-        <!-- Sidebar General -->
-
         <!-- Contenido principal -->
         <main class="main-content">
             <!-- Header superior -->
@@ -52,40 +177,35 @@
                             <div class="class-checkbox" data-class-key="bd2_clase1">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
-                            <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a
-                                NoSQL</span>
+                            <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
                         </li>
                         <li class="class-item" data-class-id="clase2">
                             <div class="class-checkbox" data-class-key="bd2_clase2">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
                             <span class="class-item-text"
-                                title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación
-                                de DBs y Colecciones</span>
+                                title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
                         </li>
                         <li class="class-item" data-class-id="clase3">
                             <div class="class-checkbox" data-class-key="bd2_clase3">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
                             <span class="class-item-text"
-                                title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3:
-                                Operaciones de Lectura</span>
+                                title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de Lectura</span>
                         </li>
                         <li class="class-item" data-class-id="clase4">
                             <div class="class-checkbox" data-class-key="bd2_clase4">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
                             <span class="class-item-text"
-                                title="Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo)">Clase
-                                4: CRUD Completo</span>
+                                title="Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo)">Clase 4: CRUD Completo</span>
                         </li>
                         <li class="class-item" data-class-id="clase5">
                             <div class="class-checkbox" data-class-key="bd2_clase5">
                                 <i class="bi bi-check-lg d-none"></i>
                             </div>
                             <span class="class-item-text"
-                                title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas
-                                Avanzadas</span>
+                                title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas Avanzadas</span>
                         </li>
                     </ul>
                 </nav>
@@ -853,7 +973,7 @@
             becado: true,
             semestre: 4,
             materias: ["Bases de Datos II", "Redes", "Sistemas Operativos"],
-            notas: [85, 92, 78, 95],
+            notes: [85, 92, 78, 95],
             historial: [
                 { periodo: "2023-I", promedio: 82 },
                 { periodo: "2023-II", promedio: 87 },
