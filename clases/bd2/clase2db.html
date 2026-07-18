@@ -4,13 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clase 2: Creación de bases de datos y colecciones en MongoDB - Bases de Datos II</title>
+    <title>Clase 2: Creación de Bases de Datos y Colecciones en MongoDB - Bases de Datos II</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .json-code {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .table-custom th {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .table-custom td {
+            color: var(--text-secondary);
+        }
+
+        .citation-box {
+            font-style: italic;
+            border-left: 3px solid var(--text-muted);
+            padding-left: 12px;
+            margin: 10px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .img-container {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+        }
+
+        /* Consola interactiva MongoDB */
+        .terminal-container {
+            background-color: #0f141c;
+            border-radius: 12px;
+            border: 1px solid #232e3d;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .terminal-header {
+            background-color: #1a2333;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #232e3d;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-body {
+            padding: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ff66;
+            font-size: 0.9rem;
+            min-height: 200px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: inherit;
+            width: 100%;
+            outline: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,7 +136,7 @@
                         <i class="bi bi-arrow-left"></i>
                     </a>
                     <div>
-                        <h4 class="mb-0 fw-bold">Clase 2: Creación de DBs y Colecciones</h4>
+                        <h4 class="mb-0 fw-bold">Clase 2: Creación de DBs y Colecciones en MongoDB</h4>
                         <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II</span>
                     </div>
                 </div>
@@ -39,15 +150,399 @@
                 </div>
             </header>
 
-            <div class="class-content-wrapper">
-                <span class="badge-clase bg-success text-white mb-3">Clase 2</span>
-                <h3 class="fw-bold mb-4">Creación de bases de datos y colecciones en MongoDB</h3>
-                <div class="alert alert-info py-4" role="alert">
-                    <h5 class="alert-heading fw-bold mb-2"><i class="bi bi-info-circle-fill"></i> Clase en Construcción
-                    </h5>
-                    <p class="mb-0">El contenido detallado para esta clase se encuentra en planificación y estará
-                        disponible próximamente.</p>
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+
+                <!-- Pregunta disparadora de activación previa -->
+                <div class="alert alert-info py-3 mb-5" role="alert" style="border-radius: 16px;">
+                    <h5 class="alert-heading fw-bold mb-2"><i class="bi bi-chat-left-dots-fill"></i> Para empezar a
+                        reflexionar...</h5>
+                    <p class="mb-0 text-secondary">
+                        <strong>¿En qué se diferencia crear una tabla en SQL de crear una colección en MongoDB?</strong>
+                        Piensa en términos de rigidez estructural, necesidad de una declaración previa de columnas y
+                        cómo actúan los tipos de datos en la inserción inicial.
+                    </p>
                 </div>
+
+                <!-- Sección 1: Bases de datos en MongoDB vs SQL -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-database-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. El Concepto de Base de Datos en MongoDB</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed">
+                        En MongoDB, una <strong>base de datos</strong> actúa como el contenedor físico-lógico de nivel
+                        superior para las colecciones de datos. Al igual que en los ecosistemas relacionales
+                        tradicionales gobernados por estándares SQL, cada base de datos en MongoDB posee su propio
+                        conjunto exclusivo de archivos en el sistema de almacenamiento físico. Sin embargo, la
+                        diferencia radical yace en el ciclo de vida de la instanciación: en MongoDB, una base de datos
+                        <strong>no se crea realmente</strong> hasta que no se le inserta su primer documento.
+                    </p>
+
+                    <div class="citation-box">
+                        "La filosofía de diseño de MongoDB favorece la asignación dinámica sobre la marcha de esquemas y
+                        descriptores lógicos de almacenamiento, optimizando la agilidad de los entornos de desarrollo
+                        ágiles." <br>
+                        — Manual Oficial de Referencia de MongoDB Arquitectura.
+                    </div>
+                </section>
+
+                <!-- Sección 2: Tipos de Colecciones -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-layers-half text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Taxonomía de las Colecciones: Flexibles vs Fijas (Capped)</h3>
+                    </div>
+                    <p class="text-secondary">
+                        A diferencia de SQL, donde todas las tablas operan bajo principios de crecimiento físico
+                        elástico limitado por el disco duro, MongoDB divide sus agrupaciones documentales en dos
+                        categorías principales:
+                    </p>
+
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-6">
+                            <div class="card h-100 p-4"
+                                style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-infinity"></i> Colecciones Flexibles
+                                    (Estándar)</h5>
+                                <p class="text-secondary small mb-0">
+                                    Son el tipo por defecto en MongoDB. No tienen restricciones de tamaño máximo ni
+                                    límites explícitos sobre el volumen global de registros. Su crecimiento es dinámico
+                                    y vertical. No requieren definición estricta de atributos estructurales previos a la
+                                    inserción masiva.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 p-4"
+                                style="border: 1px solid var(--border-color); border-radius: 16px; background: var(--hover-bg);">
+                                <h5 class="fw-bold text-success"><i class="bi bi-arrow-repeat"></i> Colecciones Fijas
+                                    (Capped Collections)</h5>
+                                <p class="text-secondary small mb-0">
+                                    Colecciones de tamaño circular preasignado que preservan de manera nativa el orden
+                                    de inserción de los elementos. Al llenarse por completo el espacio en bytes
+                                    parametrizado, el motor elimina automáticamente los documentos más antiguos para dar
+                                    paso a los nuevos (comportamiento FIFO). Son ideales para logs o arquitecturas de
+                                    telemetría temporal.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 3: Schema Validation -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-shield-check text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Validación de Esquemas (Schema Validation)</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed">
+                        Aunque MongoDB se enorgullece de su diseño nativo libre de esquemas (*schemaless*), los entornos
+                        empresariales e industriales requieren mantener la calidad y consistencia e invariabilidad de
+                        los datos crudos. Para solucionar esta dicotomía, MongoDB implementa la <strong>Validación de
+                            Esquemas</strong> utilizando la sintaxis estándar de <strong>JSON Schema</strong>. Esto nos
+                        permite definir de forma programática campos obligatorios, tipos de datos rigurosos y rangos
+                        condicionales.
+                    </p>
+
+                    <div class="class-step mt-4">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-exclamation-octagon"></i> ¿Cuándo aplicar
+                            validación de esquemas?</h6>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem;">
+                            Se debe aplicar en colecciones core de negocio (como <code>Usuarios</code>,
+                            <code>Finanzas</code>, o <code>Transacciones</code>) donde la mutabilidad errónea de tipos
+                            (por ejemplo, guardar un número telefónico como entero en vez de string) rompería capas
+                            críticas del backend o aplicaciones cliente.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- NUEVA SECCIÓN: ¿Qué son, cómo funcionan y cómo crearlas? -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-gear-check-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Las Reglas de Validación a Detalle</h3>
+                    </div>
+
+                    <h5 class="fw-bold mt-4 text-dark">¿Qué son y cómo funcionan?</h5>
+                    <p class="text-secondary">
+                        Las <strong>reglas de validación</strong> son directrices o restricciones de integridad que se
+                        configuran a nivel de colección. Cuando un cliente intenta guardar (<code>insert</code>) o
+                        modificar (<code>update</code>) un documento, el motor de MongoDB intercepta el documento JSON y
+                        lo evalúa contra el validador configurado **antes** de escribir en el almacenamiento físico.
+                    </p>
+                    <p class="text-secondary">
+                        Si el documento cumple con todas las reglas, se escribe con éxito; si viola alguna condición
+                        (por ejemplo, falta un campo obligatorio o el tipo de dato es erróneo), MongoDB **rechaza por
+                        completo** la operación devolviendo un error de validación
+                        (<code>WriteError: Document failed validation</code>).
+                    </p>
+
+                    <h5 class="fw-bold mt-4 text-dark">¿Cómo crearlas?</h5>
+                    <p class="text-secondary">
+                        Se definen mediante el operador <code>$jsonSchema</code> dentro del método de creación de la
+                        colección. A continuación, se muestra la estructura sintáctica estándar para inicializar reglas
+                        de validación rígidas:
+                    </p>
+
+                    <div class="json-code mb-3">
+                        <pre class="mb-0"><span style="color: #64b5f6;">db</span>.<span style="color: #fff176;">createCollection</span>(<span style="color: #a5d6a7;">"Usuarios"</span>, {
+   <span style="color: #ffb74d;">validator</span>: {
+      <span style="color: #ffb74d;">$jsonSchema</span>: {
+         <span style="color: #f06292;">bsonType</span>: <span style="color: #a5d6a7;">"object"</span>,
+         <span style="color: #f06292;">required</span>: [ <span style="color: #a5d6a7;">"nombre"</span>, <span style="color: #a5d6a7;">"correo"</span> ],
+         <span style="color: #f06292;">properties</span>: {
+            <span style="color: #ffb74d;">nombre</span>: {
+               <span style="color: #f06292;">bsonType</span>: <span style="color: #a5d6a7;">"string"</span>,
+               <span style="color: #f06292;">description</span>: <span style="color: #a5d6a7;">"El nombre debe ser una cadena de caracteres y es obligatorio"</span>
+            },
+            <span style="color: #ffb74d;">correo</span>: {
+               <span style="color: #f06292;">bsonType</span>: <span style="color: #a5d6a7;">"string"</span>,
+               <span style="color: #f06292;">pattern</span>: <span style="color: #a5d6a7;">"^.+@.+$"</span>,
+               <span style="color: #f06292;">description</span>: <span style="color: #a5d6a7;">"Debe ser un correo electrónico válido"</span>
+            }
+         }
+      }
+   },
+   <span style="color: #ffb74d;">validationLevel</span>: <span style="color: #a5d6a7;">"strict"</span>,
+   <span style="color: #ffb74d;">validationAction</span>: <span style="color: #a5d6a7;">"error"</span>
+})</pre>
+                    </div>
+
+                    <p class="text-secondary small mt-2">
+                        *Nota: <code>validationAction: "error"</code> le indica a MongoDB que bloquee la inserción. Si
+                        se cambia a <code>"warn"</code>, grabará el registro pero dejará una alerta en el archivo log
+                        del servidor.*
+                    </p>
+                </section>
+
+                <!-- Sección 5: Guía Rápida de Comandos y Consola Interactiva -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-terminal-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Guía Rápida de Comandos (MongoDB Shell)</h3>
+                    </div>
+                    <p class="text-secondary">
+                        A continuación se enumeran los comandos de manipulación estructural:
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-custom text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Comando Shell</th>
+                                    <th>Función Operativa Exacta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-start"><code>use &lt;nombre_db&gt;</code></td>
+                                    <td class="text-start">Cambia el contexto de ejecución actual a la BD indicada. Si
+                                        no existe, la crea virtualmente.</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start">
+                                        <code>db.createCollection("&lt;nombre&gt;", {opciones})</code></td>
+                                    <td class="text-start">Crea explícitamente una colección permitiendo inyectar
+                                        configuraciones de validación o límites.</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"><code>db.dropDatabase()</code></td>
+                                    <td class="text-start">Elimina de forma irreversible la base de datos que se
+                                        encuentra actualmente en uso activo.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Consola Interactiva -->
+                    <div class="terminal-container">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot" style="background-color: #ff5f56;"></div>
+                                <div class="terminal-dot" style="background-color: #ffbd2e;"></div>
+                                <div class="terminal-dot" style="background-color: #27c93f;"></div>
+                            </div>
+                            <span class="text-muted small" style="font-family: monospace;">mongosh ver 2.1</span>
+                        </div>
+                        <div class="terminal-body" id="terminal-screen">
+                            <div>MongoDB Shell listo. Prueba comandos como "use BibliotecaDigital", "show dbs" o
+                                "db.createCollection('Libros')".</div>
+                        </div>
+                        <div class="terminal-input-line px-3 pb-2">
+                            <span style="color: #00ff66; font-family: monospace; font-weight: bold;">test></span>
+                            <input type="text" id="terminal-input-field" class="terminal-input"
+                                placeholder="Escribe un comando aquí y presiona Enter..." autocomplete="off">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Referencias Académicas -->
+                <section class="mt-5 pt-4 border-top" style="border-color: var(--border-color) !important;">
+                    <h6 class="fw-bold text-secondary mb-3">Referencias Académicas de la Sesión:</h6>
+                    <ul class="list-unstyled text-muted" style="font-size: 0.85rem; line-height: 1.6;">
+                        <li><strong>Chodorow, K. (2013).</strong> <i>MongoDB: The Definitive Guide</i> (2nd ed.).
+                            O'Reilly Media.</li>
+                        <li><strong>JSON Schema Core Definitions (2020-12).</strong> Internet Engineering Task Force
+                            (IETF).</li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Sección de Trabajo Colaborativo -->
+            <div class="class-content-wrapper mt-4 mb-4">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-people-fill text-primary fs-3"></i>
+                    <h3 class="fw-bold mb-0">Taller Práctico Grupal y Trabajo Colaborativo</h3>
+                </div>
+                <div class="card"
+                    style="border: 1px solid var(--border-color); border-radius: 16px; background-color: var(--hover-bg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-diagram-3-fill"></i> Laboratorio
+                            Colectivo: Despliegue en Clústeres de Producción</h5>
+                        <p class="text-secondary">
+                            <strong>Contextualización del Reto:</strong> En sus clústeres remotos personales de MongoDB
+                            Atlas creados la sesión previa, deberán estructurar la capa de persistencia base de un
+                            sistema integral de información bibliotecaria.
+                        </p>
+
+                        <h6 class="fw-bold mt-4 text-dark">Indicaciones Paso a Paso para los Equipos:</h6>
+                        <ol class="text-secondary small ps-3">
+                            <li class="mb-2"><strong>Instanciación:</strong> Acceder a la CLI de Atlas o Compas local e
+                                instanciar una base de datos denominada de forma unificada como
+                                <code>BibliotecaDigital</code>.</li>
+                            <li class="mb-2"><strong>Colección Flexible:</strong> Generar la colección
+                                <code>Libros</code> sin aplicar reglas de validación. Insertar 5 documentos con campos
+                                totalmente heterogéneos para constatar la naturaleza flexible de la plataforma.</li>
+                            <li class="mb-2"><strong>Colección con Validación Estricta:</strong> Crear la colección
+                                <code>Usuarios</code> configurando obligatoriedad explícita para los atributos:
+                                <code>nombre</code> (string) y <code>correo</code> (string). Validar el comportamiento
+                                provocando un rechazo intencional del sistema mediante inserciones mal formadas.</li>
+                            <li class="mb-2"><strong>Colección Circular:</strong> Crear una colección fija llamada
+                                <code>Prestamos</code> limitada estrictamente a 1MB de espacio físico (`size: 1048576`)
+                                para retener exclusivamente logs transaccionales volátiles.</li>
+                            <li class="mb-2"><strong>Modificación Dinámica en Vivo:</strong> Realizar de forma grupal
+                                una alteración al validador de la colección de <code>Usuarios</code> para incorporar de
+                                manera obligatoria el nuevo campo <code>telefono</code>.</li>
+                        </ol>
+
+                        <div class="alert alert-warning mt-4 mb-0 py-3" role="alert">
+                            <h6 class="alert-heading fw-bold mb-1"><i class="bi bi-share-fill"></i> Dinámica de Plenaria
+                                y Entregables</h6>
+                            <p class="mb-0 small text-secondary">
+                                Al concluir la sesión práctica de laboratorio, cada integrante deberá realizar capturas
+                                de pantalla de la arquitectura montada en MongoDB Atlas. Posteriormente, el equipo
+                                ingresará a la pizarra interactiva de **Miro** asignada por el docente para plasmar una
+                                tabla comparativa exhaustiva sobre el comportamiento observado entre tablas SQL clásicas
+                                y Colecciones documentales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desafío de Investigación Autónoma -->
+            <div class="class-content-wrapper mt-4 mb-4">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-search text-warning fs-3"></i>
+                    <h3 class="fw-bold mb-0">Misión de Investigación y Foro Académico</h3>
+                </div>
+                <div class="card p-4" style="border: 1px solid var(--border-color); border-radius: 16px;">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-cone-striped"></i> Reto Autónomo Pre-Clase
+                        Siguiente:</h6>
+                    <p class="text-secondary small">
+                        Investigar de forma independiente la arquitectura interna de un <strong>índice en
+                            MongoDB</strong> y describir mediante un ensayo técnico sintético cómo influyen directamente
+                        sobre el rendimiento computacional de las consultas.
+                    </p>
+                    <p class="text-secondary small">
+                        <strong>Entregable Obligatorio Foro:</strong> Diseñar la estructura y reglas del esquema de
+                        validación JSON para una nueva colección denominada <code>Reseñas</code> dentro del ecosistema
+                        de la biblioteca digital. Compartir el código fuente del esquema de validación en el foro
+                        oficial de discusión, justificando de forma técnica la idoneidad de las reglas restrictivas de
+                        negocio aplicadas a cada propiedad.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cuestionario de Aprendizaje -->
+            <div class="class-content-wrapper">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-question-circle-fill text-success fs-3"></i>
+                    <h3 class="fw-bold mb-0">Verifica tu Aprendizaje</h3>
+                </div>
+                <p class="text-secondary mb-4">Responde las preguntas de control basadas en los conceptos teóricos
+                    expuestos en la clase:</p>
+
+                <form id="quiz-form">
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">1. ¿En qué preciso instante se consolida de forma física una nueva Base
+                            de Datos en MongoDB?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-a" value="a">
+                            <label class="form-check-label text-secondary" for="p1-a">Inmediatamente al ejecutar la
+                                instrucción de cambio de contexto "use nombre_db".</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-b" value="b">
+                            <label class="form-check-label text-secondary" for="p1-b">Únicamente cuando se registra y
+                                consolida la primera inserción documental real en alguna de sus colecciones
+                                internas.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p1" id="p1-c" value="c">
+                            <label class="form-check-label text-secondary" for="p1-c">Al reiniciar el demonio central de
+                                base de datos en el servidor local o de Atlas.</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">2. ¿Cuál es el comportamiento operativo de una Capped Collection
+                            (Colección Fija) al agotar su límite físico de memoria parametrizado?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-a" value="a">
+                            <label class="form-check-label text-secondary" for="p2-a">Rechaza de forma permanente
+                                cualquier nueva inserción lanzando una excepción de desbordamiento.</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-b" value="b">
+                            <label class="form-check-label text-secondary" for="p2-b">Elimina automáticamente los
+                                documentos más antiguos bajo un enfoque de fila circular FIFO para acomodar la nueva
+                                data.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p2" id="p2-c" value="c">
+                            <label class="form-check-label text-secondary" for="p2-c">Asigna dinámicamente un clúster
+                                secundario de disco para expandir los límites.</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">3. ¿Qué estándar sintáctico utiliza MongoDB nativamente para
+                            implementar esquemas de validación de datos?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-a" value="a">
+                            <label class="form-check-label text-secondary" for="p3-a">JSON Schema</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-b" value="b">
+                            <label class="form-check-label text-secondary" for="p3-b">XML Validation DTD</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="p3" id="p3-c" value="c">
+                            <label class="form-check-label text-secondary" for="p3-c">SQL DDL constraints</label>
+                        </div>
+                    </div>
+
+                    <!-- Botón y Resultados -->
+                    <div class="d-flex align-items-center gap-3">
+                        <button type="button" class="btn btn-primary-gradient" id="btn-evaluar">Comprobar
+                            Respuestas</button>
+                        <span id="quiz-result-score" class="fw-bold fs-5 text-primary" style="display: none;"></span>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
@@ -82,22 +577,7 @@
                         <i class="bi bi-journal-text"></i>
                         <span class="class-item-text"
                             title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de
-                            lectura</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clase4db.html" class="class-item text-decoration-none">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text"
-                            title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD
-                            Completo</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clase5db.html" class="class-item text-decoration-none">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5:
-                            Consultas avanzadas</span>
+                            Lectura</span>
                     </a>
                 </li>
             </ul>
@@ -120,6 +600,70 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../js/menu.js"></script>
     <script src="../../js/main.js"></script>
+    <script>
+        // Lógica de simulación interactiva de la Terminal MongoDB
+        const terminalField = document.getElementById('terminal-input-field');
+        const terminalScreen = document.getElementById('terminal-screen');
+
+        terminalField.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const command = this.value.trim();
+                if (!command) return;
+
+                let output = '';
+                if (command.startsWith('use ')) {
+                    const dbName = command.split(' ')[1] || 'db';
+                    output = `switched to db ${dbName}`;
+                } else if (command === 'show dbs') {
+                    output = `admin   0.000GB\nconfig  0.000GB\nlocal   0.000GB`;
+                } else if (command.startsWith('db.createCollection')) {
+                    output = `{ "ok" : 1 }`;
+                } else if (command === 'db.dropDatabase()') {
+                    output = `{ "dropped" : "test", "ok" : 1 }`;
+                } else {
+                    output = `Command '${command}' executed successfully on Atlas mock context.`;
+                }
+
+                const newline = document.createElement('div');
+                newline.style.color = '#ffffff';
+                newline.textContent = `> ${command}`;
+
+                const responseLine = document.createElement('div');
+                responseLine.style.whiteSpace = 'pre-line';
+                responseLine.style.color = '#00ff66';
+                responseLine.textContent = output;
+
+                terminalScreen.appendChild(newline);
+                terminalScreen.appendChild(responseLine);
+                this.value = '';
+                terminalScreen.scrollTop = terminalScreen.scrollHeight;
+            }
+        });
+
+        // Lógica del cuestionario
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = { p1: 'b', p2: 'b', p3: 'a' };
+            let score = 0;
+            let total = 3;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="p${i}"]:checked`);
+                if (!checkedOption) { unanswered = true; break; }
+                if (checkedOption.value === correctAnswers[`p${i}`]) { score++; }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('quiz-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+            scoreElement.className = score === total ? 'fw-bold fs-5 text-success' : 'fw-bold fs-5 text-warning';
+        });
+    </script>
 </body>
 
 </html>

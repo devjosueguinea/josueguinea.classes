@@ -227,16 +227,101 @@
                 </section>
 
                 <!-- Sección 4: Explicación y Estructura JSON (Interactiva) -->
+                <!-- Sección 4: Explicación y Estructura JSON / BSON (Tipos de Datos) -->
                 <section class="mb-5">
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <i class="bi bi-filetype-json text-primary fs-3"></i>
-                        <h3 class="fw-bold mb-0">4. ¿Qué es un archivo JSON y cuál es su estructura?</h3>
+                        <h3 class="fw-bold mb-0">4. Estructura JSON y Tipos de Datos en MongoDB (BSON)</h3>
                     </div>
                     <p class="text-secondary">
                         <strong>JSON</strong> (JavaScript Object Notation), popularizado por Douglas Crockford a
                         principios de la década de 2000 <a href="#ref-crockford">[3]</a>, es un formato de texto ligero
-                        y fácil de leer para el intercambio de datos.
+                        y fácil de leer para el intercambio de datos. Sin embargo, internamente MongoDB almacena los
+                        documentos en un formato binario llamado <strong>BSON</strong> (Binary JSON), el cual extiende
+                        los tipos de datos básicos para optimizar el espacio y la velocidad de consulta.
                     </p>
+
+                    <!-- Tabla de Tipos de Datos en MongoDB -->
+                    <h5 class="fw-bold text-secondary mt-4 mb-3"><i class="bi bi-tags-fill text-primary"></i> Tipos de
+                        Datos Nativos y Caracteres Admitidos</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered table-custom align-middle">
+                            <thead class="text-center">
+                                <tr>
+                                    <th style="width: 20%;">Tipo de Dato</th>
+                                    <th style="width: 45%;">Breve Explicación</th>
+                                    <th style="width: 35%;">Caracteres y Restricciones Admitidas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-fonts"></i> String (Texto)</td>
+                                    <td>Cadena de caracteres estándar utilizada para almacenar texto. Es el tipo de dato
+                                        más común y compatible con codificación UTF-8 de forma nativa.</td>
+                                    <td>Soporta cualquier carácter alfanumérico, símbolos y emojis válidos en
+                                        <strong>UTF-8</strong>. Debe ir encerrado obligatoriamente entre comillas dobles
+                                        (<code>""</code>).</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-hash"></i> Integer / Double
+                                        (Numérico)</td>
+                                    <td>MongoDB distingue automáticamente entre enteros (32 o 64 bits) y números de coma
+                                        flotante (Double) de 64 bits para operaciones aritméticas exactas.</td>
+                                    <td>Dígitos numéricos del <code>0-9</code>. Admite signo negativo (<code>-</code>) y
+                                        punto (<code>.</code>) como separador decimal. <strong>No admite comas</strong>
+                                        ni letras dentro del valor.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-toggle-on"></i> Boolean (Booleano)
+                                    </td>
+                                    <td>Tipo lógico binario para representar estados flags, interruptores o
+                                        condicionales lógicos dentro del documento.</td>
+                                    <td>Únicamente admite los valores literales en minúscula: <code>true</code> o
+                                        <code>false</code>. No lleva comillas.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-list-nested"></i> Array (Arreglo)
+                                    </td>
+                                    <td>Lista indexada u ordenada que permite almacenar múltiples valores (incluso de
+                                        diferentes tipos de datos) bajo una misma clave.</td>
+                                    <td>Se delimita por corchetes <code>[ ]</code>. Los elementos internos se separan
+                                        estrictamente por comas (<code>,</code>).</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-braces"></i> Object (Documento
+                                        Embebido)</td>
+                                    <td>Un documento JSON completo anidado dentro de otro campo. Permite estructurar
+                                        datos jerárquicos y relaciones 1-a-1 o 1-a-muchos de forma eficiente.</td>
+                                    <td>Se delimita por llaves <code>{ }</code>. Debe cumplir internamente con pares de
+                                        <code>"clave": valor</code> válidos y separados por comas.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-fingerprint"></i> ObjectId</td>
+                                    <td>Identificador único generado automáticamente por MongoDB para la clave primaria
+                                        de cada documento (campo <code>_id</code>). Tiene un tamaño estricto de 12 bytes
+                                        binarios.</td>
+                                    <td>Representado visualmente como una cadena hexadecimal de **24 caracteres**
+                                        exactos (dígitos del <code>0-9</code> y letras minúsculas de la
+                                        <code>a-f</code>).</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-calendar3"></i> Date (Fecha)</td>
+                                    <td>Almacena la fecha y hora actual en formato de tiempo UNIX de 64 bits
+                                        (milisegundos desde la época).</td>
+                                    <td>Formato estándar **ISODate** (<code>AAAA-MM-DDTHH:mm:ss.Z</code>). En Compass o
+                                        scripts se procesa invocando la función <code>ISODate()</code> o como texto con
+                                        formato ISO.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-primary"><i class="bi bi-ban"></i> Null</td>
+                                    <td>Representa un valor nulo, la ausencia de datos o un campo explícitamente vacío.
+                                    </td>
+                                    <td>Únicamente admite la palabra clave literal en minúscula: <code>null</code>. No
+                                        lleva comillas.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <!-- Validador Interactivo de JSON -->
                     <div class="card p-4 mb-4" style="border: 1px solid var(--border-color); border-radius: 16px;">
