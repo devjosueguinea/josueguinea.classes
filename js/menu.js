@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <li>
                 <a href="clases/redcom/redes-comunicaciones.html" class="sidebar-link" id="link-redes">
                     <i class="bi bi-wifi"></i>
-                    <span>Redes</span>
+                    <span>Redes de Comunicaciones</span>
                 </a>
             </li>
             <li>
@@ -108,19 +108,19 @@ document.addEventListener("DOMContentLoaded", () => {
             <li>
                 <a href="#" class="sidebar-link" id="link-so">
                     <i class="bi bi-cpu"></i>
-                    <span>Sistemas Op.</span>
+                    <span>Sistemas Operativos</span>
                 </a>
             </li>
             <li>
                 <a href="clases/ads/ads.html" class="sidebar-link" id="link-ads">
                     <i class="bi bi-diagram-3"></i>
-                    <span>Análisis y Diseño</span>
+                    <span>Análisis y Diseño de Sistemas</span>
                 </a>
             </li>
             <li>
                 <a href="clases/poo/programacion-orientada-objetos.html" class="sidebar-link" id="link-poo">
                     <i class="bi bi-code-slash"></i>
-                    <span>Prog. Objetos (POO)</span>
+                    <span>Prog Orientada a Objetos (POO)</span>
                 </a>
             </li>
         </ul>
@@ -129,11 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Buscamos el contenedor principal de la app
     const appContainer = document.querySelector('.app-container');
-    
+
     if (appContainer) {
         // Inyectamos el menú
         appContainer.insertAdjacentHTML('afterbegin', menuHTML);
-        
+
         // ==========================================
         // 3. COMPORTAMIENTO DEL MENÚ HAMBURGUESA
         // ==========================================
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
             menuToggle.addEventListener('click', () => {
                 sidebar.classList.toggle('open');
                 sidebarOverlay.classList.toggle('active');
-                
+
                 const icon = menuToggle.querySelector('i');
                 if (sidebar.classList.contains('open')) {
                     icon.className = 'bi bi-x-lg';
@@ -160,13 +160,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 menuToggle.querySelector('i').className = 'bi bi-list';
             });
         }
-        
+
         // ==========================================
         // 4. LÓGICA DE RUTAS Y CLASE ACTIVA
         // ==========================================
         const currentPath = window.location.pathname;
         const links = appContainer.querySelectorAll('.sidebar-link');
-        
+
         const depth = (currentPath.match(/\//g) || []).length;
         if (depth > 1) {
             links.forEach(link => {
