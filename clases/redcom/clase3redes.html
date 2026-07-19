@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 3: Direccionamiento IPv4 y Sistema Binario - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .table-custom th {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .table-custom td {
+            color: var(--text-secondary);
+        }
+
+        .binary-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+            text-align: center;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .binary-cell {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .binary-cell:hover {
+            background-color: var(--border-color);
+        }
+
+        .binary-cell.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Simulador AND Lógico */
+        .and-simulator-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .bit-row {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            overflow-x: auto;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .bit-row-label {
+            width: 140px;
+            display: inline-block;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .bit-values {
+            display: inline-block;
+            color: var(--text-primary);
+        }
+
+        .bit-values span.highlight-1 {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .bit-values span.highlight-2 {
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        .bit-row.result {
+            background-color: var(--hover-bg);
+            border-top: 2px solid var(--border-color);
+            margin-top: 8px;
+        }
+
+        .bit-row.result .bit-values {
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 3: Direccionamiento IPv4 y Sistema Binario</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+
+                <!-- Introducción -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-globe text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. Introducción al Direccionamiento IPv4</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Para que los dispositivos puedan comunicarse en una red informática, necesitan un identificador único y lógico. En el protocolo IP (Internet Protocol), este identificador es la <strong>Dirección IP</strong>. En esta clase, nos enfocaremos en la versión 4 del protocolo (IPv4), que sigue siendo la base del enrutamiento de la gran mayoría de las redes locales del mundo.
+                    </p>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <div class="interactive-box h-100">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-fingerprint"></i> ¿Qué es una dirección IP?</h5>
+                                <p class="text-secondary small">
+                                    Una dirección IPv4 es una etiqueta numérica de <strong>32 bits</strong> de longitud, organizada en 4 secciones llamadas <strong>octetos</strong> (8 bits cada una), separados por puntos.
+                                </p>
+                                <p class="text-secondary small">
+                                    Generalmente se representa en formato <strong>decimal con puntos</strong> para facilitar su lectura por humanos (por ejemplo, <code>192.168.1.10</code>). Cada octeto decimal puede tomar valores desde <strong>0 hasta 255</strong>.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="interactive-box h-100">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-layout-split"></i> Estructura Jerárquica</h5>
+                                <p class="text-secondary small">
+                                    Toda dirección IP contiene dos partes fundamentales:
+                                </p>
+                                <ul class="text-secondary small ps-3">
+                                    <li><strong>Porción de Red (Network ID):</strong> Identifica el segmento de red física o lógica a la que pertenece el dispositivo.</li>
+                                    <li><strong>Porción de Host (Host ID):</strong> Identifica de forma única al dispositivo específico dentro de ese segmento de red.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Máscara de subred y Gateway -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-shield-check text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Máscara de Subred y Gateway</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        La dirección IP por sí sola no sirve para que un dispositivo sepa si el destinatario está en su misma red local o en el exterior. Para resolver esto, entran en juego la <strong>Máscara de Subred</strong> y la <strong>Puerta de Enlace Predeterminada (Gateway)</strong>.
+                    </p>
+
+                    <div class="accordion" id="accordionConcepts">
+                        <!-- Acordeón 1: Máscara de Subred -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <i class="bi bi-grid-3x3-gap-fill me-2"></i> La Máscara de Subred (Subnet Mask)
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionConcepts">
+                                <div class="accordion-body">
+                                    <p>La máscara de subred también consta de <strong>32 bits</strong>. Su función matemática es delimitar exactamente dónde termina la porción de red de la dirección IP y dónde comienza la de host.</p>
+                                    <p>Se compone de unos continuos a la izquierda (que representan la red) y ceros a la derecha (que representan los hosts). Por ejemplo:</p>
+                                    <ul>
+                                        <li>Máscara decimal: <code>255.255.255.0</code></li>
+                                        <li>Representación binaria: <code>11111111.11111111.11111111.00000000</code></li>
+                                        <li>Notación CIDR: <code>/24</code> (indica que posee 24 bits configurados en "1" dedicados a la red).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Acordeón 2: El Gateway -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <i class="bi bi-router-fill me-2"></i> Puerta de Enlace Predeterminada (Default Gateway)
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionConcepts">
+                                <div class="accordion-body">
+                                    <p>El <strong>Gateway</strong> o Puerta de Enlace es el dispositivo que conecta tu red local (LAN) con otras redes externas (como Internet). En términos prácticos, es la dirección IP de la interfaz del router a la cual está conectada tu red local.</p>
+                                    <p>Cuando un dispositivo de la red quiere enviar un paquete a un destino que la máscara de subred identifica como <em>fuera</em> de la red local, el dispositivo envía ese paquete directamente al Gateway para que este lo encamine a su destino.</p>
+                                    <div class="class-step mt-2">
+                                        <strong>Ejemplo Práctico:</strong> Si tu computadora tiene la dirección IP <code>192.168.1.50</code> con máscara <code>255.255.255.0</code> y quiere comunicarse con un servidor web en la IP <code>8.8.8.8</code>, deduce que no está en su red. Entonces, envía el tráfico al Gateway local (generalmente <code>192.168.1.1</code>) para que realice el enrutamiento.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Sistema Numérico Binario -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-calculator text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Sistema Numérico Binario</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Los ordenadores y routers no entienden de números decimales de forma nativa; operan puramente con interruptores electrónicos que solo tienen dos estados posibles: encendido (<strong>1</strong>) o apagado (<strong>0</strong>). Esto es el <strong>Sistema Binario</strong> (base 2).
+                    </p>
+
+                    <div class="row g-4 align-items-center">
+                        <div class="col-12 col-lg-6">
+                            <h5 class="fw-bold">La Tabla de Pesos de un Octeto</h5>
+                            <p class="text-secondary small">
+                                Dado que una dirección IPv4 se divide en octetos (8 bits), la conversión de binario a decimal se realiza sumando los valores de posición (pesos) de los bits que están activados (en 1). Los pesos de derecha a izquierda corresponden a las potencias de 2 (desde 2<sup>0</sup> hasta 2<sup>7</sup>):
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-custom text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Posición del Bit</th>
+                                            <th>1 (MSB)</th>
+                                            <th>2</th>
+                                            <th>3</th>
+                                            <th>4</th>
+                                            <th>5</th>
+                                            <th>6</th>
+                                            <th>7</th>
+                                            <th>8 (LSB)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Potencia de 2</th>
+                                            <td>2<sup>7</sup></td>
+                                            <td>2<sup>6</sup></td>
+                                            <td>2<sup>5</sup></td>
+                                            <td>2<sup>4</sup></td>
+                                            <td>2<sup>3</sup></td>
+                                            <td>2<sup>2</sup></td>
+                                            <td>2<sup>1</sup></td>
+                                            <td>2<sup>0</sup></td>
+                                        </tr>
+                                        <tr class="table-active font-monospace fw-bold">
+                                            <th>Valor Decimal (Peso)</th>
+                                            <td>128</td>
+                                            <td>64</td>
+                                            <td>32</td>
+                                            <td>16</td>
+                                            <td>8</td>
+                                            <td>4</td>
+                                            <td>2</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <div class="interactive-box">
+                                <h5 class="fw-bold text-primary text-center mb-3">Conversor Interactivo Bit a Bit</h5>
+                                <p class="text-secondary small text-center">Haz clic en los bits para activarlos (1) o desactivarlos (0) y observa la conversión en tiempo real.</p>
+                                <div class="binary-grid my-3">
+                                    <div class="binary-cell" onclick="toggleBit(0)" id="bit-0">0</div>
+                                    <div class="binary-cell" onclick="toggleBit(1)" id="bit-1">0</div>
+                                    <div class="binary-cell" onclick="toggleBit(2)" id="bit-2">0</div>
+                                    <div class="binary-cell" onclick="toggleBit(3)" id="bit-3">0</div>
+                                    <div class="binary-cell" onclick="toggleBit(4)" id="bit-4">0</div>
+                                    <div class="binary-cell" onclick="toggleBit(5)" id="bit-5">0</div>
+                                    <div class="binary-cell" onclick="toggleBit(6)" id="bit-6">0</div>
+                                    <div class="binary-cell" onclick="toggleBit(7)" id="bit-7">0</div>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <div class="small text-muted mb-1">Cálculo de Pesos:</div>
+                                    <div class="fw-semibold fs-6 text-secondary mb-2" id="binary-sum-expression">0 = 0</div>
+                                    <div class="fs-4 fw-bold text-primary">Valor Decimal: <span id="binary-decimal-result">0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Vinculación: Operación AND Lógica -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-bezier2 text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Vinculación: Cómo se relacionan el Binario y las Redes</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        ¿Por qué un administrador de red debe dominar el binario? Porque el cálculo de subredes e identificación de redes se basa en la operación lógica <strong>AND bit a bit</strong> que el router realiza de forma interna entre la dirección IP y la máscara de subred para hallar la <strong>Dirección de Red</strong>.
+                    </p>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm p-4" style="background-color: var(--hover-bg);">
+                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-circle-half"></i> La regla de la Operación AND</h5>
+                                <p class="text-secondary small">
+                                    En lógica binaria, el operador AND da como resultado <code>1</code> únicamente si ambos bits de entrada son <code>1</code>. Si cualquiera es <code>0</code>, el resultado es <code>0</code>.
+                                </p>
+                                <table class="table table-sm table-bordered text-center text-secondary small">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Bit IP</th>
+                                            <th>Bit Máscara</th>
+                                            <th>Resultado AND (Red)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>1</td><td>1</td><td class="fw-bold text-success">1</td></tr>
+                                        <tr><td>1</td><td>0</td><td>0</td></tr>
+                                        <tr><td>0</td><td>1</td><td>0</td></tr>
+                                        <tr><td>0</td><td>0</td><td>0</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm p-4" style="background-color: var(--hover-bg);">
+                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-lightbulb-fill"></i> ¿Para qué sirve?</h5>
+                                <p class="text-secondary small">
+                                    Al aplicar la operación AND a cada uno de los 32 bits de la IP y la máscara de subred, se obtiene la <strong>Dirección de Red</strong>. 
+                                </p>
+                                <p class="text-secondary small">
+                                    Esta dirección es vital porque representa el "nombre de la calle" en la red local. Es el dato que los routers utilizan en sus tablas de enrutamiento para reenviar los paquetes de datos al destino correcto.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculadora interactiva AND -->
+                    <div class="and-simulator-card mt-4">
+                        <h4 class="fw-bold mb-3 text-center text-primary"><i class="bi bi-cpu"></i> Simulador de Operación AND Lógica (IP & Máscara)</h4>
+                        <p class="text-muted small text-center mb-4">Introduce una IP y una máscara de subred para ver cómo se transforman a binario y cómo la operación AND lógica calcula la Dirección de Red.</p>
+                        
+                        <div class="row g-3 justify-content-center mb-4">
+                            <div class="col-12 col-md-5 col-lg-4">
+                                <label for="sim-ip" class="form-label fw-semibold small text-secondary">Dirección IP (IPv4)</label>
+                                <input type="text" class="form-control form-control-lg" id="sim-ip" value="192.168.1.85">
+                            </div>
+                            <div class="col-12 col-md-5 col-lg-4">
+                                <label for="sim-mask" class="form-label fw-semibold small text-secondary">Máscara de Subred</label>
+                                <input type="text" class="form-control form-control-lg" id="sim-mask" value="255.255.255.0">
+                            </div>
+                            <div class="col-12 col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary btn-lg w-100" onclick="calculateAndLogical()"><i class="bi bi-play-fill"></i> Calcular</button>
+                            </div>
+                        </div>
+
+                        <!-- Panel de Resultados Binarios -->
+                        <div class="border rounded p-3 bg-light" id="and-sim-results" style="display: none;">
+                            <div class="row">
+                                <div class="col-12 col-lg-7 border-lg-end" style="border-right: 1px solid var(--border-color);">
+                                    <div class="bit-row mb-2">
+                                        <span class="bit-row-label">IP (Decimal):</span>
+                                        <span class="fw-bold text-dark" id="res-dec-ip">192.168.1.85</span>
+                                    </div>
+                                    <div class="bit-row mb-2 text-primary">
+                                        <span class="bit-row-label text-primary">IP (Binario):</span>
+                                        <span class="bit-values font-monospace" id="res-bin-ip">11000000.10101000.00000001.01010101</span>
+                                    </div>
+                                    <div class="bit-row mb-2 text-warning">
+                                        <span class="bit-row-label text-warning">Máscara (Binario):</span>
+                                        <span class="bit-values font-monospace" id="res-bin-mask">11111111.11111111.11111111.00000000</span>
+                                    </div>
+                                    <div class="bit-row result text-success">
+                                        <span class="bit-row-label text-success">Operación AND:</span>
+                                        <span class="bit-values font-monospace" id="res-bin-net">11000000.10101000.00000001.00000000</span>
+                                    </div>
+                                    <div class="bit-row mt-3">
+                                        <span class="bit-row-label">Red (Decimal):</span>
+                                        <span class="fw-bold text-success fs-5" id="res-dec-net">192.168.1.0</span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-5 ps-lg-4 mt-3 mt-lg-0">
+                                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle-fill text-primary"></i> Explicación de los Componentes</h6>
+                                    <div class="d-flex flex-column gap-3 small text-secondary">
+                                        <div>
+                                            <span class="badge bg-primary">IP (Decimal / Binario)</span>
+                                            <p class="mb-0 mt-1">Es la dirección lógica única del dispositivo. En binario se aprecian los 32 bits divididos en 4 octetos.</p>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-warning text-dark">Máscara de Subred</span>
+                                            <p class="mb-0 mt-1">Determina qué parte de la IP identifica la red (bits en <code>1</code>) y cuál identifica al dispositivo host (bits en <code>0</code>).</p>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-success">Operación AND</span>
+                                            <p class="mb-0 mt-1">Es la comparación lógica bit a bit. Los bits de la IP que coinciden con un <code>1</code> en la máscara se conservan; los que coinciden con un <code>0</code> se desactivan obligatoriamente.</p>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-dark">Dirección de Red</span>
+                                            <p class="mb-0 mt-1">El resultado decimal final de la operación AND. Representa la subred local (la "calle" o segmento) a la que pertenece el dispositivo.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Ejercicio Práctico -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-pencil-square text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Ejercicio Práctico para el Alumno</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Aplica lo aprendido resolviendo el siguiente caso práctico de direccionamiento de red:
+                    </p>
+
+                    <div class="card border-0 shadow-sm p-4 animate-fade-in" style="background-color: var(--hover-bg); border-left: 4px solid var(--primary) !important;">
+                        <h5 class="fw-bold text-dark"><i class="bi bi-laptop"></i> Caso: El laboratorio de cómputo</h5>
+                        <p class="text-secondary small mt-2">
+                            Una de las computadoras del laboratorio de informática se ha configurado manualmente para pruebas con los siguientes datos:
+                        </p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-6 col-md-4">
+                                <div class="bg-card border rounded p-2 text-center" style="background-color: var(--card-bg);">
+                                    <div class="text-muted small">Dirección IP</div>
+                                    <div class="fw-bold text-dark">172.16.45.112</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="bg-card border rounded p-2 text-center" style="background-color: var(--card-bg);">
+                                    <div class="text-muted small">Máscara de Subred</div>
+                                    <div class="fw-bold text-dark">255.255.240.0</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="bg-card border rounded p-2 text-center" style="background-color: var(--card-bg);">
+                                    <div class="text-muted small">Gateway</div>
+                                    <div class="fw-bold text-dark">172.16.32.1</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary small">
+                            <strong>Tu reto:</strong> Convierte la IP y la máscara a binario, realiza la operación lógica AND bit a bit y escribe cuál es la <strong>Dirección de Red (en formato decimal con puntos)</strong> que corresponde a este segmento:
+                        </p>
+
+                        <div class="row g-2 align-items-center mb-3">
+                            <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+                                <input type="text" class="form-control" id="ex-answer" placeholder="ej. 192.168.1.0">
+                            </div>
+                            <div class="col-12 col-sm-4 col-md-3">
+                                <button class="btn btn-primary w-100" onclick="verifyExercise()">Verificar Respuesta</button>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Box -->
+                        <div id="ex-feedback" class="mt-3 p-3 rounded" style="display: none;"></div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Evaluación del Cuestionario -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-patch-check text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">6. Pongamos a prueba tus conocimientos</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Responde las siguientes preguntas acerca del direccionamiento IP y conversiones de sistemas numéricos binarios.
+                    </p>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 1: ¿Cuántos bits de longitud posee una dirección IPv4 y en cuántas partes (octetos) se divide?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1a" value="a">
+                            <label class="form-check-input-label text-secondary" for="p1a">
+                                128 bits, dividida en 8 bloques hexadecimales.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1b" value="b">
+                            <label class="form-check-input-label text-secondary" for="p1b">
+                                32 bits, dividida en 4 octetos.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1c" value="c">
+                            <label class="form-check-input-label text-secondary" for="p1c">
+                                64 bits, dividida en 8 octetos.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 2: Si una computadora tiene la dirección IP 192.168.10.45 y máscara de subred 255.255.255.0, ¿cuál es su dirección de red?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2a" value="a">
+                            <label class="form-check-input-label text-secondary" for="p2a">
+                                192.168.10.0
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2b" value="b">
+                            <label class="form-check-input-label text-secondary" for="p2b">
+                                192.168.0.0
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2c" value="c">
+                            <label class="form-check-input-label text-secondary" for="p2c">
+                                192.168.10.255
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 3: ¿Qué función tiene el Gateway (Puerta de enlace) predeterminado en un equipo cliente?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3a" value="a">
+                            <label class="form-check-input-label text-secondary" for="p3a">
+                                Traducir nombres de dominios a direcciones de red locales.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3b" value="b">
+                            <label class="form-check-input-label text-secondary" for="p3b">
+                                Servir como punto de salida para redirigir paquetes destinados a redes externas.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3c" value="c">
+                            <label class="form-check-input-label text-secondary" for="p3c">
+                                Encriptar los paquetes antes de que viajen por el medio de transmisión.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary btn-lg" id="btn-evaluar">Comprobar Respuestas</button>
+                        <span id="quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer py-4 mt-auto border-top bg-light text-center text-secondary">
+        <div class="container">
+            <span class="small">© 2026 Plataforma de Clases - Josué Guinea. Todos los derechos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // Lógica de la tabla interactiva de bits
+        let currentBits = [0, 0, 0, 0, 0, 0, 0, 0];
+        const bitWeights = [128, 64, 32, 16, 8, 4, 2, 1];
+
+        function toggleBit(index) {
+            const cell = document.getElementById(`bit-${index}`);
+            currentBits[index] = currentBits[index] === 0 ? 1 : 0;
+            cell.textContent = currentBits[index];
+            if (currentBits[index] === 1) {
+                cell.classList.add('active');
+            } else {
+                cell.classList.remove('active');
+            }
+            updateBinaryConversionDisplay();
+        }
+
+        function updateBinaryConversionDisplay() {
+            let decimalVal = 0;
+            let sumTerms = [];
+            
+            for (let i = 0; i < 8; i++) {
+                if (currentBits[i] === 1) {
+                    decimalVal += bitWeights[i];
+                    sumTerms.push(bitWeights[i]);
+                }
+            }
+
+            const expr = sumTerms.length > 0 ? sumTerms.join(' + ') + ` = ${decimalVal}` : '0';
+            document.getElementById('binary-sum-expression').textContent = expr;
+            document.getElementById('binary-decimal-result').textContent = decimalVal;
+        }
+
+        // Lógica del simulador AND lógico
+        function decimalToBinary8(val) {
+            let bin = val.toString(2);
+            while (bin.length < 8) {
+                bin = '0' + bin;
+            }
+            return bin;
+        }
+
+        function ipToBinary(ipStr) {
+            const octets = ipStr.split('.').map(Number);
+            return octets.map(decimalToBinary8).join('.');
+        }
+
+        function calculateAndLogical() {
+            const ipInput = document.getElementById('sim-ip').value.trim();
+            const maskInput = document.getElementById('sim-mask').value.trim();
+            
+            // Validar formato simple de IP
+            const ipv4Regex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+            if (!ipv4Regex.test(ipInput) || !ipv4Regex.test(maskInput)) {
+                alert('Por favor introduce direcciones IPv4 válidas en formato decimal con puntos (ej. 192.168.1.1).');
+                return;
+            }
+
+            const ipOctets = ipInput.split('.').map(Number);
+            const maskOctets = maskInput.split('.').map(Number);
+
+            // Validar rango
+            for (let i = 0; i < 4; i++) {
+                if (ipOctets[i] < 0 || ipOctets[i] > 255 || maskOctets[i] < 0 || maskOctets[i] > 255) {
+                    alert('Los octetos deben estar en el rango de 0 a 255.');
+                    return;
+                }
+            }
+
+            // Realizar operación AND
+            const netOctets = [];
+            for (let i = 0; i < 4; i++) {
+                netOctets.push(ipOctets[i] & maskOctets[i]);
+            }
+
+            const netIPStr = netOctets.join('.');
+            const binIPStr = ipToBinary(ipInput);
+            const binMaskStr = ipToBinary(maskInput);
+            const binNetStr = ipToBinary(netIPStr);
+
+            // Mostrar resultados
+            document.getElementById('res-dec-ip').textContent = ipInput;
+            document.getElementById('res-bin-ip').textContent = binIPStr;
+            document.getElementById('res-bin-mask').textContent = binMaskStr;
+            document.getElementById('res-bin-net').textContent = binNetStr;
+            document.getElementById('res-dec-net').textContent = netIPStr;
+
+            document.getElementById('and-sim-results').style.display = 'block';
+        }
+
+        // Cuestionario interactivo
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = {
+                p1: 'b',
+                p2: 'a',
+                p3: 'b'
+            };
+
+            let score = 0;
+            let total = 3;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="p${i}"]:checked`);
+                if (!checkedOption) {
+                    unanswered = true;
+                    break;
+                }
+                if (checkedOption.value === correctAnswers[`p${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('quiz-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                scoreElement.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 2) {
+                scoreElement.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                scoreElement.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+
+        // Verificar Ejercicio Práctico
+        function verifyExercise() {
+            const answer = document.getElementById('ex-answer').value.trim();
+            const feedback = document.getElementById('ex-feedback');
+            
+            if (answer === '') {
+                alert('Por favor introduce tu respuesta.');
+                return;
+            }
+            
+            feedback.style.display = 'block';
+            
+            if (answer === '172.16.32.0') {
+                feedback.className = 'mt-3 p-3 rounded bg-success-subtle text-success border border-success-subtle';
+                feedback.innerHTML = `
+                    <h6 class="fw-bold mb-2"><i class="bi bi-check-circle-fill"></i> ¡Excelente! Respuesta Correcta.</h6>
+                    <p class="small mb-0">La dirección de red correcta es <strong>172.16.32.0</strong>. Aquí tienes la explicación paso a paso:</p>
+                    <ol class="small mt-2 mb-0">
+                        <li><strong>Paso 1 (Tercer octeto IP):</strong> 45 en binario es <code>00101101</code>.</li>
+                        <li><strong>Paso 2 (Tercer octeto Máscara):</strong> 240 en binario es <code>11110000</code>.</li>
+                        <li><strong>Paso 3 (Operación AND):</strong> <code>00101101</code> AND <code>11110000</code> da como resultado <code>00100000</code>, que equivale a <strong>32</strong> en decimal.</li>
+                        <li>Los octetos 1 y 2 se mantienen intactos (172.16) y el último se vuelve 0, resultando en <strong>172.16.32.0</strong>.</li>
+                    </ol>
+                `;
+            } else {
+                feedback.className = 'mt-3 p-3 rounded bg-danger-subtle text-danger border border-danger-subtle';
+                feedback.innerHTML = `
+                    <h6 class="fw-bold mb-2"><i class="bi bi-x-circle-fill"></i> Respuesta incorrecta. ¡Inténtalo de nuevo!</h6>
+                    <p class="small mb-0">Revisa la conversión de los terceros octetos (45 y 240) y realiza la operación lógica AND bit a bit. Recuerda que la respuesta debe estar en formato decimal con puntos (ej. 172.16.X.0).</p>
+                `;
+            }
+        }
+
+        window.verifyExercise = verifyExercise;
+
+        // Cargar por defecto
+        calculateAndLogical();
+    </script>
+</body>
+
+</html>
