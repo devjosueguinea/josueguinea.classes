@@ -11,43 +11,156 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .table-custom th {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .table-custom td {
+            color: var(--text-secondary);
+        }
+
+        /* MongoDB Shell Simulator Styles */
+        .mongo-console {
+            background-color: #0c0d14;
+            color: #f8f8f2;
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            margin: 20px 0;
+        }
+
+        .mongo-console-header {
+            background-color: #1e1f29;
+            padding: 8px 16px;
+            border-bottom: 1px solid #2d3139;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mongo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .mongo-dot.red {
+            background-color: #ff5f56;
+        }
+
+        .mongo-dot.yellow {
+            background-color: #ffbd2e;
+        }
+
+        .mongo-dot.green {
+            background-color: #27c93f;
+        }
+
+        .mongo-console-body {
+            padding: 20px;
+            height: 380px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            background-color: #11121a;
+        }
+
+        .mongo-prompt {
+            color: #5af78e;
+            font-weight: bold;
+            margin-right: 8px;
+            user-select: none;
+        }
+
+        .mongo-output {
+            color: #93c5fd;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+
+        .mongo-btn-query {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .mongo-btn-query:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .mongo-btn-query {
+            background: rgba(108, 92, 231, 0.2);
+            color: #a29bfe;
+        }
+
+        [data-theme="dark"] .mongo-btn-query:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .query-builder-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Relaciones Drag-like select styles */
+        .relation-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="app-container">
-        <!-- Sidebar General -->
-        <aside class="sidebar">
-            <a href="../../index.html" class="sidebar-logo">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span>Portal Académico</span>
-            </a>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="../../index.html" class="sidebar-link">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../redcom/redes-comunicaciones.html" class="sidebar-link">
-                        <i class="bi bi-wifi"></i>
-                        <span>Redes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="bases-datos-ii.html" class="sidebar-link active">
-                        <i class="bi bi-database"></i>
-                        <span>Bases de Datos II</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-cpu"></i>
-                        <span>Sistemas Op.</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
 
         <!-- Contenido principal -->
         <main class="main-content">
@@ -72,13 +185,439 @@
                 </div>
             </header>
 
-            <div class="class-content-wrapper">
-                <span class="badge-clase bg-warning text-dark mb-3">Clase 3</span>
-                <h3 class="fw-bold mb-4">Operaciones de lectura con MongoDB (find y filtros)</h3>
-                <div class="alert alert-info py-4" role="alert">
-                    <h5 class="alert-heading fw-bold mb-2"><i class="bi bi-info-circle-fill"></i> Clase en Construcción</h5>
-                    <p class="mb-0">El contenido detallado para esta clase se encuentra en planificación y estará disponible próximamente.</p>
-                </div>
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+
+                <!-- 1. El método find y Proyecciones -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-search text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. Consulta de Documentos y Proyecciones</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        En la clase anterior aprendimos cómo estructurar colecciones y cómo insertar documentos en
+                        MongoDB. Ahora, estudiaremos cómo recuperar esa información de manera precisa mediante las
+                        operaciones de lectura, cuyo pilar principal es el método <code>find()</code>.
+                    </p>
+
+                    <div class="class-step mb-4">
+                        <h6 class="fw-bold text-primary mb-1">Sintaxis Básica:</h6>
+                        <code>db.coleccion.find(filtro, proyeccion)</code>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <div class="interactive-box h-100">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-filter"></i> El Filtro (Query)</h5>
+                                <p class="text-secondary small">
+                                    Es un documento que especifica los criterios de selección. Si está vacío
+                                    (<code>{}</code>), MongoDB retornará todos los documentos de la colección.
+                                </p>
+                                <p class="text-secondary small">
+                                    Ejemplo: <code>db.productos.find({ categoria: "Tecnología" })</code>.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="interactive-box h-100">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-eye"></i> La Proyección (Projection)
+                                </h5>
+                                <p class="text-secondary small">
+                                    Determina qué campos del documento deben ser devueltos al cliente. Permite ahorrar
+                                    ancho de banda y memoria al filtrar datos innecesarios.
+                                </p>
+                                <ul class="text-secondary small ps-3">
+                                    <li><code>1</code> para incluir un campo.</li>
+                                    <li><code>0</code> para excluir un campo (por defecto, <code>_id</code> siempre se
+                                        incluye a menos que se excluya explícitamente con <code>0</code>).</li>
+                                </ul>
+                                <p class="text-secondary small mb-0">
+                                    Ejemplo: <code>db.productos.find({}, { nombre: 1, precio: 1, _id: 0 })</code>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- 2. Operadores de Comparación y Lógicos -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-funnel-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Operadores de Comparación y Lógicos</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Para realizar consultas complejas más allá de una igualdad simple, MongoDB provee operadores
+                        especiales que comienzan con el símbolo de dólar (<code>$</code>).
+                    </p>
+
+                    <div class="row g-4">
+                        <!-- Comparación -->
+                        <div class="col-12 col-lg-6">
+                            <div class="card h-100 border-0 shadow-sm p-4 bg-light">
+                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-calculator"></i> Operadores de
+                                    Comparación</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered table-custom text-secondary small mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Operador</th>
+                                                <th>Significado</th>
+                                                <th>Ejemplo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>$eq</code></td>
+                                                <td>Igual a</td>
+                                                <td><code>{ precio: { $eq: 100 } }</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$ne</code></td>
+                                                <td>No igual a</td>
+                                                <td><code>{ categoria: { $ne: "Libros" } }</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$gt</code></td>
+                                                <td>Mayor que</td>
+                                                <td><code>{ precio: { $gt: 50 } }</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$gte</code></td>
+                                                <td>Mayor o igual que</td>
+                                                <td><code>{ stock: { $gte: 10 } }</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$lt</code></td>
+                                                <td>Menor que</td>
+                                                <td><code>{ precio: { $lt: 20 } }</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$lte</code></td>
+                                                <td>Menor o igual que</td>
+                                                <td><code>{ stock: { $lte: 5 } }</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$in</code></td>
+                                                <td>Contenido en un array</td>
+                                                <td><code>{ categoria: { $in: ["Hogar", "Jardín"] } }</code></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lógicos -->
+                        <div class="col-12 col-lg-6">
+                            <div class="card h-100 border-0 shadow-sm p-4 bg-light">
+                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-braces-asterisk"></i> Operadores
+                                    Lógicos</h5>
+                                <div class="table-responsive mb-3">
+                                    <table class="table table-sm table-bordered table-custom text-secondary small mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Operador</th>
+                                                <th>Descripción</th>
+                                                <th>Uso típico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>$and</code></td>
+                                                <td>Une condiciones con un AND lógico. Se usa implícitamente al separar
+                                                    por comas.</td>
+                                                <td><code>{ $and: [{ precio: { $gt: 10 } }, { stock: { $gt: 0 } }] }</code>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$or</code></td>
+                                                <td>Une condiciones con un OR lógico. Al menos una condición debe
+                                                    cumplirse.</td>
+                                                <td><code>{ $or: [{ categoria: "Juguetes" }, { precio: { $lt: 15 } }] }</code>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>$not</code></td>
+                                                <td>Invierte el efecto de una expresión de filtro.</td>
+                                                <td><code>{ precio: { $not: { $gt: 50 } } }</code></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="text-secondary small mb-0">
+                                    <strong>Tip:</strong> Por defecto, si declaras varias propiedades separadas por
+                                    comas dentro de un objeto de filtro, MongoDB aplica un <code>$and</code> implícito:
+                                    <code>{ precio: { $gt: 50 }, stock: { $gt: 0 } }</code>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- 3. Simulador Interactivo MongoDB -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-cpu text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Simulador Interactivo de Consultas</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        A continuación se presenta una colección simulada de <code>productos</code>. Selecciona una de
+                        las consultas de ejemplo o haz clic en los filtros para observar en tiempo real los documentos
+                        devueltos por MongoDB Shell y su proyección.
+                    </p>
+
+                    <div class="row g-4">
+                        <!-- Botones de consulta rápida -->
+                        <div class="col-12 col-md-4">
+                            <div class="query-builder-box">
+                                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-terminal-fill text-primary"></i>
+                                    Consultas Disponibles</h6>
+                                <button class="mongo-btn-query text-start" onclick="runSimQuery('all')">
+                                    db.productos.find({})
+                                </button>
+                                <button class="mongo-btn-query text-start" onclick="runSimQuery('tech')">
+                                    db.productos.find({ categoria: "Tecnología" })
+                                </button>
+                                <button class="mongo-btn-query text-start" onclick="runSimQuery('expensive')">
+                                    db.productos.find({ precio: { $gt: 100 } })
+                                </button>
+                                <button class="mongo-btn-query text-start" onclick="runSimQuery('nostock')">
+                                    db.productos.find({ stock: 0 })
+                                </button>
+                                <button class="mongo-btn-query text-start" onclick="runSimQuery('projection')">
+                                    db.productos.find({}, { nombre: 1, precio: 1, _id: 0 })
+                                </button>
+                                <button class="mongo-btn-query text-start" onclick="runSimQuery('complex')">
+                                    db.productos.find({ $or: [{ precio: { $lt: 25 } }, { stock: { $gte: 20 } }] })
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Consola Simulada -->
+                        <div class="col-12 col-md-8">
+                            <div class="mongo-console">
+                                <div class="mongo-console-header">
+                                    <div>
+                                        <span class="mongo-dot red"></span>
+                                        <span class="mongo-dot yellow"></span>
+                                        <span class="mongo-dot green"></span>
+                                    </div>
+                                    <span class="small text-muted font-monospace">mongosh - simulador</span>
+                                </div>
+                                <div class="mongo-console-body">
+                                    <div class="d-flex align-items-center">
+                                        <span class="mongo-prompt">test></span>
+                                        <span class="font-monospace text-white"
+                                            id="console-input-text">db.productos.find({})</span>
+                                    </div>
+                                    <div class="mongo-output" id="console-output-text">
+                                        Cargando documentos...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- 4. Ejercicio Práctico: Diseño Multicolectora -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-pencil-square text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Ejercicio Práctico: Diseño de E-commerce</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        En sistemas NoSQL como MongoDB, es común tener que elegir entre <strong>incrustar documentos
+                            (Embedding)</strong> o <strong>referenciarlos (Referencing)</strong>. En este ejercicio,
+                        diseñarás el esquema para un sistema básico de <strong>Tienda en Línea (E-commerce)</strong> que
+                        requiere modelar tres conceptos clave:
+                    </p>
+
+                    <div class="row g-3 text-center mb-4">
+                        <div class="col-12 col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-people-fill"></i> Colección: clientes
+                                </h6>
+                                <p class="text-secondary small mb-0">Datos del comprador (nombre, email, dirección).</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <h6 class="fw-bold text-success"><i class="bi bi-box-seam-fill"></i> Colección:
+                                    productos</h6>
+                                <p class="text-secondary small mb-0">Inventario (nombre, precio, stock, descripción).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <h6 class="fw-bold text-warning"><i class="bi bi-receipt"></i> Colección: ordenes</h6>
+                                <p class="text-secondary small mb-0">Registro de las compras (fecha, total, artículos).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm p-4"
+                        style="background-color: var(--hover-bg); border-left: 4px solid var(--primary) !important;">
+                        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-diagram-3-fill"></i> Define las relaciones
+                            del sistema</h5>
+                        <p class="text-secondary small mb-3">
+                            Selecciona la mejor estrategia de modelado para cada relación, considerando el rendimiento
+                            de lectura y escritura en MongoDB:
+                        </p>
+
+                        <!-- Pregunta Relación 1 -->
+                        <div class="relation-card mb-3">
+                            <label class="fw-semibold text-dark small mb-2 d-block">1. Relación entre un Cliente y sus
+                                Órdenes de compra (Considera que un cliente puede tener cientos de órdenes a lo largo
+                                del tiempo):</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rel1" id="rel1a" value="ref">
+                                <label class="form-check-label text-secondary small" for="rel1a">
+                                    <strong>Referenciar:</strong> Guardar una referencia del <code>cliente_id</code> en
+                                    la colección <code>ordenes</code> (Relación 1 a muchos referenciada).
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rel1" id="rel1b" value="embed">
+                                <label class="form-check-label text-secondary small" for="rel1b">
+                                    <strong>Incrustar:</strong> Guardar una lista de documentos de órdenes dentro del
+                                    documento del cliente (Arreglo interno).
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta Relación 2 -->
+                        <div class="relation-card mb-3">
+                            <label class="fw-semibold text-dark small mb-2 d-block">2. Relación de los productos
+                                comprados en una Orden (Detalles de los artículos del carrito al momento del
+                                cobro):</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rel2" id="rel2a" value="embed">
+                                <label class="form-check-label text-secondary small" for="rel2a">
+                                    <strong>Incrustar (Híbrido/Historial):</strong> Guardar los datos esenciales (nombre
+                                    del producto, cantidad comprada y precio cobrado) directamente dentro de la orden
+                                    para preservar el histórico de precios.
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rel2" id="rel2b" value="ref">
+                                <label class="form-check-label text-secondary small" for="rel2b">
+                                    <strong>Referenciar únicamente:</strong> Guardar solo el array de
+                                    <code>producto_id</code> sin duplicar precios ni nombres.
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 mt-3">
+                            <button class="btn btn-primary" onclick="verifyDesignExercise()">Verificar
+                                Relaciones</button>
+                            <span id="ex-design-feedback" class="small fw-semibold ms-2" style="display: none;"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- 5. Cuestionario de Preguntas -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-patch-check text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Cuestionario de Evaluación</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Responde las siguientes preguntas de opción múltiple para evaluar tu dominio sobre consultas y
+                        filtros en MongoDB.
+                    </p>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 1: ¿Qué resultado devuelve la siguiente consulta?
+                            <code class="font-monospace">db.productos.find({ precio: { $gte: 100 } })</code>
+                        </h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1a" value="a">
+                            <label class="form-check-input-label text-secondary" for="p1a">
+                                Todos los productos con precio estrictamente superior a 100.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1b" value="b">
+                            <label class="form-check-input-label text-secondary" for="p1b">
+                                Todos los productos con precio mayor o exactamente igual a 100.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1c" value="c">
+                            <label class="form-check-input-label text-secondary" for="p1c">
+                                Todos los productos excepto aquellos que valen 100.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 2: ¿Cómo configurarías la proyección de una consulta
+                            para que retorne únicamente los campos "nombre" y "stock", excluyendo el identificador
+                            "_id"?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2a" value="a">
+                            <label class="form-check-input-label text-secondary" for="p2a">
+                                <code>{ nombre: true, stock: true }</code>
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2b" value="b">
+                            <label class="form-check-input-label text-secondary" for="p2b">
+                                <code>{ nombre: 1, stock: 1, _id: 0 }</code>
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2c" value="c">
+                            <label class="form-check-input-label text-secondary" for="p2c">
+                                <code>{ nombre: 1, stock: 1, _id: 1 }</code>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 3: ¿Cuál es el comportamiento por defecto de MongoDB
+                            cuando listamos múltiples filtros dentro del objeto de consulta? ej. <code
+                                class="font-monospace">db.productos.find({ categoria: "Libros", stock: { $gt: 0 } })</code>
+                        </h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3a" value="a">
+                            <label class="form-check-input-label text-secondary" for="p3a">
+                                Se ejecuta una operación lógica AND implícita (ambas condiciones deben cumplirse).
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3b" value="b">
+                            <label class="form-check-input-label text-secondary" for="p3b">
+                                Se ejecuta una operación lógica OR implícita (basta con cumplir una condición).
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3c" value="c">
+                            <label class="form-check-input-label text-secondary" for="p3c">
+                                Genera un error de sintaxis al no incluir el operador de manera explícita.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary btn-lg" id="btn-evaluar">Comprobar Respuestas</button>
+                        <span id="quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+
             </div>
         </main>
     </div>
@@ -86,39 +625,49 @@
     <!-- Menú Flotante de Clases -->
     <div class="class-floating-sidebar" id="class-floating-sidebar">
         <div class="sidebar-floating-header">
-            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
-            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+            <h6 class="text-muted fw-bold mb-0"
+                style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close"
+                style="font-size: 0.8rem;"></button>
         </div>
         <div class="class-floating-sidebar-content">
             <ul class="class-list">
                 <li>
                     <a href="clase1db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
+                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a
+                            NoSQL</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase2db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
+                        <span class="class-item-text"
+                            title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de
+                            DBs y Colecciones</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase3db.html" class="class-item active text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de lectura</span>
+                        <span class="class-item-text"
+                            title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de
+                            lectura</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase4db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD Completo</span>
+                        <span class="class-item-text"
+                            title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD
+                            Completo</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase5db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas avanzadas</span>
+                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5:
+                            Consultas avanzadas</span>
                     </a>
                 </li>
             </ul>
@@ -139,7 +688,126 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script>
     <script src="../../js/main.js"></script>
+    <script>
+        // Dataset ficticio para el simulador
+        const mockProducts = [
+            { _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d01')", sku: "TECH-001", nombre: "Laptop Gamer Asus", categoria: "Tecnología", precio: 1250.00, stock: 15, tags: ["computadora", "gaming", "asus"] },
+            { _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d02')", sku: "TECH-002", nombre: "Mouse Inalámbrico", categoria: "Tecnología", precio: 22.50, stock: 45, tags: ["accesorios", "mouse", "logitech"] },
+            { _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d03')", sku: "OFF-001", nombre: "Escritorio Ergonómico", categoria: "Muebles", precio: 180.00, stock: 8, tags: ["oficina", "muebles", "ergonomía"] },
+            { _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d04')", sku: "OFF-002", nombre: "Silla de Oficina Ejecutiva", categoria: "Muebles", precio: 95.00, stock: 0, tags: ["oficina", "muebles", "silla"] },
+            { _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d05')", sku: "TECH-003", nombre: "Teclado Mecánico RGB", categoria: "Tecnología", precio: 85.00, stock: 24, tags: ["accesorios", "teclado", "gaming"] }
+        ];
+
+        // Lógica del simulador
+        function runSimQuery(type) {
+            const inputElement = document.getElementById('console-input-text');
+            const outputElement = document.getElementById('console-output-text');
+
+            let queryStr = "";
+            let resultData = [];
+
+            switch (type) {
+                case 'all':
+                    queryStr = "db.productos.find({})";
+                    resultData = mockProducts;
+                    break;
+                case 'tech':
+                    queryStr = "db.productos.find({ categoria: 'Tecnología' })";
+                    resultData = mockProducts.filter(p => p.categoria === 'Tecnología');
+                    break;
+                case 'expensive':
+                    queryStr = "db.productos.find({ precio: { $gt: 100 } })";
+                    resultData = mockProducts.filter(p => p.precio > 100);
+                    break;
+                case 'nostock':
+                    queryStr = "db.productos.find({ stock: 0 })";
+                    resultData = mockProducts.filter(p => p.stock === 0);
+                    break;
+                case 'projection':
+                    queryStr = "db.productos.find({}, { nombre: 1, precio: 1, _id: 0 })";
+                    resultData = mockProducts.map(p => ({ nombre: p.nombre, precio: p.precio }));
+                    break;
+                case 'complex':
+                    queryStr = "db.productos.find({ $or: [{ precio: { $lt: 25 } }, { stock: { $gte: 20 } }] })";
+                    resultData = mockProducts.filter(p => p.precio < 25 || p.stock >= 20);
+                    break;
+                default:
+                    queryStr = "db.productos.find({})";
+                    resultData = mockProducts;
+            }
+
+            inputElement.textContent = queryStr;
+            outputElement.textContent = JSON.stringify(resultData, null, 4);
+        }
+
+        // Validación de relaciones de E-commerce
+        function verifyDesignExercise() {
+            const rel1 = document.querySelector('input[name="rel1"]:checked');
+            const rel2 = document.querySelector('input[name="rel2"]:checked');
+            const feedback = document.getElementById('ex-design-feedback');
+
+            if (!rel1 || !rel2) {
+                alert('Por favor selecciona una respuesta para ambas relaciones.');
+                return;
+            }
+
+            feedback.style.display = 'inline-block';
+
+            if (rel1.value === 'ref' && rel2.value === 'embed') {
+                feedback.className = 'small fw-semibold text-success ms-2';
+                feedback.innerHTML = '<i class="bi bi-check-circle-fill"></i> ¡Excelente! Relaciones diseñadas óptimamente para MongoDB.';
+            } else {
+                feedback.className = 'small fw-semibold text-danger ms-2';
+                feedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Diseño subóptimo. Intenta de nuevo considerando el volumen de datos histórico.';
+            }
+        }
+
+        // Lógica de evaluación del cuestionario
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = {
+                p1: 'b',
+                p2: 'b',
+                p3: 'a'
+            };
+
+            let score = 0;
+            let total = 3;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="p${i}"]:checked`);
+                if (!checkedOption) {
+                    unanswered = true;
+                    break;
+                }
+                if (checkedOption.value === correctAnswers[`p${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('quiz-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                scoreElement.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 2) {
+                scoreElement.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                scoreElement.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+
+        // Inicializar Simulador
+        runSimQuery('all');
+    </script>
 </body>
 
 </html>

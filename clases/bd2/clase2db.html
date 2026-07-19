@@ -341,7 +341,8 @@
                                 </tr>
                                 <tr>
                                     <td class="text-start">
-                                        <code>db.createCollection("&lt;nombre&gt;", {opciones})</code></td>
+                                        <code>db.createCollection("&lt;nombre&gt;", {opciones})</code>
+                                    </td>
                                     <td class="text-start">Crea explícitamente una colección permitiendo inyectar
                                         configuraciones de validación o límites.</td>
                                 </tr>
@@ -409,17 +410,21 @@
                         <ol class="text-secondary small ps-3">
                             <li class="mb-2"><strong>Instanciación:</strong> Acceder a la CLI de Atlas o Compas local e
                                 instanciar una base de datos denominada de forma unificada como
-                                <code>BibliotecaDigital</code>.</li>
+                                <code>BibliotecaDigital</code>.
+                            </li>
                             <li class="mb-2"><strong>Colección Flexible:</strong> Generar la colección
                                 <code>Libros</code> sin aplicar reglas de validación. Insertar 5 documentos con campos
-                                totalmente heterogéneos para constatar la naturaleza flexible de la plataforma.</li>
+                                totalmente heterogéneos para constatar la naturaleza flexible de la plataforma.
+                            </li>
                             <li class="mb-2"><strong>Colección con Validación Estricta:</strong> Crear la colección
                                 <code>Usuarios</code> configurando obligatoriedad explícita para los atributos:
                                 <code>nombre</code> (string) y <code>correo</code> (string). Validar el comportamiento
-                                provocando un rechazo intencional del sistema mediante inserciones mal formadas.</li>
+                                provocando un rechazo intencional del sistema mediante inserciones mal formadas.
+                            </li>
                             <li class="mb-2"><strong>Colección Circular:</strong> Crear una colección fija llamada
                                 <code>Prestamos</code> limitada estrictamente a 1MB de espacio físico (`size: 1048576`)
-                                para retener exclusivamente logs transaccionales volátiles.</li>
+                                para retener exclusivamente logs transaccionales volátiles.
+                            </li>
                             <li class="mb-2"><strong>Modificación Dinámica en Vivo:</strong> Realizar de forma grupal
                                 una alteración al validador de la colección de <code>Usuarios</code> para incorporar de
                                 manera obligatoria el nuevo campo <code>telefono</code>.</li>
@@ -577,7 +582,22 @@
                         <i class="bi bi-journal-text"></i>
                         <span class="class-item-text"
                             title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de
-                            Lectura</span>
+                            lectura</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase4db.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text"
+                            title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD
+                            Completo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase5db.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5:
+                            Consultas avanzadas</span>
                     </a>
                 </li>
             </ul>
