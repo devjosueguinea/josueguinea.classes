@@ -618,6 +618,149 @@
                     </div>
                 </section>
 
+                <hr class="my-5 border-light">
+
+                <!-- 6. Quiz: Interpretación de Código (Traducción a Lenguaje Humano) -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-translate text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">6. Quiz: Interpretación de Código</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        A continuación se te presentan 5 fragmentos de código de consulta en MongoDB. Selecciona la opción que traduzca o describa de forma más precisa en lenguaje humano la condición de búsqueda.
+                    </p>
+
+                    <!-- Ejercicio 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Ejercicio 1: ¿Cómo se lee esta condición?
+                            <code class="font-monospace">db.productos.find({ stock: { $gt: 0 }, precio: { $lt: 50 } })</code>
+                        </h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                            <label class="form-check-label text-secondary" for="q1a">
+                                Buscar productos que no tengan stock y su precio sea menor a 50.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                            <label class="form-check-label text-secondary" for="q1b">
+                                Buscar productos cuyo stock sea mayor que 0 y su precio sea menor que 50.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                            <label class="form-check-label text-secondary" for="q1c">
+                                Buscar productos cuyo stock sea mayor o igual a 0 o su precio sea menor o igual a 50.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Ejercicio 2: ¿Cómo se lee esta condición?
+                            <code class="font-monospace">db.empleados.find({ departamento: { $ne: "Ventas" }, salario: { $gte: 1500 } })</code>
+                        </h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                            <label class="form-check-label text-secondary" for="q2a">
+                                Buscar empleados que pertenezcan al departamento de Ventas y ganen más de 1500.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                            <label class="form-check-label text-secondary" for="q2b">
+                                Buscar empleados cuyo departamento no sea "Ventas" y su salario sea mayor o igual a 1500.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                            <label class="form-check-label text-secondary" for="q2c">
+                                Buscar empleados de cualquier departamento que ganen menos de 1500.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Ejercicio 3: ¿Cómo se lee esta condición?
+                            <code class="font-monospace">db.clientes.find({ $or: [ { ciudad: "San Salvador" }, { edad: { $gte: 18 } } ] })</code>
+                        </h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                            <label class="form-check-label text-secondary" for="q3a">
+                                Buscar clientes que vivan en San Salvador y además sean mayores de edad (18 años o más).
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                            <label class="form-check-label text-secondary" for="q3b">
+                                Buscar clientes que vivan en San Salvador o que sean mayores de edad (18 años o más).
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                            <label class="form-check-label text-secondary" for="q3c">
+                                Buscar clientes que no vivan en San Salvador ni tengan más de 18 años.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 4 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Ejercicio 4: ¿Cómo se lee esta condición?
+                            <code class="font-monospace">db.articulos.find({ categoria: { $in: ["Libros", "Papelería"] }, precio: { $eq: 10 } })</code>
+                        </h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                            <label class="form-check-label text-secondary" for="q4a">
+                                Buscar artículos cuya categoría sea "Libros" o "Papelería", y su precio sea exactamente igual a 10.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                            <label class="form-check-label text-secondary" for="q4b">
+                                Buscar artículos de categorías distintas a "Libros" y "Papelería", y cuyo precio sea mayor a 10.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                            <label class="form-check-label text-secondary" for="q4c">
+                                Buscar artículos de categoría "Libros" y "Papelería" al mismo tiempo, con precio diferente de 10.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 5 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Ejercicio 5: ¿Cómo se lee esta condición?
+                            <code class="font-monospace">db.juegos.find({ precio: { $not: { $gt: 60 } } })</code>
+                        </h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                            <label class="form-check-label text-secondary" for="q5a">
+                                Buscar juegos cuyo precio sea mayor que 60.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                            <label class="form-check-label text-secondary" for="q5b">
+                                Buscar juegos cuyo precio no sea mayor que 60 (es decir, menor o igual a 60).
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                            <label class="form-check-label text-secondary" for="q5c">
+                                Buscar juegos que sean gratis (precio igual a 0).
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary btn-lg" id="btn-evaluar-interpretacion">Comprobar Respuestas</button>
+                        <span id="interpretacion-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+
             </div>
         </main>
     </div>
@@ -799,6 +942,49 @@
             if (score === total) {
                 scoreElement.className = 'fw-bold fs-5 text-success ms-3';
             } else if (score >= 2) {
+                scoreElement.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                scoreElement.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+
+        // Lógica de evaluación del cuestionario de interpretación de código
+        document.getElementById('btn-evaluar-interpretacion').addEventListener('click', function () {
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b',
+                q4: 'a',
+                q5: 'b'
+            };
+
+            let score = 0;
+            let total = 5;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checkedOption) {
+                    unanswered = true;
+                    break;
+                }
+                if (checkedOption.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('interpretacion-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                scoreElement.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 4) {
                 scoreElement.className = 'fw-bold fs-5 text-warning ms-3';
             } else {
                 scoreElement.className = 'fw-bold fs-5 text-danger ms-3';
