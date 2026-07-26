@@ -55,6 +55,10 @@ body {
     padding: 24px;
     transition: var(--transition);
     z-index: 1000;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar-logo {
