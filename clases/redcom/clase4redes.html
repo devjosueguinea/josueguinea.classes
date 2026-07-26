@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 4: Direccionamiento IPv4 y Configuración de Dispositivos - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-2px);
+        }
+
+        /* CLI Simulator styling */
+        .cli-container {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+        }
+
+        .cli-output {
+            max-height: 250px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+        }
+
+        .cli-input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .cli-prompt {
+            color: #39ff14;
+            margin-right: 5px;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        .cli-input {
+            background: transparent;
+            border: none;
+            color: #00ff00;
+            outline: none;
+            width: 100%;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+        }
+
+        /* Packet Tracer GUI Simulator styles */
+        .pt-gui-card {
+            background-color: #e0e0e0;
+            border: 2px solid #a0a0a0;
+            border-radius: 8px;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        .pt-gui-header {
+            background: linear-gradient(180deg, #f0f0f0 0%, #d3d3d3 100%);
+            border-bottom: 2px solid #a0a0a0;
+            padding: 8px 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .pt-gui-body {
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .pt-input-group {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pt-label {
+            width: 180px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .pt-field {
+            flex-grow: 1;
+            padding: 4px 8px;
+            border: 1px solid #999;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+
+        .pt-tab-nav {
+            display: flex;
+            background-color: #ccc;
+            border-bottom: 1px solid #999;
+        }
+
+        .pt-tab {
+            padding: 6px 16px;
+            cursor: pointer;
+            background-color: #ddd;
+            border: 1px solid #999;
+            border-bottom: none;
+            margin-right: 2px;
+            border-radius: 4px 4px 0 0;
+            font-size: 0.85rem;
+        }
+
+        .pt-tab.active {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            border-bottom: 1px solid #f5f5f5;
+            position: relative;
+            top: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 4: Direccionamiento IPv4 y Configuración en Packet Tracer</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+
+                <!-- Introducción y Vinculación -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-link-45deg text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. De la Teoría (Clase 3) a la Práctica</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        En la clase anterior aprendimos cómo se estructura una dirección IPv4 (red y host) y cómo la operación lógica AND nos da la dirección de red. En esta sesión, llevaremos esos conocimientos al simulador <strong>Cisco Packet Tracer</strong> para configurar los parámetros de red en dispositivos finales (PCs, Laptops) y de infraestructura (Routers y Switches).
+                    </p>
+
+                    <div class="class-step">
+                        <strong>Recuerda:</strong> Para que un dispositivo final se comunique con el mundo exterior, debe tener asignados de forma coherente tres datos fundamentales de la misma red local:
+                        <ul class="mb-0 mt-2">
+                            <li><strong>Dirección IP:</strong> Un identificador único dentro de la subred local (Host ID).</li>
+                            <li><strong>Máscara de Subred:</strong> Define los límites de la porción de red y host.</li>
+                            <li><strong>Puerta de Enlace (Default Gateway):</strong> La dirección IP de la interfaz del Router que da salida al exterior (debe estar en el mismo segmento de red).</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Configuración en Dispositivos Finales -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-pc-display text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Configuración en Dispositivos Finales (PCs y Laptops)</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        En Cisco Packet Tracer, configurar la IP de un dispositivo final se realiza de manera gráfica (GUI). Al hacer doble clic en una PC o Laptop, se accede a la pestaña <strong>Desktop</strong> y luego al módulo de <strong>IP Configuration</strong>.
+                    </p>
+
+                    <div class="row g-4 align-items-center">
+                        <div class="col-12 col-lg-6">
+                            <h5 class="fw-bold"><i class="bi bi-info-circle text-primary"></i> Pasos para la Configuración:</h5>
+                            <ol class="text-secondary small ps-3 leading-relaxed">
+                                <li class="mb-2">Haz doble clic en la PC o Laptop de la topología.</li>
+                                <li class="mb-2">Dirígete a la pestaña superior <strong>Desktop</strong>.</li>
+                                <li class="mb-2">Haz clic en el icono de <strong>IP Configuration</strong>.</li>
+                                <li class="mb-2">Selecciona la opción <strong>Static</strong> (Estático).</li>
+                                <li class="mb-2">Ingresa los datos del esquema de red: la Dirección IP, la Máscara de Subred (se autocompleta la máscara por defecto de su clase, pero puede cambiarse) y la IP del Default Gateway.</li>
+                            </ol>
+                            <div class="alert alert-warning py-2 small" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill"></i> <strong>Importante:</strong> Si el Default Gateway está mal configurado o pertenece a otra subred, la PC no podrá comunicarse con redes externas, aunque sí pueda enviar pings a equipos de su propia subred.
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <!-- Simulador GUI Packet Tracer -->
+                            <div class="pt-gui-card shadow-sm">
+                                <div class="pt-gui-header">
+                                    <span>PC0 - IP Configuration</span>
+                                    <span class="text-muted small">Packet Tracer</span>
+                                </div>
+                                <div class="pt-tab-nav">
+                                    <div class="pt-tab">Physical</div>
+                                    <div class="pt-tab">Config</div>
+                                    <div class="pt-tab active">Desktop</div>
+                                    <div class="pt-tab">Services</div>
+                                </div>
+                                <div class="pt-gui-body">
+                                    <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
+                                        <span class="fw-bold text-dark small"><i class="bi bi-gear-fill text-muted"></i> IP Configuration</span>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="ipType" id="dhcpRadio" disabled>
+                                                <label class="form-check-label small text-muted" for="dhcpRadio">DHCP</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="ipType" id="staticRadio" checked>
+                                                <label class="form-check-label small fw-bold text-dark" for="staticRadio">Static</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="pt-input-group">
+                                        <span class="pt-label">IPv4 Address</span>
+                                        <input type="text" class="pt-field" id="gui-ip" value="192.168.10.15">
+                                    </div>
+                                    <div class="pt-input-group">
+                                        <span class="pt-label">Subnet Mask</span>
+                                        <input type="text" class="pt-field" id="gui-mask" value="255.255.255.0">
+                                    </div>
+                                    <div class="pt-input-group mb-4">
+                                        <span class="pt-label">Default Gateway</span>
+                                        <input type="text" class="pt-field" id="gui-gateway" value="192.168.10.1">
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-success py-2 px-3" id="gui-status"><i class="bi bi-check-circle"></i> Configuración Estática</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Configuración en Routers -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-router text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Configuración en Routers (Cisco IOS CLI)</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        El router es el encargado de interconectar las subredes. A diferencia de las PCs, sus puertos (interfaces GigabitEthernet o FastEthernet) vienen apagados de fábrica y no tienen dirección IP configurada. La configuración se realiza preferentemente desde la pestaña <strong>CLI (Command Line Interface)</strong> utilizando comandos de Cisco IOS.
+                    </p>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+                            <h5 class="fw-bold">Comandos de Configuración Paso a Paso:</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-custom text-start align-middle small">
+                                    <thead>
+                                        <tr>
+                                            <th>Comando</th>
+                                            <th>Modo IOS</th>
+                                            <th>Explicación</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>enable</code></td>
+                                            <td>Usuario (<code>Router&gt;</code>)</td>
+                                            <td>Ingresa al modo de ejecución privilegiado.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>configure terminal</code></td>
+                                            <td>Privilegiado (<code>Router#</code>)</td>
+                                            <td>Entra al modo de configuración global.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>interface g0/0/0</code></td>
+                                            <td>Configuración (<code>Router(config)#</code>)</td>
+                                            <td>Selecciona la interfaz física específica.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>ip address &lt;ip&gt; &lt;mascara&gt;</code></td>
+                                            <td>Interfaz (<code>Router(config-if)#</code>)</td>
+                                            <td>Asigna la dirección IP y la máscara de subred.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>no shutdown</code></td>
+                                            <td>Interfaz (<code>Router(config-if)#</code>)</td>
+                                            <td>Activa (enciende) físicamente la interfaz.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>exit</code></td>
+                                            <td>Interfaz (<code>Router(config-if)#</code>)</td>
+                                            <td>Regresa al nivel anterior de configuración.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <h5 class="fw-bold"><i class="bi bi-terminal-fill text-muted"></i> Simulador CLI Interactivo</h5>
+                            <p class="text-secondary small">Escribe los comandos en orden para configurar la interfaz <code>g0/0/0</code> del Router con la IP <code>192.168.10.1</code> y máscara <code>255.255.255.0</code>. Observa la transición del prompt del router.</p>
+                            
+                            <div class="cli-container">
+                                <div class="cli-output" id="router-cli-output">--- Cisco IOS Command Line Simulator ---
+Router> </div>
+                                <div class="cli-input-line">
+                                    <span class="cli-prompt" id="cli-prompt-label">Router></span>
+                                    <input type="text" class="cli-input" id="cli-user-input" autocomplete="off" placeholder="Escribe aquí y presiona Enter...">
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="resetCliSimulator()"><i class="bi bi-arrow-counterclockwise"></i> Reiniciar CLI</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Configuración en Switches -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-hdd-network text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Configuración en Switches (Administración Virtual - SVI)</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Los switches tradicionales de Capa 2 no necesitan una dirección IP para cumplir su función básica de enviar tramas Ethernet entre puertos. Sin embargo, para poder gestionarlos de forma remota (mediante SSH, Telnet o web) y monitorear su estado, se les debe configurar una <strong>Interfaz Virtual de Switch (SVI)</strong> (usualmente en la VLAN de administración por defecto, <code>Vlan1</code>).
+                    </p>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <div class="interactive-box h-100">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-shield-lock-fill"></i> ¿Por qué configurar IP en un Switch?</h5>
+                                <p class="text-secondary small mb-2">
+                                    A diferencia del router, cuyas interfaces físicas necesitan IPs individuales porque cada una es una subred distinta, los puertos de un Switch L2 pertenecen a la misma subred.
+                                </p>
+                                <p class="text-secondary small mb-0">
+                                    Configuramos una IP en la interfaz virtual <strong>interface Vlan1</strong> para que el administrador pueda conectarse a él a través de la red local. Además, asignamos el comando <code>ip default-gateway</code> para que el Switch se pueda comunicar y sea administrable desde redes distintas (remotas).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm p-4" style="background-color: var(--hover-bg);">
+                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-file-earmark-code-fill"></i> Comandos en Switch:</h5>
+                                <pre class="bg-dark text-light p-3 rounded font-monospace small mb-0">
+Switch> enable
+Switch# configure terminal
+Switch(config)# interface vlan 1
+Switch(config-if)# ip address 192.168.10.2 255.255.255.0
+Switch(config-if)# no shutdown
+Switch(config-if)# exit
+Switch(config)# ip default-gateway 192.168.10.1</pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Ejercicio Práctico del Simulador -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-pencil-square text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Ejercicio Práctico: Despliegue en Packet Tracer</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Imagina que tienes el siguiente esquema en Packet Tracer:
+                    </p>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-lg-7">
+                            <div class="card border-0 shadow-sm p-4 h-100" style="background-color: var(--hover-bg); border-left: 4px solid var(--primary) !important;">
+                                <h5 class="fw-bold text-dark"><i class="bi bi-diagram-3-fill text-primary"></i> Topología e Instrucciones:</h5>
+                                <p class="text-secondary small mt-2">
+                                    Tienes un Router central <strong>R1</strong> que conecta dos departamentos:
+                                </p>
+                                <ul class="text-secondary small ps-3">
+                                    <li><strong>Subred 1 (Finanzas):</strong> Red <code>192.168.100.0/24</code> (Máscara <code>255.255.255.0</code>).</li>
+                                    <li><strong>Subred 2 (Ingeniería):</strong> Red <code>192.168.200.0/24</code> (Máscara <code>255.255.255.0</code>).</li>
+                                </ul>
+                                <p class="text-secondary small">
+                                    El router tiene la interfaz <code>GigabitEthernet0/0/0</code> conectada a Finanzas, y la interfaz <code>GigabitEthernet0/0/1</code> conectada a Ingeniería. 
+                                    Aplica la regla de asignar la <strong>primera IP útil</strong> a las interfaces de gateway del router, y una IP del rango útil para la PC de Finanzas y la PC de Ingeniería.
+                                </p>
+                                <h6 class="fw-bold small text-dark mb-2">Tabla de Direccionamiento a Completar:</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered text-center text-secondary small">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Dispositivo</th>
+                                                <th>Interfaz</th>
+                                                <th>Dirección IP</th>
+                                                <th>Máscara de Subred</th>
+                                                <th>Default Gateway</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Router R1</td>
+                                                <td>G0/0/0</td>
+                                                <td><input type="text" class="form-control form-control-sm text-center font-monospace" id="ex4-r1g0" placeholder="192.168.x.x"></td>
+                                                <td>255.255.255.0</td>
+                                                <td>N/A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Router R1</td>
+                                                <td>G0/0/1</td>
+                                                <td>192.168.200.1</td>
+                                                <td>255.255.255.0</td>
+                                                <td>N/A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>PC Finanzas</td>
+                                                <td>NIC</td>
+                                                <td>192.168.100.15</td>
+                                                <td>255.255.255.0</td>
+                                                <td><input type="text" class="form-control form-control-sm text-center font-monospace" id="ex4-pcfin-gw" placeholder="192.168.x.x"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>PC Ingeniería</td>
+                                                <td>NIC</td>
+                                                <td><input type="text" class="form-control form-control-sm text-center font-monospace" id="ex4-pcing-ip" placeholder="192.168.x.x"></td>
+                                                <td>255.255.255.0</td>
+                                                <td>192.168.200.1</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-end mt-2">
+                                    <button class="btn btn-primary" onclick="verifyExercise4()">Verificar Respuestas</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-5">
+                            <div class="card border-0 shadow-sm p-4 h-100 bg-white">
+                                <h5 class="fw-bold text-dark"><i class="bi bi-question-circle text-primary"></i> Ayuda de Cálculo</h5>
+                                <div class="d-flex flex-column gap-3 small text-secondary">
+                                    <div class="p-3 bg-light rounded border-start border-4 border-warning">
+                                        <h6 class="fw-bold mb-1"><i class="bi bi-info-square"></i> Primera IP Útil</h6>
+                                        <p class="mb-0 mt-1">Es la dirección IP inmediatamente siguiente a la Dirección de Red. Por ejemplo, en la red <code>192.168.100.0</code>, la primera IP útil es la <code>192.168.100.1</code>.</p>
+                                    </div>
+                                    <div class="p-3 bg-light rounded border-start border-4 border-info">
+                                        <h6 class="fw-bold mb-1"><i class="bi bi-hdd"></i> Default Gateway de la PC</h6>
+                                        <p class="mb-0 mt-1">El gateway de una PC siempre debe ser la dirección IP de la interfaz del router a la que está conectado físicamente su segmento de red.</p>
+                                    </div>
+                                    <div class="p-3 bg-light rounded border-start border-4 border-success">
+                                        <h6 class="fw-bold mb-1"><i class="bi bi-check-circle"></i> Rangos Válidos</h6>
+                                        <p class="mb-0 mt-1">Para la PC de Ingeniería (red <code>192.168.200.0/24</code>), puedes elegir cualquier IP entre la <code>192.168.200.2</code> y la <code>192.168.200.254</code> (ya que la <code>.1</code> la usa el router).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Box Ejercicio -->
+                    <div id="ex4-feedback" class="mt-3 p-3 rounded" style="display: none;"></div>
+                </section>
+
+                <hr class="my-5 border-light">
+
+                <!-- Evaluación del Cuestionario -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-patch-check text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">6. Cuestionario de Evaluación</h3>
+                    </div>
+                    <p class="text-secondary leading-relaxed mb-4">
+                        Comprueba lo aprendido respondiendo a las siguientes preguntas sobre la implementación práctica de direccionamiento IP y Packet Tracer.
+                    </p>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 1: ¿Por qué comando de Cisco IOS activamos físicamente una interfaz que se encuentra en estado administrativo "Down"?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p1" id="c4p1a" value="a">
+                            <label class="form-check-input-label text-secondary" for="c4p1a">
+                                <code>enable interface</code>
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p1" id="c4p1b" value="b">
+                            <label class="form-check-input-label text-secondary" for="c4p1b">
+                                <code>no shutdown</code>
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p1" id="c4p1c" value="c">
+                            <label class="form-check-input-label text-secondary" for="c4p1c">
+                                <code>startup-config</code>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 2: ¿En qué subinterfaz o componente del Switch de Capa 2 configuramos la dirección IP de administración?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p2" id="c4p2a" value="a">
+                            <label class="form-check-input-label text-secondary" for="c4p2a">
+                                En cualquiera de sus puertos físicos Ethernet (FastEthernet0/1).
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p2" id="c4p2b" value="b">
+                            <label class="form-check-input-label text-secondary" for="c4p2b">
+                                En la Switch Virtual Interface (SVI), típicamente en <code>interface Vlan1</code>.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p2" id="c4p2c" value="c">
+                            <label class="form-check-input-label text-secondary" for="c4p2c">
+                                En la tabla de enrutamiento del Switch mediante el comando <code>ip address</code>.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold text-dark mb-3">Pregunta 3: Si configuramos en una PC la dirección IP 192.168.1.50 con máscara 255.255.255.0, ¿cuál de los siguientes Gateway sería válido para permitirle la salida a Internet?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p3" id="c4p3a" value="a">
+                            <label class="form-check-input-label text-secondary" for="c4p3a">
+                                192.168.2.1
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p3" id="c4p3b" value="b">
+                            <label class="form-check-input-label text-secondary" for="c4p3b">
+                                192.168.1.1
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c4p3" id="c4p3c" value="c">
+                            <label class="form-check-input-label text-secondary" for="c4p3c">
+                                192.168.1.0
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary btn-lg" id="c4-btn-evaluar">Comprobar Respuestas</button>
+                        <span id="c4-quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer py-4 mt-auto border-top bg-light text-center text-secondary">
+        <div class="container">
+            <span class="small">© 2026 Plataforma de Clases - Josué Guinea. Todos los derechos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // Lógica del simulador CLI del Router
+        let cliStep = 0;
+        const cliPromptLabel = document.getElementById('cli-prompt-label');
+        const cliUserInput = document.getElementById('cli-user-input');
+        const cliOutput = document.getElementById('router-cli-output');
+
+        const cliSteps = [
+            {
+                expected: "enable",
+                prompt: "Router>",
+                output: "Router> enable\nRouter#",
+                nextPrompt: "Router#"
+            },
+            {
+                expected: "configure terminal",
+                prompt: "Router#",
+                output: "Router# configure terminal\nEnter configuration commands, one per line.  End with CNTL/Z.\nRouter(config)#",
+                nextPrompt: "Router(config)#"
+            },
+            {
+                expected: "interface g0/0/0",
+                prompt: "Router(config)#",
+                output: "Router(config)# interface g0/0/0\nRouter(config-if)#",
+                nextPrompt: "Router(config-if)#"
+            },
+            {
+                expected: "ip address 192.168.10.1 255.255.255.0",
+                prompt: "Router(config-if)#",
+                output: "Router(config-if)# ip address 192.168.10.1 255.255.255.0\nRouter(config-if)#",
+                nextPrompt: "Router(config-if)#"
+            },
+            {
+                expected: "no shutdown",
+                prompt: "Router(config-if)#",
+                output: "Router(config-if)# no shutdown\n\n%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up\n%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/0, changed state to up\nRouter(config-if)#",
+                nextPrompt: "Router(config-if)#"
+            }
+        ];
+
+        cliUserInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const value = cliUserInput.value.trim();
+                if (value === "") return;
+
+                if (cliStep < cliSteps.length) {
+                    const currentStepData = cliSteps[cliStep];
+                    // Permitimos cierta flexibilidad en espacios
+                    const formattedValue = value.replace(/\s+/g, ' ').toLowerCase();
+                    const formattedExpected = currentStepData.expected.toLowerCase();
+
+                    if (formattedValue === formattedExpected) {
+                        cliOutput.textContent += "\n" + currentStepData.output;
+                        cliStep++;
+                        if (cliStep < cliSteps.length) {
+                            cliPromptLabel.textContent = cliSteps[cliStep].nextPrompt;
+                        } else {
+                            cliPromptLabel.textContent = "Router(config-if)#";
+                            cliOutput.textContent += "\n\n*** ¡Felicidades! Has completado la configuración de la interfaz del router correctamente. ***";
+                            cliUserInput.disabled = true;
+                            cliUserInput.placeholder = "Simulación completada.";
+                        }
+                    } else {
+                        cliOutput.textContent += `\n${currentStepData.prompt} ${value}\n% Invalid input detected at '^' marker.\n(Escribe exactamente: "${currentStepData.expected}")\n${currentStepData.prompt}`;
+                    }
+                }
+                cliUserInput.value = "";
+                cliOutput.scrollTop = cliOutput.scrollHeight;
+            }
+        });
+
+        function resetCliSimulator() {
+            cliStep = 0;
+            cliPromptLabel.textContent = "Router>";
+            cliUserInput.disabled = false;
+            cliUserInput.placeholder = "Escribe aquí y presiona Enter...";
+            cliUserInput.value = "";
+            cliOutput.textContent = "--- Cisco IOS Command Line Simulator ---\nRouter> ";
+        }
+
+        // Lógica del ejercicio práctico de topología
+        function verifyExercise4() {
+            const r1g0 = document.getElementById('ex4-r1g0').value.trim();
+            const pcfinGw = document.getElementById('ex4-pcfin-gw').value.trim();
+            const pcingIp = document.getElementById('ex4-pcing-ip').value.trim();
+            const feedback = document.getElementById('ex4-feedback');
+
+            if (r1g0 === '' || pcfinGw === '' || pcingIp === '') {
+                alert('Por favor, completa todas las celdas vacías de la tabla antes de verificar.');
+                return;
+            }
+
+            // Validar IP PC Ingeniería
+            const ipRegex = /^192\.168\.200\.(\d+)$/;
+            const matchIngIp = pcingIp.match(ipRegex);
+            let ingIpValid = false;
+            let hostNum = 0;
+            if (matchIngIp) {
+                hostNum = parseInt(matchIngIp[1]);
+                // Las IPs útiles van desde 2 a 254 (el 1 lo usa el Router y el 0 es la red)
+                if (hostNum >= 2 && hostNum <= 254) {
+                    ingIpValid = true;
+                }
+            }
+
+            const r1g0Correct = (r1g0 === '192.168.100.1');
+            const pcfinGwCorrect = (pcfinGw === '192.168.100.1');
+
+            feedback.style.display = 'block';
+
+            if (r1g0Correct && pcfinGwCorrect && ingIpValid) {
+                feedback.className = 'mt-3 p-3 rounded bg-success-subtle text-success border border-success-subtle';
+                feedback.innerHTML = `
+                    <h6 class="fw-bold mb-2"><i class="bi bi-check-circle-fill"></i> ¡Excelente! Todo configurado perfectamente.</h6>
+                    <p class="small mb-0">Has asignado de manera correcta las direcciones:</p>
+                    <ul class="small mt-2 mb-0">
+                        <li><strong>Router G0/0/0:</strong> <code>192.168.100.1</code> (primera IP útil que sirve de Default Gateway).</li>
+                        <li><strong>Default Gateway de PC Finanzas:</strong> <code>192.168.100.1</code> (apunta a la interfaz de su router).</li>
+                        <li><strong>IP de PC Ingeniería:</strong> <code>${pcingIp}</code> (es una IP útil válida en el segmento <code>192.168.200.0/24</code>).</li>
+                    </ul>
+                `;
+            } else {
+                feedback.className = 'mt-3 p-3 rounded bg-danger-subtle text-danger border border-danger-subtle';
+                let errors = [];
+                if (!r1g0Correct) errors.push("La IP del Router en G0/0/0 debe ser la primera IP útil de la red Finanzas (192.168.100.0).");
+                if (!pcfinGwCorrect) errors.push("El Default Gateway de la PC de Finanzas debe coincidir con la dirección de la interfaz G0/0/0 del Router.");
+                if (!ingIpValid) errors.push("La IP de la PC de Ingeniería debe pertenecer al rango útil de la red 192.168.200.0/24 (entre 192.168.200.2 y 192.168.200.254).");
+
+                feedback.innerHTML = `
+                    <h6 class="fw-bold mb-2"><i class="bi bi-x-circle-fill"></i> Hay errores en la tabla:</h6>
+                    <ul class="small mb-0">
+                        ${errors.map(err => `<li>${err}</li>`).join('')}
+                    </ul>
+                    <p class="small mt-2 mb-0">Revisa las pistas a la derecha e inténtalo de nuevo.</p>
+                `;
+            }
+        }
+
+        // Cuestionario interactivo
+        document.getElementById('c4-btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = {
+                c4p1: 'b',
+                c4p2: 'b',
+                c4p3: 'b'
+            };
+
+            let score = 0;
+            let total = 3;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="c4p${i}"]:checked`);
+                if (!checkedOption) {
+                    unanswered = true;
+                    break;
+                }
+                if (checkedOption.value === correctAnswers[`c4p${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('c4-quiz-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                scoreElement.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 2) {
+                scoreElement.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                scoreElement.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+
+        window.verifyExercise4 = verifyExercise4;
+        window.resetCliSimulator = resetCliSimulator;
+    </script>
+</body>
+
+</html>
