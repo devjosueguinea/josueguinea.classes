@@ -4,142 +4,959 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clase 4: Operaciones de escritura, actualización y eliminación (CRUD completo) - Bases de Datos II</title>
-    <!-- Bootstrap CSS -->
+    <title>Clase 4: CRUD Completo en MongoDB - Bases de Datos II</title>
+    <meta name="description"
+        content="Aprende las operaciones de escritura, actualizacion y eliminacion (CRUD completo) en MongoDB con ejemplos interactivos y un simulador de consola.">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.25s;
+        }
+        .quiz-card:hover { box-shadow: 0 6px 24px rgba(108,92,231,0.08); }
+        .table-custom th { background-color: var(--hover-bg); color: var(--text-primary); }
+        .table-custom td { color: var(--text-secondary); }
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .interactive-box:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(108,92,231,0.1); }
+        .crud-op-card {
+            border-radius: 16px; padding: 20px; height: 100%;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative; overflow: hidden;
+            background-color: var(--card-bg);
+        }
+        .crud-op-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; }
+        .crud-op-card.create::before { background:#00b894; }
+        .crud-op-card.read::before   { background:#0984e3; }
+        .crud-op-card.update::before { background:#fdcb6e; }
+        .crud-op-card.delete::before { background:#d63031; }
+        .crud-op-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+        .crud-badge {
+            display:inline-block; font-size:0.7rem; font-weight:700;
+            letter-spacing:1.5px; text-transform:uppercase;
+            padding:3px 10px; border-radius:20px; margin-bottom:10px;
+        }
+        .crud-badge.create { background:rgba(0,184,148,0.15);  color:#00b894; }
+        .crud-badge.read   { background:rgba(9,132,227,0.15);  color:#0984e3; }
+        .crud-badge.update { background:rgba(253,203,110,0.2); color:#e17055; }
+        .crud-badge.delete { background:rgba(214,48,49,0.12);  color:#d63031; }
+        .mongo-console {
+            background-color:#0c0d14; color:#f8f8f2;
+            font-family:'Courier New',Courier,monospace;
+            border-radius:12px; overflow:hidden;
+            border:1px solid var(--border-color); box-shadow:var(--shadow); margin:20px 0;
+        }
+        .mongo-console-header {
+            background-color:#1e1f29; padding:8px 16px;
+            border-bottom:1px solid #2d3139;
+            display:flex; align-items:center; justify-content:space-between;
+        }
+        .mongo-dot { width:12px; height:12px; border-radius:50%; display:inline-block; margin-right:6px; }
+        .mongo-dot.red    { background-color:#ff5f56; }
+        .mongo-dot.yellow { background-color:#ffbd2e; }
+        .mongo-dot.green  { background-color:#27c93f; }
+        .mongo-console-body {
+            padding:20px; height:420px; overflow-y:auto;
+            font-size:0.875rem; background-color:#11121a;
+        }
+        .mongo-prompt { color:#5af78e; font-weight:bold; margin-right:8px; user-select:none; }
+        .mongo-output { color:#93c5fd; white-space:pre-wrap; margin-top:10px; line-height:1.6; }
+        .mongo-output.success { color:#a3e635; }
+        .mongo-output.error   { color:#fb7185; }
+        .mongo-output.warn    { color:#fbbf24; }
+        .mongo-btn-query {
+            background:rgba(108,92,231,0.1); border:1px solid var(--primary);
+            color:var(--primary); border-radius:8px; padding:7px 12px;
+            font-family:monospace; font-size:0.8rem; transition:all 0.2s;
+            text-align:left; width:100%; margin-bottom:6px; cursor:pointer;
+            display:flex; align-items:center; gap:8px;
+        }
+        .mongo-btn-query:hover { background:var(--primary); color:white; transform:translateX(3px); }
+        .mongo-btn-query .op-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+        .op-dot.c { background-color:#00b894; }
+        .op-dot.r { background-color:#0984e3; }
+        .op-dot.u { background-color:#fdcb6e; }
+        .op-dot.d { background-color:#d63031; }
+        .query-builder-box {
+            background-color:var(--hover-bg); border:1px solid var(--border-color);
+            border-radius:12px; padding:16px; height:100%;
+        }
+        .collection-viewer {
+            background-color:var(--hover-bg); border:1px solid var(--border-color);
+            border-radius:12px; padding:16px; margin-top:16px;
+        }
+        .doc-card {
+            background:var(--card-bg); border:1px solid var(--border-color);
+            border-radius:10px; padding:12px 14px; margin-bottom:8px;
+            font-family:monospace; font-size:0.8rem; color:var(--text-secondary);
+            transition:border-color 0.2s;
+        }
+        .doc-card.highlighted { border-color:var(--primary); box-shadow:0 0 0 2px rgba(108,92,231,0.15); }
+        .sim-input-group { margin-bottom:10px; }
+        .sim-input-group label { font-size:0.8rem; font-weight:600; color:var(--text-secondary); display:block; margin-bottom:4px; }
+        .sim-input-group input, .sim-input-group select {
+            width:100%; padding:6px 10px; border:1px solid var(--border-color);
+            border-radius:8px; background:var(--card-bg); color:var(--text-primary); font-size:0.85rem;
+        }
+        .op-pill {
+            display:inline-block; background:rgba(108,92,231,0.1); color:var(--primary);
+            border-radius:6px; padding:2px 8px; font-size:0.8rem; font-family:monospace; font-weight:600; margin:2px;
+        }
+        .answer-correct { color:#00b894; }
+        .answer-wrong   { color:#d63031; }
+        .section-icon-label { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+        .section-icon-label i { font-size:1.6rem; }
+        .code-block-highlight {
+            background:var(--hover-bg); border:1px solid var(--border-color);
+            border-left:4px solid var(--primary); border-radius:0 10px 10px 0;
+            padding:14px 18px; font-family:'Courier New',monospace; font-size:0.85rem;
+            color:var(--text-primary); margin-bottom:12px; overflow-x:auto; white-space:pre;
+        }
+        [data-theme="dark"] .mongo-btn-query { background:rgba(108,92,231,0.2); color:#a29bfe; }
+        [data-theme="dark"] .mongo-btn-query:hover { background:var(--primary); color:white; }
+        [data-theme="dark"] .sim-input-group input,
+        [data-theme="dark"] .sim-input-group select { background:#1f2937; border-color:rgba(255,255,255,0.1); color:#f9fafb; }
+        .crud-tab-nav { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+        .crud-tab-btn {
+            padding:7px 16px; border-radius:8px; border:1px solid var(--border-color);
+            background:var(--hover-bg); color:var(--text-secondary); font-size:0.85rem;
+            font-weight:600; cursor:pointer; transition:all 0.2s;
+        }
+        .crud-tab-btn:hover, .crud-tab-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
+        .sim-toast {
+            position:fixed; bottom:24px; left:50%;
+            transform:translateX(-50%) translateY(80px);
+            background:#1e1f29; color:#f8f8f2;
+            padding:10px 20px; border-radius:10px; font-family:monospace;
+            font-size:0.9rem; z-index:9999; opacity:0;
+            transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+            box-shadow:0 8px 24px rgba(0,0,0,0.3); max-width:90vw; text-align:center;
+        }
+        .sim-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+        .sim-toast.ok   { border-left:4px solid #00b894; }
+        .sim-toast.err  { border-left:4px solid #d63031; }
+        .sim-toast.warn { border-left:4px solid #fdcb6e; }
+    </style>
 </head>
 
 <body>
-    <div class="app-container">
-        <!-- Sidebar General -->
-        <aside class="sidebar">
-            <a href="../../index.html" class="sidebar-logo">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span>Portal Académico</span>
-            </a>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="../../index.html" class="sidebar-link">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../redcom/redes-comunicaciones.html" class="sidebar-link">
-                        <i class="bi bi-wifi"></i>
-                        <span>Redes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="bases-datos-ii.html" class="sidebar-link active">
-                        <i class="bi bi-database"></i>
-                        <span>Bases de Datos II</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-cpu"></i>
-                        <span>Sistemas Op.</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
+<div class="app-container">
+    <main class="main-content">
 
-        <!-- Contenido principal -->
-        <main class="main-content">
-            <!-- Header superior -->
-            <header class="header-top">
-                <div class="d-flex align-items-center gap-3">
-                    <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
-                        <i class="bi bi-arrow-left"></i>
-                    </a>
-                    <div>
-                        <h4 class="mb-0 fw-bold">Clase 4: CRUD Completo</h4>
-                        <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II</span>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
-                        <i class="bi bi-moon-fill" id="theme-icon"></i>
-                    </button>
-                    <div class="profile-widget">
-                        <div class="profile-avatar">JG</div>
-                    </div>
-                </div>
-            </header>
-
-            <div class="class-content-wrapper">
-                <span class="badge-clase bg-danger text-white mb-3">Clase 4</span>
-                <h3 class="fw-bold mb-4">Operaciones de escritura, actualización y eliminación (CRUD completo)</h3>
-                <div class="alert alert-info py-4" role="alert">
-                    <h5 class="alert-heading fw-bold mb-2"><i class="bi bi-info-circle-fill"></i> Clase en Construcción</h5>
-                    <p class="mb-0">El contenido detallado para esta clase se encuentra en planificación y estará disponible próximamente.</p>
+        <!-- Header -->
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3">
+                <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al indice">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h4 class="mb-0 fw-bold">Clase 4: CRUD Completo en MongoDB</h4>
+                    <span class="text-muted" style="font-size:0.85rem;">Bases de Datos II</span>
                 </div>
             </div>
-        </main>
+            <div class="header-actions">
+                <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                    <i class="bi bi-moon-fill" id="theme-icon"></i>
+                </button>
+                <div class="profile-widget">
+                    <div class="profile-avatar">JG</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="class-content-wrapper mb-5">
+
+            <span class="badge-clase bg-danger text-white mb-3">Clase 4</span>
+            <h3 class="fw-bold mb-2">Operaciones de escritura, actualizacion y eliminacion</h3>
+            <p class="text-secondary mb-5" style="max-width:720px;">
+                En esta clase dominaras el <strong>CRUD completo</strong> de MongoDB:
+                <strong>Create</strong> (insertar), <strong>Read</strong> (consultar),
+                <strong>Update</strong> (actualizar) y <strong>Delete</strong> (eliminar).
+                Conoceras los metodos esenciales, los operadores de actualizacion y las
+                estrategias de borrado seguro.
+            </p>
+
+            <!-- SECCION 1 - Panorama CRUD -->
+            <section class="mb-5">
+                <div class="section-icon-label">
+                    <i class="bi bi-grid-3x3-gap-fill text-primary"></i>
+                    <h3 class="fw-bold mb-0">1. Que es el CRUD?</h3>
+                </div>
+                <p class="text-secondary leading-relaxed mb-4">
+                    CRUD es el acronimo de las cuatro operaciones fundamentales que toda base de datos debe
+                    soportar. En MongoDB, cada operacion se mapea directamente a metodos del shell
+                    (<code>mongosh</code>) o a drivers de lenguaje como Node.js, Python, Java, etc.
+                </p>
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="crud-op-card create">
+                            <span class="crud-badge create">CREATE</span>
+                            <h5 class="fw-bold mb-1" style="color:#00b894;">Insertar</h5>
+                            <p class="text-secondary small mb-3">Agrega uno o varios documentos a una coleccion.</p>
+                            <code class="small">insertOne()</code><br>
+                            <code class="small">insertMany()</code>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="crud-op-card read">
+                            <span class="crud-badge read">READ</span>
+                            <h5 class="fw-bold mb-1" style="color:#0984e3;">Leer</h5>
+                            <p class="text-secondary small mb-3">Consulta y filtra documentos existentes en la coleccion.</p>
+                            <code class="small">find()</code><br>
+                            <code class="small">findOne()</code>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="crud-op-card update">
+                            <span class="crud-badge update">UPDATE</span>
+                            <h5 class="fw-bold mb-1" style="color:#e17055;">Actualizar</h5>
+                            <p class="text-secondary small mb-3">Modifica campos de documentos que ya existen.</p>
+                            <code class="small">updateOne()</code><br>
+                            <code class="small">updateMany()</code><br>
+                            <code class="small">replaceOne()</code>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="crud-op-card delete">
+                            <span class="crud-badge delete">DELETE</span>
+                            <h5 class="fw-bold mb-1" style="color:#d63031;">Eliminar</h5>
+                            <p class="text-secondary small mb-3">Borra documentos de manera selectiva o masiva.</p>
+                            <code class="small">deleteOne()</code><br>
+                            <code class="small">deleteMany()</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5 border-light">
+
+            <!-- SECCION 2 - INSERT -->
+            <section class="mb-5">
+                <div class="section-icon-label">
+                    <i class="bi bi-plus-circle-fill text-success fs-3"></i>
+                    <h3 class="fw-bold mb-0">2. Insercion de Documentos (CREATE)</h3>
+                </div>
+                <p class="text-secondary leading-relaxed mb-4">
+                    MongoDB ofrece dos metodos principales para insertar documentos. Si la coleccion no
+                    existe, MongoDB la crea automaticamente al insertar el primer documento.
+                </p>
+                <div class="class-step mb-4">
+                    <h6 class="fw-bold text-success mb-1"><i class="bi bi-1-circle-fill"></i> insertOne()</h6>
+                    <p class="text-secondary small mb-2">
+                        Inserta un unico documento. Retorna un objeto con el <code>_id</code> generado automaticamente.
+                    </p>
+                    <div class="code-block-highlight">db.empleados.insertOne({
+  nombre: "Ana Garcia",
+  departamento: "Tecnologia",
+  salario: 1800,
+  fechaIngreso: new Date("2024-03-15"),
+  activo: true
+})</div>
+                    <p class="text-secondary small mb-0">Resultado: <code>{ acknowledged: true, insertedId: ObjectId("...") }</code></p>
+                </div>
+                <div class="class-step mb-4">
+                    <h6 class="fw-bold text-success mb-1"><i class="bi bi-2-circle-fill"></i> insertMany()</h6>
+                    <p class="text-secondary small mb-2">
+                        Inserta un arreglo de documentos en una sola operacion atomica. Mas eficiente que multiples <code>insertOne()</code>.
+                    </p>
+                    <div class="code-block-highlight">db.empleados.insertMany([
+  { nombre: "Carlos Lopez",    departamento: "Ventas",     salario: 1200 },
+  { nombre: "Maria Rodriguez", departamento: "RRHH",       salario: 1400 },
+  { nombre: "Pedro Martinez",  departamento: "Tecnologia", salario: 2100 }
+])</div>
+                    <p class="text-secondary small mb-0">Resultado: <code>{ acknowledged: true, insertedCount: 3 }</code></p>
+                </div>
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="interactive-box h-100">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-lightbulb-fill"></i> El campo _id</h6>
+                            <p class="text-secondary small mb-0">
+                                Si no proporcionas un <code>_id</code>, MongoDB genera un <strong>ObjectId</strong>
+                                unico de 12 bytes. Puedes usar tu propio <code>_id</code> (numero, cadena, etc.)
+                                pero debe ser unico en la coleccion.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="interactive-box h-100">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-exclamation-triangle-fill"></i> Orden de insercion</h6>
+                            <p class="text-secondary small mb-0">
+                                Por defecto, <code>insertMany()</code> inserta en orden. Si un documento falla
+                                (p.ej. <code>_id</code> duplicado), los anteriores no se revierten.
+                                Usa <code>{ ordered: false }</code> para continuar con el resto ante errores.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5 border-light">
+
+            <!-- SECCION 3 - UPDATE -->
+            <section class="mb-5">
+                <div class="section-icon-label">
+                    <i class="bi bi-pencil-fill text-warning fs-3"></i>
+                    <h3 class="fw-bold mb-0">3. Actualizacion de Documentos (UPDATE)</h3>
+                </div>
+                <p class="text-secondary leading-relaxed mb-4">
+                    Las operaciones de actualizacion se componen de un <strong>filtro</strong> (que documentos afectar)
+                    y un <strong>documento de actualizacion</strong> (que cambiar). Los operadores de actualizacion
+                    determinan como se modifican los campos.
+                </p>
+                <h6 class="fw-bold text-dark mb-3">Operadores de Actualizacion mas comunes</h6>
+                <div class="table-responsive mb-4">
+                    <table class="table table-sm table-bordered table-custom text-secondary small">
+                        <thead><tr><th>Operador</th><th>Descripcion</th><th>Ejemplo</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="op-pill">$set</span></td>
+                                <td>Establece el valor de un campo. Si no existe, lo crea.</td>
+                                <td><code>{ $set: { salario: 2000 } }</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="op-pill">$unset</span></td>
+                                <td>Elimina un campo del documento.</td>
+                                <td><code>{ $unset: { temporal: "" } }</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="op-pill">$inc</span></td>
+                                <td>Incrementa (o decrementa con valor negativo) el valor numerico del campo.</td>
+                                <td><code>{ $inc: { stock: -3 } }</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="op-pill">$rename</span></td>
+                                <td>Renombra un campo del documento.</td>
+                                <td><code>{ $rename: { "apellido": "primerApellido" } }</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="op-pill">$push</span></td>
+                                <td>Agrega un elemento al final de un array.</td>
+                                <td><code>{ $push: { tags: "oferta" } }</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="op-pill">$pull</span></td>
+                                <td>Elimina elementos de un array que coincidan con la condicion.</td>
+                                <td><code>{ $pull: { tags: "inactivo" } }</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="op-pill">$addToSet</span></td>
+                                <td>Agrega a un array solo si el elemento no existe (evita duplicados).</td>
+                                <td><code>{ $addToSet: { roles: "admin" } }</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-lg-6">
+                        <div class="class-step h-100 mb-0">
+                            <h6 class="fw-bold" style="color:#e17055;">updateOne(filtro, actualizacion)</h6>
+                            <p class="text-secondary small mb-2">Modifica el <strong>primer</strong> documento que coincida con el filtro.</p>
+                            <div class="code-block-highlight">db.empleados.updateOne(
+  { nombre: "Ana Garcia" },
+  {
+    $set: { salario: 2100 },
+    $inc: { aniosExperiencia: 1 }
+  }
+)</div>
+                            <p class="text-secondary small mb-0">Resultado: <code>{ matchedCount: 1, modifiedCount: 1 }</code></p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="class-step h-100 mb-0">
+                            <h6 class="fw-bold" style="color:#e17055;">updateMany(filtro, actualizacion)</h6>
+                            <p class="text-secondary small mb-2">Modifica <strong>todos</strong> los documentos que coincidan con el filtro.</p>
+                            <div class="code-block-highlight">db.empleados.updateMany(
+  { departamento: "Ventas" },
+  { $set: { activo: false } }
+)</div>
+                            <p class="text-secondary small mb-0">Resultado: <code>{ matchedCount: 3, modifiedCount: 3 }</code></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="class-step mt-4">
+                    <h6 class="fw-bold" style="color:#a29bfe;"><i class="bi bi-shuffle"></i> Opcion Upsert</h6>
+                    <p class="text-secondary small mb-2">
+                        Con <code>{ upsert: true }</code>, si no hay coincidencia MongoDB
+                        <strong>inserta</strong> un nuevo documento combinando el filtro con los cambios.
+                        Ideal para el patron "crear si no existe".
+                    </p>
+                    <div class="code-block-highlight">db.configuracion.updateOne(
+  { clave: "tema_global" },
+  { $set: { valor: "dark", actualizadoEn: new Date() } },
+  { upsert: true }  // Crea el documento si no existe
+)</div>
+                </div>
+            </section>
+
+            <hr class="my-5 border-light">
+
+            <!-- SECCION 4 - DELETE -->
+            <section class="mb-5">
+                <div class="section-icon-label">
+                    <i class="bi bi-trash3-fill text-danger fs-3"></i>
+                    <h3 class="fw-bold mb-0">4. Eliminacion de Documentos (DELETE)</h3>
+                </div>
+                <p class="text-secondary leading-relaxed mb-4">
+                    Las operaciones de eliminacion en MongoDB son <strong>permanentes e irreversibles</strong>.
+                    Siempre es buena practica ejecutar primero un <code>find()</code> con el mismo filtro
+                    para verificar que documentos se veran afectados antes de borrar.
+                </p>
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-lg-6">
+                        <div class="class-step h-100 mb-0">
+                            <h6 class="fw-bold text-danger">deleteOne(filtro)</h6>
+                            <p class="text-secondary small mb-2">Elimina el <strong>primer</strong> documento que coincida con el filtro.</p>
+                            <div class="code-block-highlight">db.empleados.deleteOne({ nombre: "Carlos Lopez" })</div>
+                            <p class="text-secondary small mb-0">Resultado: <code>{ acknowledged: true, deletedCount: 1 }</code></p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="class-step h-100 mb-0">
+                            <h6 class="fw-bold text-danger">deleteMany(filtro)</h6>
+                            <p class="text-secondary small mb-2">
+                                Elimina <strong>todos</strong> los documentos que coincidan. Con filtro <code>{}</code>
+                                vacia la coleccion entera.
+                            </p>
+                            <div class="code-block-highlight">db.empleados.deleteMany({ activo: false })</div>
+                            <p class="text-secondary small mb-0">Resultado: <code>{ acknowledged: true, deletedCount: 5 }</code></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="interactive-box h-100">
+                            <h6 class="fw-bold text-danger mb-2"><i class="bi bi-collection-fill"></i> drop() vs deleteMany({})</h6>
+                            <p class="text-secondary small mb-0">
+                                <code>deleteMany({})</code> elimina todos los documentos pero
+                                <strong>conserva</strong> la coleccion e indices.<br>
+                                <code>db.coleccion.drop()</code> elimina la coleccion
+                                <strong>completamente</strong> junto con todos sus indices.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="interactive-box h-100">
+                            <h6 class="fw-bold text-danger mb-2"><i class="bi bi-shield-exclamation"></i> Borrado seguro (best practice)</h6>
+                            <p class="text-secondary small mb-0">
+                                Antes de ejecutar <code>deleteMany()</code>, valida con:
+                                <code>db.col.find(filtro).count()</code><br>
+                                Considera el "soft delete": agrega <code>eliminado: true</code> en lugar
+                                de borrar fisicamente el documento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5 border-light">
+
+            <!-- SECCION 5 - SIMULADOR CRUD -->
+            <section class="mb-5">
+                <div class="section-icon-label">
+                    <i class="bi bi-terminal-fill text-primary fs-3"></i>
+                    <h3 class="fw-bold mb-0">5. Simulador CRUD Interactivo</h3>
+                </div>
+                <p class="text-secondary leading-relaxed mb-4">
+                    Interactua con una coleccion simulada de <code>empleados</code>. Usa las pestanas para
+                    insertar, actualizar, eliminar o consultar documentos. La consola muestra los comandos
+                    MongoDB equivalentes y la coleccion se actualiza en tiempo real.
+                </p>
+                <div class="row g-4">
+                    <!-- Panel izquierdo -->
+                    <div class="col-12 col-lg-4">
+                        <div class="query-builder-box">
+                            <h6 class="fw-bold mb-3"><i class="bi bi-lightning-charge-fill text-primary"></i> Operaciones</h6>
+                            <div class="crud-tab-nav">
+                                <button class="crud-tab-btn active" onclick="switchSimTab('insert',this)">+ Insert</button>
+                                <button class="crud-tab-btn" onclick="switchSimTab('update',this)">~ Update</button>
+                                <button class="crud-tab-btn" onclick="switchSimTab('delete',this)">x Delete</button>
+                                <button class="crud-tab-btn" onclick="switchSimTab('find',this)">? Find</button>
+                            </div>
+                            <!-- INSERT -->
+                            <div id="sim-tab-insert">
+                                <div class="sim-input-group">
+                                    <label>Nombre del empleado</label>
+                                    <input type="text" id="ins-nombre" value="Laura Vega" placeholder="Ej: Laura Vega">
+                                </div>
+                                <div class="sim-input-group">
+                                    <label>Departamento</label>
+                                    <select id="ins-depto">
+                                        <option>Tecnologia</option><option>Ventas</option>
+                                        <option>RRHH</option><option>Finanzas</option><option>Operaciones</option>
+                                    </select>
+                                </div>
+                                <div class="sim-input-group">
+                                    <label>Salario ($)</label>
+                                    <input type="number" id="ins-salario" value="1500" min="0">
+                                </div>
+                                <button class="btn btn-success btn-sm w-100 mt-2" onclick="simInsertOne()">
+                                    <i class="bi bi-plus-lg"></i> insertOne()
+                                </button>
+                            </div>
+                            <!-- UPDATE -->
+                            <div id="sim-tab-update" style="display:none;">
+                                <div class="sim-input-group">
+                                    <label>Buscar por nombre exacto</label>
+                                    <input type="text" id="upd-nombre" placeholder="Nombre exacto">
+                                </div>
+                                <div class="sim-input-group">
+                                    <label>Nuevo salario ($)</label>
+                                    <input type="number" id="upd-salario" value="2000" min="0">
+                                </div>
+                                <div class="sim-input-group">
+                                    <label>Nuevo departamento</label>
+                                    <select id="upd-depto">
+                                        <option value="">(sin cambio)</option>
+                                        <option>Tecnologia</option><option>Ventas</option>
+                                        <option>RRHH</option><option>Finanzas</option><option>Operaciones</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-warning btn-sm w-100 mt-2 text-dark" onclick="simUpdateOne()">
+                                    <i class="bi bi-pencil-fill"></i> updateOne()
+                                </button>
+                            </div>
+                            <!-- DELETE -->
+                            <div id="sim-tab-delete" style="display:none;">
+                                <div class="sim-input-group">
+                                    <label>Eliminar por nombre exacto</label>
+                                    <input type="text" id="del-nombre" placeholder="Nombre exacto">
+                                </div>
+                                <button class="btn btn-danger btn-sm w-100 mt-1" onclick="simDeleteOne()">
+                                    <i class="bi bi-trash-fill"></i> deleteOne()
+                                </button>
+                                <hr>
+                                <div class="sim-input-group">
+                                    <label>Eliminar por departamento</label>
+                                    <select id="del-depto">
+                                        <option value="">-- Seleccionar --</option>
+                                        <option>Tecnologia</option><option>Ventas</option>
+                                        <option>RRHH</option><option>Finanzas</option><option>Operaciones</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-danger btn-sm w-100 mt-1" onclick="simDeleteMany()">
+                                    <i class="bi bi-trash3-fill"></i> deleteMany()
+                                </button>
+                            </div>
+                            <!-- FIND -->
+                            <div id="sim-tab-find" style="display:none;">
+                                <p class="text-secondary small mb-3">Consultas sobre la coleccion actual:</p>
+                                <button class="mongo-btn-query" onclick="simFind('all')">
+                                    <span class="op-dot r"></span>find({})
+                                </button>
+                                <button class="mongo-btn-query" onclick="simFind('tech')">
+                                    <span class="op-dot r"></span>find({ departamento: "Tecnologia" })
+                                </button>
+                                <button class="mongo-btn-query" onclick="simFind('highSalary')">
+                                    <span class="op-dot r"></span>find({ salario: { $gt: 1800 } })
+                                </button>
+                                <button class="mongo-btn-query" onclick="simFind('active')">
+                                    <span class="op-dot r"></span>find({ activo: true })
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Panel derecho: consola + visor -->
+                    <div class="col-12 col-lg-8">
+                        <div class="mongo-console">
+                            <div class="mongo-console-header">
+                                <div>
+                                    <span class="mongo-dot red"></span>
+                                    <span class="mongo-dot yellow"></span>
+                                    <span class="mongo-dot green"></span>
+                                </div>
+                                <span class="small text-muted font-monospace">mongosh -- simulador CRUD</span>
+                                <button class="btn btn-sm py-0 px-2"
+                                    style="font-size:0.75rem;color:#6b7280;background:transparent;border:1px solid #333;"
+                                    onclick="clearConsole()">clear</button>
+                            </div>
+                            <div class="mongo-console-body" id="sim-console">
+                                <div style="color:#6b7280;font-size:0.8rem;margin-bottom:12px;">
+                                    Current Mongosh Log ID: 65af3c1b2d4e5f6a7b8c9d00<br>
+                                    Connecting to: mongodb://127.0.0.1:27017<br>
+                                    Using MongoDB: 7.0.4 | mongosh: 2.1.1<br>
+                                    ----------------------------------------<br>
+                                    Coleccion <strong style="color:#a3e635;">empresaDB.empleados</strong>
+                                    inicializada con 5 documentos.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collection-viewer">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <h6 class="fw-bold mb-0">
+                                    <i class="bi bi-database-fill text-primary"></i>
+                                    empresaDB.<span style="color:var(--primary);">empleados</span>
+                                </h6>
+                                <span class="badge bg-primary rounded-pill" id="doc-count-badge">5 docs</span>
+                            </div>
+                            <div id="collection-viewer-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5 border-light">
+
+            <!-- SECCION 6 - CUESTIONARIO -->
+            <section class="mb-5">
+                <div class="section-icon-label">
+                    <i class="bi bi-patch-check-fill text-primary fs-3"></i>
+                    <h3 class="fw-bold mb-0">6. Cuestionario de Evaluacion</h3>
+                </div>
+                <p class="text-secondary leading-relaxed mb-4">
+                    Responde las siguientes preguntas de opcion multiple para evaluar tu comprension de las
+                    operaciones CRUD en MongoDB. Recibiras retroalimentacion individual por pregunta.
+                </p>
+
+                <!-- P1 -->
+                <div class="quiz-card" id="qcard-1">
+                    <h6 class="fw-bold mb-3">Pregunta 1: Cual de los siguientes metodos inserta <em>multiples</em> documentos en una sola llamada?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q1" id="q1a" value="a"><label class="form-check-label text-secondary" for="q1a"><code>insertOne()</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q1" id="q1b" value="b"><label class="form-check-label text-secondary" for="q1b"><code>insertMany()</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q1" id="q1c" value="c"><label class="form-check-label text-secondary" for="q1c"><code>bulkInsert()</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q1" id="q1d" value="d"><label class="form-check-label text-secondary" for="q1d"><code>save()</code></label></div>
+                    <div class="quiz-feedback mt-2" id="fb-q1" style="display:none;"></div>
+                </div>
+                <!-- P2 -->
+                <div class="quiz-card" id="qcard-2">
+                    <h6 class="fw-bold mb-3">Pregunta 2: En el comando <code>db.productos.updateOne({ nombre: "Laptop" }, { $inc: { stock: -5 } })</code> que hace el operador <code>$inc</code>?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q2" id="q2a" value="a"><label class="form-check-label text-secondary" for="q2a">Establece el campo stock al valor absoluto de -5.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q2" id="q2b" value="b"><label class="form-check-label text-secondary" for="q2b">Incrementa (o decrementa) el valor actual de stock en -5, es decir, resta 5 al valor existente.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q2" id="q2c" value="c"><label class="form-check-label text-secondary" for="q2c">Reemplaza el campo stock por un array con el valor -5.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q2" id="q2d" value="d"><label class="form-check-label text-secondary" for="q2d">Elimina el campo stock si su valor es negativo.</label></div>
+                    <div class="quiz-feedback mt-2" id="fb-q2" style="display:none;"></div>
+                </div>
+                <!-- P3 -->
+                <div class="quiz-card" id="qcard-3">
+                    <h6 class="fw-bold mb-3">Pregunta 3: Cual es la diferencia entre <code>deleteOne()</code> y <code>deleteMany()</code>?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q3" id="q3a" value="a"><label class="form-check-label text-secondary" for="q3a">deleteOne() es mas rapido; deleteMany() aplica validaciones adicionales.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q3" id="q3b" value="b"><label class="form-check-label text-secondary" for="q3b">deleteOne() elimina el primer documento que coincide; deleteMany() elimina todos los que coincidan con el filtro.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q3" id="q3c" value="c"><label class="form-check-label text-secondary" for="q3c">deleteOne() elimina la coleccion entera; deleteMany() solo borra campos.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q3" id="q3d" value="d"><label class="form-check-label text-secondary" for="q3d">No hay diferencia; ambos eliminan todos los documentos.</label></div>
+                    <div class="quiz-feedback mt-2" id="fb-q3" style="display:none;"></div>
+                </div>
+                <!-- P4 -->
+                <div class="quiz-card" id="qcard-4">
+                    <h6 class="fw-bold mb-3">Pregunta 4: Que sucede cuando usas <code>updateOne()</code> con <code>{ upsert: true }</code> y el filtro no encuentra ningun documento?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q4" id="q4a" value="a"><label class="form-check-label text-secondary" for="q4a">Genera un error indicando que el documento no existe.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q4" id="q4b" value="b"><label class="form-check-label text-secondary" for="q4b">No hace nada y retorna matchedCount: 0.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q4" id="q4c" value="c"><label class="form-check-label text-secondary" for="q4c">Inserta un nuevo documento combinando el filtro con los cambios especificados.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q4" id="q4d" value="d"><label class="form-check-label text-secondary" for="q4d">Actualiza el primer documento de la coleccion ignorando el filtro.</label></div>
+                    <div class="quiz-feedback mt-2" id="fb-q4" style="display:none;"></div>
+                </div>
+                <!-- P5 -->
+                <div class="quiz-card" id="qcard-5">
+                    <h6 class="fw-bold mb-3">Pregunta 5: Que operador de actualizacion elimina un campo especifico de un documento?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q5" id="q5a" value="a"><label class="form-check-label text-secondary" for="q5a"><code>$pull</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q5" id="q5b" value="b"><label class="form-check-label text-secondary" for="q5b"><code>$remove</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q5" id="q5c" value="c"><label class="form-check-label text-secondary" for="q5c"><code>$unset</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q5" id="q5d" value="d"><label class="form-check-label text-secondary" for="q5d"><code>$delete</code></label></div>
+                    <div class="quiz-feedback mt-2" id="fb-q5" style="display:none;"></div>
+                </div>
+                <!-- P6 -->
+                <div class="quiz-card" id="qcard-6">
+                    <h6 class="fw-bold mb-3">Pregunta 6: Al ejecutar <code>db.clientes.deleteMany({})</code>, que ocurre?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q6" id="q6a" value="a"><label class="form-check-label text-secondary" for="q6a">Se elimina la coleccion clientes junto con sus indices.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q6" id="q6b" value="b"><label class="form-check-label text-secondary" for="q6b">Se eliminan todos los documentos de la coleccion, pero la coleccion y sus indices se conservan.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q6" id="q6c" value="c"><label class="form-check-label text-secondary" for="q6c">Solo se elimina el primer documento de la coleccion.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q6" id="q6d" value="d"><label class="form-check-label text-secondary" for="q6d">Genera un error de sintaxis porque el filtro esta vacio.</label></div>
+                    <div class="quiz-feedback mt-2" id="fb-q6" style="display:none;"></div>
+                </div>
+                <!-- P7 -->
+                <div class="quiz-card" id="qcard-7">
+                    <h6 class="fw-bold mb-3">Pregunta 7: Cual es el proposito del operador <code>$addToSet</code>?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q7" id="q7a" value="a"><label class="form-check-label text-secondary" for="q7a">Agrega un elemento a un array solo si ese elemento no existe ya en el array, evitando duplicados.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q7" id="q7b" value="b"><label class="form-check-label text-secondary" for="q7b">Agrega un elemento al inicio de un array, empujando los demas hacia abajo.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q7" id="q7c" value="c"><label class="form-check-label text-secondary" for="q7c">Reemplaza completamente el array con un nuevo conjunto de valores.</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q7" id="q7d" value="d"><label class="form-check-label text-secondary" for="q7d">Crea un nuevo campo de tipo array si no existe, pero no agrega elementos.</label></div>
+                    <div class="quiz-feedback mt-2" id="fb-q7" style="display:none;"></div>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 mt-4 flex-wrap">
+                    <button class="btn btn-primary btn-lg" onclick="evaluarQuiz()">
+                        <i class="bi bi-check2-circle"></i> Comprobar Respuestas
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="resetQuiz()">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reiniciar
+                    </button>
+                    <div id="quiz-result-score" style="display:none;"></div>
+                </div>
+            </section>
+
+        </div><!-- /class-content-wrapper -->
+    </main>
+</div>
+
+<!-- Flotante de clases -->
+<div class="class-floating-sidebar" id="class-floating-sidebar">
+    <div class="sidebar-floating-header">
+        <h6 class="text-muted fw-bold mb-0" style="font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;">Clases Disponibles</h6>
+        <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size:0.8rem;"></button>
     </div>
-
-    <!-- Menú Flotante de Clases -->
-    <div class="class-floating-sidebar" id="class-floating-sidebar">
-        <div class="sidebar-floating-header">
-            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
-            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
-        </div>
-        <div class="class-floating-sidebar-content">
-            <ul class="class-list">
-                <li>
-                    <a href="clase1db.html" class="class-item text-decoration-none">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clase2db.html" class="class-item text-decoration-none">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clase3db.html" class="class-item text-decoration-none">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de lectura</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clase4db.html" class="class-item active text-decoration-none">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD Completo</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clase5db.html" class="class-item text-decoration-none">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas avanzadas</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="class-floating-sidebar-content">
+        <ul class="class-list">
+            <li><a href="clase1db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i><span class="class-item-text">Clase 1: Introduccion a NoSQL</span></a></li>
+            <li><a href="clase2db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i><span class="class-item-text">Clase 2: Creacion de DBs y Colecciones</span></a></li>
+            <li><a href="clase3db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i><span class="class-item-text">Clase 3: Operaciones de lectura</span></a></li>
+            <li><a href="clase4db.html" class="class-item active text-decoration-none"><i class="bi bi-journal-text"></i><span class="class-item-text">Clase 4: CRUD Completo</span></a></li>
+            <li><a href="clase5db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i><span class="class-item-text">Clase 5: Consultas avanzadas</span></a></li>
+        </ul>
     </div>
+</div>
 
-    <!-- Botón Flotante (FAB) -->
-    <button type="button" class="class-fab-btn" id="class-fab-btn">
-        <i class="bi bi-journal-bookmark-fill"></i>
-        <span>Ver Clases</span>
-    </button>
+<button type="button" class="class-fab-btn" id="class-fab-btn">
+    <i class="bi bi-journal-bookmark-fill"></i>
+    <span>Ver Clases</span>
+</button>
 
-    <!-- Footer -->
-    <footer class="text-center py-4"
-        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
-        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p>
-    </footer>
+<div class="sim-toast" id="sim-toast"></div>
 
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/main.js"></script>
+<footer class="text-center py-4"
+    style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);">
+    <p class="mb-0" style="font-size:0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henriquez. Bases de Datos II</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../js/menu.js"></script>
+<script src="../../js/main.js"></script>
+<script>
+/* ==============================================
+   SIMULADOR CRUD
+============================================== */
+var nextId = 6;
+var empleados = [
+    { _id: "ObjectId('...d01')", nombre: "Ana Garcia",      departamento: "Tecnologia", salario: 1800, activo: true  },
+    { _id: "ObjectId('...d02')", nombre: "Carlos Lopez",    departamento: "Ventas",     salario: 1200, activo: true  },
+    { _id: "ObjectId('...d03')", nombre: "Maria Rodriguez", departamento: "RRHH",       salario: 1400, activo: true  },
+    { _id: "ObjectId('...d04')", nombre: "Pedro Martinez",  departamento: "Tecnologia", salario: 2100, activo: true  },
+    { _id: "ObjectId('...d05')", nombre: "Lucia Hernandez", departamento: "Finanzas",   salario: 1600, activo: false }
+];
+
+function renderCollection(highlightId) {
+    var list  = document.getElementById('collection-viewer-list');
+    var badge = document.getElementById('doc-count-badge');
+    badge.textContent = empleados.length + ' doc' + (empleados.length !== 1 ? 's' : '');
+    if (empleados.length === 0) {
+        list.innerHTML = '<p class="text-secondary small text-center py-3"><i class="bi bi-inbox text-muted fs-4 d-block mb-1"></i>Coleccion vacia</p>';
+        return;
+    }
+    list.innerHTML = empleados.map(function(e) {
+        var hi = (highlightId && e._id === highlightId) ? 'highlighted' : '';
+        return '<div class="doc-card ' + hi + '">' +
+            '<span style="color:#a29bfe">' + e._id + '</span> {<br>' +
+            '&nbsp;&nbsp;<span style="color:#ffeaa7">nombre</span>: "<span style="color:#55efc4">' + e.nombre + '</span>",<br>' +
+            '&nbsp;&nbsp;<span style="color:#ffeaa7">departamento</span>: "<span style="color:#74b9ff">' + e.departamento + '</span>",<br>' +
+            '&nbsp;&nbsp;<span style="color:#ffeaa7">salario</span>: <span style="color:#fd79a8">' + e.salario + '</span>,<br>' +
+            '&nbsp;&nbsp;<span style="color:#ffeaa7">activo</span>: <span style="color:#ffeaa7">' + e.activo + '</span><br>' +
+            '}</div>';
+    }).join('');
+}
+
+function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function printConsole(cmd, output, type) {
+    type = type || '';
+    var con = document.getElementById('sim-console');
+    var div = document.createElement('div');
+    div.style.marginBottom = '14px';
+    div.innerHTML =
+        '<div class="d-flex"><span class="mongo-prompt">empresaDB&gt;</span>' +
+        '<span class="font-monospace text-white" style="word-break:break-all;">' + escHtml(cmd) + '</span></div>' +
+        '<div class="mongo-output ' + type + '">' + escHtml(output) + '</div>';
+    con.appendChild(div);
+    con.scrollTop = con.scrollHeight;
+}
+
+function clearConsole() {
+    document.getElementById('sim-console').innerHTML =
+        '<span style="color:#6b7280;font-size:0.8rem;">Console cleared.</span><br><br>';
+}
+
+function showToast(msg, type) {
+    type = type || 'ok';
+    var t = document.getElementById('sim-toast');
+    t.textContent = msg;
+    t.className = 'sim-toast ' + type;
+    requestAnimationFrame(function() {
+        requestAnimationFrame(function() { t.classList.add('show'); });
+    });
+    setTimeout(function() { t.classList.remove('show'); }, 3200);
+}
+
+function switchSimTab(tab, btn) {
+    ['insert','update','delete','find'].forEach(function(t) {
+        var el = document.getElementById('sim-tab-' + t);
+        if (el) el.style.display = (t === tab) ? 'block' : 'none';
+    });
+    document.querySelectorAll('.crud-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+}
+
+function simInsertOne() {
+    var nombre  = document.getElementById('ins-nombre').value.trim();
+    var depto   = document.getElementById('ins-depto').value;
+    var salario = parseInt(document.getElementById('ins-salario').value) || 0;
+    if (!nombre) { showToast('Escribe un nombre para insertar.', 'warn'); return; }
+    var id  = "ObjectId('...e0" + nextId++ + "')";
+    var doc = { _id: id, nombre: nombre, departamento: depto, salario: salario, activo: true };
+    empleados.push(doc);
+    printConsole(
+        'db.empleados.insertOne({ nombre: "' + nombre + '", departamento: "' + depto + '", salario: ' + salario + ', activo: true })',
+        '{ acknowledged: true, insertedId: ' + id + ' }',
+        'success'
+    );
+    renderCollection(id);
+    showToast('Documento insertado: ' + nombre, 'ok');
+}
+
+function simUpdateOne() {
+    var nombre  = document.getElementById('upd-nombre').value.trim();
+    var salario = parseInt(document.getElementById('upd-salario').value);
+    var depto   = document.getElementById('upd-depto').value;
+    if (!nombre) { showToast('Escribe el nombre del empleado a actualizar.', 'warn'); return; }
+    var idx = -1;
+    for (var i = 0; i < empleados.length; i++) {
+        if (empleados[i].nombre.toLowerCase() === nombre.toLowerCase()) { idx = i; break; }
+    }
+    if (idx === -1) {
+        printConsole('db.empleados.updateOne({ nombre: "' + nombre + '" }, { $set: { ... } })', '{ matchedCount: 0, modifiedCount: 0 }', 'warn');
+        showToast('No se encontro ningun empleado con ese nombre.', 'warn');
+        return;
+    }
+    var setFields = {};
+    if (!isNaN(salario)) { empleados[idx].salario = salario; setFields.salario = salario; }
+    if (depto)           { empleados[idx].departamento = depto; setFields.departamento = depto; }
+    printConsole(
+        'db.empleados.updateOne({ nombre: "' + nombre + '" }, { $set: ' + JSON.stringify(setFields) + ' })',
+        '{ acknowledged: true, matchedCount: 1, modifiedCount: 1 }',
+        'success'
+    );
+    renderCollection(empleados[idx]._id);
+    showToast('Empleado "' + nombre + '" actualizado.', 'ok');
+}
+
+function simDeleteOne() {
+    var nombre = document.getElementById('del-nombre').value.trim();
+    if (!nombre) { showToast('Escribe el nombre del empleado a eliminar.', 'warn'); return; }
+    var idx = -1;
+    for (var i = 0; i < empleados.length; i++) {
+        if (empleados[i].nombre.toLowerCase() === nombre.toLowerCase()) { idx = i; break; }
+    }
+    if (idx === -1) {
+        printConsole('db.empleados.deleteOne({ nombre: "' + nombre + '" })', '{ acknowledged: true, deletedCount: 0 }', 'warn');
+        showToast('No encontrado: "' + nombre + '"', 'warn');
+        return;
+    }
+    empleados.splice(idx, 1);
+    printConsole('db.empleados.deleteOne({ nombre: "' + nombre + '" })', '{ acknowledged: true, deletedCount: 1 }', 'success');
+    renderCollection();
+    showToast('Eliminado: ' + nombre, 'ok');
+}
+
+function simDeleteMany() {
+    var depto = document.getElementById('del-depto').value;
+    if (!depto) { showToast('Selecciona un departamento.', 'warn'); return; }
+    var before = empleados.length;
+    empleados = empleados.filter(function(e) { return e.departamento !== depto; });
+    var count = before - empleados.length;
+    printConsole(
+        'db.empleados.deleteMany({ departamento: "' + depto + '" })',
+        '{ acknowledged: true, deletedCount: ' + count + ' }',
+        count > 0 ? 'success' : 'warn'
+    );
+    renderCollection();
+    showToast(count > 0 ? count + ' doc(s) del depto. "' + depto + '" eliminados.' : 'No hay docs en ese departamento.', count > 0 ? 'ok' : 'warn');
+}
+
+function simFind(type) {
+    var cmd, result;
+    if (type === 'all')       { cmd = 'db.empleados.find({})'; result = empleados; }
+    else if (type === 'tech') { cmd = 'db.empleados.find({ departamento: "Tecnologia" })'; result = empleados.filter(function(e){return e.departamento==='Tecnologia';}); }
+    else if (type === 'highSalary') { cmd = 'db.empleados.find({ salario: { $gt: 1800 } })'; result = empleados.filter(function(e){return e.salario>1800;}); }
+    else if (type === 'active') { cmd = 'db.empleados.find({ activo: true })'; result = empleados.filter(function(e){return e.activo===true;}); }
+    else return;
+    printConsole(cmd, result.length > 0 ? JSON.stringify(result, null, 2) : '(no documents found)', result.length > 0 ? '' : 'warn');
+}
+
+/* ==============================================
+   CUESTIONARIO
+============================================== */
+var correctAnswers = { q1:'b', q2:'b', q3:'b', q4:'c', q5:'c', q6:'b', q7:'a' };
+var explanations = {
+    q1: 'insertMany() acepta un array de documentos y los inserta todos en una sola operacion atomica.',
+    q2: '$inc incrementa (o decrementa con valor negativo) el valor numerico actual del campo.',
+    q3: 'deleteOne() borra solo el primer documento coincidente; deleteMany() borra todos los que coincidan con el filtro.',
+    q4: 'Con upsert: true, si no hay coincidencia MongoDB inserta un nuevo documento combinando el filtro con los cambios especificados.',
+    q5: '$unset elimina un campo del documento. $pull opera en arrays; $remove y $delete no son operadores validos de MongoDB.',
+    q6: 'deleteMany({}) elimina todos los documentos, pero la coleccion y sus indices permanecen. Usa drop() para eliminar la coleccion completa.',
+    q7: '$addToSet agrega un valor a un array solo si ese valor no esta ya presente, evitando duplicados automaticamente.'
+};
+
+function evaluarQuiz() {
+    var total = 7, score = 0, unanswered = false;
+    for (var i = 1; i <= total; i++) {
+        var key     = 'q' + i;
+        var checked = document.querySelector('input[name="' + key + '"]:checked');
+        var fbEl    = document.getElementById('fb-' + key);
+        var card    = document.getElementById('qcard-' + i);
+        if (!checked) { unanswered = true; continue; }
+        fbEl.style.display = 'block';
+        if (checked.value === correctAnswers[key]) {
+            score++;
+            fbEl.innerHTML = '<span class="answer-correct"><i class="bi bi-check-circle-fill"></i> Correcto!</span> &mdash; ' + explanations[key];
+            card.style.borderColor = '#00b894';
+        } else {
+            var lbl = document.querySelector('label[for="' + key + correctAnswers[key] + '"]');
+            fbEl.innerHTML = '<span class="answer-wrong"><i class="bi bi-x-circle-fill"></i> Incorrecto.</span> Respuesta correcta: <strong>' + (lbl ? lbl.innerText.trim() : '') + '</strong>. ' + explanations[key];
+            card.style.borderColor = '#d63031';
+        }
+    }
+    if (unanswered) { showToast('Responde todas las preguntas antes de comprobar.', 'warn'); return; }
+    var pct = Math.round((score / total) * 100);
+    var scoreEl = document.getElementById('quiz-result-score');
+    scoreEl.style.display = 'inline-block';
+    var cls = 'text-danger', msg = 'Sigue practicando!';
+    if (pct === 100)   { cls = 'text-success'; msg = 'Excelente! Perfecto!'; }
+    else if (pct >= 71){ cls = 'text-warning'; msg = 'Muy bien!'; }
+    scoreEl.className = 'fw-bold fs-5 ' + cls;
+    scoreEl.innerHTML = '<i class="bi bi-graph-up-arrow"></i> ' + score + ' / ' + total + ' (' + pct + '%) &mdash; ' + msg;
+    scoreEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetQuiz() {
+    for (var i = 1; i <= 7; i++) {
+        var key = 'q' + i;
+        document.querySelectorAll('input[name="' + key + '"]').forEach(function(r){ r.checked = false; });
+        var fb = document.getElementById('fb-' + key);
+        fb.style.display = 'none'; fb.innerHTML = '';
+        document.getElementById('qcard-' + i).style.borderColor = '';
+    }
+    var s = document.getElementById('quiz-result-score');
+    s.style.display = 'none'; s.innerHTML = '';
+}
+
+/* INIT */
+renderCollection();
+</script>
 </body>
-
 </html>
