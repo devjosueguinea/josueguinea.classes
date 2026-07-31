@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calcular el progreso inicial de la materia actual si estamos en una vista de materia
         calculateSubjectProgress();
 
-        // Si estamos en el Dashboard index.html, actualizar los componentes visuales
+        // Si estamos en el Dashboard materias.html, actualizar los componentes visuales
         if (document.getElementById('subjects-container')) {
             updateDashboardProgress();
         }

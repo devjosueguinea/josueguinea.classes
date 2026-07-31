@@ -83,8 +83,20 @@ document.addEventListener("DOMContentLoaded", () => {
         <ul class="sidebar-nav">
             <li>
                 <a href="index.html" class="sidebar-link" id="link-index">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a href="materias.html" class="sidebar-link" id="link-materias">
                     <i class="bi bi-grid-1x2-fill"></i>
-                    <span>Dashboard</span>
+                    <span>Materias</span>
+                </a>
+            </li>
+            <li>
+                <a href="cursos.html" class="sidebar-link" id="link-cursos">
+                    <i class="bi bi-award-fill"></i>
+                    <span>Cursos</span>
                 </a>
             </li>
             <li>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos - Portal Académico</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- El menú (Sidebar) se inyectará aquí de forma dinámica mediante JS -->
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="search-bar">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="course-search" placeholder="Buscar cursos...">
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                        <div class="d-none d-md-block">
+                            <h6 class="mb-0" style="font-size: 0.9rem; font-weight: 600;">Mg. Josue Guinea</h6>
+                            <span class="text-muted" style="font-size: 0.75rem;">Docente Principal</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Banner de bienvenida -->
+            <section class="welcome-banner" style="background: var(--secondary-gradient);">
+                <div style="position: relative; z-index: 2;">
+                    <h1 class="display-6 fw-bold text-white">Catálogo de Cursos Especializados</h1>
+                    <p class="mb-0 text-white opacity-75">Complementa tu formación con talleres prácticos y certificaciones diseñadas para la industria tecnológica.</p>
+                </div>
+            </section>
+
+            <!-- Grid de Cursos -->
+            <h4 class="mb-4 fw-bold">Cursos Disponibles</h4>
+            <section class="subject-grid" id="courses-container">
+                <!-- React/Node -->
+                <div class="subject-card-wrapper course-card-wrapper" data-course-title="desarrollo fullstack react node">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-success text-white">
+                                <i class="bi bi-code-square"></i>
+                            </div>
+                            <span class="subject-badge bg-success-subtle text-success">Full-Stack</span>
+                        </div>
+                        <h5 class="subject-title">Desarrollo Web con React & Node</h5>
+                        <p class="subject-description">Construcción de aplicaciones web modernas SPA, comunicación API RESTful, bases de datos relacionales/no-relacionales y despliegue.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Duración sugerida</span>
+                                <span>40 horas</span>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="#" class="subject-link text-success">
+                                <span>Explorar temario</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linux -->
+                <div class="subject-card-wrapper course-card-wrapper" data-course-title="administracion servidores linux bash devops">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-dark text-white">
+                                <i class="bi bi-terminal-fill"></i>
+                            </div>
+                            <span class="subject-badge bg-dark-subtle text-white">DevOps</span>
+                        </div>
+                        <h5 class="subject-title">Administración Linux & Servidores</h5>
+                        <p class="subject-description">Instalación de distribuciones de servidor, gestión de servicios web (Nginx/Apache), SSH, Bash scripting y virtualización Docker.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Duración sugerida</span>
+                                <span>30 horas</span>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="#" class="subject-link text-success">
+                                <span>Explorar temario</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ciberseguridad -->
+                <div class="subject-card-wrapper course-card-wrapper" data-course-title="ciberseguridad pentesting hacking etico">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-danger text-white">
+                                <i class="bi bi-shield-lock-fill"></i>
+                            </div>
+                            <span class="subject-badge bg-danger-subtle text-danger">Seguridad</span>
+                        </div>
+                        <h5 class="subject-title">Fundamentos de Ciberseguridad</h5>
+                        <p class="subject-description">Introducción al hacking ético, análisis de vulnerabilidades en redes y aplicaciones (OWASP Top 10) y estrategias de defensa.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Duración sugerida</span>
+                                <span>35 horas</span>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="#" class="subject-link text-success">
+                                <span>Explorar temario</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UI/UX -->
+                <div class="subject-card-wrapper course-card-wrapper" data-course-title="diseño figma ui ux interfaces">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon bg-info text-white">
+                                <i class="bi bi-vector-pen"></i>
+                            </div>
+                            <span class="subject-badge bg-info-subtle text-info">UI / UX</span>
+                        </div>
+                        <h5 class="subject-title">Diseño de Interfaces (UI/UX)</h5>
+                        <p class="subject-description">Principios del diseño centrado en el usuario, creación de wireframes, guías de estilo, prototipado interactivo en Figma y pruebas.</p>
+                        <div class="subject-progress-container">
+                            <div class="progress-label">
+                                <span>Duración sugerida</span>
+                                <span>25 horas</span>
+                            </div>
+                        </div>
+                        <div class="subject-footer">
+                            <a href="#" class="subject-link text-success">
+                                <span>Explorar temario</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Todos los derechos
+            reservados.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Búsqueda simple de cursos
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('course-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase().trim();
+                    const wrappers = document.querySelectorAll('.course-card-wrapper');
+                    wrappers.forEach(wrapper => {
+                        const title = wrapper.getAttribute('data-course-title') || '';
+                        if (title.includes(query)) {
+                            wrapper.style.display = 'block';
+                        } else {
+                            wrapper.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

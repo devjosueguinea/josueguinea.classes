@@ -4,308 +4,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mis Clases Universitarias</title>
+    <title>Portal Académico - Mg. Josue Guinea</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .portal-hero {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.08) 0%, rgba(162, 155, 254, 0.05) 100%);
+            border-radius: 24px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .portal-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .portal-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 30px;
+            height: 100%;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.12);
+            border-color: var(--primary);
+        }
+
+        .portal-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 24px;
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.2);
+        }
+
+        .portal-icon.courses {
+            background: var(--secondary-gradient);
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.2);
+        }
+
+        .portal-btn {
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .portal-btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+        }
+
+        .portal-btn-primary:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            color: white;
+        }
+
+        .portal-btn-secondary {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+        }
+
+        .portal-btn-secondary:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            color: white;
+        }
+
+        .feature-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            height: 100%;
+            transition: var(--transition);
+        }
+
+        .feature-box:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .profile-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            margin-top: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        .instructor-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: bold;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.25);
+        }
+
+        /* Estilos del Carrusel de Tecnologías */
+        .tech-carousel-container {
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .tech-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 12px 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .tech-icon {
+            font-size: 1.6rem;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            filter: opacity(0.5);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="app-container">
-        <!-- El menú (Sidebar) se inyectará aquí de forma dinámica mediante JS -->
-
-        <!-- Contenido principal -->
-        <main class="main-content">
-            <!-- Header superior -->
-            <header class="header-top">
-                <div class="search-bar">
-                    <i class="bi bi-search"></i>
-                    <input type="text" id="dashboard-search" placeholder="Buscar materias...">
+    <!-- Navbar simple para Portada -->
+    <nav class="navbar py-3" style="background-color: var(--sidebar-bg); border-bottom: 1px solid var(--border-color);">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none"
+                style="color: var(--text-primary); font-weight: 700; font-size: 1.3rem;">
+                <i class="bi bi-mortarboard-fill text-primary" style="font-size: 1.6rem;"></i>
+                <span>JG Tech Academy</span>
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                    <i class="bi bi-moon-fill" id="theme-icon"></i>
+                </button>
+                <div class="profile-widget py-1 px-3"
+                    style="background: var(--bg-color); border-radius: 12px; border: 1px solid var(--border-color);">
+                    <span style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary);">Mg. Josue
+                        Guinea</span>
                 </div>
-                <div class="header-actions">
-                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
-                        <i class="bi bi-moon-fill" id="theme-icon"></i>
-                    </button>
-                    <div class="profile-widget">
-                        <div class="profile-avatar">JG</div>
-                        <div class="d-none d-md-block">
-                            <h6 class="mb-0" style="font-size: 0.9rem; font-weight: 600;">Mg. Josue Guinea</h6>
-                            <span class="text-muted" style="font-size: 0.75rem;">Docente Principal</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <header class="portal-hero">
+            <div style="position: relative; z-index: 2; max-width: 800px; margin: 0 auto;">
+                <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 fs-6 rounded-pill"
+                    style="font-weight: 600;">Plataforma Virtual 2026</span>
+                <h1 class="display-4 fw-extrabold mb-3" style="letter-spacing: -1px; font-weight: 800;">Potencia tu
+                    Desarrollo Profesional</h1>
+                <p class="lead text-secondary mb-0">Bienvenido al espacio interactivo de estudio. Aquí puedes gestionar
+                    tu aprendizaje de asignaturas universitarias o expandir tus horizontes a través de cursos y
+                    certificaciones especializadas.</p>
+            </div>
+        </header>
+
+        <!-- Carrusel Compacto de Tecnologías -->
+        <section class="my-4 text-center">
+            <p class="text-uppercase text-secondary fw-semibold mb-3" style="font-size: 0.8rem; letter-spacing: 1.2px;">
+                Tecnologías clave en nuestras materias
+            </p>
+            <div id="techCarousel" class="carousel slide tech-carousel-container" data-bs-ride="carousel"
+                data-bs-interval="1400">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="tech-card">
+                            <i class="bi bi-diagram-3-fill tech-icon text-primary"></i>
+                            <span class="fw-bold" style="color: var(--text-primary);">Redes CISCO</span>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="tech-card">
+                            <i class="bi bi-code-slash tech-icon text-success"></i>
+                            <span class="fw-bold" style="color: var(--text-primary);">Fundamentos de Programación</span>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="tech-card">
+                            <i class="bi bi-cup-hot-fill tech-icon text-danger"></i>
+                            <span class="fw-bold" style="color: var(--text-primary);">POO con Java</span>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="tech-card">
+                            <i class="bi bi-layers-fill tech-icon text-warning"></i>
+                            <span class="fw-bold" style="color: var(--text-primary);">SpringBoot</span>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="tech-card">
+                            <i class="bi bi-diagram-2-fill tech-icon text-info"></i>
+                            <span class="fw-bold" style="color: var(--text-primary);">Análisis y Diseño de Sistemas con
+                                UML</span>
                         </div>
                     </div>
                 </div>
-            </header>
+                <button class="carousel-control-prev" type="button" data-bs-target="#techCarousel" data-bs-slide="prev"
+                    style="width: 8%;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#techCarousel" data-bs-slide="next"
+                    style="width: 8%;">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </section>
 
-            <!-- Banner de bienvenida -->
-            <section class="welcome-banner">
-                <div style="position: relative; z-index: 2;">
-                    <h1 class="display-6 fw-bold">Bienvenido a tu Espacio de Estudio</h1>
-                    <p class="mb-0 opacity-75">Visualiza el progreso de tus clases y accede a tus materias de manera
-                        ágil y organizada.</p>
-                </div>
-            </section>
-
-            <!-- Estadísticas rápidas -->
-            <section class="row g-4 mb-4">
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="stat-icon primary">
+        <!-- Selector de Acceso (Materias o Cursos) -->
+        <main class="row g-4 justify-content-center my-5">
+            <!-- Tarjeta Materias -->
+            <div class="col-md-6 col-lg-5">
+                <div class="portal-card">
+                    <div>
+                        <div class="portal-icon">
                             <i class="bi bi-book-half"></i>
                         </div>
-                        <div>
-                            <div class="stat-number">6</div>
-                            <div class="text-muted" style="font-size: 0.85rem;">Materias Totales</div>
-                        </div>
+                        <h3 class="fw-bold mb-3">Materias Universitarias</h3>
+                        <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.6;">
+                            Explora las asignaturas académicas estructuradas. Accede al contenido detallado, material
+                            complementario, lecturas guiadas y registra el avance del plan formativo paso a paso.
+                        </p>
+                        <ul class="list-unstyled d-flex flex-column gap-2 my-4 text-secondary"
+                            style="font-size: 0.9rem;">
+                            <li><i class="bi bi-check2-circle text-primary me-2"></i>Desarrollo POO y Modelado UML</li>
+                            <li><i class="bi bi-check2-circle text-primary me-2"></i>Bases de Datos Relacionales (SQL) y
+                                NoSQL</li>
+                            <li><i class="bi bi-check2-circle text-primary me-2"></i>Sistemas Operativos y Redes</li>
+                        </ul>
                     </div>
+                    <a href="materias.html" class="portal-btn portal-btn-primary">
+                        <span>Ingresar a Materias</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="stat-icon success">
-                            <i class="bi bi-check2-circle"></i>
-                        </div>
-                        <div>
-                            <div class="stat-number" id="total-completed-stats">0 / 10</div>
-                            <div class="text-muted" style="font-size: 0.85rem;">Temas Completados</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="stat-icon primary"
-                            style="background-color: rgba(108,92,231,0.1); color: var(--primary);">
-                            <i class="bi bi-hourglass-split"></i>
-                        </div>
-                        <div>
-                            <div class="stat-number">45h</div>
-                            <div class="text-muted" style="font-size: 0.85rem;">Horas Académicas</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
 
-            <!-- Grid de Materias -->
-            <h4 class="mb-4 fw-bold">Tus Materias</h4>
-            <section class="subject-grid" id="subjects-container">
-                <!-- Redes -->
-                <div class="subject-card-wrapper" data-subject-title="redes de comunicaciones">
-                    <div class="subject-card">
-                        <div class="subject-header">
-                            <div class="subject-icon bg-primary">
-                                <i class="bi bi-wifi"></i>
-                            </div>
-                            <span class="subject-badge bg-primary-subtle text-primary">Redes</span>
+            <!-- Tarjeta Cursos -->
+            <div class="col-md-6 col-lg-5">
+                <div class="portal-card">
+                    <div>
+                        <div class="portal-icon courses">
+                            <i class="bi bi-award-fill"></i>
                         </div>
-                        <h5 class="subject-title">Redes de Comunicaciones</h5>
-                        <p class="subject-description">Fundamentos de redes, protocolos, arquitectura y comunicaciones
-                            digitales.</p>
-                        <div class="subject-progress-container">
-                            <div class="progress-label">
-                                <span>Progreso de estudio</span>
-                                <span id="progress-text-redes">0%</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill bg-primary" id="progress-bar-redes" style="width: 0%">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="subject-footer">
-                            <a href="clases/redcom/redes-comunicaciones.html" class="subject-link">
-                                <span>Acceder a materia</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
+                        <h3 class="fw-bold mb-3">Cursos & Talleres</h3>
+                        <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.6;">
+                            Amplía tus conocimientos técnicos con capacitaciones de vanguardia. Diseñado para preparar
+                            tu perfil ante demandas tecnológicas actuales con certificaciones modulares.
+                        </p>
+                        <ul class="list-unstyled d-flex flex-column gap-2 my-4 text-secondary"
+                            style="font-size: 0.9rem;">
+                            <li><i class="bi bi-check2-circle text-success me-2"></i>Talleres Prácticos de Frontend &
+                                Backend</li>
+                            <li><i class="bi bi-check2-circle text-success me-2"></i>Seguridad Informática y DevOps</li>
+                            <li><i class="bi bi-check2-circle text-success me-2"></i>Preparación para Certificaciones
+                                Externas</li>
+                        </ul>
                     </div>
+                    <a href="cursos.html" class="portal-btn portal-btn-secondary">
+                        <span>Explorar Cursos</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
-
-                <!-- Bases de Datos Relacionales -->
-                <div class="subject-card-wrapper" data-subject-title="bases de datos relacionales">
-                    <div class="subject-card">
-                        <div class="subject-header">
-                            <div class="subject-icon bg-warning text-dark">
-                                <i class="bi bi-database-fill"></i>
-                            </div>
-                            <span class="subject-badge bg-warning-subtle text-warning">BD Relacionales</span>
-                        </div>
-                        <h5 class="subject-title">Bases de Datos I (SQL)</h5>
-                        <p class="subject-description">Diseño conceptual, modelado de diagramas entidad-relación,
-                            lenguaje SQL estructurado, normalización y transacciones.</p>
-                        <div class="subject-progress-container">
-                            <div class="progress-label">
-                                <span>Progreso de estudio</span>
-                                <span id="progress-text-bdr">0%</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill bg-warning" id="progress-bar-bdr" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="subject-footer">
-                            <a href="clases/bdr/bases-datos-relacionales.html" class="subject-link">
-                                <span>Acceder a materia</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bases de Datos II -->
-                <div class="subject-card-wrapper" data-subject-title="bases de datos ii">
-                    <div class="subject-card">
-                        <div class="subject-header">
-                            <div class="subject-icon bg-success">
-                                <i class="bi bi-database"></i>
-                            </div>
-                            <span class="subject-badge bg-success-subtle text-success">Base de Datos</span>
-                        </div>
-                        <h5 class="subject-title">Bases de Datos II (noSQL)</h5>
-                        <p class="subject-description">MongoDB, Cassandra, consumo de API y bases de datos NoSQL
-                            avanzadas.</p>
-                        <div class="subject-progress-container">
-                            <div class="progress-label">
-                                <span>Progreso de estudio</span>
-                                <span id="progress-text-bd2">0%</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill bg-success" id="progress-bar-bd2" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="subject-footer">
-                            <a href="clases/bd2/bases-datos-ii.html" class="subject-link">
-                                <span>Acceder a materia</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sistemas Operativos -->
-                <div class="subject-card-wrapper" data-subject-title="sistemas operativos">
-                    <div class="subject-card">
-                        <div class="subject-header">
-                            <div class="subject-icon bg-info text-white">
-                                <i class="bi bi-cpu"></i>
-                            </div>
-                            <span class="subject-badge bg-info-subtle text-info">Sistemas</span>
-                        </div>
-                        <h5 class="subject-title">Sistemas Operativos</h5>
-                        <p class="subject-description">Sistemas Operativos clientes libres y propietarios, SO para
-                            servidores libres y propietarios.</p>
-                        <div class="subject-progress-container">
-                            <div class="progress-label">
-                                <span>Progreso de estudio</span>
-                                <span id="progress-text-so">0%</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill bg-info" id="progress-bar-so" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="subject-footer">
-                            <a href="#" class="subject-link">
-                                <span>Acceder a materia</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <!-- Análisis y Diseño de Sistemas (UML) -->
-                <div class="subject-card-wrapper" data-subject-title="analisis y diseño de sistemas (uml)">
-                    <div class="subject-card">
-                        <div class="subject-header">
-                            <div class="subject-icon bg-danger text-white">
-                                <i class="bi bi-diagram-3"></i>
-                            </div>
-                            <span class="subject-badge bg-danger-subtle text-danger">Diseño / UML</span>
-                        </div>
-                        <h5 class="subject-title">Análisis y Diseño de Sistemas (UML)</h5>
-                        <p class="subject-description">Modelado de software orientado a objetos, especificación de
-                            requisitos, diagramas estructurales y de comportamiento.</p>
-                        <div class="subject-progress-container">
-                            <div class="progress-label">
-                                <span>Progreso de estudio</span>
-                                <span id="progress-text-ads">0%</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill bg-danger" id="progress-bar-ads" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="subject-footer">
-                            <a href="clases/ads/ads.html" class="subject-link">
-                                <span>Acceder a materia</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Programación Orientada a Objetos -->
-                <div class="subject-card-wrapper" data-subject-title="programacion orientada a objetos">
-                    <div class="subject-card">
-                        <div class="subject-header">
-                            <div class="subject-icon text-white" style="background-color: #6c5ce7;">
-                                <i class="bi bi-code-slash"></i>
-                            </div>
-                            <span class="subject-badge"
-                                style="background-color: rgba(108,92,231,0.1); color: #6c5ce7;">Prog. Objetos</span>
-                        </div>
-                        <h5 class="subject-title">Programación Orientada a Objetos</h5>
-                        <p class="subject-description">Conceptos fundamentales de desarrollo de software: clases,
-                            herencia, polimorfismo, encapsulación y diseño de modularidad.</p>
-                        <div class="subject-progress-container">
-                            <div class="progress-label">
-                                <span>Progreso de estudio</span>
-                                <span id="progress-text-poo">0%</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill" id="progress-bar-poo"
-                                    style="width: 0%; background-color: #6c5ce7;"></div>
-                            </div>
-                        </div>
-                        <div class="subject-footer">
-                            <a href="clases/poo/programacion-orientada-objetos.html" class="subject-link">
-                                <span>Acceder a materia</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Próximamente -->
-                <div class="subject-card-wrapper" data-subject-title="proximamente">
-                    <div class="subject-card" style="opacity: 0.7;">
-                        <div class="subject-header">
-                            <div class="subject-icon bg-secondary">
-                                <i class="bi bi-plus-circle"></i>
-                            </div>
-                            <span class="subject-badge bg-secondary-subtle text-secondary">Próximamente</span>
-                        </div>
-                        <h5 class="subject-title">Nueva Materia</h5>
-                        <p class="subject-description">Nuevas asignaturas en planificación para complementar tu plan de
-                            estudios académico.</p>
-                        <div class="subject-progress-container">
-                            <div class="progress-label">
-                                <span>Progreso de estudio</span>
-                                <span>0%</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill bg-secondary" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="subject-footer">
-                            <span class="text-muted" style="font-size: 0.9rem;">No disponible</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </main>
+
+        <!-- Información sobre la Plataforma -->
+        <section class="my-5">
+            <h2 class="text-center fw-bold mb-5">Acerca de la Plataforma</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="text-primary mb-3 fs-3"><i class="bi bi-lightning-charge-fill"></i></div>
+                        <h5 class="fw-bold">Aprendizaje Activo</h5>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem; line-height: 1.5;">El material está
+                            diseñado pedagógicamente bajo un enfoque práctico. Aprende haciendo con guías de
+                            laboratorios y problemas reales.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="text-success mb-3 fs-3"><i class="bi bi-check-all"></i></div>
+                        <h5 class="fw-bold">Autogestión del Progreso</h5>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem; line-height: 1.5;">Registra tus clases
+                            completadas. El panel central calcula automáticamente tu avance para que sigas tu propio
+                            ritmo sin perder el rumbo.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="text-info mb-3 fs-3"><i class="bi bi-phone-fill"></i></div>
+                        <h5 class="fw-bold">Acceso Multiplataforma</h5>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem; line-height: 1.5;">La interfaz es 100%
+                            responsiva y optimizada para dispositivos móviles, tablets o computadoras de escritorio.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Instructor -->
+        <section class="profile-section text-center">
+            <div class="instructor-avatar">JG</div>
+            <h4 class="fw-bold mb-1">Mg. Josue Guinea</h4>
+            <p class="text-primary fw-medium mb-3">Docente Principal & Mentor Tecnológico</p>
+            <div class="mx-auto" style="max-width: 700px;">
+                <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.7;">
+                    "Esta plataforma ha sido desarrollada con la misión de democratizar y facilitar el acceso a recursos
+                    académicos de alta calidad en ciencias de la computación. Mi objetivo es guiarte en el dominio de
+                    las tecnologías clave de desarrollo de software, gestión de bases de datos y conectividad,
+                    empoderando tu perfil profesional para el futuro digital."
+                </p>
+            </div>
+        </section>
     </div>
 
     <!-- Footer -->
-    <footer class="text-center py-4"
+    <footer class="text-center py-4 mt-5"
         style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
         <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Todos los derechos
             reservados.</p>
@@ -313,7 +385,6 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="js/main.js"></script>
 </body>
 
