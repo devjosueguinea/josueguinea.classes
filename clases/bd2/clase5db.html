@@ -11,44 +11,177 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .table-custom th {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .table-custom td {
+            color: var(--text-secondary);
+        }
+
+        /* MongoDB Shell Simulator Styles */
+        .mongo-console {
+            background-color: #0c0d14;
+            color: #f8f8f2;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #2d3139;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin: 20px 0;
+        }
+
+        .mongo-console-header {
+            background-color: #1e1f29;
+            padding: 10px 16px;
+            border-bottom: 1px solid #2d3139;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mongo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .mongo-dot.red {
+            background-color: #ff5f56;
+        }
+
+        .mongo-dot.yellow {
+            background-color: #ffbd2e;
+        }
+
+        .mongo-dot.green {
+            background-color: #27c93f;
+        }
+
+        .mongo-console-body {
+            padding: 20px;
+            height: 380px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            background-color: #11121a;
+        }
+
+        .mongo-prompt {
+            color: #5af78e;
+            font-weight: bold;
+            margin-right: 8px;
+            user-select: none;
+        }
+
+        .mongo-output {
+            color: #93c5fd;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+
+        .mongo-btn-query {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .mongo-btn-query:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .mongo-btn-query {
+            background: rgba(108, 92, 231, 0.2);
+            color: #a29bfe;
+            border-color: #a29bfe;
+        }
+
+        [data-theme="dark"] .mongo-btn-query:hover {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .operator-badge {
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            color: white;
+            font-family: monospace;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .code-snippet {
+            background-color: #1e1f29;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            border-left: 3px solid #ff79c6;
+            overflow-x: auto;
+        }
+
+        .exercise-zone {
+            background-color: var(--card-bg);
+            border: 2px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="app-container">
-        <!-- Sidebar General -->
-        <aside class="sidebar">
-            <a href="../../index.html" class="sidebar-logo">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span>Portal Académico</span>
-            </a>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="../../materias.html" class="sidebar-link">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../redcom/redes-comunicaciones.html" class="sidebar-link">
-                        <i class="bi bi-wifi"></i>
-                        <span>Redes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="bases-datos-ii.html" class="sidebar-link active">
-                        <i class="bi bi-database"></i>
-                        <span>Bases de Datos II</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-cpu"></i>
-                        <span>Sistemas Op.</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
-
         <!-- Contenido principal -->
         <main class="main-content">
             <!-- Header superior -->
@@ -72,53 +205,488 @@
                 </div>
             </header>
 
-            <div class="class-content-wrapper">
+            <div class="class-content-wrapper mb-5">
                 <span class="badge-clase bg-primary text-white mb-3">Clase 5</span>
-                <h3 class="fw-bold mb-4">Consultas avanzadas y operadores lógicos</h3>
-                <div class="alert alert-info py-4" role="alert">
-                    <h5 class="alert-heading fw-bold mb-2"><i class="bi bi-info-circle-fill"></i> Clase en Construcción</h5>
-                    <p class="mb-0">El contenido detallado para esta clase se encuentra en planificación y estará disponible próximamente.</p>
+                <h3 class="fw-bold mb-4">Consultas Avanzadas y Operadores Lógicos</h3>
+
+                <!-- Introducción -->
+                <div class="class-step mb-4">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de Aprendizaje</h5>
+                    <p class="text-secondary mb-0">
+                        Al finalizar esta sesión, serás capaz de construir consultas no relacionales complejas
+                        combinando condiciones booleanas,
+                        inspeccionando la existencia y tipos de atributos, buscando patrones en cadenas de texto
+                        mediante expresiones regulares,
+                        y filtrando documentos basados en la composición de arreglos y subdocumentos complejos.
+                    </p>
                 </div>
+
+                <!-- Tabla Comparativa -->
+                <section class="mb-5">
+                    <h4 class="fw-bold mb-3"><i class="bi bi-arrow-left-right text-primary me-2"></i>Equivalencias: SQL
+                        vs MongoDB</h4>
+                    <p class="text-secondary">
+                        A diferencia de SQL donde los operadores se declaran en lenguaje natural (<code>AND</code>,
+                        <code>OR</code>, <code>LIKE</code>), en MongoDB
+                        las expresiones lógicas y de comparación avanzada se declaran utilizando operadores prefijados
+                        por el signo de dólar (<code>$</code>) como llaves de objetos JSON.
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-custom align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Operación</th>
+                                    <th>Sintaxis SQL</th>
+                                    <th>Operador MongoDB</th>
+                                    <th>Ejemplo en MongoDB</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Y Lógico</strong></td>
+                                    <td><code>Cond1 AND Cond2</code></td>
+                                    <td><span class="operator-badge">$and</span></td>
+                                    <td><code>{ $and: [ { precio: { $gt: 10 } }, { stock: { $gt: 0 } } ] }</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>O Lógico</strong></td>
+                                    <td><code>Cond1 OR Cond2</code></td>
+                                    <td><span class="operator-badge">$or</span></td>
+                                    <td><code>{ $or: [ { categoria: "Tecnología" }, { precio: { $lt: 50 } } ] }</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Negación Lógica</strong></td>
+                                    <td><code>NOT (Condición)</code></td>
+                                    <td><span class="operator-badge">$not</span></td>
+                                    <td><code>{ precio: { $not: { $gt: 100 } } }</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pertenencia a Lista</strong></td>
+                                    <td><code>columna IN (val1, val2)</code></td>
+                                    <td><span class="operator-badge">$in</span></td>
+                                    <td><code>{ categoria: { $in: ["Muebles", "Hogar"] } }</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>No Pertenencia a Lista</strong></td>
+                                    <td><code>columna NOT IN (val1, val2)</code></td>
+                                    <td><span class="operator-badge">$nin</span></td>
+                                    <td><code>{ categoria: { $nin: ["Alimentos", "Salud"] } }</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Búsqueda por Patrón</strong></td>
+                                    <td><code>columna LIKE '%texto%'</code></td>
+                                    <td><span class="operator-badge">$regex</span></td>
+                                    <td><code>{ nombre: { $regex: "teclado", $options: "i" } }</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Existencia de Atributo</strong></td>
+                                    <td><code>columna IS NOT NULL</code></td>
+                                    <td><span class="operator-badge">$exists</span></td>
+                                    <td><code>{ descuento: { $exists: true } }</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- Explicación Teórica Detallada -->
+                <section class="mb-5">
+                    <h4 class="fw-bold mb-4"><i class="bi bi-bookmark-star-fill text-primary me-2"></i>1. Operadores de
+                        Filtros Avanzados</h4>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="interactive-box h-100">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-braces-asterisk me-2"></i>Operadores
+                                    Lógicos</h5>
+                                <p class="text-secondary small">
+                                    Permiten formular composiciones lógicas complejas sobre los documentos:
+                                </p>
+                                <ul>
+                                    <li class="small text-secondary mb-2"><strong><code>$or</code>:</strong> Selecciona
+                                        documentos que cumplan al menos una de las condiciones especificadas en un
+                                        arreglo.</li>
+                                    <li class="small text-secondary mb-2"><strong><code>$and</code>:</strong> Une
+                                        cláusulas de consulta con un AND lógico. Nota: Por defecto, MongoDB realiza un
+                                        <code>$and</code> implícito cuando separas campos por comas. El operador
+                                        explícito se usa cuando se requiere consultar el mismo operador o campo
+                                        múltiples veces.</li>
+                                    <li class="small text-secondary mb-2"><strong><code>$nor</code>:</strong> Devuelve
+                                        los documentos que fallan en cumplir <strong>todas</strong> las condiciones
+                                        dadas.</li>
+                                    <li class="small text-secondary"><strong><code>$not</code>:</strong> Invierte el
+                                        resultado de una expresión evaluadora de comparación.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="interactive-box h-100">
+                                <h5 class="fw-bold text-primary"><i class="bi bi-tags me-2"></i>Operadores de Arreglos
+                                </h5>
+                                <p class="text-secondary small">
+                                    MongoDB permite que los campos contengan arreglos nativos. Para consultarlos de
+                                    manera efectiva contamos con:
+                                </p>
+                                <ul>
+                                    <li class="small text-secondary mb-2"><strong><code>$all</code>:</strong> El campo
+                                        del arreglo debe contener todos los elementos especificados en la consulta,
+                                        independientemente del orden.</li>
+                                    <li class="small text-secondary mb-2"><strong><code>$size</code>:</strong> Filtra
+                                        documentos si el arreglo del campo tiene exactamente el tamaño especificado.
+                                    </li>
+                                    <li class="small text-secondary"><strong><code>$elemMatch</code>:</strong> Crucial
+                                        para consultar arreglos de subdocumentos. Asegura que al menos un objeto del
+                                        arreglo cumpla con <strong>todas</strong> las condiciones especificadas,
+                                        evitando evaluaciones cruzadas entre distintos elementos.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- Simulador Interactivo -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <h4 class="fw-bold mb-1"><i class="bi bi-terminal-fill text-primary me-2"></i>2. Simulador
+                                Interactivo de Consultas Avanzadas</h4>
+                            <p class="text-secondary mb-0">Explora en tiempo real cómo actúan los filtros avanzados en
+                                un dataset JSON real de e-commerce.</p>
+                        </div>
+                        <span class="badge bg-success py-2 px-3"><i class="bi bi-cpu-fill me-1"></i> Motor MongoDB
+                            Simulado</span>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Menú de consultas rápidas -->
+                        <div class="col-lg-4">
+                            <h6 class="fw-bold text-secondary mb-3">Selecciona una consulta predefinida:</h6>
+                            <button class="mongo-btn-query" onclick="runSimQuery('or')">
+                                <i class="bi bi-play-circle-fill me-2"></i>$or (Precio > 1000 OR Stock < 5) </button>
+                                    <button class="mongo-btn-query" onclick="runSimQuery('in')">
+                                        <i class="bi bi-play-circle-fill me-2"></i>$in (Categoría Tecnología o Muebles)
+                                    </button>
+                                    <button class="mongo-btn-query" onclick="runSimQuery('exists')">
+                                        <i class="bi bi-play-circle-fill me-2"></i>$exists (Tiene descuento activo)
+                                    </button>
+                                    <button class="mongo-btn-query" onclick="runSimQuery('regex')">
+                                        <i class="bi bi-play-circle-fill me-2"></i>$regex (Nombres que contienen 'Asus'
+                                        o 'Logi')
+                                    </button>
+                                    <button class="mongo-btn-query" onclick="runSimQuery('all')">
+                                        <i class="bi bi-play-circle-fill me-2"></i>$all (Etiquetas 'gaming' y
+                                        'accesorios')
+                                    </button>
+                                    <button class="mongo-btn-query" onclick="runSimQuery('elemmatch')">
+                                        <i class="bi bi-play-circle-fill me-2"></i>$elemMatch (Reseña de 'Juan' con
+                                        Calificación &ge; 5)
+                                    </button>
+                                    <button class="mongo-btn-query" onclick="runSimQuery('size')">
+                                        <i class="bi bi-play-circle-fill me-2"></i>$size (Arreglo 'tags' con exactamente
+                                        3 ítems)
+                                    </button>
+                                    <button
+                                        class="mongo-btn-query btn-dark bg-secondary text-white border-secondary mt-2"
+                                        onclick="runSimQuery('dataset')">
+                                        <i class="bi bi-database-fill me-2"></i>Ver todo el Dataset Completo
+                                    </button>
+                        </div>
+
+                        <!-- Panel de Consola -->
+                        <div class="col-lg-8">
+                            <!-- Editor de consulta personalizado -->
+                            <div class="mb-3 p-3 border rounded bg-light" data-theme="light">
+                                <label for="custom-query-input" class="form-label fw-bold text-primary small">
+                                    <i class="bi bi-pencil-square me-1"></i> Edita o escribe tu propio objeto de
+                                    consulta find():
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text font-monospace bg-dark text-white border-0"
+                                        style="font-size: 0.85rem;">db.productos.find(</span>
+                                    <input type="text" class="form-control font-monospace" id="custom-query-input"
+                                        value="{ &quot;categoria&quot;: &quot;Tecnología&quot;, &quot;precio&quot;: { &quot;$gt&quot;: 100 } }"
+                                        style="font-size: 0.85rem; background-color: var(--card-bg); color: var(--text-primary);">
+                                    <span class="input-group-text font-monospace bg-dark text-white border-0"
+                                        style="font-size: 0.85rem;">)</span>
+                                    <button class="btn btn-primary" type="button" id="btn-run-custom">Ejecutar</button>
+                                </div>
+                                <div id="custom-query-feedback" class="text-danger small mt-1 font-monospace"
+                                    style="display: none;"></div>
+                            </div>
+
+                            <div class="mongo-console">
+                                <div class="mongo-console-header">
+                                    <div>
+                                        <span class="mongo-dot red"></span>
+                                        <span class="mongo-dot yellow"></span>
+                                        <span class="mongo-dot green"></span>
+                                        <span class="text-white-50 small ms-2">mongodb-shell-simulator</span>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-light py-0 px-2" style="font-size: 0.75rem;"
+                                        onclick="clearConsole()">Limpiar</button>
+                                </div>
+                                <div class="mongo-console-body" id="console-body">
+                                    <div class="d-flex align-items-center">
+                                        <span class="mongo-prompt">enterprise></span>
+                                        <span id="console-input-text" class="text-white">db.productos.find({})</span>
+                                    </div>
+                                    <div class="mongo-output" id="console-output-text">...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- Laboratorio / Reto de código -->
+                <section class="mb-5">
+                    <div class="exercise-zone">
+                        <h4 class="fw-bold mb-2 text-primary"><i class="bi bi-award-fill me-2"></i>3. Reto de Consulta
+                            Avanzada</h4>
+                        <p class="text-secondary small mb-4">
+                            <strong>Instrucciones:</strong> Escribe o configura una consulta en el input del simulador
+                            que filtre los productos que correspondan a la categoría <code>"Tecnología"</code>,
+                            que contengan la etiqueta (tag) <code>"gaming"</code> y que tengan un precio superior a
+                            <code>100</code> dólares. ¡Ejecútala y compruébalo aquí abajo!
+                        </p>
+
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <button class="btn btn-outline-primary" id="btn-load-hint"
+                                onclick="loadChallengeTemplate()">
+                                <i class="bi bi-lightbulb-fill me-1"></i>Cargar Plantilla en Editor
+                            </button>
+                            <button class="btn btn-success" id="btn-verify-challenge">
+                                <i class="bi bi-patch-check-fill me-1"></i>Verificar Desafío
+                            </button>
+                            <span id="challenge-feedback" class="fw-bold ms-2"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- Cuestionario de Autoevaluación -->
+                <section class="mb-5">
+                    <h4 class="fw-bold mb-4"><i class="bi bi-patch-question-fill text-primary me-2"></i>4. Comprobación
+                        de Conocimientos</h4>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">1. ¿Qué operador debes elegir para buscar subdocumentos dentro de un
+                            arreglo de forma que un único subdocumento cumpla todas las condiciones del filtro?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1a" value="a">
+                            <label class="form-check-label" for="p1a">a) <code>$all</code></label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1b" value="b">
+                            <label class="form-check-label" for="p1b">b) <code>$elemMatch</code></label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p1" id="p1c" value="c">
+                            <label class="form-check-label" for="p1c">c) Un <code>$and</code> con múltiples filtros
+                                cruzados directos</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">2. Si deseas obtener los documentos donde el atributo "descuento" NO
+                            esté presente en absoluto, ¿cuál es la consulta correcta?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2a" value="a">
+                            <label class="form-check-label" for="p2a">a)
+                                <code>{ descuento: { $exists: false } }</code></label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2b" value="b">
+                            <label class="form-check-label" for="p2b">b)
+                                <code>{ descuento: { $in: [null, undefined] } }</code></label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p2" id="p2c" value="c">
+                            <label class="form-check-label" for="p2c">c) <code>{ descuento: null }</code></label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">3. ¿Qué operador usarías para buscar elementos cuya categoría sea
+                            "Tecnología" u "Oficina" utilizando un único operador de comparación de pertenencia?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3a" value="a">
+                            <label class="form-check-label" for="p3a">a) <code>$or</code></label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3b" value="b">
+                            <label class="form-check-label" for="p3b">b) <code>$in</code></label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="p3" id="p3c" value="c">
+                            <label class="form-check-label" for="p3c">c) <code>$all</code></label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-primary" id="btn-evaluar">Evaluar Respuestas</button>
+                        <span id="quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- Ejercicios Propuestos -->
+                <section class="mb-5">
+                    <h4 class="fw-bold mb-4"><i class="bi bi-pencil-square text-primary me-2"></i>5. Ejercicios Propuestos</h4>
+                    <p class="text-secondary mb-4">
+                        A continuación, se presentan tres retos adicionales diseñados para consolidar tus conocimientos de consultas estructuradas en MongoDB.
+                        Intenta resolverlos mentalmente o escríbelos en el simulador superior antes de revelar la respuesta propuesta.
+                    </p>
+
+                    <div class="row g-4">
+                        <!-- Ejercicio 1 -->
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm" style="background-color: var(--card-bg); border: 1px solid var(--border-color) !important; border-radius: 16px;">
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <span class="badge bg-primary">Nivel: Medio</span>
+                                        <i class="bi bi-journal-code text-primary fs-4"></i>
+                                    </div>
+                                    <h5 class="fw-bold card-title mb-2">Ejercicio 1: Liquidación y Stock</h5>
+                                    <p class="text-secondary small card-text mb-4">
+                                        Construye una consulta que devuelva los productos que tienen un descuento superior o igual al 10% Y que tengan stock disponible (mayor a 0).
+                                    </p>
+                                    <button class="btn btn-outline-primary mt-auto w-100" onclick="showExerciseAnswer(1)">
+                                        <i class="bi bi-eye-fill me-1"></i>Ver Respuesta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ejercicio 2 -->
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm" style="background-color: var(--card-bg); border: 1px solid var(--border-color) !important; border-radius: 16px;">
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <span class="badge bg-warning text-dark">Nivel: Avanzado</span>
+                                        <i class="bi bi-tag-fill text-warning fs-4"></i>
+                                    </div>
+                                    <h5 class="fw-bold card-title mb-2">Ejercicio 2: Exclusiones de Tags</h5>
+                                    <p class="text-secondary small card-text mb-4">
+                                        Filtra todos los productos pertenecientes a la categoría "Tecnología" que incluyan la etiqueta "accesorios" pero que NO contengan la etiqueta "gaming".
+                                    </p>
+                                    <button class="btn btn-outline-primary mt-auto w-100" onclick="showExerciseAnswer(2)">
+                                        <i class="bi bi-eye-fill me-1"></i>Ver Respuesta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ejercicio 3 -->
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm" style="background-color: var(--card-bg); border: 1px solid var(--border-color) !important; border-radius: 16px;">
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <span class="badge bg-danger">Nivel: Experto</span>
+                                        <i class="bi bi-stars text-danger fs-4"></i>
+                                    </div>
+                                    <h5 class="fw-bold card-title mb-2">Ejercicio 3: Valoración Específica</h5>
+                                    <p class="text-secondary small card-text mb-4">
+                                        Encuentra productos que contengan al menos una reseña (review) redactada por la usuaria "Maria" con una calificación (rating) de 5 estrellas.
+                                    </p>
+                                    <button class="btn btn-outline-primary mt-auto w-100" onclick="showExerciseAnswer(3)">
+                                        <i class="bi bi-eye-fill me-1"></i>Ver Respuesta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
+    </div>
+
+    <!-- Modal para respuestas de Ejercicios -->
+    <div class="modal fade" id="exerciseAnswerModal" tabindex="-1" aria-labelledby="exerciseAnswerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="background-color: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 16px;">
+                <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
+                    <h5 class="modal-title fw-bold" id="exerciseAnswerModalLabel">
+                        <i class="bi bi-lightbulb-fill text-warning me-2"></i>Respuesta Propuesta
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: var(--theme-icon-filter);"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-braces me-1"></i>Consulta MongoDB (.find):</h6>
+                    <pre class="code-snippet mb-4"><code id="modal-mongo-query"></code></pre>
+
+                    <h6 class="fw-bold text-secondary mb-2"><i class="bi bi-arrow-left-right me-1"></i>Equivalente SQL:</h6>
+                    <pre class="bg-dark text-white-50 p-3 rounded font-monospace mb-4" style="font-size: 0.85rem;"><code id="modal-sql-query"></code></pre>
+
+                    <h6 class="fw-bold text-info mb-2"><i class="bi bi-info-circle me-1"></i>Explicación Técnica:</h6>
+                    <p class="text-secondary small mb-0" id="modal-explanation"></p>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid var(--border-color);">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary px-4" id="btn-load-in-sim" data-bs-dismiss="modal">Cargar en Simulador</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Menú Flotante de Clases -->
     <div class="class-floating-sidebar" id="class-floating-sidebar">
         <div class="sidebar-floating-header">
-            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
-            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+            <h6 class="text-muted fw-bold mb-0"
+                style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close"
+                style="font-size: 0.8rem;"></button>
         </div>
         <div class="class-floating-sidebar-content">
             <ul class="class-list">
                 <li>
                     <a href="clase1db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a NoSQL</span>
+                        <span class="class-item-text" title="Clase 1: Introducción a NoSQL">Clase 1: Introducción a
+                            NoSQL</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase2db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de DBs y Colecciones</span>
+                        <span class="class-item-text"
+                            title="Clase 2: Creación de bases de datos y colecciones en MongoDB">Clase 2: Creación de
+                            DBs y Colecciones</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase3db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de lectura</span>
+                        <span class="class-item-text"
+                            title="Clase 3: Operaciones de lectura con MongoDB (find y filtros)">Clase 3: Operaciones de
+                            lectura</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase4db.html" class="class-item text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD Completo</span>
+                        <span class="class-item-text"
+                            title="Clase 4: Operaciones de escritura, actualización y eliminación">Clase 4: CRUD
+                            Completo</span>
                     </a>
                 </li>
                 <li>
                     <a href="clase5db.html" class="class-item active text-decoration-none">
                         <i class="bi bi-journal-text"></i>
-                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5: Consultas avanzadas</span>
+                        <span class="class-item-text" title="Clase 5: Consultas avanzadas y operadores lógicos">Clase 5:
+                            Consultas avanzadas</span>
                     </a>
                 </li>
             </ul>
@@ -139,7 +707,417 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script>
     <script src="../../js/main.js"></script>
+    <script>
+        // Dataset de e-commerce ficticio detallado
+        const mockProducts = [
+            {
+                _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d01')",
+                sku: "TECH-001",
+                nombre: "Laptop Gamer Asus ROG Strix",
+                categoria: "Tecnología",
+                precio: 1450.00,
+                stock: 12,
+                descuento: 15,
+                tags: ["gaming", "laptop", "asus", "accesorios"],
+                reviews: [
+                    { usuario: "Juan", rating: 5, comentario: "Excelente rendimiento y pantalla" },
+                    { usuario: "Maria", rating: 4, comentario: "Algo pesada pero vuela" }
+                ]
+            },
+            {
+                _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d02')",
+                sku: "TECH-002",
+                nombre: "Mouse Inalámbrico Logitech MX Master 3S",
+                categoria: "Tecnología",
+                precio: 99.99,
+                stock: 45,
+                tags: ["accesorios", "mouse", "ergonomico"],
+                reviews: [
+                    { usuario: "Pedro", rating: 5, comentario: "El mejor mouse de productividad" }
+                ]
+            },
+            {
+                _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d03')",
+                sku: "OFF-001",
+                nombre: "Escritorio Elevable Eléctrico",
+                categoria: "Muebles",
+                precio: 349.00,
+                stock: 3,
+                descuento: 10,
+                tags: ["oficina", "muebles", "ergonomico"],
+                reviews: [
+                    { usuario: "Juan", rating: 4.5, comentario: "Muy estable, buena calidad" }
+                ]
+            },
+            {
+                _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d04')",
+                sku: "OFF-002",
+                nombre: "Silla de Oficina Ergonómica Herman Miller",
+                categoria: "Muebles",
+                precio: 1200.00,
+                stock: 0,
+                tags: ["oficina", "muebles", "premium"],
+                reviews: []
+            },
+            {
+                _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d05')",
+                sku: "TECH-003",
+                nombre: "Teclado Mecánico Keychron Q1 Gaming",
+                categoria: "Tecnología",
+                precio: 185.00,
+                stock: 20,
+                tags: ["gaming", "accesorios", "teclado"],
+                reviews: [
+                    { usuario: "Sofia", rating: 4.8, comentario: "Sonido increíble de los switches" },
+                    { usuario: "Carlos", rating: 3.5, comentario: "Bueno, pero muy costoso" }
+                ]
+            },
+            {
+                _id: "ObjectId('640a1b2c3d4e5f6a7b8c9d06')",
+                sku: "TECH-004",
+                nombre: "Auriculares Inalámbricos Sony WH-1000XM5",
+                categoria: "Tecnología",
+                precio: 399.00,
+                stock: 15,
+                descuento: 5,
+                tags: ["accesorios", "audio", "sony"],
+                reviews: [
+                    { usuario: "Maria", rating: 5, comentario: "Cancelación de ruido espectacular" }
+                ]
+            }
+        ];
+
+        // Lógica del simulador
+        function runSimQuery(type) {
+            const inputElement = document.getElementById('console-input-text');
+            const outputElement = document.getElementById('console-output-text');
+            const customQueryInput = document.getElementById('custom-query-input');
+
+            let queryStr = "";
+            let resultData = [];
+
+            switch (type) {
+                case 'dataset':
+                    queryStr = "db.productos.find({})";
+                    resultData = mockProducts;
+                    break;
+                case 'or':
+                    queryStr = "db.productos.find({ $or: [ { precio: { $gt: 1000 } }, { stock: { $lt: 5 } } ] })";
+                    resultData = mockProducts.filter(p => p.precio > 1000 || p.stock < 5);
+                    break;
+                case 'in':
+                    queryStr = "db.productos.find({ categoria: { $in: ['Tecnología', 'Muebles'] } })";
+                    resultData = mockProducts.filter(p => p.categoria === 'Tecnología' || p.categoria === 'Muebles');
+                    break;
+                case 'exists':
+                    queryStr = "db.productos.find({ descuento: { $exists: true } })";
+                    resultData = mockProducts.filter(p => p.descuento !== undefined);
+                    break;
+                case 'regex':
+                    queryStr = "db.productos.find({ nombre: { $regex: 'Asus|Logi', $options: 'i' } })";
+                    const regex = new RegExp("Asus|Logi", "i");
+                    resultData = mockProducts.filter(p => regex.test(p.nombre));
+                    break;
+                case 'all':
+                    queryStr = "db.productos.find({ tags: { $all: ['gaming', 'accesorios'] } })";
+                    resultData = mockProducts.filter(p => p.tags.includes('gaming') && p.tags.includes('accesorios'));
+                    break;
+                case 'elemmatch':
+                    queryStr = "db.productos.find({ reviews: { $elemMatch: { usuario: 'Juan', rating: { $gte: 5 } } } })";
+                    resultData = mockProducts.filter(p => p.reviews && p.reviews.some(r => r.usuario === 'Juan' && r.rating >= 5));
+                    break;
+                case 'size':
+                    queryStr = "db.productos.find({ tags: { $size: 3 } })";
+                    resultData = mockProducts.filter(p => p.tags && p.tags.length === 3);
+                    break;
+                default:
+                    queryStr = "db.productos.find({})";
+                    resultData = mockProducts;
+            }
+
+            inputElement.textContent = queryStr;
+            outputElement.textContent = JSON.stringify(resultData, null, 4);
+
+            // Sincronizar el editor personalizado con la query elegida
+            let cleanQuery = queryStr.replace("db.productos.find(", "");
+            if (cleanQuery.endsWith(")")) {
+                cleanQuery = cleanQuery.substring(0, cleanQuery.length - 1);
+            }
+            customQueryInput.value = cleanQuery;
+        }
+
+        // Limpiar consola
+        function clearConsole() {
+            document.getElementById('console-output-text').textContent = "";
+            document.getElementById('console-input-text').textContent = "";
+        }
+
+        // Cargar plantilla en editor para el Desafío
+        function loadChallengeTemplate() {
+            const editor = document.getElementById('custom-query-input');
+            editor.value = `{ "categoria": "Tecnología", "tags": "gaming", "precio": { "$gt": 100 } }`;
+            document.getElementById('challenge-feedback').textContent = "";
+        }
+
+        // Validador de consultas personalizadas (Motor de consulta MongoDB extremadamente simplificado en JS)
+        function evaluateQueryObject(queryObj, product) {
+            for (let key in queryObj) {
+                let rule = queryObj[key];
+
+                // Si la regla lógica es un arreglo de condiciones ($or, $and, $nor)
+                if (key === '$or') {
+                    if (!Array.isArray(rule) || !rule.some(subQuery => evaluateQueryObject(subQuery, product))) {
+                        return false;
+                    }
+                    continue;
+                }
+                if (key === '$and') {
+                    if (!Array.isArray(rule) || !rule.every(subQuery => evaluateQueryObject(subQuery, product))) {
+                        return false;
+                    }
+                    continue;
+                }
+                if (key === '$nor') {
+                    if (!Array.isArray(rule) || rule.some(subQuery => evaluateQueryObject(subQuery, product))) {
+                        return false;
+                    }
+                    continue;
+                }
+
+                // Evaluar campos ordinarios
+                let productVal = product[key];
+
+                if (typeof rule === 'object' && rule !== null && !Array.isArray(rule)) {
+                    // Contiene operadores de MongoDB
+                    for (let op in rule) {
+                        let targetVal = rule[op];
+                        if (op === '$gt' && !(productVal > targetVal)) return false;
+                        if (op === '$gte' && !(productVal >= targetVal)) return false;
+                        if (op === '$lt' && !(productVal < targetVal)) return false;
+                        if (op === '$lte' && !(productVal <= targetVal)) return false;
+                        if (op === '$ne' && productVal === targetVal) return false;
+                        if (op === '$exists') {
+                            let exists = productVal !== undefined;
+                            if (exists !== targetVal) return false;
+                        }
+                        if (op === '$in') {
+                            if (!Array.isArray(targetVal)) return false;
+                            if (Array.isArray(productVal)) {
+                                if (!productVal.some(v => targetVal.includes(v))) return false;
+                            } else {
+                                if (!targetVal.includes(productVal)) return false;
+                            }
+                        }
+                        if (op === '$nin') {
+                            if (!Array.isArray(targetVal)) return false;
+                            if (Array.isArray(productVal)) {
+                                if (productVal.some(v => targetVal.includes(v))) return false;
+                            } else {
+                                if (targetVal.includes(productVal)) return false;
+                            }
+                        }
+                        if (op === '$regex') {
+                            let flags = rule['$options'] || '';
+                            let r = new RegExp(targetVal, flags);
+                            if (Array.isArray(productVal)) {
+                                if (!productVal.some(v => r.test(v))) return false;
+                            } else {
+                                if (!r.test(String(productVal || ''))) return false;
+                            }
+                        }
+                        if (op === '$all') {
+                            if (!Array.isArray(targetVal) || !Array.isArray(productVal)) return false;
+                            if (!targetVal.every(v => productVal.includes(v))) return false;
+                        }
+                        if (op === '$size') {
+                            if (!Array.isArray(productVal) || productVal.length !== targetVal) return false;
+                        }
+                        if (op === '$elemMatch') {
+                            if (!Array.isArray(productVal)) return false;
+                            let matched = productVal.some(subItem => evaluateQueryObject(targetVal, subItem));
+                            if (!matched) return false;
+                        }
+                    }
+                } else {
+                    // Comparación de valor directo o búsqueda en arreglo
+                    if (Array.isArray(productVal)) {
+                        if (!productVal.includes(rule)) return false;
+                    } else if (productVal !== rule) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // Ejecutar consulta personalizada
+        document.getElementById('btn-run-custom').addEventListener('click', function () {
+            const rawInput = document.getElementById('custom-query-input').value.trim();
+            const feedback = document.getElementById('custom-query-feedback');
+            const outputElement = document.getElementById('console-output-text');
+            const inputElement = document.getElementById('console-input-text');
+
+            feedback.style.display = 'none';
+
+            try {
+                // Parsear el string como un objeto JSON
+                let jsonFormatted = rawInput
+                    .replace(/'/g, '"') // Reemplazar comillas simples
+                    .replace(/([\{\,\s])(\$?[\w]+)\s*\:/g, '$1"$2":'); // Poner comillas a llaves no cotizadas
+
+                const queryObj = JSON.parse(jsonFormatted);
+
+                inputElement.textContent = `db.productos.find(${JSON.stringify(queryObj)})`;
+
+                // Ejecutar filtro sobre mockProducts
+                const results = mockProducts.filter(p => evaluateQueryObject(queryObj, p));
+                outputElement.textContent = JSON.stringify(results, null, 4);
+
+            } catch (err) {
+                feedback.textContent = `Error de sintaxis JSON: ${err.message}. Asegúrate de usar llaves correctas y comillas dobles en las claves.`;
+                feedback.style.display = 'block';
+            }
+        });
+
+        // Verificar el Reto del Desafío
+        document.getElementById('btn-verify-challenge').addEventListener('click', function () {
+            const rawInput = document.getElementById('custom-query-input').value.trim();
+            const feedbackSpan = document.getElementById('challenge-feedback');
+
+            try {
+                let jsonFormatted = rawInput
+                    .replace(/'/g, '"')
+                    .replace(/([\{\,\s])(\$?[\w]+)\s*\:/g, '$1"$2":');
+
+                const queryObj = JSON.parse(jsonFormatted);
+
+                // Evaluamos todos los productos con la query del usuario
+                const userFiltered = mockProducts.filter(p => evaluateQueryObject(queryObj, p));
+
+                // El resultado correcto del reto debe contener exactamente TECH-001 (Laptop ROG) y TECH-003 (Teclado Keychron)
+                const expectedSKUs = ["TECH-001", "TECH-003"];
+                const userSKUs = userFiltered.map(p => p.sku);
+
+                const isCorrect = expectedSKUs.length === userSKUs.length &&
+                    expectedSKUs.every(sku => userSKUs.includes(sku));
+
+                if (isCorrect) {
+                    feedbackSpan.className = "text-success ms-2";
+                    feedbackSpan.innerHTML = `<i class="bi bi-check-circle-fill"></i> ¡Excelente! Has resuelto el desafío con éxito. Tu consulta filtró correctamente los productos requeridos.`;
+                } else {
+                    feedbackSpan.className = "text-danger ms-2";
+                    feedbackSpan.innerHTML = `<i class="bi bi-exclamation-triangle-fill"></i> La consulta no filtró los elementos esperados. Revisa el filtro de precio (> 100), categoría ("Tecnología") y etiquetas ("gaming").`;
+                }
+            } catch (err) {
+                feedbackSpan.className = "text-danger ms-2";
+                feedbackSpan.innerHTML = `<i class="bi bi-x-circle-fill"></i> Error al verificar: Asegúrate de que la consulta compile en el editor superior.`;
+            }
+        });
+
+        // Lógica de evaluación del cuestionario
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = {
+                p1: 'b',
+                p2: 'a',
+                p3: 'b'
+            };
+
+            let score = 0;
+            let total = 3;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checkedOption = document.querySelector(`input[name="p${i}"]:checked`);
+                if (!checkedOption) {
+                    unanswered = true;
+                    break;
+                }
+                if (checkedOption.value === correctAnswers[`p${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const scoreElement = document.getElementById('quiz-result-score');
+            scoreElement.style.display = 'inline-block';
+            scoreElement.textContent = `Tu puntuación es: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                scoreElement.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 2) {
+                scoreElement.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                scoreElement.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+
+        // Respuestas y explicaciones de los Ejercicios Propuestos
+        const exerciseData = {
+            1: {
+                mongo: 'db.productos.find({\n    descuento: { $gte: 10 },\n    stock: { $gt: 0 }\n})',
+                sql: 'SELECT * FROM productos \nWHERE descuento >= 10 \n  AND stock > 0;',
+                explanation: 'Utilizamos una consulta implícita con <code>$and</code>. El campo <code>descuento</code> evalúa que el valor sea mayor o igual (<code>$gte</code>) a 10, mientras que el campo <code>stock</code> evalúa que el valor sea estrictamente mayor que (<code>$gt</code>) 0.'
+            },
+            2: {
+                mongo: 'db.productos.find({\n    categoria: "Tecnología",\n    tags: {\n        $all: ["accesorios"],\n        $nin: ["gaming"]\n    }\n})',
+                sql: 'SELECT * FROM productos \nWHERE categoria = \'Tecnología\' \n  AND id IN (SELECT producto_id FROM tags WHERE tag = \'accesorios\')\n  AND id NOT IN (SELECT producto_id FROM tags WHERE tag = \'gaming\');',
+                explanation: 'Filtramos por la categoría exacta. Para las etiquetas, combinamos <code>$all</code> para asegurar que contenga "accesorios", y <code>$nin</code> (Not In) para excluir cualquier documento que contenga la etiqueta "gaming" en su arreglo.'
+            },
+            3: {
+                mongo: 'db.productos.find({\n    reviews: {\n        $elemMatch: {\n            usuario: "Maria",\n            rating: 5\n        }\n    }\n})',
+                sql: 'SELECT p.* FROM productos p\nJOIN reviews r ON p.id = r.producto_id\nWHERE r.usuario = \'Maria\' \n  AND r.rating = 5;',
+                explanation: 'El operador <code>$elemMatch</code> es obligatorio aquí. Garantiza que <strong>el mismo subdocumento</strong> de reseña dentro del arreglo cumpla con ambas condiciones (usuario "Maria" AND rating igual a 5). Si usáramos una ruta directa como <code>"reviews.usuario": "Maria", "reviews.rating": 5</code>, MongoDB podría emparejar una reseña escrita por Maria con el rating de 5 de otra persona distinta.'
+            }
+        };
+
+        let lastActiveExerciseQuery = '';
+
+        function showExerciseAnswer(id) {
+            const data = exerciseData[id];
+            if (!data) return;
+
+            document.getElementById('modal-mongo-query').textContent = data.mongo;
+            document.getElementById('modal-sql-query').textContent = data.sql;
+            document.getElementById('modal-explanation').innerHTML = data.explanation;
+
+            lastActiveExerciseQuery = data.mongo;
+
+            const modalEl = document.getElementById('exerciseAnswerModal');
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modalInstance.show();
+        }
+
+        // Cargar respuesta del modal directamente en el editor del simulador
+        document.getElementById('btn-load-in-sim').addEventListener('click', function() {
+            if (lastActiveExerciseQuery) {
+                const editor = document.getElementById('custom-query-input');
+                // Extraer el objeto JSON de dentro del db.productos.find(...)
+                let cleanQuery = lastActiveExerciseQuery
+                    .replace('db.productos.find(', '')
+                    .replace(/\s+/g, ' ');
+                
+                if (cleanQuery.endsWith(')')) {
+                    cleanQuery = cleanQuery.substring(0, cleanQuery.length - 1);
+                }
+                editor.value = cleanQuery.trim();
+                
+                // Ejecutar inmediatamente
+                document.getElementById('btn-run-custom').click();
+                
+                // Scroll suave hacia el simulador
+                document.querySelector('.mongo-console').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Inicializar Simulador
+        runSimQuery('dataset');
+    </script>
 </body>
 
 </html>
