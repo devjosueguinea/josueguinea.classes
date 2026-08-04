@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 5: Retroalimentación y Cableado Estructurado - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Tarjetas de secciones ── */
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        /* ── Recall cards (retroalimentación) ── */
+        .recall-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .recall-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .recall-card-header {
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recall-card-body {
+            padding: 16px 20px;
+        }
+
+        /* ── Cableado visual ── */
+        .cable-diagram {
+            background-color: #0c0d14;
+            border-radius: 12px;
+            padding: 24px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #f8f8f2;
+            border: 1px solid #2d3139;
+            overflow-x: auto;
+        }
+
+        .pin-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .pin-num {
+            color: #a29bfe;
+            font-weight: 700;
+            width: 20px;
+            text-align: center;
+        }
+
+        .pin-label {
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            width: 80px;
+            text-align: center;
+        }
+
+        .pin-arrow {
+            flex: 1;
+            height: 2px;
+            background: var(--color);
+            position: relative;
+        }
+
+        .pin-arrow::after {
+            content: '→';
+            position: absolute;
+            right: -6px;
+            top: -10px;
+            font-size: 0.9rem;
+            color: var(--color);
+        }
+
+        .pin-dest {
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            width: 80px;
+            text-align: center;
+        }
+
+        .c-white  { background-color: #d1d5db; color: #111; }
+        .c-orange { background-color: #f97316; color: #fff; }
+        .c-green  { background-color: #22c55e; color: #fff; }
+        .c-blue   { background-color: #3b82f6; color: #fff; }
+        .c-brown  { background-color: #92400e; color: #fff; }
+
+        /* Tabla de pines */
+        .pin-table th  { background-color: var(--hover-bg); color: var(--text-primary); }
+        .pin-table td  { color: var(--text-secondary); font-family: monospace; }
+        .pin-table tr td:first-child { font-weight: 700; color: var(--primary); }
+
+        /* Comparativo tipo A vs B */
+        .type-badge {
+            display: inline-block;
+            padding: 5px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1rem;
+        }
+
+        .type-a { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: #fff; }
+        .type-b { background: linear-gradient(135deg, #e17055, #fdcb6e); color: #fff; }
+
+        .use-case-list li {
+            margin-bottom: 10px;
+            padding-left: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Accordion overrides */
+        .accordion-button:not(.collapsed) {
+            background-color: var(--hover-bg);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .accordion-button {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .accordion-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px !important;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-body {
+            background-color: var(--hover-bg);
+            color: var(--text-secondary);
+        }
+
+        /* Mini flashcard flip */
+        .flashcard-wrap {
+            perspective: 800px;
+            height: 160px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .flashcard-wrap.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, var(--primary) 0%, #a29bfe 100%);
+            color: #fff;
+        }
+
+        .flashcard-back {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-hint {
+            font-size: 0.72rem;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+
+        /* ── Cable Assembly Simulator Styles ── */
+        .wire-palette-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .wire-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .wire-option {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            user-select: none;
+        }
+        .wire-option:hover {
+            transform: translateY(-2px);
+        }
+        .wire-option.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(108, 92, 231, 0.4);
+            transform: scale(1.05);
+        }
+        .connector-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px auto;
+            max-width: 450px;
+            padding: 20px;
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+        }
+        .rj45-connector-visual {
+            width: 100%;
+            height: 180px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border: 4px solid #b2bec3;
+            border-radius: 16px 16px 4px 4px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] .rj45-connector-visual {
+            background-color: rgba(30, 39, 46, 0.7);
+            border-color: #485460;
+        }
+        .rj45-clip {
+            position: absolute;
+            width: 80px;
+            height: 25px;
+            background-color: rgba(220, 220, 220, 0.9);
+            border: 2px solid #b2bec3;
+            border-bottom: none;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 8px 8px 0 0;
+            z-index: 1;
+        }
+        [data-theme="dark"] .rj45-clip {
+            background-color: rgba(50, 50, 50, 0.9);
+            border-color: #485460;
+        }
+        .connector-pin-slot {
+            width: 10%;
+            height: 100%;
+            background-color: #dfe6e9;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 8px;
+            border: 1px dashed #b2bec3;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        [data-theme="dark"] .connector-pin-slot {
+            background-color: #2d3436;
+            border-color: #636e72;
+        }
+        .connector-pin-slot:hover {
+            background-color: #ffeaa7;
+            transform: scale(1.03);
+        }
+        [data-theme="dark"] .connector-pin-slot:hover {
+            background-color: #3d3d3d;
+        }
+        .connector-pin-slot.filled {
+            border-style: solid;
+        }
+        .pin-gold-contact {
+            width: 70%;
+            height: 15px;
+            background-color: #ffd700;
+            margin-bottom: auto;
+            border-radius: 2px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.6);
+        }
+        .connector-pin-number {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #2d3436;
+            margin-top: 4px;
+            user-select: none;
+        }
+        [data-theme="dark"] .connector-pin-number {
+            color: #dfe6e9;
+        }
+        .wire-fill {
+            width: 80%;
+            height: 110px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 5: Retroalimentación y Cableado Estructurado</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <span class="badge-clase bg-primary text-white mb-3">Clase 5</span>
+                <h3 class="fw-bold mb-2">Retroalimentación y Cableado Estructurado Tipo A y B</h3>
+                <p class="text-secondary mb-4">Esta sesión refuerza los conceptos clave de las cuatro clases anteriores e introduce el estándar de cableado estructurado par trenzado con sus variantes T568-A y T568-B.</p>
+
+                <!-- ── Bloque objetivo ── -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de la Clase</h5>
+                    <ul class="text-secondary mb-0 ps-3">
+                        <li>Repasar los conceptos fundamentales vistos en las Clases 1 al 4.</li>
+                        <li>Identificar el propósito y la diferencia técnica entre los estándares T568-A y T568-B.</li>
+                        <li>Determinar cuándo usar un cable <strong>directo</strong> y cuándo usar un cable <strong>cruzado</strong>.</li>
+                        <li>Aplicar la secuencia de colores correcta al ponchar un conector RJ-45.</li>
+                    </ul>
+                </div>
+
+                <hr class="my-5">
+
+                <!-- ═══════════════════════════════════════
+                     SECCIÓN 1 – RETROALIMENTACIÓN
+                ═══════════════════════════════════════ -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-arrow-repeat text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. Retroalimentación de las Clases 1 – 4</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Haz clic en cada tarjeta para ver el resumen de la clase correspondiente.</p>
+
+                    <div class="row g-4 mb-4">
+                        <!-- Clase 1 -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="recall-card">
+                                <div class="recall-card-header" style="background: linear-gradient(135deg,#6c5ce7,#a29bfe); color:#fff;">
+                                    <i class="bi bi-1-circle-fill fs-5"></i>
+                                    Clase 1: Introducción a Redes
+                                </div>
+                                <div class="recall-card-body">
+                                    <ul class="text-secondary small ps-3 mb-0">
+                                        <li class="mb-1">¿Qué es una red? Conjunto de dispositivos interconectados para compartir recursos.</li>
+                                        <li class="mb-1">Tipos: PAN, LAN, MAN, WAN.</li>
+                                        <li class="mb-1">Topologías: bus, estrella, anillo, malla, árbol.</li>
+                                        <li class="mb-1">Modelo OSI vs TCP/IP y sus capas.</li>
+                                        <li>Introducción al curso CCNA1 de Cisco.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clase 2 -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="recall-card">
+                                <div class="recall-card-header" style="background: linear-gradient(135deg,#00b894,#55efc4); color:#fff;">
+                                    <i class="bi bi-2-circle-fill fs-5"></i>
+                                    Clase 2: Anatomía de Redes
+                                </div>
+                                <div class="recall-card-body">
+                                    <ul class="text-secondary small ps-3 mb-0">
+                                        <li class="mb-1"><strong>Hub:</strong> Repite señal a todos los puertos, trabaja en Capa 1.</li>
+                                        <li class="mb-1"><strong>Switch:</strong> Usa tabla MAC, conmuta por puerto, Capa 2.</li>
+                                        <li class="mb-1"><strong>Router:</strong> Interconecta redes distintas, Capa 3.</li>
+                                        <li class="mb-1">Medios de transmisión: par trenzado, fibra óptica, inalámbrico.</li>
+                                        <li>Tipos de par trenzado: UTP, STP, FTP.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clase 3 -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="recall-card">
+                                <div class="recall-card-header" style="background: linear-gradient(135deg,#0984e3,#74b9ff); color:#fff;">
+                                    <i class="bi bi-3-circle-fill fs-5"></i>
+                                    Clase 3: Direccionamiento IPv4/IPv6
+                                </div>
+                                <div class="recall-card-body">
+                                    <ul class="text-secondary small ps-3 mb-0">
+                                        <li class="mb-1">IPv4: 32 bits, notación decimal punteada (ej. 192.168.1.1).</li>
+                                        <li class="mb-1">Clases A, B y C: rangos de red y host.</li>
+                                        <li class="mb-1">Máscara de subred: identifica la porción de red vs host.</li>
+                                        <li class="mb-1">AND lógico: IP AND Máscara = Dirección de red.</li>
+                                        <li>IPv6: 128 bits, notación hexadecimal.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clase 4 -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="recall-card">
+                                <div class="recall-card-header" style="background: linear-gradient(135deg,#d63031,#ff7675); color:#fff;">
+                                    <i class="bi bi-4-circle-fill fs-5"></i>
+                                    Clase 4: Configuración en Packet Tracer
+                                </div>
+                                <div class="recall-card-body">
+                                    <ul class="text-secondary small ps-3 mb-0">
+                                        <li class="mb-1">Asignación de IP, Máscara y Default Gateway en PCs.</li>
+                                        <li class="mb-1">Configuración de interfaces de Router por CLI.</li>
+                                        <li class="mb-1">Comandos clave: <code>ip address</code>, <code>no shutdown</code>.</li>
+                                        <li class="mb-1">Verificación: <code>ping</code>, <code>show ip interface brief</code>.</li>
+                                        <li>Default Gateway debe coincidir con la interfaz del router en la misma subred.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flashcards de repaso rápido -->
+                    <h5 class="fw-bold mb-3 mt-4"><i class="bi bi-card-checklist text-primary me-2"></i>Repaso Rápido — Flashcards (haz clic para voltear)</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <h6 class="fw-bold mb-1">¿Qué capa OSI usa el Switch?</h6>
+                                        <span class="flashcard-hint">Toca para ver la respuesta</span>
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <i class="bi bi-check-circle-fill text-success fs-4 mb-2"></i>
+                                        <p class="mb-0 small"><strong>Capa 2 — Enlace de datos.</strong> El switch conmuta tramas basándose en la dirección MAC de destino mediante su tabla CAM (Content Addressable Memory).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <h6 class="fw-bold mb-1">¿Cuántos bits tiene una dirección IPv4?</h6>
+                                        <span class="flashcard-hint">Toca para ver la respuesta</span>
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <i class="bi bi-check-circle-fill text-success fs-4 mb-2"></i>
+                                        <p class="mb-0 small"><strong>32 bits</strong>, divididos en 4 octetos de 8 bits cada uno, escritos en notación decimal punteada (p.ej. <code>192.168.1.10</code>).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <h6 class="fw-bold mb-1">¿Para qué sirve el Default Gateway?</h6>
+                                        <span class="flashcard-hint">Toca para ver la respuesta</span>
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <i class="bi bi-check-circle-fill text-success fs-4 mb-2"></i>
+                                        <p class="mb-0 small">Es la <strong>dirección IP del router</strong> al que el host envía los paquetes destinados a redes externas a su propia subred. Sin él, el equipo no puede salir de la red local.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <h6 class="fw-bold mb-1">Operación AND: 192.168.10.45 AND /24</h6>
+                                        <span class="flashcard-hint">¿Cuál es la dirección de red?</span>
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <i class="bi bi-check-circle-fill text-success fs-4 mb-2"></i>
+                                        <p class="mb-0 small"><strong>192.168.10.0</strong> — La máscara /24 (255.255.255.0) pone a cero el último octeto, que es la porción de host.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <h6 class="fw-bold mb-1">¿Qué diferencia hay entre UTP y STP?</h6>
+                                        <span class="flashcard-hint">Toca para ver la respuesta</span>
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <i class="bi bi-check-circle-fill text-success fs-4 mb-2"></i>
+                                        <p class="mb-0 small"><strong>UTP</strong> (Unshielded Twisted Pair) no tiene blindaje metálico. <strong>STP</strong> (Shielded Twisted Pair) posee una malla o lámina de blindaje, ofreciendo mejor protección contra interferencias electromagnéticas (EMI).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <h6 class="fw-bold mb-1">Comando CLI para encender interfaz en Cisco</h6>
+                                        <span class="flashcard-hint">Toca para ver la respuesta</span>
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <i class="bi bi-check-circle-fill text-success fs-4 mb-2"></i>
+                                        <p class="mb-0 small"><code>no shutdown</code> — Activa la interfaz que por defecto viene en estado administrativo "down". Se usa en modo de configuración de interfaz (<code>config-if</code>).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- ═══════════════════════════════════════
+                     SECCIÓN 2 – CABLEADO ESTRUCTURADO
+                ═══════════════════════════════════════ -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-ethernet text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Cableado Estructurado — Estándares T568-A y T568-B</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        El cableado estructurado define la infraestructura física de telecomunicaciones de un edificio o campus. El estándar <strong>TIA/EIA-568</strong> (Telecommunications Industry Association) especifica cómo deben organizarse los 8 conductores del cable UTP/STP en el conector RJ-45.
+                        Existen dos esquemas de ponchado: <strong>T568-A</strong> y <strong>T568-B</strong>, que difieren únicamente en la posición de dos pares de colores.
+                    </p>
+
+                    <div class="class-step mb-4">
+                        <strong><i class="bi bi-info-circle-fill text-primary me-1"></i>¿Qué es un conector RJ-45?</strong>
+                        <p class="text-secondary mb-0 mt-2 small">El RJ-45 (Registered Jack 45) es el conector estándar de 8 pines usado en cables de par trenzado (CAT5e, CAT6, CAT6A). Los 8 pines se numeran del 1 al 8 de izquierda a derecha, con la muesca de seguridad hacia abajo y los pines mirando hacia ti.</p>
+                    </div>
+
+                    <!-- Comparativo T568-A vs T568-B -->
+                    <div class="row g-4 mb-4">
+                        <!-- T568-A -->
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <span class="type-badge type-a">T568-A</span>
+                                    <span class="text-secondary small">Estándar Gubernamental</span>
+                                </div>
+                                <div class="cable-diagram">
+                                    <div class="text-white-50 small mb-3">Pin → Color</div>
+                                    <div class="pin-row"><span class="pin-num">1</span><span class="pin-label c-white">Blanco-Verde</span></div>
+                                    <div class="pin-row"><span class="pin-num">2</span><span class="pin-label c-green">Verde</span></div>
+                                    <div class="pin-row"><span class="pin-num">3</span><span class="pin-label c-white">Blanco-Naranja</span></div>
+                                    <div class="pin-row"><span class="pin-num">4</span><span class="pin-label c-blue">Azul</span></div>
+                                    <div class="pin-row"><span class="pin-num">5</span><span class="pin-label c-white">Blanco-Azul</span></div>
+                                    <div class="pin-row"><span class="pin-num">6</span><span class="pin-label c-orange">Naranja</span></div>
+                                    <div class="pin-row"><span class="pin-num">7</span><span class="pin-label c-white">Blanco-Marrón</span></div>
+                                    <div class="pin-row"><span class="pin-num">8</span><span class="pin-label c-brown">Marrón</span></div>
+                                </div>
+                                <p class="text-secondary small mt-3 mb-0">
+                                    <i class="bi bi-info-circle me-1"></i> El par naranja (pines 1–2 en T568-B) se intercambia por el par verde (pines 1–2 en T568-A). Esta diferencia afecta solo a los pares de transmisión de datos.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- T568-B -->
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <span class="type-badge type-b">T568-B</span>
+                                    <span class="text-secondary small">Estándar Comercial más usado</span>
+                                </div>
+                                <div class="cable-diagram">
+                                    <div class="text-white-50 small mb-3">Pin → Color</div>
+                                    <div class="pin-row"><span class="pin-num">1</span><span class="pin-label c-white">Blanco-Naranja</span></div>
+                                    <div class="pin-row"><span class="pin-num">2</span><span class="pin-label c-orange">Naranja</span></div>
+                                    <div class="pin-row"><span class="pin-num">3</span><span class="pin-label c-white">Blanco-Verde</span></div>
+                                    <div class="pin-row"><span class="pin-num">4</span><span class="pin-label c-blue">Azul</span></div>
+                                    <div class="pin-row"><span class="pin-num">5</span><span class="pin-label c-white">Blanco-Azul</span></div>
+                                    <div class="pin-row"><span class="pin-num">6</span><span class="pin-label c-green">Verde</span></div>
+                                    <div class="pin-row"><span class="pin-num">7</span><span class="pin-label c-white">Blanco-Marrón</span></div>
+                                    <div class="pin-row"><span class="pin-num">8</span><span class="pin-label c-brown">Marrón</span></div>
+                                </div>
+                                <p class="text-secondary small mt-3 mb-0">
+                                    <i class="bi bi-info-circle me-1"></i> Es el esquema más utilizado en redes comerciales y residenciales. La mayoría de los patch panels y puntos de datos en entornos empresariales siguen T568-B.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla comparativa de pines -->
+                    <h5 class="fw-bold mb-3"><i class="bi bi-table text-primary me-2"></i>Comparativo de Pines: T568-A vs T568-B</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered table-hover table-sm align-middle pin-table">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>Pin</th>
+                                    <th>Función IEEE 802.3</th>
+                                    <th>Color T568-A</th>
+                                    <th>Color T568-B</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>TX+ (Transmisión positivo)</td>
+                                    <td><span class="badge" style="background:#22c55e;">Blanco-Verde ⚡</span></td>
+                                    <td><span class="badge" style="background:#f97316;">Blanco-Naranja ⚡</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>TX– (Transmisión negativo)</td>
+                                    <td><span class="badge" style="background:#22c55e;">Verde ⚡</span></td>
+                                    <td><span class="badge" style="background:#f97316;">Naranja ⚡</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td>RX+ (Recepción positivo)</td>
+                                    <td><span class="badge" style="background:#f97316;">Blanco-Naranja ⚡</span></td>
+                                    <td><span class="badge" style="background:#22c55e;">Blanco-Verde ⚡</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>No utilizado (10/100BASE-T)</td>
+                                    <td colspan="2" class="text-center text-muted">Azul (igual en ambos)</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">5</td>
+                                    <td>No utilizado (10/100BASE-T)</td>
+                                    <td colspan="2" class="text-center text-muted">Blanco-Azul (igual en ambos)</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">6</td>
+                                    <td>RX– (Recepción negativo)</td>
+                                    <td><span class="badge" style="background:#f97316;">Naranja ⚡</span></td>
+                                    <td><span class="badge" style="background:#22c55e;">Verde ⚡</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">7</td>
+                                    <td>No utilizado (10/100BASE-T)</td>
+                                    <td colspan="2" class="text-center text-muted">Blanco-Marrón (igual en ambos)</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">8</td>
+                                    <td>No utilizado (10/100BASE-T)</td>
+                                    <td colspan="2" class="text-center text-muted">Marrón (igual en ambos)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="alert alert-info small mb-0" role="alert">
+                        <i class="bi bi-cpu-fill me-1"></i> <strong>Nota Gigabit Ethernet (1000BASE-T):</strong> A diferencia de Fast Ethernet, el estándar Gigabit utiliza los <strong>8 pines</strong> (los 4 pares) para transmisión bidireccional simultánea, por lo que los pines 4, 5, 7 y 8 también transportan datos.
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- ═══════════════════════════════════════
+                     SIMULADOR DE ARMADO DE CABLES
+                ═══════════════════════════════════════ -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-tools text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Simulador Interactivo: Armado de Cable RJ-45</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        <strong>Instrucciones:</strong> Elige el estándar que deseas armar (T568-A o T568-B). Luego, selecciona un color de la paleta haciendo clic sobre él y haz clic en uno de los 8 canales de pines del conector RJ-45 para insertarlo. Al finalizar, presiona <strong>"Verificar Cable"</strong>.
+                    </p>
+
+                    <div class="card border-0 shadow-sm mb-4" style="background-color: var(--card-bg); border: 1px solid var(--border-color) !important; border-radius: 16px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 border-bottom pb-3">
+                                <div>
+                                    <span class="fw-bold text-secondary small me-2">ESTÁNDAR OBJETIVO:</span>
+                                    <div class="btn-group" role="group">
+                                        <input type="radio" class="btn-check" name="targetStandard" id="stdA" value="A" checked>
+                                        <label class="btn btn-outline-primary btn-sm" for="stdA">T568-A</label>
+                                        
+                                        <input type="radio" class="btn-check" name="targetStandard" id="stdB" value="B">
+                                        <label class="btn btn-outline-primary btn-sm" for="stdB">T568-B</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-secondary btn-sm" onclick="resetCableSim()">
+                                        <i class="bi bi-trash3-fill me-1"></i>Limpiar
+                                    </button>
+                                    <button class="btn btn-primary btn-sm" onclick="verifyCableSim()">
+                                        <i class="bi bi-clipboard2-check-fill me-1"></i>Verificar Cable
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Paleta de Cables -->
+                            <div class="text-center">
+                                <div class="wire-palette-title"><i class="bi bi-palette-fill me-1"></i> 1. Selecciona un hilo de color:</div>
+                                <div class="wire-palette" id="wire-palette-container">
+                                    <!-- Generado dinámicamente por JS -->
+                                </div>
+                            </div>
+
+                            <!-- Conector RJ-45 Visual -->
+                            <div class="text-center mt-4">
+                                <div class="wire-palette-title"><i class="bi bi-plug-fill me-1"></i> 2. Haz clic en un pin para ponchar el hilo:</div>
+                                <div class="connector-container">
+                                    <div class="rj45-connector-visual" id="rj45-connector">
+                                        <div class="rj45-clip"></div>
+                                        <!-- 8 slots de pines -->
+                                        <div class="connector-pin-slot" onclick="placeWire(0)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-0"></div>
+                                            <span class="connector-pin-number">1</span>
+                                        </div>
+                                        <div class="connector-pin-slot" onclick="placeWire(1)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-1"></div>
+                                            <span class="connector-pin-number">2</span>
+                                        </div>
+                                        <div class="connector-pin-slot" onclick="placeWire(2)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-2"></div>
+                                            <span class="connector-pin-number">3</span>
+                                        </div>
+                                        <div class="connector-pin-slot" onclick="placeWire(3)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-3"></div>
+                                            <span class="connector-pin-number">4</span>
+                                        </div>
+                                        <div class="connector-pin-slot" onclick="placeWire(4)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-4"></div>
+                                            <span class="connector-pin-number">5</span>
+                                        </div>
+                                        <div class="connector-pin-slot" onclick="placeWire(5)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-5"></div>
+                                            <span class="connector-pin-number">6</span>
+                                        </div>
+                                        <div class="connector-pin-slot" onclick="placeWire(6)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-6"></div>
+                                            <span class="connector-pin-number">7</span>
+                                        </div>
+                                        <div class="connector-pin-slot" onclick="placeWire(7)">
+                                            <div class="pin-gold-contact"></div>
+                                            <div class="wire-fill" id="wire-fill-7"></div>
+                                            <span class="connector-pin-number">8</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Retroalimentación del Armado -->
+                            <div id="cable-sim-feedback" class="mt-4 p-3 rounded" style="display:none; transition: all 0.3s ease;"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- ═══════════════════════════════════════
+                     SECCIÓN 3 – CABLE DIRECTO VS CRUZADO
+                ═══════════════════════════════════════ -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-shuffle text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Cable Directo vs Cable Cruzado</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        La diferencia entre un cable recto y un cable cruzado está dada por <strong>cómo se combinan los estándares T568-A y T568-B</strong> en cada extremo del cable. El principio es simple: para que dos dispositivos se comuniquen, el pin TX (transmisión) de un extremo debe conectarse con el pin RX (recepción) del otro.
+                    </p>
+
+                    <div class="row g-4">
+                        <!-- Cable Directo -->
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <i class="bi bi-arrow-right-circle-fill text-success fs-4"></i>
+                                    <h5 class="fw-bold mb-0">Cable Directo (Patch Cable)</h5>
+                                </div>
+                                <div class="class-step mb-3" style="border-left-color: #22c55e;">
+                                    <strong>Extremo A:</strong> T568-B &nbsp;→&nbsp; <strong>Extremo B:</strong> T568-B<br>
+                                    <small class="text-secondary">(o ambos extremos T568-A — lo importante es que sean iguales)</small>
+                                </div>
+                                <h6 class="fw-bold">¿Cuándo usarlo?</h6>
+                                <ul class="use-case-list text-secondary small">
+                                    <li>PC → Switch / Hub</li>
+                                    <li>PC → Patch Panel</li>
+                                    <li>Router → Switch</li>
+                                    <li>Dispositivo final → dispositivo de red (diferente tipo)</li>
+                                </ul>
+                                <p class="text-secondary small mt-2 mb-0">
+                                    <i class="bi bi-lightbulb-fill text-warning me-1"></i>
+                                    <strong>Regla nemotécnica:</strong> Dispositivos de <em>diferente</em> jerarquía de red → cable <em>directo</em>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Cable Cruzado -->
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <i class="bi bi-arrow-left-right text-warning fs-4"></i>
+                                    <h5 class="fw-bold mb-0">Cable Cruzado (Crossover Cable)</h5>
+                                </div>
+                                <div class="class-step mb-3" style="border-left-color: #f59e0b;">
+                                    <strong>Extremo A:</strong> T568-A &nbsp;→&nbsp; <strong>Extremo B:</strong> T568-B<br>
+                                    <small class="text-secondary">(un extremo distinto al otro — se "cruzan" los pares Tx/Rx)</small>
+                                </div>
+                                <h6 class="fw-bold">¿Cuándo usarlo?</h6>
+                                <ul class="use-case-list text-secondary small">
+                                    <li>PC → PC (conexión directa sin switch)</li>
+                                    <li>Switch → Switch</li>
+                                    <li>Router → Router (interfaces iguales)</li>
+                                    <li>Hub → Hub</li>
+                                </ul>
+                                <p class="text-secondary small mt-2 mb-0">
+                                    <i class="bi bi-lightbulb-fill text-warning me-1"></i>
+                                    <strong>Regla nemotécnica:</strong> Dispositivos del <em>mismo</em> tipo → cable <em>cruzado</em>. <br>
+                                    <small>(Los switches y routers modernos con MDI/MDIX automático detectan y corrigen esto por sí solos)</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diagrama visual de cruce de pines -->
+                    <h5 class="fw-bold mt-4 mb-3"><i class="bi bi-diagram-3-fill text-primary me-2"></i>Cruce de Pines — Cable Cruzado Ilustrado</h5>
+                    <div class="cable-diagram">
+                        <div class="row text-center small mb-2">
+                            <div class="col-4 text-success fw-bold">Extremo A (T568-A)</div>
+                            <div class="col-4 text-white-50">Conexión</div>
+                            <div class="col-4 text-warning fw-bold">Extremo B (T568-B)</div>
+                        </div>
+                        <div id="crossover-viz" style="font-size:0.8rem;"></div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- ═══════════════════════════════════════
+                     SECCIÓN 4 – CUÁNDO USAR CADA TIPO
+                ═══════════════════════════════════════ -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-question-circle-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. ¿T568-A o T568-B? Circunstancias de Aplicación</h3>
+                    </div>
+
+                    <div class="accordion" id="cableAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc1">
+                                    <i class="bi bi-building me-2 text-primary"></i>¿Cuándo usar T568-B? (Entornos Comerciales y Empresariales)
+                                </button>
+                            </h2>
+                            <div id="acc1" class="accordion-collapse collapse show" data-bs-parent="#cableAccordion">
+                                <div class="accordion-body">
+                                    <p>T568-B es el estándar <strong>más ampliamente adoptado</strong> en el sector empresarial y comercial. Se recomienda cuando:</p>
+                                    <ul>
+                                        <li class="mb-2">Se realiza una instalación nueva en una empresa donde no existe infraestructura previa y se quiere seguir la práctica más común del mercado.</li>
+                                        <li class="mb-2">Se trabaja con equipamiento y patch panels etiquetados con T568-B (la gran mayoría de fabricantes).</li>
+                                        <li class="mb-2">El proyecto de red requiere compatibilidad con cables y equipos preexistentes que ya usan T568-B.</li>
+                                        <li>Se instala en edificios de oficinas, data centers, colegios o universidades donde se usa T568-B de facto.</li>
+                                    </ul>
+                                    <div class="alert alert-success py-2 small mb-0">
+                                        <i class="bi bi-check-circle-fill me-1"></i> <strong>Regla de oro:</strong> Si no hay restricciones normativas y es una instalación privada, elige T568-B y mantenla consistente en toda la infraestructura.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc2">
+                                    <i class="bi bi-bank me-2 text-primary"></i>¿Cuándo usar T568-A? (Entornos Gubernamentales y Residenciales)
+                                </button>
+                            </h2>
+                            <div id="acc2" class="accordion-collapse collapse" data-bs-parent="#cableAccordion">
+                                <div class="accordion-body">
+                                    <p>T568-A es el estándar <strong>preferido por organismos gubernamentales estadounidenses</strong> (US Government, GSA) y es también el recomendado en redes residenciales por el antiguo estándar TIA/EIA-570A. Se usa cuando:</p>
+                                    <ul>
+                                        <li class="mb-2">El proyecto debe cumplir con normativas del gobierno federal de Estados Unidos que exigen T568-A.</li>
+                                        <li class="mb-2">Se instala cableado residencial siguiendo el estándar TIA/EIA-570.</li>
+                                        <li class="mb-2">Existe compatibilidad requerida con infraestructura de telecomunicaciones de origen europeo o con instalaciones más antiguas.</li>
+                                        <li>Se construye un cable cruzado manual (Crossover): un extremo en T568-A y el otro en T568-B.</li>
+                                    </ul>
+                                    <div class="alert alert-info py-2 small mb-0">
+                                        <i class="bi bi-info-circle-fill me-1"></i> Ambos estándares ofrecen el <strong>mismo rendimiento eléctrico</strong>. La diferencia es puramente de convención en el orden de colores. Lo más importante es la <strong>consistencia</strong>: toda la red debe usar el mismo estándar.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc3">
+                                    <i class="bi bi-exclamation-triangle-fill me-2 text-warning"></i>¿Qué pasa si mezclo T568-A y T568-B en la misma red?
+                                </button>
+                            </h2>
+                            <div id="acc3" class="accordion-collapse collapse" data-bs-parent="#cableAccordion">
+                                <div class="accordion-body">
+                                    <p>Si <strong>ambos extremos de un mismo cable</strong> se ponchan con estándares diferentes (un extremo A y otro B), el cable se convierte en un <strong>cable cruzado</strong>. Esto puede causar:</p>
+                                    <ul>
+                                        <li class="mb-2"><strong>Conectividad parcial o nula</strong> entre dispositivos que esperan un cable directo.</li>
+                                        <li class="mb-2"><strong>Errores difíciles de depurar</strong> porque físicamente el cable se ve igual a uno correcto.</li>
+                                        <li>En equipos modernos con <strong>Auto MDI/MDIX</strong>, la conexión puede funcionar de todas formas porque el hardware compensa el cruce automáticamente, enmascarando el error y creando deuda técnica.</li>
+                                    </ul>
+                                    <div class="alert alert-warning py-2 small mb-0">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i> <strong>Buena práctica:</strong> Siempre documenta el estándar utilizado, etiqueta los patch panels y realiza pruebas con un tester de cables certificado (ej. Fluke MicroScanner) antes de dar por finalizada la instalación.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- ═══════════════════════════════════════
+                     SECCIÓN 5 – AUTOEVALUACIÓN
+                ═══════════════════════════════════════ -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-patch-question-fill text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Comprobación de Conocimientos</h3>
+                    </div>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">1. En el estándar T568-B, ¿qué colores ocupan los pines 1 y 2?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r1" id="c5r1a" value="a">
+                            <label class="form-check-label" for="c5r1a">a) Blanco-Verde y Verde</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r1" id="c5r1b" value="b">
+                            <label class="form-check-label" for="c5r1b">b) Blanco-Naranja y Naranja</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="c5r1" id="c5r1c" value="c">
+                            <label class="form-check-label" for="c5r1c">c) Azul y Blanco-Azul</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">2. Necesitas conectar directamente dos PCs sin un switch de por medio. ¿Qué tipo de cable debes usar?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r2" id="c5r2a" value="a">
+                            <label class="form-check-label" for="c5r2a">a) Cable directo (ambos extremos con T568-B)</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r2" id="c5r2b" value="b">
+                            <label class="form-check-label" for="c5r2b">b) Cable cruzado (un extremo T568-A y el otro T568-B)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="c5r2" id="c5r2c" value="c">
+                            <label class="form-check-label" for="c5r2c">c) Cualquiera, no importa el tipo de cable</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">3. ¿Cuál es la diferencia funcional entre T568-A y T568-B?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r3" id="c5r3a" value="a">
+                            <label class="form-check-label" for="c5r3a">a) T568-A soporta Gigabit Ethernet y T568-B solo Fast Ethernet</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r3" id="c5r3b" value="b">
+                            <label class="form-check-label" for="c5r3b">b) Solo difieren en el orden de los colores de los pares naranja y verde, el rendimiento eléctrico es idéntico</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="c5r3" id="c5r3c" value="c">
+                            <label class="form-check-label" for="c5r3c">c) T568-B usa solo 4 pines mientras que T568-A usa los 8</label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="quiz-card">
+                        <h6 class="fw-bold mb-3">4. Un técnico instala un cable con T568-A en el extremo del patch panel y T568-B en el extremo de la roseta. ¿Qué tipo de cable resulta?</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r4" id="c5r4a" value="a">
+                            <label class="form-check-label" for="c5r4a">a) Cable directo, es compatible poner estándares distintos</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="c5r4" id="c5r4b" value="b">
+                            <label class="form-check-label" for="c5r4b">b) Cable cruzado, lo que puede causar problemas de conectividad en dispositivos sin Auto MDI/MDIX</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="c5r4" id="c5r4c" value="c">
+                            <label class="form-check-label" for="c5r4c">c) Un cable defectuoso que no transmitirá nada en ningún dispositivo</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-primary" id="c5-btn-evaluar">
+                            <i class="bi bi-check-circle me-1"></i>Evaluar Respuestas
+                        </button>
+                        <span id="c5-quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menú Flotante de Clases -->
+    <div class="class-floating-sidebar" id="class-floating-sidebar">
+        <div class="sidebar-floating-header">
+            <h6 class="text-muted fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Clases Disponibles</h6>
+            <button type="button" class="btn-close" id="close-floating-sidebar-btn" aria-label="Close" style="font-size: 0.8rem;"></button>
+        </div>
+        <div class="class-floating-sidebar-content">
+            <ul class="class-list">
+                <li>
+                    <a href="clase1redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 1: Introducción a la Asignatura y CCNA1">Clase 1: Introducción a CCNA1</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase2redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 2: Anatomía de Redes – Dispositivos">Clase 2: Anatomía de Redes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase3redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 3: Direccionamiento IPv4/IPv6">Clase 3: Direccionamiento IP</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase4redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 4: Configuración en Packet Tracer">Clase 4: Packet Tracer</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase5redes.html" class="class-item active text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 5: Retroalimentación y Cableado Estructurado">Clase 5: Retroalimentación y Cableado</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) -->
+    <button type="button" class="class-fab-btn" id="class-fab-btn">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Ver Clases</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // ── Diagrama de cruce de pines (Cable Cruzado) ──
+        const crossoverMap = [
+            // [pin A, color A, pin B, color B]
+            ['1', 'Blanco-Verde', '3', 'Blanco-Verde'],
+            ['2', 'Verde',        '6', 'Verde'],
+            ['3', 'Blanco-Nar.',  '1', 'Blanco-Nar.'],
+            ['4', 'Azul',         '4', 'Azul'],
+            ['5', 'Blanco-Azul',  '5', 'Blanco-Azul'],
+            ['6', 'Naranja',      '2', 'Naranja'],
+            ['7', 'Blanco-Mar.',  '7', 'Blanco-Mar.'],
+            ['8', 'Marrón',       '8', 'Marrón'],
+        ];
+
+        const colorMap = {
+            'Blanco-Verde': '#d1fae5', 'Verde': '#22c55e',
+            'Blanco-Nar.': '#ffedd5', 'Naranja': '#f97316',
+            'Azul': '#3b82f6',        'Blanco-Azul': '#dbeafe',
+            'Blanco-Mar.': '#fef3c7', 'Marrón': '#92400e',
+        };
+        const textColor = {
+            'Verde': '#fff', 'Naranja': '#fff', 'Azul': '#fff', 'Marrón': '#fff',
+            'Blanco-Verde': '#111', 'Blanco-Nar.': '#111', 'Blanco-Azul': '#111', 'Blanco-Mar.': '#111',
+        };
+
+        const viz = document.getElementById('crossover-viz');
+        crossoverMap.forEach(([pinA, colorA, pinB, colorB]) => {
+            const crossedStr = (pinA !== pinB) ? `<span class="text-warning fw-bold">${pinA} ─── ✕ ─── ${pinB}</span>` : `<span class="text-white-50">${pinA} ─────────── ${pinB}</span>`;
+            const spanA = `<span style="background:${colorMap[colorA]};color:${textColor[colorA]};padding:2px 7px;border-radius:4px;font-size:0.78rem;">${colorA}</span>`;
+            const spanB = `<span style="background:${colorMap[colorB]};color:${textColor[colorB]};padding:2px 7px;border-radius:4px;font-size:0.78rem;">${colorB}</span>`;
+            viz.innerHTML += `<div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+                <div style="width:130px;text-align:right;">${spanA} <small style="color:#a29bfe;">[${pinA}]</small></div>
+                <div style="flex:1;text-align:center;font-size:0.82rem;">${crossedStr}</div>
+                <div style="width:130px;text-align:left;"><small style="color:#a29bfe;">[${pinB}]</small> ${spanB}</div>
+            </div>`;
+        });
+
+        // ── Cuestionario ──
+        document.getElementById('c5-btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = {
+                c5r1: 'b',
+                c5r2: 'b',
+                c5r3: 'b',
+                c5r4: 'b'
+            };
+
+            let score = 0;
+            const total = 4;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const sel = document.querySelector(`input[name="c5r${i}"]:checked`);
+                if (!sel) { unanswered = true; break; }
+                if (sel.value === correctAnswers[`c5r${i}`]) score++;
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const el = document.getElementById('c5-quiz-result-score');
+            el.style.display = 'inline-block';
+            el.textContent = `Tu puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+            el.className = score === total
+                ? 'fw-bold fs-5 text-success ms-3'
+                : score >= 3
+                    ? 'fw-bold fs-5 text-warning ms-3'
+                    : 'fw-bold fs-5 text-danger ms-3';
+        });
+
+        // ══════════════════════════════════════════════
+        //   SIMULADOR DE ARMADO DE CABLE RJ-45
+        // ══════════════════════════════════════════════
+
+        // Definición de colores disponibles
+        const WIRE_COLORS = [
+            { id: 'w-naranja',       label: 'Naranja',      bg: '#f97316', fg: '#fff' },
+            { id: 'w-blanco-naranja',label: 'Blco-Naranja', bg: '#fed7aa', fg: '#7c2d12' },
+            { id: 'w-verde',         label: 'Verde',        bg: '#22c55e', fg: '#fff' },
+            { id: 'w-blanco-verde',  label: 'Blco-Verde',   bg: '#bbf7d0', fg: '#14532d' },
+            { id: 'w-azul',          label: 'Azul',         bg: '#3b82f6', fg: '#fff' },
+            { id: 'w-blanco-azul',   label: 'Blco-Azul',   bg: '#bfdbfe', fg: '#1e3a8a' },
+            { id: 'w-marron',        label: 'Marrón',       bg: '#92400e', fg: '#fff' },
+            { id: 'w-blanco-marron', label: 'Blco-Marrón',  bg: '#fde68a', fg: '#78350f' },
+        ];
+
+        // Secuencias correctas por estándar
+        const STANDARDS = {
+            A: ['w-blanco-verde', 'w-verde', 'w-blanco-naranja', 'w-azul', 'w-blanco-azul', 'w-naranja', 'w-blanco-marron', 'w-marron'],
+            B: ['w-blanco-naranja', 'w-naranja', 'w-blanco-verde', 'w-azul', 'w-blanco-azul', 'w-verde', 'w-blanco-marron', 'w-marron'],
+        };
+
+        // Nombres legibles para feedback
+        const WIRE_NAMES = {
+            'w-naranja': 'Naranja',
+            'w-blanco-naranja': 'Blanco-Naranja',
+            'w-verde': 'Verde',
+            'w-blanco-verde': 'Blanco-Verde',
+            'w-azul': 'Azul',
+            'w-blanco-azul': 'Blanco-Azul',
+            'w-marron': 'Marrón',
+            'w-blanco-marron': 'Blanco-Marrón',
+        };
+
+        // Estado del simulador
+        let selectedWire = null;     // Wire currently selected from palette
+        let pinAssignments = new Array(8).fill(null);  // Wire ID assigned to each pin (index 0-7)
+
+        // ── Renderizar paleta de cables ──
+        function renderPalette() {
+            const container = document.getElementById('wire-palette-container');
+            container.innerHTML = '';
+            WIRE_COLORS.forEach(wire => {
+                const btn = document.createElement('div');
+                btn.className = 'wire-option';
+                btn.id = `palette-${wire.id}`;
+                btn.style.backgroundColor = wire.bg;
+                btn.style.color = wire.fg;
+                btn.textContent = wire.label;
+                btn.onclick = () => selectWire(wire.id);
+                container.appendChild(btn);
+            });
+        }
+
+        // ── Seleccionar hilo de la paleta ──
+        function selectWire(wireId) {
+            // Deselect previous
+            document.querySelectorAll('.wire-option').forEach(b => b.classList.remove('active'));
+
+            if (selectedWire === wireId) {
+                // Deselect if same clicked again
+                selectedWire = null;
+                return;
+            }
+
+            selectedWire = wireId;
+            const btn = document.getElementById(`palette-${wireId}`);
+            if (btn) btn.classList.add('active');
+
+            // Update cursor hint on connector
+            document.getElementById('rj45-connector').style.cursor = 'crosshair';
+        }
+
+        // ── Colocar hilo en un pin ──
+        function placeWire(pinIndex) {
+            const wireFill = document.getElementById(`wire-fill-${pinIndex}`);
+            const pinSlot = wireFill.parentElement;
+
+            if (selectedWire === null) {
+                // Remove wire if clicking a filled pin with no wire selected
+                if (pinAssignments[pinIndex] !== null) {
+                    pinAssignments[pinIndex] = null;
+                    wireFill.style.backgroundColor = '';
+                    wireFill.style.boxShadow = '';
+                    pinSlot.classList.remove('filled');
+                    pinSlot.style.borderColor = '';
+                }
+                return;
+            }
+
+            const wire = WIRE_COLORS.find(w => w.id === selectedWire);
+            if (!wire) return;
+
+            pinAssignments[pinIndex] = selectedWire;
+            wireFill.style.backgroundColor = wire.bg;
+            wireFill.style.boxShadow = `0 4px 6px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.2)`;
+            pinSlot.classList.add('filled');
+            pinSlot.style.borderColor = wire.bg;
+            pinSlot.style.borderStyle = 'solid';
+
+            // Reset feedback if visible
+            document.getElementById('cable-sim-feedback').style.display = 'none';
+
+            // Vibrate briefly on mobile
+            if (navigator.vibrate) navigator.vibrate(30);
+        }
+
+        // ── Verificar cable ──
+        function verifyCableSim() {
+            const standardRadio = document.querySelector('input[name="targetStandard"]:checked');
+            const standard = standardRadio ? standardRadio.value : 'B';
+            const correctSequence = STANDARDS[standard];
+            const feedbackEl = document.getElementById('cable-sim-feedback');
+
+            // Check all pins filled
+            const emptyPins = pinAssignments.reduce((acc, w, i) => w === null ? [...acc, i + 1] : acc, []);
+            if (emptyPins.length > 0) {
+                feedbackEl.style.display = 'block';
+                feedbackEl.className = 'mt-4 p-4 rounded border border-warning-subtle bg-warning-subtle text-warning-emphasis';
+                feedbackEl.innerHTML = `
+                    <h6 class="fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill me-1"></i>Cable incompleto</h6>
+                    <p class="small mb-0">Faltan hilos en los pines: <strong>${emptyPins.join(', ')}</strong>. Debes colocar un hilo en los 8 pines antes de verificar.</p>`;
+                return;
+            }
+
+            // Compare pin-by-pin
+            let correct = 0;
+            let pinFeedback = '';
+            const allCorrect = pinAssignments.every((w, i) => w === correctSequence[i]);
+
+            pinAssignments.forEach((assignedWire, i) => {
+                const expected = correctSequence[i];
+                const isOk = assignedWire === expected;
+                if (isOk) correct++;
+                const assignedName = WIRE_NAMES[assignedWire] || assignedWire;
+                const expectedName = WIRE_NAMES[expected] || expected;
+                const wire = WIRE_COLORS.find(w => w.id === assignedWire);
+                const wireColor = wire ? wire.bg : '#888';
+                const wireFg = wire ? wire.fg : '#fff';
+                const icon = isOk ? '✅' : '❌';
+
+                // Visual highlight on connector
+                const slot = document.getElementById(`wire-fill-${i}`).parentElement;
+                slot.style.outline = isOk ? '2px solid #22c55e' : '2px solid #ef4444';
+
+                pinFeedback += `
+                    <div class="d-flex align-items-center gap-2 py-1" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                        <span style="min-width:20px;">${icon}</span>
+                        <span class="text-muted small" style="min-width:40px;">Pin ${i + 1}:</span>
+                        <span style="background:${wireColor};color:${wireFg};padding:2px 9px;border-radius:5px;font-size:0.78rem;font-weight:600;">${assignedName}</span>
+                        ${!isOk ? `<span class="text-muted small">→ Correcto: <span style="background:${WIRE_COLORS.find(w=>w.id===expected)?.bg};color:${WIRE_COLORS.find(w=>w.id===expected)?.fg};padding:2px 9px;border-radius:5px;font-size:0.78rem;font-weight:600;">${expectedName}</span></span>` : ''}
+                    </div>`;
+            });
+
+            feedbackEl.style.display = 'block';
+            if (allCorrect) {
+                feedbackEl.className = 'mt-4 p-4 rounded border border-success-subtle bg-success-subtle text-success-emphasis';
+                feedbackEl.innerHTML = `
+                    <h6 class="fw-bold mb-1"><i class="bi bi-check-circle-fill me-1"></i>¡Cable T568-${standard} armado correctamente! 🎉</h6>
+                    <p class="small mb-3">Todos los 8 hilos están en la posición correcta según el estándar T568-${standard}. ¡Excelente trabajo!</p>
+                    <div class="small">${pinFeedback}</div>`;
+            } else {
+                feedbackEl.className = 'mt-4 p-4 rounded border border-danger-subtle bg-danger-subtle text-danger-emphasis';
+                feedbackEl.innerHTML = `
+                    <h6 class="fw-bold mb-1"><i class="bi bi-x-circle-fill me-1"></i>Cable incorrecto — ${correct}/8 pines correctos</h6>
+                    <p class="small mb-3">Revisa los pines marcados en rojo. La secuencia correcta para T568-${standard} se muestra a continuación:</p>
+                    <div class="small">${pinFeedback}</div>`;
+            }
+
+            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ── Reiniciar simulador ──
+        function resetCableSim() {
+            pinAssignments = new Array(8).fill(null);
+            selectedWire = null;
+
+            document.querySelectorAll('.wire-option').forEach(b => b.classList.remove('active'));
+            document.getElementById('rj45-connector').style.cursor = '';
+
+            for (let i = 0; i < 8; i++) {
+                const wireFill = document.getElementById(`wire-fill-${i}`);
+                const slot = wireFill.parentElement;
+                wireFill.style.backgroundColor = '';
+                wireFill.style.boxShadow = '';
+                slot.classList.remove('filled');
+                slot.style.borderColor = '';
+                slot.style.borderStyle = '';
+                slot.style.outline = '';
+            }
+
+            const feedbackEl = document.getElementById('cable-sim-feedback');
+            feedbackEl.style.display = 'none';
+            feedbackEl.innerHTML = '';
+        }
+
+        // ── Reiniciar al cambiar de estándar ──
+        document.querySelectorAll('input[name="targetStandard"]').forEach(radio => {
+            radio.addEventListener('change', resetCableSim);
+        });
+
+        // ── Inicializar paleta ──
+        renderPalette();
+    </script>
+</body>
+
+</html>

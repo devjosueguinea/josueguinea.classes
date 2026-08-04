@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menuLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
-        
+
         // Removemos la clase active por defecto para evitar redundancias
         link.classList.remove('active');
 
