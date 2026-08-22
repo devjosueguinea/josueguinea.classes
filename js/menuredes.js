@@ -44,6 +44,24 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 5: Retroalimentación">Clase 5: Retroalimentación</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase6redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 6: Punto de control - Ejercicios">Clase 6: Punto de control - Ejercicios de práctica</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase7redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 7: Subredes FLSM">Clase 7: Subredes FLSM</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase8redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 8: Subredes VLSM">Clase 8: Subredes VLSM</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

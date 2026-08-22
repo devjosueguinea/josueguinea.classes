@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 6: Punto de Control - Evaluación de Aprendizajes - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .challenge-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            position: relative;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .challenge-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .solution-content.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toggle-icon {
+            transition: transform 0.25s;
+        }
+
+        .challenge-card.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 6: Punto de Control</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <span class="badge-clase bg-primary text-white mb-3">Clase 6</span>
+                <h3 class="fw-bold mb-2">Evaluación de Aprendizajes (Semanas 1-5)</h3>
+                <p class="text-secondary mb-4">Bienvenido a este punto de control diseñado para medir y consolidar tus competencias teóricas y prácticas en redes informáticas. A continuación, se presentan 10 retos y ejercicios prácticos de Packet Tracer organizados por temas clave. Haz clic sobre cada tarjeta para revelar su solución paso a paso.</p>
+
+                <!-- Objetivos -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold"><i class="bi bi-shield-check text-primary me-2"></i>Objetivos del Punto de Control</h5>
+                    <ul class="text-secondary mb-0 ps-3">
+                        <li>Validar la comprensión de la topología física, dispositivos y cableado en Packet Tracer (Anatomía).</li>
+                        <li>Ejercitar la conversión y análisis en sistema binario aplicado al direccionamiento IP.</li>
+                        <li>Desarrollar capacidades de diseño y configuración de direccionamiento IPv4 y gateways de red.</li>
+                    </ul>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Listado de Retos Prácticos</h4>
+                    <button class="btn btn-sm btn-outline-primary" id="btn-toggle-all">Mostrar todas las soluciones</button>
+                </div>
+
+                <div id="challenges-container">
+                    <!-- Reto 1 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-info text-dark mb-2 d-inline-block">Anatomía de Redes</span>
+                                <h5 class="fw-bold mb-1">Reto 1: Topología de Estrella y Conectividad Básica</h5>
+                                <p class="text-secondary mb-0 small">Diseña en Cisco Packet Tracer una topología que contenga 3 PCs y 1 Servidor Web conectados a un Switch 2960. Define el direccionamiento IP de red privada local y verifica la conectividad.</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                               <li><strong>Conexiones físicas:</strong> Utiliza cables directos (Copper Straight-Through) desde la interfaz FastEthernet de cada PC y el Servidor hacia cualquier puerto libre del Switch 2960.</li>
+                               <li><strong>Direccionamiento IP:</strong> Asigna IPs fijas en el mismo rango de red local, por ejemplo:
+                                    <ul class="ps-3">
+                                        <li>PC1: 192.168.1.10 (Máscara: 255.255.255.0)</li>
+                                        <li>PC2: 192.168.1.11 (Máscara: 255.255.255.0)</li>
+                                        <li>PC3: 192.168.1.12 (Máscara: 255.255.255.0)</li>
+                                        <li>Servidor Web: 192.168.1.100 (Máscara: 255.255.255.0)</li>
+                                    </ul>
+                               </li>
+                               <li><strong>Verificación:</strong> Entra al símbolo del sistema (Command Prompt) de PC1 y ejecuta <code>ping 192.168.1.100</code>. Luego, abre el navegador web de PC2 e ingresa <code>192.168.1.100</code> para visualizar la página web por defecto del Servidor.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 2 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-warning text-dark mb-2 d-inline-block">Sistema Binario</span>
+                                <h5 class="fw-bold mb-1">Reto 2: Conversión de Máscara de Subred</h5>
+                                <p class="text-secondary mb-0 small">Un administrador de red ha configurado la máscara de subred decimal <code>255.255.240.0</code>. Conviértela a su representación en código binario y obtén su prefijo CIDR.</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Conversión de octetos:</strong>
+                                    <ul class="ps-3">
+                                        <li>255 &rarr; <code>11111111</code></li>
+                                        <li>255 &rarr; <code>11111111</code></li>
+                                        <li>240 &rarr; <code>11110000</code> (128+64+32+16 = 240)</li>
+                                        <li>0 &rarr; <code>00000000</code></li>
+                                    </ul>
+                                </li>
+                                <li><strong>Representación Binaria Completa:</strong> <code>11111111.11111111.11110000.00000000</code></li>
+                                <li><strong>Prefijo CIDR:</strong> Cuenta el número de bits encendidos (1s). En este caso hay 8 + 8 + 4 = 20 bits. Por lo tanto, el prefijo CIDR equivalente es <strong>/20</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 3 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-danger text-white mb-2 d-inline-block">Direccionamiento IPv4</span>
+                                <h5 class="fw-bold mb-1">Reto 3: Identificación de Parámetros de Red</h5>
+                                <p class="text-secondary mb-0 small">Dada la dirección IP de host <code>172.16.45.101/22</code>, calcula la dirección de red a la que pertenece, su broadcast y el rango de IPs utilizables.</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Máscara /22:</strong> Corresponde a <code>255.255.252.0</code>. En el tercer octeto, el tamaño de bloque es $2^{32-22} = 2^{10} \rightarrow 1024$ direcciones totales ($256 \times 4$), indicando saltos de 4 en el tercer octeto.</li>
+                                <li><strong>Determinación del bloque:</strong> Las redes saltan en `172.16.0.0`, `172.16.4.0`, ..., `172.16.40.0`, `172.16.44.0`, `172.16.48.0`. La IP `172.16.45.101` cae en el rango de la red <strong>172.16.44.0</strong>.</li>
+                                <li><strong>Parámetros Resultantes:</strong>
+                                    <ul class="ps-3">
+                                        <li><strong>Dirección de Red:</strong> <code>172.16.44.0</code></li>
+                                        <li><strong>Primera IP Utilizable:</strong> <code>172.16.44.1</code></li>
+                                        <li><strong>Última IP Utilizable:</strong> <code>172.16.47.254</code></li>
+                                        <li><strong>Dirección de Broadcast:</strong> <code>172.16.47.255</code></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 4 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-info text-dark mb-2 d-inline-block">Anatomía de Redes</span>
+                                <h5 class="fw-bold mb-1">Reto 4: Enlace Físico entre Routers</h5>
+                                <p class="text-secondary mb-0 small">Debes conectar directamente dos Routers 2911 en tu simulación utilizando sus interfaces GigabitEthernet. ¿Qué tipo de cable físico es el correcto y qué secuencia de comandos Cisco IOS se requiere para levantar las interfaces?</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Cable Físico:</strong> Para conectar dos dispositivos de la misma capa (Router a Router) se debe utilizar un cable cruzado <strong>(Copper Cross-Over)</strong>, aunque en dispositivos modernos la tecnología Auto-MDIX permita cables directos.</li>
+                                <li><strong>Secuencia de Comandos (en ambos routers):</strong>
+                                    <pre class="bg-dark text-white p-2 rounded mt-2 small font-monospace">
+Router> enable
+Router# configure terminal
+Router(config)# interface GigabitEthernet 0/0
+Router(config-if)# ip address 10.0.0.1 255.255.255.252 (Ejemplo Router 1)
+Router(config-if)# no shutdown
+Router(config-if)# exit</pre>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 5 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-warning text-dark mb-2 d-inline-block">Sistema Binario</span>
+                                <h5 class="fw-bold mb-1">Reto 5: Dirección IPv4 a Binario Puro</h5>
+                                <p class="text-secondary mb-0 small">Convierte la dirección IP de host <code>10.254.13.99</code> a formato binario de 32 bits, estructurada en 4 octetos.</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Conversión por Octetos:</strong>
+                                    <ul class="ps-3">
+                                        <li>10 &rarr; <code>00001010</code> (8 + 2)</li>
+                                        <li>254 &rarr; <code>11111110</code> (255 - 1)</li>
+                                        <li>13 &rarr; <code>00001101</code> (8 + 4 + 1)</li>
+                                        <li>99 &rarr; <code>01100011</code> (64 + 32 + 2 + 1)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Dirección IP en Binario:</strong> <code>00001010.11111110.00001101.01100011</code></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 6 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-danger text-white mb-2 d-inline-block">Direccionamiento IPv4</span>
+                                <h5 class="fw-bold mb-1">Reto 6: Gateway Predeterminado (Default Gateway)</h5>
+                                <p class="text-secondary mb-0 small">Una topología posee una red local en el segmento <code>192.168.50.0/24</code>. El Router tiene asignada la IP <code>192.168.50.254</code> en la interfaz LAN. ¿Qué configuración de Gateway debes aplicar en las PCs locales y por qué es indispensable?</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Configuración:</strong> Se debe asignar la dirección IP <code>192.168.50.254</code> como <strong>Default Gateway</strong> en la pestaña IP Configuration de cada PC de la red.</li>
+                                <li><strong>Propósito:</strong> El Gateway es la IP de la interfaz del router que actúa como "puerta de salida". Sin esta configuración, los hosts de la red local solo podrán hacer ping entre ellos, pero no podrán enviar tráfico hacia redes remotas, internet o servidores externos.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 7 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-info text-dark mb-2 d-inline-block">Anatomía de Redes</span>
+                                <h5 class="fw-bold mb-1">Reto 7: Simulación de Servidor DHCP</h5>
+                                <p class="text-secondary mb-0 small">Describe cómo configurar un Servidor genérico en Packet Tracer para entregar direccionamiento IP de forma dinámica a una LAN en el segmento <code>192.168.10.0/24</code> iniciando desde la dirección <code>192.168.10.50</code>.</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Configurar IP Estática en el Servidor:</strong> Asigna por ejemplo <code>192.168.10.2</code> con máscara <code>255.255.255.0</code> y Gateway <code>192.168.10.1</code>.</li>
+                                <li><strong>Configurar el servicio DHCP:</strong>
+                                    <ul class="ps-3">
+                                        <li>Haz clic en el Servidor &rarr; pestaña <strong>Services</strong> &rarr; selecciona <strong>DHCP</strong>.</li>
+                                        <li>Activa el servicio (marcar <strong>On</strong>).</li>
+                                        <li>Ingresa el Default Gateway: <code>192.168.10.1</code>.</li>
+                                        <li>Configura "Start IP Address" como: <code>192.168.10.50</code>.</li>
+                                        <li>Guarda los cambios (clic en <strong>Save</strong>).</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Verificación en los hosts:</strong> Ve a cualquier PC &rarr; Desktop &rarr; IP Configuration &rarr; cambia de "Static" a "DHCP". Comprueba que reciba una IP dentro de la secuencia (ej. 192.168.10.50, 192.168.10.51, etc.).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 8 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-warning text-dark mb-2 d-inline-block">Sistema Binario</span>
+                                <h5 class="fw-bold mb-1">Reto 8: Cálculo de Bits para Hosts</h5>
+                                <p class="text-secondary mb-0 small">Una empresa requiere subredes con capacidad para albergar al menos 120 hosts reales cada una, a partir de la red <code>192.168.100.0/24</code>. ¿Cuántos bits de host ($h$) y bits de subred ($s$) se deben asignar?</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Calcular bits de host ($h$):</strong> Usamos la fórmula: $2^h - 2 \ge 120$.
+                                    <ul class="ps-3">
+                                        <li>Si $h=6 \rightarrow 2^6 - 2 = 62$ (insuficiente).</li>
+                                        <li>Si $h=7 \rightarrow 2^7 - 2 = 126$ (suficiente).</li>
+                                    </ul>
+                                    Por ende, requerimos <strong>7 bits de host</strong>.
+                                </li>
+                                <li><strong>Calcular bits de subred ($s$):</strong> La red base original /24 nos deja 8 bits para hosts ($32 - 24 = 8$). Si reservamos 7 para hosts, nos queda: $s = 8 - 7 = 1$ bit.
+                                    <ul class="ps-3">
+                                        <li>Bits de Subred ($s$): <strong>1 bit prestado</strong>.</li>
+                                        <li>Nueva máscara: 24 + 1 = <strong>/25</strong> (equivalente a <code>255.255.255.128</code>).</li>
+                                        <li>Subredes creadas: $2^1 = 2$ subredes de 126 hosts útiles cada una.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 9 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-danger text-white mb-2 d-inline-block">Direccionamiento IPv4</span>
+                                <h5 class="fw-bold mb-1">Reto 9: Identificación de IPs Especiales</h5>
+                                <p class="text-secondary mb-0 small">Explica detalladamente por qué las direcciones <code>127.0.0.1</code> y <code>169.254.10.15</code> no deben asignarse de forma estática como IPs utilizables en servidores de producción.</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>127.0.0.1 (Dirección de Loopback):</strong> Reservada para pruebas locales del software de red dentro del propio equipo. No viaja a través del medio físico, por lo que es inaccesible externamente.</li>
+                                <li><strong>169.254.X.X (APIPA - Automatic Private IP Addressing):</strong> Este rango es autoasignado por sistemas operativos (Windows) cuando una interfaz configurada en modo DHCP no logra obtener comunicación con un servidor DHCP. Indica una falla de comunicación en la capa física o de servicios, y no es enrutable.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reto 10 -->
+                    <div class="challenge-card" onclick="toggleSolution(this)">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="challenge-badge bg-info text-dark mb-2 d-inline-block">Anatomía de Redes</span>
+                                <h5 class="fw-bold mb-1">Reto 10: Configuración de Router Inalámbrico de Hogar</h5>
+                                <p class="text-secondary mb-0 small">Configura un Router inalámbrico casero (Home Gateway) en Packet Tracer. Conecta una PC vía cable y un Smartphone vía Wi-Fi. Explica el procedimiento para ingresar a la interfaz gráfica y cambiar el SSID.</p>
+                            </div>
+                            <i class="bi bi-chevron-down toggle-icon text-muted fs-4"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill"></i> Solución Recomendada:</h6>
+                            <ul class="text-muted small ps-3">
+                                <li><strong>Conexión Física y Lógica:</strong> Conecta la PC a uno de los puertos Ethernet (LAN) del Home Gateway. El Gateway asignará de forma automática una IP por DHCP a la PC (ej. 192.168.0.100) y su IP LAN será la IP de Default Gateway (ej. 192.168.0.1).</li>
+                                <li><strong>Acceso a la Interfaz Gráfica (GUI):</strong> Abre la PC simulada &rarr; pestaña <strong>Desktop</strong> &rarr; <strong>Web Browser</strong>. En la barra de direcciones escribe la IP del router: <code>192.168.0.1</code>.</li>
+                                <li><strong>Credenciales y Configuración:</strong> Introduce las credenciales por defecto (usuario: <code>admin</code>, contraseña: <code>admin</code>). Dirígete a la sección <strong>Wireless</strong> &rarr; cambia el "Wireless Network Name (SSID)" al nombre deseado y guarda los cambios.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- Scripts y Lógica -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        function toggleSolution(cardElement) {
+            cardElement.classList.toggle('active');
+            const solution = cardElement.querySelector('.solution-content');
+            solution.classList.toggle('show');
+        }
+
+        const btnToggleAll = document.getElementById('btn-toggle-all');
+        let allShown = false;
+
+        btnToggleAll.addEventListener('click', () => {
+            const cards = document.querySelectorAll('.challenge-card');
+            const solutions = document.querySelectorAll('.solution-content');
+            
+            allShown = !allShown;
+            
+            cards.forEach(card => {
+                if (allShown) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+
+            solutions.forEach(sol => {
+                if (allShown) {
+                    sol.classList.add('show');
+                } else {
+                    sol.classList.remove('show');
+                }
+            });
+
+            btnToggleAll.textContent = allShown ? 'Ocultar todas las soluciones' : 'Mostrar todas las soluciones';
+        });
+    </script>
+</body>
+
+</html>

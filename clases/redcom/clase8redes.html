@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 8: División de Subredes con Longitud Variable (VLSM) - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Tarjetas y Diseños Didácticos ── */
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .concept-badge {
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* ── Diseños del Simulador de Subredes ── */
+        .subnet-card-input {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, #6c5ce7 100%);
+            border: none;
+            color: white;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary-gradient:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .formula-box {
+            background-color: #0c0d14;
+            color: #a29bfe;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+            border: 1px solid #2d3139;
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 8: División de Subredes (VLSM)</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <span class="badge-clase bg-primary text-white mb-3">Clase 8</span>
+                <h3 class="fw-bold mb-2">División de Subredes con Longitud Variable (VLSM)</h3>
+                <p class="text-secondary mb-4">Aprende a diseñar esquemas de direccionamiento IP altamente eficientes
+                    que se adapten a las necesidades reales de hosts en cada subred, reduciendo el desperdicio de
+                    direcciones IP al mínimo.</p>
+
+                <!-- Objetivos -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de la Clase</h5>
+                    <ul class="text-secondary mb-0 ps-3">
+                        <li>Diferenciar entre la división de subredes tradicional (FLSM) y de longitud variable (VLSM).
+                        </li>
+                        <li>Comprender la matemática y las fórmulas detrás del cálculo de máscaras de subred de longitud
+                            variable.</li>
+                        <li>Seguir un proceso paso a paso para resolver cualquier problema de direccionamiento
+                            estructurado.</li>
+                        <li>Utilizar el simulador interactivo para calcular y validar direccionamientos IP en escenarios
+                            reales.</li>
+                    </ul>
+                </div>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 1: CONCEPTOS -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-book text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. Introducción y Conceptos Clave</h3>
+                    </div>
+                    <p class="text-secondary">
+                        En el subnetting clásico o <strong>FLSM (Fixed Length Subnet Mask)</strong>, todas las subredes
+                        creadas tienen el mismo tamaño y la misma máscara de subred. Si bien este enfoque es simple,
+                        genera un gran desperdicio de direcciones IP cuando los segmentos de red tienen requerimientos
+                        de hosts muy desiguales (por ejemplo, una subred de producción con 100 hosts y un enlace serial
+                        WAN que solo requiere 2 IPs utilizables).
+                    </p>
+
+                    <div class="row g-4 my-3">
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">FLSM</span>
+                                <h6 class="fw-bold">Máscara Fija</h6>
+                                <p class="small text-muted mb-0">Todas las subredes comparten idéntica máscara (ej.
+                                    `/26`). Un enlace WAN con solo 2 hosts desperdicia 60 IPs en una subred diseñada
+                                    para 62 hosts.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">VLSM</span>
+                                <h6 class="fw-bold">Máscara Variable</h6>
+                                <p class="small text-muted mb-0">Cada subred recibe una máscara adaptada a su tamaño de
+                                    host requerido (ej. `/25` para 100 hosts, `/30` para enlaces WAN). Optimización
+                                    máxima del espacio de direccionamiento.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="class-step mt-4">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-info-circle-fill"></i> ¿Por qué usar VLSM?</h6>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem;">
+                            VLSM permite subdividir una subred en partes más pequeñas de forma jerárquica. Esto reduce
+                            el tamaño de las tablas de enrutamiento mediante la **sumarización de rutas** y previene el
+                            agotamiento prematuro de direcciones IPv4 públicas y privadas.
+                        </p>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 2: PROCESO PASO A PASO -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-list-ol text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Proceso de Cálculo en Pasos</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Para realizar la división de subredes mediante VLSM correctamente,
+                        sigue esta metodología estructurada:</p>
+
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">1</div>
+                            <div>
+                                <h6 class="fw-bold">Ordenar los Requerimientos</h6>
+                                <p class="text-secondary small mb-0">Ordena las subredes solicitadas de <strong>mayor a
+                                        menor</strong> según la cantidad de hosts requeridos. Esto asegura que los
+                                    bloques de direcciones más grandes se asignen primero, previniendo solapamientos.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">2</div>
+                            <div>
+                                <h6 class="fw-bold">Calcular la cantidad de bits de Host ($h$)</h6>
+                                <p class="text-secondary small mb-0">
+                                    Encuentra el menor número entero $h$ de bits de host de modo que satisfaga la
+                                    fórmula fundamental:
+                                </p>
+                                <div class="formula-box">
+                                    2<sup>h</sup> - 2 &ge; Hosts Requeridos
+                                </div>
+                                <p class="text-secondary small mb-0">El "-2" representa la dirección de red y la
+                                    dirección de broadcast, las cuales no pueden asignarse a un host de la red.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">3</div>
+                            <div>
+                                <h6 class="fw-bold">Determinar la Nueva Máscara de Subred</h6>
+                                <p class="text-secondary small mb-0">Resta la cantidad de bits de host ($h$) a los 32
+                                    bits totales de la dirección IPv4 para obtener el prefijo CIDR de la subred:
+                                    <strong>Prefijo = 32 - h</strong>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">4</div>
+                            <div>
+                                <h6 class="fw-bold">Calcular los Rango de Direcciones</h6>
+                                <p class="text-secondary small mb-0">Define el segmento:</p>
+                                <ul class="text-muted small ps-3">
+                                    <li><strong>Dirección de Red:</strong> La primera IP del bloque actual.</li>
+                                    <li><strong>Primera IP Utilizable:</strong> Dirección de Red + 1.</li>
+                                    <li><strong>Última IP Utilizable:</strong> Dirección de Red + (Tamaño del bloque -
+                                        2).</li>
+                                    <li><strong>Dirección de Broadcast:</strong> Dirección de Red + (Tamaño del bloque -
+                                        1).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">5</div>
+                            <div>
+                                <h6 class="fw-bold">Asignar la Siguiente IP de Red</h6>
+                                <p class="text-secondary small mb-0">La dirección de red para la siguiente subred es
+                                    simplemente la <strong>Dirección de Broadcast de la subred actual + 1</strong>.
+                                    Repite el proceso para todas las subredes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 3: SIMULADOR INTERACTIVO -->
+                <section class="mb-5" id="simulador-vlsm-section">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-cpu text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Simulador Interactivo de Subredes VLSM</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Ingresa la IP Base y define los requerimientos de tus subredes.
+                        Agrégalas dinámicamente para calcular de forma inmediata el esquema jerárquico óptimo.</p>
+
+                    <div class="row g-4">
+                        <!-- Panel de Entrada -->
+                        <div class="col-lg-5">
+                            <div class="interactive-box bg-body-tertiary">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-sliders me-1"></i> Parámetros de Entrada</h5>
+
+                                <div class="mb-3">
+                                    <label for="base-ip" class="form-label fw-semibold">IP de Red Base</label>
+                                    <input type="text" class="form-control" id="base-ip" placeholder="ej. 192.168.1.0"
+                                        value="192.168.1.0">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="base-mask" class="form-label fw-semibold">Máscara Base (CIDR)</label>
+                                    <select class="form-select" id="base-mask">
+                                        <option value="8">/8</option>
+                                        <option value="16">/16</option>
+                                        <option value="24" selected>/24</option>
+                                    </select>
+                                </div>
+
+                                <hr>
+
+                                <h6 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+                                    <span>Subredes Solicitadas</span>
+                                    <button class="btn btn-sm btn-outline-primary" id="btn-add-subnet"><i
+                                            class="bi bi-plus-circle"></i> Agregar</button>
+                                </h6>
+
+                                <div id="subnets-input-container">
+                                    <!-- Inputs de subred inyectados por JS -->
+                                    <div class="subnet-card-input d-flex gap-2 align-items-center"
+                                        id="subnet-input-row-0">
+                                        <span class="fw-bold text-muted">#1</span>
+                                        <input type="text" class="form-control form-control-sm subnet-name"
+                                            placeholder="Nombre" value="VLAN 10 - Ventas">
+                                        <input type="number" class="form-control form-control-sm subnet-hosts"
+                                            style="width: 100px;" placeholder="Hosts" value="50">
+                                        <button class="btn btn-sm btn-outline-danger btn-remove-row"
+                                            onclick="removeSubnetRow(0)"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                    <div class="subnet-card-input d-flex gap-2 align-items-center"
+                                        id="subnet-input-row-1">
+                                        <span class="fw-bold text-muted">#2</span>
+                                        <input type="text" class="form-control form-control-sm subnet-name"
+                                            placeholder="Nombre" value="VLAN 20 - TI">
+                                        <input type="number" class="form-control form-control-sm subnet-hosts"
+                                            style="width: 100px;" placeholder="Hosts" value="25">
+                                        <button class="btn btn-sm btn-outline-danger btn-remove-row"
+                                            onclick="removeSubnetRow(1)"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                    <div class="subnet-card-input d-flex gap-2 align-items-center"
+                                        id="subnet-input-row-2">
+                                        <span class="fw-bold text-muted">#3</span>
+                                        <input type="text" class="form-control form-control-sm subnet-name"
+                                            placeholder="Nombre" value="Enlace WAN">
+                                        <input type="number" class="form-control form-control-sm subnet-hosts"
+                                            style="width: 100px;" placeholder="Hosts" value="2">
+                                        <button class="btn btn-sm btn-outline-danger btn-remove-row"
+                                            onclick="removeSubnetRow(2)"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button class="btn btn-primary-gradient w-100 fw-bold py-2 text-white"
+                                        id="btn-calculate-vlsm"><i class="bi bi-calculator"></i> Calcular Esquema
+                                        VLSM</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel de Salida / Resultados -->
+                        <div class="col-lg-7">
+                            <div class="interactive-box">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-table me-1"></i> Tabla de Direccionamiento
+                                    Calculada</h5>
+                                <div id="vlsm-alert-placeholder"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle small text-center"
+                                        id="vlsm-results-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Hosts Req / Asig</th>
+                                                <th>Red IP</th>
+                                                <th>Rango IPs Utilizables</th>
+                                                <th>Broadcast</th>
+                                                <th>Máscara</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="vlsm-results-body">
+                                            <tr>
+                                                <td colspan="6" class="text-muted py-4">Presiona "Calcular Esquema VLSM"
+                                                    para visualizar los resultados.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 4: CUESTIONARIO -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-check2-square text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Evaluación de Aprendizajes</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Responde a las siguientes preguntas teóricas y prácticas para
+                        comprobar tus conocimientos sobre VLSM:</p>
+
+                    <div id="quiz-container">
+                        <!-- Pregunta 1 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 1: ¿Cuál es la principal ventaja de utilizar VLSM sobre
+                                FLSM?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label text-secondary" for="q1a">Simplifica la configuración de
+                                    routing dinámico.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label text-secondary" for="q1b">Optimiza el uso de direcciones
+                                    IP al asignar máscaras adaptadas al tamaño requerido.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label text-secondary" for="q1c">Incrementa automáticamente la
+                                    seguridad de los puertos del switch.</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 2: Si necesitas diseñar una subred para albergar un máximo
+                                de 28 hosts utilizables, ¿cuál es el prefijo de subred óptimo?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label text-secondary" for="q2a">/27 (proporciona hasta 30 hosts
+                                    utilizables)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label text-secondary" for="q2b">/28 (proporciona hasta 14 hosts
+                                    utilizables)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label text-secondary" for="q2c">/26 (proporciona hasta 62 hosts
+                                    utilizables)</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 3: En el cálculo de subredes VLSM, ¿cuál es el primer paso
+                                obligatorio?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label text-secondary" for="q3a">Asignar primero los enlaces WAN
+                                    de menor tamaño.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label text-secondary" for="q3b">Ordenar los requerimientos de
+                                    subred de mayor a menor número de hosts.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label text-secondary" for="q3c">Convertir todas las IP
+                                    decimales de red a binario puro.</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 4: ¿Cuántas direcciones IP de hosts útiles ofrece una
+                                máscara /30 (utilizada típicamente en enlaces punto a punto)?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label text-secondary" for="q4a">4 direcciones en total</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label text-secondary" for="q4b">2 direcciones
+                                    utilizables</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label text-secondary" for="q4c">6 direcciones
+                                    utilizables</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 5 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 5: Si la dirección de broadcast de una subred es
+                                192.168.1.63/26, ¿cuál es la dirección de red de la siguiente subred?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label text-secondary" for="q5a">192.168.1.64</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label text-secondary" for="q5b">192.168.1.65</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label text-secondary" for="q5c">192.168.1.128</label>
+                            </div>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div class="d-flex align-items-center gap-3 mt-4">
+                            <button class="btn btn-primary-gradient fw-bold px-4 py-2 text-white"
+                                id="btn-evaluar-vlsm">Comprobar Cuestionario</button>
+                            <span id="quiz-result-score" style="display: none;"></span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones
+        </p>
+    </footer>
+
+    <!-- Scripts y Lógica -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/menu.js"></script>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        // ==========================================
+        //        LÓGICA DEL SIMULADOR VLSM
+        // ==========================================
+        let subnetRowCount = 3;
+
+        document.getElementById('btn-add-subnet').addEventListener('click', () => {
+            const container = document.getElementById('subnets-input-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'subnet-card-input d-flex gap-2 align-items-center';
+            newRow.id = `subnet-input-row-${subnetRowCount}`;
+            newRow.innerHTML = `
+                <span class="fw-bold text-muted">#${subnetRowCount + 1}</span>
+                <input type="text" class="form-control form-control-sm subnet-name" placeholder="Nombre" value="Subred ${subnetRowCount + 1}">
+                <input type="number" class="form-control form-control-sm subnet-hosts" style="width: 100px;" placeholder="Hosts" value="10">
+                <button class="btn btn-sm btn-outline-danger btn-remove-row" onclick="removeSubnetRow(${subnetRowCount})"><i class="bi bi-trash"></i></button>
+            `;
+            container.appendChild(newRow);
+            subnetRowCount++;
+        });
+
+        function removeSubnetRow(index) {
+            const el = document.getElementById(`subnet-input-row-${index}`);
+            if (el) el.remove();
+        }
+
+        // Conversión e IP Helpers
+        function ip2long(ip) {
+            return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+        }
+
+        function long2ip(num) {
+            return [
+                (num >>> 24) & 0xFF,
+                (num >>> 16) & 0xFF,
+                (num >>> 8) & 0xFF,
+                num & 0xFF
+            ].join('.');
+        }
+
+        function maskLengthToSubnetMask(prefix) {
+            let mask = 0;
+            for (let i = 0; i < prefix; i++) {
+                mask |= (1 << (31 - i));
+            }
+            return long2ip(mask);
+        }
+
+        document.getElementById('btn-calculate-vlsm').addEventListener('click', () => {
+            const baseIpVal = document.getElementById('base-ip').value.trim();
+            const baseMask = parseInt(document.getElementById('base-mask').value, 10);
+            const alertPlaceholder = document.getElementById('vlsm-alert-placeholder');
+            const resultsBody = document.getElementById('vlsm-results-body');
+
+            alertPlaceholder.innerHTML = '';
+
+            // Validación IP simple
+            const ipRegex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+            if (!ipRegex.test(baseIpVal)) {
+                alertPlaceholder.innerHTML = `<div class="alert alert-danger" role="alert">Dirección IP Base inválida.</div>`;
+                return;
+            }
+
+            // Obtener subredes ingresadas
+            const names = document.querySelectorAll('.subnet-name');
+            const hostsInputs = document.querySelectorAll('.subnet-hosts');
+            let subnets = [];
+
+            for (let i = 0; i < names.length; i++) {
+                const name = names[i].value.trim() || `Subred ${i + 1}`;
+                const hosts = parseInt(hostsInputs[i].value, 10);
+                if (isNaN(hosts) || hosts <= 0) {
+                    alertPlaceholder.innerHTML = `<div class="alert alert-danger" role="alert">La cantidad de hosts para cada subred debe ser un entero positivo.</div>`;
+                    return;
+                }
+                subnets.push({ name, requestedHosts: hosts });
+            }
+
+            if (subnets.length === 0) {
+                alertPlaceholder.innerHTML = `<div class="alert alert-warning" role="alert">Por favor agrega al menos una subred.</div>`;
+                return;
+            }
+
+            // 1. ORDENAR de mayor a menor según hosts solicitados
+            subnets.sort((a, b) => b.requestedHosts - a.requestedHosts);
+
+            let currentIpLong = ip2long(baseIpVal);
+            let totalAvailable = Math.pow(2, 32 - baseMask);
+            let totalUsed = 0;
+
+            resultsBody.innerHTML = '';
+
+            for (let i = 0; i < subnets.length; i++) {
+                const s = subnets[i];
+
+                // 2. Encontrar bits de hosts h necesarios
+                let h = 1;
+                while ((Math.pow(2, h) - 2) < s.requestedHosts) {
+                    h++;
+                }
+
+                let blockSize = Math.pow(2, h);
+                totalUsed += blockSize;
+
+                if (totalUsed > totalAvailable) {
+                    alertPlaceholder.innerHTML = `<div class="alert alert-danger" role="alert">¡Desbordamiento de rango! Las subredes requeridas exceden el espacio total del direccionamiento base (/${baseMask}). Rediseña reduciendo hosts o expandiendo el bloque IP.</div>`;
+                    return;
+                }
+
+                let newPrefix = 32 - h;
+                let netIp = long2ip(currentIpLong);
+                let firstHostIp = long2ip(currentIpLong + 1);
+                let lastHostIp = long2ip(currentIpLong + blockSize - 2);
+                let broadcastIp = long2ip(currentIpLong + blockSize - 1);
+                let maskDecimal = maskLengthToSubnetMask(newPrefix);
+
+                resultsBody.innerHTML += `
+                    <tr>
+                        <td class="fw-bold text-start">${s.name}</td>
+                        <td>${s.requestedHosts} / <strong>${blockSize - 2}</strong></td>
+                        <td><code>${netIp}</code></td>
+                        <td>${firstHostIp} - ${lastHostIp}</td>
+                        <td><code>${broadcastIp}</code></td>
+                        <td><span class="badge bg-secondary">/${newPrefix}</span><br><small class="text-muted">${maskDecimal}</small></td>
+                    </tr>
+                `;
+
+                currentIpLong += blockSize;
+            }
+        });
+
+        // ==========================================
+        //        LÓGICA DEL CUESTIONARIO
+        // ==========================================
+        document.getElementById('btn-evaluar-vlsm').addEventListener('click', () => {
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'b',
+                q4: 'b',
+                q5: 'a'
+            };
+
+            let score = 0;
+            const total = 5;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checked) {
+                    unanswered = true;
+                    break;
+                }
+                if (checked.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result-score');
+            result.style.display = 'inline-block';
+            result.textContent = `Puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                result.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 3) {
+                result.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                result.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+    </script>
+</body>
+
+</html>

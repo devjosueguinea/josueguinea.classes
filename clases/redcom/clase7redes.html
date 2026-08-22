@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 7: División de Subredes de Longitud Fija (FLSM) - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Tarjetas y Diseños Didácticos ── */
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .concept-badge {
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* ── Diseños del Simulador de Subredes ── */
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, #6c5ce7 100%);
+            border: none;
+            color: white;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary-gradient:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .formula-box {
+            background-color: #0c0d14;
+            color: #a29bfe;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+            border: 1px solid #2d3139;
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 7: División de Subredes (FLSM)</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <span class="badge-clase bg-primary text-white mb-3">Clase 7</span>
+                <h3 class="fw-bold mb-2">División de Subredes de Longitud Fija (FLSM)</h3>
+                <p class="text-secondary mb-4">Aprende a subdividir un espacio de red en bloques de tamaño idéntico utilizando una máscara de subred constante. Este método clásico es ideal para entornos organizacionales estructurados donde todos los segmentos requieren capacidades de host uniformes.</p>
+
+                <!-- Objetivos -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de la Clase</h5>
+                    <ul class="text-secondary mb-0 ps-3">
+                        <li>Comprender el concepto y el propósito de FLSM (Fixed Length Subnet Mask).</li>
+                        <li>Identificar y aplicar las fórmulas matemáticas para el cálculo de subredes y hosts.</li>
+                        <li>Determinar la máscara de subred adecuada según la cantidad de subredes o hosts necesarios.</li>
+                        <li>Utilizar el simulador interactivo de FLSM para validar diseños de direccionamiento IP estructurado.</li>
+                    </ul>
+                </div>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 1: CONCEPTOS -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-book text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. Introducción y Conceptos Clave</h3>
+                    </div>
+                    <p class="text-secondary">
+                        El subneteo clásico o <strong>FLSM (Fixed Length Subnet Mask)</strong> consiste en dividir una red IP base (habitualmente con máscara por defecto Clase A, B o C) en múltiples subredes secundarias de igual tamaño. En este enfoque, todas las subredes creadas comparten exactamente la misma longitud de máscara de subred y, por lo tanto, admiten el mismo número máximo de hosts.
+                    </p>
+
+                    <div class="row g-4 my-3">
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">Enfoque por Subredes</span>
+                                <h6 class="fw-bold">Garantizar Segmentos</h6>
+                                <p class="small text-muted mb-0">Diseñado cuando la prioridad es crear un número específico de subredes independientes (ej. crear 8 departamentos idénticos), sin importar el tamaño de hosts de cada uno.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">Enfoque por Hosts</span>
+                                <h6 class="fw-bold">Garantizar Capacidad de Hosts</h6>
+                                <p class="small text-muted mb-0">Diseñado cuando la prioridad es asegurar que cada subred pueda alojar una cantidad fija de equipos (ej. al menos 30 hosts por aula o departamento).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="class-step mt-4">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-info-circle-fill"></i> ¿Cuándo es ideal FLSM?</h6>
+                        <p class="text-secondary mb-0" style="font-size: 0.9rem;">
+                            FLSM es ideal por su simplicidad en la administración y enrutamiento cuando las necesidades de crecimiento de los diferentes segmentos de red son homogéneas. Sin embargo, genera desperdicio de direcciones si se usa para conectar enlaces WAN que solo requieren 2 hosts.
+                        </p>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 2: PROCESO PASO A PASO -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-list-ol text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Proceso de Cálculo en Pasos</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Para realizar el cálculo de subnetting FLSM, sigue estas fórmulas y pasos:</p>
+
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">1</div>
+                            <div>
+                                <h6 class="fw-bold">Determinar la cantidad de bits tomados prestados ($s$) o bits de host ($h$)</h6>
+                                <p class="text-secondary small mb-2">Dependiendo del criterio de diseño, selecciona la fórmula correspondiente:</p>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <div class="p-2 border rounded bg-body-tertiary">
+                                            <span class="fw-semibold text-primary">Por número de Subredes ($N$):</span>
+                                            <div class="formula-box d-block text-center my-1">
+                                                2<sup>s</sup> &ge; Subredes Requeridas
+                                            </div>
+                                            <small class="text-muted">Donde $s$ es la cantidad de bits robados a la porción de host original.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-2 border rounded bg-body-tertiary">
+                                            <span class="fw-semibold text-primary">Por número de Hosts ($H$):</span>
+                                            <div class="formula-box d-block text-center my-1">
+                                                2<sup>h</sup> - 2 &ge; Hosts Requeridos
+                                            </div>
+                                            <small class="text-muted">Donde $h$ es la cantidad de bits que deben permanecer en la porción de host.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">2</div>
+                            <div>
+                                <h6 class="fw-bold">Calcular la Nueva Máscara de Subred</h6>
+                                <p class="text-secondary small mb-0">
+                                    Si calculaste los bits prestados $s$: <strong>Nueva Máscara = Máscara Base + s</strong>.<br>
+                                    Si calculaste los bits de host $h$: <strong>Nueva Máscara = 32 - h</strong>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">3</div>
+                            <div>
+                                <h6 class="fw-bold">Determinar el Tamaño del Bloque (Salto de Red)</h6>
+                                <p class="text-secondary small mb-0">El salto entre una subred y la siguiente se calcula elevando 2 a la potencia de los bits de host restantes ($h = 32 - \text{Nueva Máscara}$):
+                                </p>
+                                <div class="formula-box">
+                                    Salto = 2<sup>h</sup>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="step-num">4</div>
+                            <div>
+                                <h6 class="fw-bold">Listar las Subredes y sus Rangos</h6>
+                                <p class="text-secondary small mb-0">Comienza desde la IP de Red Base e incrementa el último octeto (o el octeto correspondiente según la máscara) usando el Tamaño del Bloque:</p>
+                                <ul class="text-muted small ps-3">
+                                    <li><strong>Red IP de la subred:</strong> IP de red actual.</li>
+                                    <li><strong>Primera IP Utilizable:</strong> Red IP + 1.</li>
+                                    <li><strong>Última IP Utilizable:</strong> Siguiente Red IP - 2.</li>
+                                    <li><strong>Broadcast IP:</strong> Siguiente Red IP - 1.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 3: SIMULADOR INTERACTIVO -->
+                <section class="mb-5" id="simulador-flsm-section">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-cpu text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Simulador Interactivo de Subredes FLSM</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Introduce los datos de tu red base y calcula instantáneamente todas las subredes de longitud fija generadas por tus requerimientos.</p>
+
+                    <div class="row g-4">
+                        <!-- Panel de Entrada -->
+                        <div class="col-lg-5">
+                            <div class="interactive-box bg-body-tertiary">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-sliders me-1"></i> Parámetros de Entrada</h5>
+
+                                <div class="mb-3">
+                                    <label for="base-ip" class="form-label fw-semibold">IP de Red Base</label>
+                                    <input type="text" class="form-control" id="base-ip" placeholder="ej. 192.168.1.0"
+                                        value="192.168.1.0">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="base-mask" class="form-label fw-semibold">Máscara Base (CIDR)</label>
+                                    <select class="form-select" id="base-mask">
+                                        <option value="8">/8 (Clase A)</option>
+                                        <option value="16">/16 (Clase B)</option>
+                                        <option value="24" selected>/24 (Clase C)</option>
+                                    </select>
+                                </div>
+
+                                <hr>
+
+                                <div class="mb-3">
+                                    <label for="calc-criteria" class="form-label fw-semibold">Criterio de Subnetting</label>
+                                    <select class="form-select" id="calc-criteria">
+                                        <option value="subnets" selected>Por número de Subredes requeridas</option>
+                                        <option value="hosts">Por número de Hosts por subred requeridos</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="criteria-value" id="criteria-value-label" class="form-label fw-semibold">Subredes Requeridas</label>
+                                    <input type="number" class="form-control" id="criteria-value" placeholder="ej. 4" value="4" min="1">
+                                </div>
+
+                                <div class="mt-4">
+                                    <button class="btn btn-primary-gradient w-100 fw-bold py-2 text-white"
+                                        id="btn-calculate-flsm"><i class="bi bi-calculator"></i> Calcular Esquema FLSM</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel de Salida / Resultados -->
+                        <div class="col-lg-7">
+                            <div class="interactive-box">
+                                <h5 class="fw-bold mb-3"><i class="bi bi-table me-1"></i> Tabla de Direccionamiento FLSM</h5>
+                                <div id="flsm-alert-placeholder"></div>
+                                <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+                                    <table class="table table-striped table-hover align-middle small text-center"
+                                        id="flsm-results-table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Red IP</th>
+                                                <th>Rango IPs Utilizables</th>
+                                                <th>Broadcast</th>
+                                                <th>Máscara</th>
+                                                <th>Hosts Disponibles</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="flsm-results-body">
+                                            <tr>
+                                                <td colspan="6" class="text-muted py-4">Presiona "Calcular Esquema FLSM" para visualizar los resultados.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 4: CUESTIONARIO -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-check2-square text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Evaluación de Aprendizajes</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Responde a las siguientes preguntas para comprobar tus conocimientos sobre el subnetting clásico (FLSM):</p>
+
+                    <div id="quiz-container">
+                        <!-- Pregunta 1 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 1: En FLSM, ¿cuál de las siguientes afirmaciones es correcta?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label text-secondary" for="q1a">Cada subred puede tener una máscara y un tamaño de hosts diferente.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label text-secondary" for="q1b">Todas las subredes comparten idéntica máscara de subred y tamaño de hosts.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label text-secondary" for="q1c">Se reduce a cero el desperdicio de direcciones IP.</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 2: Si partimos de una red base 192.168.1.0/24 y queremos crear al menos 5 subredes, ¿cuántos bits debemos robar (s) a la porción de hosts?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label text-secondary" for="q2a">2 bits (nos da hasta 4 subredes)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label text-secondary" for="q2b">3 bits (nos da hasta 8 subredes)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label text-secondary" for="q2c">4 bits (nos da hasta 16 subredes)</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 3: Si robamos 3 bits a una red de máscara original /24, ¿cuál será la nueva máscara en prefijo CIDR?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label text-secondary" for="q3a">/27</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label text-secondary" for="q3b">/21</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label text-secondary" for="q3c">/30</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 4: Con una máscara de subred /26, ¿cuántos hosts útiles están disponibles por subred?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label text-secondary" for="q4a">64 hosts</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label text-secondary" for="q4b">62 hosts</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label text-secondary" for="q4c">30 hosts</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 5 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 5: En una subred con IP de red 192.168.10.128/26, ¿cuál es su correspondiente dirección de broadcast?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label text-secondary" for="q5a">192.168.10.191</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label text-secondary" for="q5b">192.168.10.255</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label text-secondary" for="q5c">192.168.10.129</label>
+                            </div>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div class="d-flex align-items-center gap-3 mt-4">
+                            <button class="btn btn-primary-gradient fw-bold px-4 py-2 text-white"
+                                id="btn-evaluar-flsm">Comprobar Cuestionario</button>
+                            <span id="quiz-result-score" style="display: none;"></span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- Scripts y Lógica -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // ==========================================
+        //        LÓGICA DEL SIMULADOR FLSM
+        // ==========================================
+        const calcCriteria = document.getElementById('calc-criteria');
+        const criteriaValueLabel = document.getElementById('criteria-value-label');
+        const criteriaValue = document.getElementById('criteria-value');
+
+        calcCriteria.addEventListener('change', () => {
+            if (calcCriteria.value === 'subnets') {
+                criteriaValueLabel.textContent = 'Subredes Requeridas';
+                criteriaValue.placeholder = 'ej. 4';
+                criteriaValue.value = '4';
+            } else {
+                criteriaValueLabel.textContent = 'Hosts por Subred Requeridos';
+                criteriaValue.placeholder = 'ej. 30';
+                criteriaValue.value = '30';
+            }
+        });
+
+        // Conversión e IP Helpers
+        function ip2long(ip) {
+            return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+        }
+
+        function long2ip(num) {
+            return [
+                (num >>> 24) & 0xFF,
+                (num >>> 16) & 0xFF,
+                (num >>> 8) & 0xFF,
+                num & 0xFF
+            ].join('.');
+        }
+
+        function maskLengthToSubnetMask(prefix) {
+            let mask = 0;
+            for (let i = 0; i < prefix; i++) {
+                mask |= (1 << (31 - i));
+            }
+            return long2ip(mask);
+        }
+
+        document.getElementById('btn-calculate-flsm').addEventListener('click', () => {
+            const baseIpVal = document.getElementById('base-ip').value.trim();
+            const baseMask = parseInt(document.getElementById('base-mask').value, 10);
+            const criteria = calcCriteria.value;
+            const valueInput = parseInt(criteriaValue.value, 10);
+            const alertPlaceholder = document.getElementById('flsm-alert-placeholder');
+            const resultsBody = document.getElementById('flsm-results-body');
+
+            alertPlaceholder.innerHTML = '';
+            resultsBody.innerHTML = '';
+
+            // Validación IP simple
+            const ipRegex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+            if (!ipRegex.test(baseIpVal)) {
+                alertPlaceholder.innerHTML = `<div class="alert alert-danger" role="alert">Dirección IP Base inválida.</div>`;
+                return;
+            }
+
+            if (isNaN(valueInput) || valueInput <= 0) {
+                alertPlaceholder.innerHTML = `<div class="alert alert-danger" role="alert">Introduce un valor entero positivo válido.</div>`;
+                return;
+            }
+
+            let newPrefix = baseMask;
+            let subnetsCount = 1;
+
+            if (criteria === 'subnets') {
+                // Encontrar s tal que 2^s >= subredes
+                let s = 0;
+                while (Math.pow(2, s) < valueInput) {
+                    s++;
+                }
+                newPrefix = baseMask + s;
+                subnetsCount = Math.pow(2, s);
+            } else {
+                // Encontrar h tal que 2^h - 2 >= hosts
+                let h = 2; // Al menos 2 bits para host (para red y broadcast)
+                while ((Math.pow(2, h) - 2) < valueInput) {
+                    h++;
+                }
+                newPrefix = 32 - h;
+                if (newPrefix < baseMask) {
+                    alertPlaceholder.innerHTML = `<div class="alert alert-danger" role="alert">¡Error! El número de hosts requerido es demasiado grande para la máscara base de red (/${baseMask}).</div>`;
+                    return;
+                }
+                subnetsCount = Math.pow(2, newPrefix - baseMask);
+            }
+
+            if (newPrefix > 30) {
+                alertPlaceholder.innerHTML = `<div class="alert alert-danger" role="alert">La nueva máscara (/${newPrefix}) supera el límite de /30 para hosts utilizables en FLSM. Rediseña tus requerimientos.</div>`;
+                return;
+            }
+
+            const hBits = 32 - newPrefix;
+            const blockSize = Math.pow(2, hBits);
+            const totalAvailableHosts = blockSize - 2;
+            const maskDecimal = maskLengthToSubnetMask(newPrefix);
+
+            let currentIpLong = ip2long(baseIpVal);
+
+            // Cap al listado de subredes para prevenir congelamiento del navegador
+            const displayLimit = Math.min(subnetsCount, 256);
+            if (subnetsCount > displayLimit) {
+                alertPlaceholder.innerHTML = `<div class="alert alert-info" role="alert">Se generaron ${subnetsCount} subredes. A continuación se listan únicamente las primeras ${displayLimit} para optimizar el rendimiento.</div>`;
+            }
+
+            for (let i = 0; i < displayLimit; i++) {
+                let netIp = long2ip(currentIpLong);
+                let firstHostIp = long2ip(currentIpLong + 1);
+                let lastHostIp = long2ip(currentIpLong + blockSize - 2);
+                let broadcastIp = long2ip(currentIpLong + blockSize - 1);
+
+                resultsBody.innerHTML += `
+                    <tr>
+                        <td class="fw-bold">#${i + 1}</td>
+                        <td><code>${netIp}</code></td>
+                        <td>${firstHostIp} - ${lastHostIp}</td>
+                        <td><code>${broadcastIp}</code></td>
+                        <td><span class="badge bg-secondary">/${newPrefix}</span><br><small class="text-muted">${maskDecimal}</small></td>
+                        <td><strong>${totalAvailableHosts}</strong></td>
+                    </tr>
+                `;
+                currentIpLong += blockSize;
+            }
+        });
+
+        // ==========================================
+        //        LÓGICA DEL CUESTIONARIO
+        // ==========================================
+        document.getElementById('btn-evaluar-flsm').addEventListener('click', () => {
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'a',
+                q4: 'b',
+                q5: 'a'
+            };
+
+            let score = 0;
+            const total = 5;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checked) {
+                    unanswered = true;
+                    break;
+                }
+                if (checked.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result-score');
+            result.style.display = 'inline-block';
+            result.textContent = `Puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                result.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 3) {
+                result.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                result.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+    </script>
+</body>
+
+</html>

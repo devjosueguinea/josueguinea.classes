@@ -1,10 +1,10 @@
 // Funcionalidades interactivas principales para la plataforma de clases
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // === 1. CONTROL DE TEMA (CLARO / OSCURO) ===
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const themeIcon = document.getElementById('theme-icon');
-    
+
     // Obtener tema preferido guardado o el valor por defecto
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeIcon(newTheme);
@@ -51,12 +51,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     classItems.forEach(item => {
-        item.addEventListener('click', function(e) {
+        item.addEventListener('click', function (e) {
             // Si el clic fue en el checkbox, no cambiar de pestaña aquí (se maneja por separado)
             if (e.target.closest('.class-checkbox')) return;
 
             const classId = this.getAttribute('data-class-id');
-            
+
             // Desactivar todos los items del menú lateral
             classItems.forEach(i => i.classList.remove('active'));
             // Activar el seleccionado
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             classDetailSections.forEach(section => {
                 section.classList.remove('active');
             });
-            
+
             // Mostrar la sección correspondiente
             const targetSection = document.getElementById(`${classId}-detail`);
             if (targetSection) {
@@ -82,15 +82,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // === 3. CHECKBOXES DE COMPLETADO Y CÁLCULO DE PROGRESO ===
     const checkboxes = document.querySelectorAll('.class-checkbox');
-    
+
     // Cargar estado inicial de checkboxes y progreso al iniciar
     initCheckboxesAndProgress();
 
     checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('click', function() {
+        checkbox.addEventListener('click', function () {
             const key = this.getAttribute('data-class-key');
             const isChecked = this.classList.contains('checked');
-            
+
             if (isChecked) {
                 this.classList.remove('checked');
                 this.querySelector('.bi-check-lg').classList.add('d-none');
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         checkboxes.forEach(checkbox => {
             const key = checkbox.getAttribute('data-class-key');
             const savedState = localStorage.getItem(key);
-            
+
             if (savedState === 'true') {
                 checkbox.classList.add('checked');
                 const checkIcon = checkbox.querySelector('.bi-check-lg');
@@ -181,9 +181,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Calcular y actualizar total de temas completados
         let totalCompleted = 0;
-        const keys = ['bd2_clase1', 'bd2_clase2', 'bd2_clase3', 'bd2_clase4', 'bd2_clase5', 
-                      'redes_clase1', 'redes_clase2', 'redes_clase3', 'redes_clase4', 'redes_clase5'];
-        
+        const keys = ['bd2_clase1', 'bd2_clase2', 'bd2_clase3', 'bd2_clase4', 'bd2_clase5',
+            'redes_clase1', 'redes_clase2', 'redes_clase3', 'redes_clase4', 'redes_clase5', 'redes_clase8'];
+
         keys.forEach(k => {
             if (localStorage.getItem(k) === 'true') {
                 totalCompleted++;
@@ -192,17 +192,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const totalStatsElement = document.getElementById('total-completed-stats');
         if (totalStatsElement) {
-            totalStatsElement.textContent = `${totalCompleted} / 10`;
+            totalStatsElement.textContent = `${totalCompleted} / 11`;
         }
     }
 
     // === 4. BÚSQUEDA DE MATERIAS EN EL DASHBOARD ===
     const searchInput = document.getElementById('dashboard-search');
     if (searchInput) {
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             const query = this.value.toLowerCase().trim();
             const subjectWrappers = document.querySelectorAll('.subject-card-wrapper');
-            
+
             subjectWrappers.forEach(wrapper => {
                 const title = wrapper.getAttribute('data-subject-title') || '';
                 if (title.includes(query)) {
