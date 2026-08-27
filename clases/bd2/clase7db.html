@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 7: Aggregation Pipeline Básico en MongoDB - Bases de Datos II</title>
+    <meta name="description" content="Aprende los fundamentos del Aggregation Pipeline en MongoDB: etapas $match, $group, $project, $sort, $limit, $unwind y $lookup con ejemplos interactivos.">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .stage-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .stage-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            border-radius: 4px 0 0 4px;
+        }
+        .stage-card.match::before  { background: #00b894; }
+        .stage-card.group::before  { background: #6c5ce7; }
+        .stage-card.project::before{ background: #0984e3; }
+        .stage-card.sort::before   { background: #e17055; }
+        .stage-card.limit::before  { background: #fdcb6e; }
+        .stage-card.unwind::before { background: #fd79a8; }
+        .stage-card.lookup::before { background: #00cec9; }
+        .stage-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+
+        .stage-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem; font-weight: 600;
+            padding: 4px 10px; border-radius: 6px;
+            color: #fff; display: inline-block; margin-bottom: 8px;
+        }
+        .stage-badge.match  { background: #00b894; }
+        .stage-badge.group  { background: #6c5ce7; }
+        .stage-badge.project{ background: #0984e3; }
+        .stage-badge.sort   { background: #e17055; }
+        .stage-badge.limit  { background: #b5860d; }
+        .stage-badge.unwind { background: #e84393; }
+        .stage-badge.lookup { background: #00cec9; }
+
+        .pipeline-flow {
+            display: flex; align-items: center; gap: 0;
+            flex-wrap: wrap; margin: 24px 0; justify-content: center;
+        }
+        .pipeline-step { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .pipeline-box {
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            color: #fff; font-family: 'Fira Code', monospace;
+            font-size: 0.8rem; font-weight: 600;
+            padding: 8px 14px; border-radius: 10px;
+            white-space: nowrap; box-shadow: 0 4px 12px rgba(108,92,231,.3);
+        }
+        .pipeline-box.input-box  { background: linear-gradient(135deg,#00b894,#00cec9); box-shadow: 0 4px 12px rgba(0,184,148,.3); }
+        .pipeline-box.output-box { background: linear-gradient(135deg,#e17055,#d63031); box-shadow: 0 4px 12px rgba(214,48,49,.3); }
+        .pipeline-arrow { color: var(--primary); font-size: 1.5rem; margin: 0 4px; opacity: .7; }
+        .pipeline-label { font-size: .7rem; color: var(--text-muted); text-align: center; }
+
+        .code-snippet {
+            background-color: #11121a; color: #f8f8f2;
+            padding: 16px 20px; border-radius: 10px;
+            font-family: 'Fira Code','Courier New',monospace;
+            font-size: .85rem; margin-bottom: 12px;
+            border-left: 3px solid #6c5ce7;
+            overflow-x: auto; line-height: 1.7;
+        }
+        .code-snippet .kw  { color: #ff79c6; }
+        .code-snippet .str { color: #f1fa8c; }
+        .code-snippet .num { color: #bd93f9; }
+        .code-snippet .op  { color: #50fa7b; }
+        .code-snippet .key { color: #8be9fd; }
+        .code-snippet .cmt { color: #6272a4; font-style: italic; }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 22px;
+            margin-bottom: 16px; transition: all .3s ease;
+        }
+        .quiz-card:hover { box-shadow: var(--shadow); border-color: var(--primary); }
+
+        .class-step {
+            padding: 18px 22px; border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0; margin-bottom: 20px;
+        }
+        .objective-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+        .objective-icon {
+            width: 28px; height: 28px; min-width: 28px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: .75rem; font-weight: 700; margin-top: 2px;
+        }
+
+        .exercise-zone {
+            background-color: var(--card-bg);
+            border: 2px dashed var(--border-color);
+            border-radius: 16px; padding: 25px;
+            transition: border-color .3s;
+        }
+        .exercise-zone:hover { border-color: var(--primary); }
+
+        .mongo-console {
+            background-color: #0c0d14; color: #f8f8f2;
+            font-family: 'Fira Code','Courier New',Courier,monospace;
+            border-radius: 12px; overflow: hidden;
+            border: 1px solid #2d3139;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15); margin: 20px 0;
+        }
+        .mongo-console-header {
+            background-color: #1e1f29; padding: 10px 16px;
+            border-bottom: 1px solid #2d3139;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .mongo-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .mongo-dot.red    { background-color: #ff5f56; }
+        .mongo-dot.yellow { background-color: #ffbd2e; }
+        .mongo-dot.green  { background-color: #27c93f; }
+        .mongo-console-body {
+            padding: 20px; height: 420px; overflow-y: auto;
+            font-size: .85rem; background-color: #11121a;
+        }
+        .mongo-prompt { color: #5af78e; font-weight: bold; margin-right: 8px; user-select: none; }
+        .mongo-output { color: #93c5fd; white-space: pre-wrap; margin-top: 10px; }
+        .mongo-btn-query {
+            background: rgba(108,92,231,.1); border: 1px solid var(--primary);
+            color: var(--primary); border-radius: 8px; padding: 8px 14px;
+            font-family: 'Fira Code',monospace; font-size: .82rem;
+            transition: all .2s; text-align: left; width: 100%; margin-bottom: 8px;
+        }
+        .mongo-btn-query:hover { background: var(--primary); color: white; transform: translateY(-1px); }
+        [data-theme="dark"] .mongo-btn-query { background: rgba(108,92,231,.2); color: #a29bfe; border-color: #a29bfe; }
+        [data-theme="dark"] .mongo-btn-query:hover { background: #6c5ce7; color: white; }
+
+        .info-box {
+            background: linear-gradient(135deg,rgba(108,92,231,.07),rgba(162,155,254,.05));
+            border: 1px solid rgba(108,92,231,.25);
+            border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;
+        }
+        .table-custom th { background-color: var(--hover-bg); color: var(--text-primary); font-weight: 600; }
+        .table-custom td { color: var(--text-secondary); vertical-align: middle; }
+        .operator-badge {
+            background: linear-gradient(135deg,var(--primary),#a29bfe);
+            color: white; font-family: 'Fira Code',monospace;
+            padding: 2px 8px; border-radius: 4px; font-size: .88rem;
+        }
+        .section-chip {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg,var(--primary),#a29bfe);
+            color: #fff; font-weight: 700; font-size: .9rem;
+            margin-right: 10px; flex-shrink: 0;
+        }
+        .answer-correct { background: rgba(0,184,148,.1) !important; border-color: #00b894 !important; }
+        .answer-wrong   { background: rgba(214,48,49,.08) !important; border-color: #d63031 !important; }
+    </style>
+</head>
+
+<body>
+<div class="app-container">
+    <main class="main-content">
+        <!-- Header superior -->
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3">
+                <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h4 class="mb-0 fw-bold">Clase 7: Aggregation Pipeline</h4>
+                    <span class="text-muted" style="font-size:.85rem">Bases de Datos II</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                    <i class="bi bi-moon-fill" id="theme-icon"></i>
+                </button>
+                <div class="profile-widget">
+                    <div class="profile-avatar">JG</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="class-content-wrapper mb-5">
+            <span class="badge-clase bg-primary text-white mb-3">Clase 7</span>
+            <h3 class="fw-bold mb-4">Aggregation Pipeline Básico en MongoDB</h3>
+
+            <!-- =========================================================
+                 OBJETIVOS
+            ========================================================= -->
+            <div class="class-step mb-5">
+                <h5 class="fw-bold mb-3"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de Aprendizaje</h5>
+                <div class="objective-item">
+                    <div class="objective-icon">1</div>
+                    <p class="text-secondary mb-0">Comprender qué es el <strong>Aggregation Pipeline</strong> de MongoDB y cómo difiere de una consulta simple con <code>find()</code>.</p>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">2</div>
+                    <p class="text-secondary mb-0">Identificar y aplicar las etapas fundamentales: <code>$match</code>, <code>$group</code>, <code>$project</code>, <code>$sort</code>, <code>$limit</code> y <code>$unwind</code>.</p>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">3</div>
+                    <p class="text-secondary mb-0">Construir pipelines encadenados de múltiples etapas para transformar y resumir colecciones de datos reales.</p>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">4</div>
+                    <p class="text-secondary mb-0">Reconocer las <strong>funciones de acumulación</strong> más comunes dentro de <code>$group</code>: <code>$sum</code>, <code>$avg</code>, <code>$min</code>, <code>$max</code> y <code>$push</code>.</p>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">5</div>
+                    <p class="text-secondary mb-0">Utilizar el <strong>simulador interactivo</strong> para explorar pipelines sobre un dataset de ventas en tiempo real.</p>
+                </div>
+            </div>
+
+            <!-- =========================================================
+                 INTRODUCCION TEORICA
+            ========================================================= -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3 d-flex align-items-center">
+                    <span class="section-chip">1</span>¿Qué es el Aggregation Pipeline?
+                </h4>
+                <div class="info-box mb-4">
+                    <p class="mb-0 text-secondary">El <strong>Aggregation Pipeline</strong> es el motor de procesamiento analítico de MongoDB. En lugar de devolver documentos como están, permite <em>transformarlos, filtrarlos, agruparlos y calcular resultados</em> en una cadena secuencial de <strong>etapas</strong> (<em>stages</em>). Cada etapa recibe los documentos de la anterior y entrega su resultado a la siguiente, formando un <em>pipeline</em> (tubería de datos).</p>
+                </div>
+
+                <!-- Diagrama de flujo -->
+                <div class="pipeline-flow">
+                    <div class="pipeline-step">
+                        <div class="pipeline-box input-box">Colección</div>
+                        <span class="pipeline-label">Dataset<br>completo</span>
+                    </div>
+                    <i class="bi bi-arrow-right pipeline-arrow"></i>
+                    <div class="pipeline-step">
+                        <div class="pipeline-box">$match</div>
+                        <span class="pipeline-label">Filtrar</span>
+                    </div>
+                    <i class="bi bi-arrow-right pipeline-arrow"></i>
+                    <div class="pipeline-step">
+                        <div class="pipeline-box">$group</div>
+                        <span class="pipeline-label">Agrupar</span>
+                    </div>
+                    <i class="bi bi-arrow-right pipeline-arrow"></i>
+                    <div class="pipeline-step">
+                        <div class="pipeline-box">$project</div>
+                        <span class="pipeline-label">Proyectar</span>
+                    </div>
+                    <i class="bi bi-arrow-right pipeline-arrow"></i>
+                    <div class="pipeline-step">
+                        <div class="pipeline-box">$sort</div>
+                        <span class="pipeline-label">Ordenar</span>
+                    </div>
+                    <i class="bi bi-arrow-right pipeline-arrow"></i>
+                    <div class="pipeline-step">
+                        <div class="pipeline-box output-box">Resultado</div>
+                        <span class="pipeline-label">Datos<br>procesados</span>
+                    </div>
+                </div>
+
+                <p class="text-secondary">La sintaxis básica es <code>db.coleccion.aggregate([ etapa1, etapa2, ... ])</code>. El arreglo puede contener cualquier número de etapas; el orden importa.</p>
+
+                <div class="code-snippet"><span class="cmt">// Sintaxis general del Aggregation Pipeline</span>
+db.ventas.aggregate([
+  { <span class="key">"$match"</span>:   { <span class="key">"estado"</span>: <span class="str">"completada"</span> } },
+  { <span class="key">"$group"</span>:   { <span class="key">"_id"</span>: <span class="str">"$categoria"</span>, <span class="key">"total"</span>: { <span class="key">"$sum"</span>: <span class="str">"$monto"</span> } } },
+  { <span class="key">"$sort"</span>:    { <span class="key">"total"</span>: <span class="num">-1</span> } },
+  { <span class="key">"$limit"</span>:   <span class="num">5</span> }
+]);</div>
+            </section>
+
+            <hr class="my-5">
+
+            <!-- =========================================================
+                 ETAPAS FUNDAMENTALES
+            ========================================================= -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-4 d-flex align-items-center">
+                    <span class="section-chip">2</span>Etapas Fundamentales del Pipeline
+                </h4>
+
+                <!-- $match -->
+                <div class="stage-card match">
+                    <span class="stage-badge match">$match</span>
+                    <h6 class="fw-bold">Filtrar documentos</h6>
+                    <p class="text-secondary small mb-3">Funciona igual que <code>find()</code>: aplica un predicado de filtro y solo deja pasar los documentos que lo cumplen. Conviene ponerlo <strong>al inicio</strong> del pipeline para reducir el volumen de datos cuanto antes y aprovechar índices.</p>
+                    <div class="code-snippet"><span class="cmt">// Filtrar solo ventas completadas con monto &gt; 500</span>
+{ <span class="key">"$match"</span>: { <span class="key">"estado"</span>: <span class="str">"completada"</span>, <span class="key">"monto"</span>: { <span class="key">"$gt"</span>: <span class="num">500</span> } } }</div>
+                </div>
+
+                <!-- $group -->
+                <div class="stage-card group">
+                    <span class="stage-badge group">$group</span>
+                    <h6 class="fw-bold">Agrupar y acumular</h6>
+                    <p class="text-secondary small mb-2">Agrupa los documentos por el campo indicado en <code>_id</code> y calcula acumulaciones usando operadores de agrupamiento:</p>
+                    <div class="table-responsive mb-3">
+                        <table class="table table-sm table-custom align-middle">
+                            <thead><tr><th>Operador</th><th>Descripción</th><th>Equivalente SQL</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="operator-badge">$sum</span></td><td class="small">Suma de valores</td><td class="small"><code>SUM()</code></td></tr>
+                                <tr><td><span class="operator-badge">$avg</span></td><td class="small">Promedio</td><td class="small"><code>AVG()</code></td></tr>
+                                <tr><td><span class="operator-badge">$min</span></td><td class="small">Valor mínimo</td><td class="small"><code>MIN()</code></td></tr>
+                                <tr><td><span class="operator-badge">$max</span></td><td class="small">Valor máximo</td><td class="small"><code>MAX()</code></td></tr>
+                                <tr><td><span class="operator-badge">$sum: 1</span></td><td class="small">Contar documentos</td><td class="small"><code>COUNT()</code></td></tr>
+                                <tr><td><span class="operator-badge">$push</span></td><td class="small">Acumula valores en arreglo</td><td class="small"><code>GROUP_CONCAT()</code></td></tr>
+                                <tr><td><span class="operator-badge">$addToSet</span></td><td class="small">Acumula valores únicos</td><td class="small"><code>DISTINCT</code></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="code-snippet"><span class="cmt">// Ventas por categoría: total, promedio y cantidad</span>
+{ <span class="key">"$group"</span>: {
+    <span class="key">"_id"</span>:           <span class="str">"$categoria"</span>,
+    <span class="key">"totalVentas"</span>:   { <span class="key">"$sum"</span>: <span class="str">"$monto"</span> },
+    <span class="key">"promedioMonto"</span>: { <span class="key">"$avg"</span>: <span class="str">"$monto"</span> },
+    <span class="key">"numTransacc"</span>:   { <span class="key">"$sum"</span>: <span class="num">1</span> }
+} }</div>
+                </div>
+
+                <!-- $project -->
+                <div class="stage-card project">
+                    <span class="stage-badge project">$project</span>
+                    <h6 class="fw-bold">Proyectar y transformar campos</h6>
+                    <p class="text-secondary small mb-3">Selecciona qué campos incluir (<code>1</code>) o excluir (<code>0</code>) en la salida. También permite <strong>renombrar</strong> campos, crear campos calculados y aplicar expresiones.</p>
+                    <div class="code-snippet"><span class="cmt">// Mostrar solo categoría y total; calcular con IVA (12%)</span>
+{ <span class="key">"$project"</span>: {
+    <span class="key">"_id"</span>:      <span class="num">0</span>,
+    <span class="key">"categoria"</span>: <span class="str">"$_id"</span>,
+    <span class="key">"total"</span>:     <span class="num">1</span>,
+    <span class="key">"conIVA"</span>:   { <span class="key">"$multiply"</span>: [ <span class="str">"$total"</span>, <span class="num">1.12</span> ] }
+} }</div>
+                </div>
+
+                <!-- $sort -->
+                <div class="stage-card sort">
+                    <span class="stage-badge sort">$sort</span>
+                    <h6 class="fw-bold">Ordenar resultados</h6>
+                    <p class="text-secondary small mb-3">Ordena los documentos por uno o más campos. <code>1</code> = ascendente, <code>-1</code> = descendente. Equivale al <code>ORDER BY</code> de SQL.</p>
+                    <div class="code-snippet"><span class="cmt">// Ordenar por totalVentas de mayor a menor</span>
+{ <span class="key">"$sort"</span>: { <span class="key">"totalVentas"</span>: <span class="num">-1</span> } }</div>
+                </div>
+
+                <!-- $limit -->
+                <div class="stage-card limit">
+                    <span class="stage-badge limit">$limit</span>
+                    <h6 class="fw-bold">Limitar cantidad de documentos</h6>
+                    <p class="text-secondary small mb-3">Devuelve solo los primeros <em>N</em> documentos. Combinado con <code>$sort</code> forma el patrón <strong>"Top-N"</strong>. Equivale a <code>LIMIT N</code> en SQL.</p>
+                    <div class="code-snippet"><span class="cmt">// Solo los 3 primeros resultados</span>
+{ <span class="key">"$limit"</span>: <span class="num">3</span> }</div>
+                </div>
+
+                <!-- $unwind -->
+                <div class="stage-card unwind">
+                    <span class="stage-badge unwind">$unwind</span>
+                    <h6 class="fw-bold">Descomponer arreglos</h6>
+                    <p class="text-secondary small mb-3">Toma un campo que contiene un arreglo y genera <strong>un documento separado por cada elemento</strong> del arreglo. Es fundamental antes de aplicar <code>$group</code> sobre un campo de tipo arreglo.</p>
+                    <div class="code-snippet"><span class="cmt">// Un documento con tags:["a","b"] genera 2 documentos independientes</span>
+{ <span class="key">"$unwind"</span>: <span class="str">"$tags"</span> }</div>
+                </div>
+
+                <!-- $lookup -->
+                <div class="stage-card lookup">
+                    <span class="stage-badge lookup">$lookup</span>
+                    <h6 class="fw-bold">Unir colecciones (JOIN)</h6>
+                    <p class="text-secondary small mb-3">Realiza un <em>left outer join</em> entre la colección actual y otra colección de la misma base de datos. Es el equivalente al <code>JOIN</code> de SQL dentro del pipeline.</p>
+                    <div class="code-snippet"><span class="cmt">// Enriquecer ventas con datos de la colección "clientes"</span>
+{ <span class="key">"$lookup"</span>: {
+    <span class="key">"from"</span>:         <span class="str">"clientes"</span>,
+    <span class="key">"localField"</span>:   <span class="str">"clienteId"</span>,
+    <span class="key">"foreignField"</span>: <span class="str">"_id"</span>,
+    <span class="key">"as"</span>:           <span class="str">"datosCliente"</span>
+} }</div>
+                </div>
+            </section>
+
+            <hr class="my-5">
+
+            <!-- =========================================================
+                 EJEMPLOS COMPLETOS
+            ========================================================= -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-4 d-flex align-items-center">
+                    <span class="section-chip">3</span>Ejemplos de Pipelines Completos
+                </h4>
+
+                <!-- Ejemplo 1 -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-primary"><i class="bi bi-1-circle-fill me-2"></i>Ejemplo 1: Ventas totales por categoría (ordenadas descendente)</h6>
+                    <p class="text-secondary small">Objetivo: obtener la suma de montos agrupada por categoría, solo de ventas completadas, ordenada de mayor a menor.</p>
+                    <div class="code-snippet">db.ventas.aggregate([
+  <span class="cmt">// 1. Solo ventas completadas</span>
+  { <span class="key">"$match"</span>: { <span class="key">"estado"</span>: <span class="str">"completada"</span> } },
+
+  <span class="cmt">// 2. Agrupar por categoría y sumar montos</span>
+  { <span class="key">"$group"</span>: {
+      <span class="key">"_id"</span>:         <span class="str">"$categoria"</span>,
+      <span class="key">"totalVentas"</span>: { <span class="key">"$sum"</span>: <span class="str">"$monto"</span> },
+      <span class="key">"numOrdenes"</span>:  { <span class="key">"$sum"</span>: <span class="num">1</span> }
+  }},
+
+  <span class="cmt">// 3. Renombrar _id a categoria</span>
+  { <span class="key">"$project"</span>: {
+      <span class="key">"_id"</span>: <span class="num">0</span>,
+      <span class="key">"categoria"</span>:   <span class="str">"$_id"</span>,
+      <span class="key">"totalVentas"</span>: <span class="num">1</span>,
+      <span class="key">"numOrdenes"</span>:  <span class="num">1</span>
+  }},
+
+  <span class="cmt">// 4. Ordenar de mayor a menor</span>
+  { <span class="key">"$sort"</span>: { <span class="key">"totalVentas"</span>: <span class="num">-1</span> } }
+]);</div>
+                </div>
+
+                <!-- Ejemplo 2 -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-primary"><i class="bi bi-2-circle-fill me-2"></i>Ejemplo 2: Top 3 vendedores del mes</h6>
+                    <p class="text-secondary small">Objetivo: encontrar los 3 vendedores con mayor monto acumulado en julio 2024.</p>
+                    <div class="code-snippet">db.ventas.aggregate([
+  { <span class="key">"$match"</span>:  { <span class="key">"mes"</span>: <span class="num">7</span>, <span class="key">"anio"</span>: <span class="num">2024</span> } },
+  { <span class="key">"$group"</span>:  { <span class="key">"_id"</span>: <span class="str">"$vendedor"</span>, <span class="key">"totalVendido"</span>: { <span class="key">"$sum"</span>: <span class="str">"$monto"</span> } }},
+  { <span class="key">"$sort"</span>:   { <span class="key">"totalVendido"</span>: <span class="num">-1</span> } },
+  { <span class="key">"$limit"</span>:  <span class="num">3</span> },
+  { <span class="key">"$project"</span>:{ <span class="key">"_id"</span>: <span class="num">0</span>, <span class="key">"vendedor"</span>: <span class="str">"$_id"</span>, <span class="key">"totalVendido"</span>: <span class="num">1</span> }}
+]);</div>
+                </div>
+
+                <!-- Ejemplo 3 -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-primary"><i class="bi bi-3-circle-fill me-2"></i>Ejemplo 3: Frecuencia de etiquetas con $unwind</h6>
+                    <p class="text-secondary small">Objetivo: expandir el arreglo <code>tags</code> y contar la frecuencia de cada etiqueta.</p>
+                    <div class="code-snippet">db.productos.aggregate([
+  { <span class="key">"$unwind"</span>: <span class="str">"$tags"</span> },
+  { <span class="key">"$group"</span>:  { <span class="key">"_id"</span>: <span class="str">"$tags"</span>, <span class="key">"frecuencia"</span>: { <span class="key">"$sum"</span>: <span class="num">1</span> } }},
+  { <span class="key">"$sort"</span>:   { <span class="key">"frecuencia"</span>: <span class="num">-1</span> } }
+]);</div>
+                </div>
+            </section>
+
+            <hr class="my-5">
+
+            <!-- =========================================================
+                 SIMULADOR INTERACTIVO
+            ========================================================= -->
+            <section class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-terminal-fill text-primary me-2"></i>Simulador Interactivo de Pipeline</h4>
+                        <p class="text-secondary mb-0 small">Ejecuta pipelines sobre un dataset de <strong>ventas</strong> simulado (10 documentos). Selecciona un pipeline predefinido o escribe el tuyo.</p>
+                    </div>
+                    <span class="badge bg-success py-2 px-3"><i class="bi bi-cpu-fill me-1"></i>Motor MongoDB Simulado</span>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Botones predefinidos -->
+                    <div class="col-lg-4">
+                        <h6 class="fw-semibold text-secondary mb-3">Pipelines predefinidos:</h6>
+                        <button class="mongo-btn-query" onclick="runPipeline('dataset')"><i class="bi bi-database-fill me-2"></i>Ver Dataset completo</button>
+                        <button class="mongo-btn-query" onclick="runPipeline('matchEstado')"><i class="bi bi-play-circle-fill me-2"></i>$match — Solo "completadas"</button>
+                        <button class="mongo-btn-query" onclick="runPipeline('groupCategoria')"><i class="bi bi-play-circle-fill me-2"></i>$group — Total por categoría</button>
+                        <button class="mongo-btn-query" onclick="runPipeline('avgCategoria')"><i class="bi bi-play-circle-fill me-2"></i>$group — Promedio por categoría</button>
+                        <button class="mongo-btn-query" onclick="runPipeline('top3vendedores')"><i class="bi bi-play-circle-fill me-2"></i>Top 3 vendedores ($sort+$limit)</button>
+                        <button class="mongo-btn-query" onclick="runPipeline('matchGroup')"><i class="bi bi-play-circle-fill me-2"></i>$match → $group encadenados</button>
+                        <button class="mongo-btn-query" onclick="runPipeline('unwindTags')"><i class="bi bi-play-circle-fill me-2"></i>$unwind sobre tags</button>
+                    </div>
+
+                    <!-- Consola -->
+                    <div class="col-lg-8">
+                        <div class="mb-3 p-3 border rounded" style="background:var(--hover-bg)">
+                            <label for="pipeline-custom-input" class="form-label fw-bold text-primary small">
+                                <i class="bi bi-pencil-square me-1"></i>Escribe tu propio pipeline (array JSON):
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text font-monospace bg-dark text-white border-0" style="font-size:.8rem">db.ventas.aggregate(</span>
+                                <input type="text" class="form-control font-monospace" id="pipeline-custom-input"
+                                    value='[{"$group":{"_id":"$categoria","total":{"$sum":"$monto"}}}]'
+                                    style="font-size:.8rem;background-color:var(--card-bg);color:var(--text-primary);">
+                                <span class="input-group-text font-monospace bg-dark text-white border-0" style="font-size:.8rem">)</span>
+                                <button class="btn btn-primary" type="button" id="btn-run-pipeline">Ejecutar</button>
+                            </div>
+                            <div id="pipeline-feedback" class="text-danger small mt-1 font-monospace" style="display:none"></div>
+                        </div>
+
+                        <div class="mongo-console">
+                            <div class="mongo-console-header">
+                                <div>
+                                    <span class="mongo-dot red"></span>
+                                    <span class="mongo-dot yellow"></span>
+                                    <span class="mongo-dot green"></span>
+                                    <span class="text-white-50 small ms-2">mongodb-aggregation-simulator</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline-light py-0 px-2" style="font-size:.75rem" onclick="clearConsole()">Limpiar</button>
+                            </div>
+                            <div class="mongo-console-body" id="agg-console-body">
+                                <div class="d-flex align-items-center">
+                                    <span class="mongo-prompt">enterprise&gt;</span>
+                                    <span id="agg-console-cmd" class="text-white">db.ventas.aggregate([...])</span>
+                                </div>
+                                <div class="mongo-output" id="agg-console-output">Selecciona un pipeline o escribe el tuyo...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5">
+
+            <!-- =========================================================
+                 CUESTIONARIO — 5 PREGUNTAS
+            ========================================================= -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-4 d-flex align-items-center">
+                    <span class="section-chip">4</span>Cuestionario de Autoevaluación
+                </h4>
+
+                <!-- Pregunta 1 -->
+                <div class="quiz-card" id="qcard-1">
+                    <h6 class="fw-bold mb-3">1. ¿Cuál es la etapa del Aggregation Pipeline que se recomienda colocar <em>primero</em> para mejorar el rendimiento?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q1" id="q1a" value="a"><label class="form-check-label" for="q1a">a) <code>$group</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q1" id="q1b" value="b"><label class="form-check-label" for="q1b">b) <code>$sort</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q1" id="q1c" value="c"><label class="form-check-label" for="q1c">c) <code>$match</code></label></div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q1" id="q1d" value="d"><label class="form-check-label" for="q1d">d) <code>$project</code></label></div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="quiz-card" id="qcard-2">
+                    <h6 class="fw-bold mb-3">2. Dentro de <code>$group</code>, ¿qué operador acumulador se usa para <strong>contar</strong> el número de documentos por grupo?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q2" id="q2a" value="a"><label class="form-check-label" for="q2a">a) <code>{ "$avg": 1 }</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q2" id="q2b" value="b"><label class="form-check-label" for="q2b">b) <code>{ "$sum": 1 }</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q2" id="q2c" value="c"><label class="form-check-label" for="q2c">c) <code>{ "$push": 1 }</code></label></div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q2" id="q2d" value="d"><label class="form-check-label" for="q2d">d) <code>{ "$count": "$_id" }</code></label></div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="quiz-card" id="qcard-3">
+                    <h6 class="fw-bold mb-3">3. Si un documento tiene el campo <code>tags: ["electrónica", "oferta", "nuevo"]</code> y aplicas <code>{ "$unwind": "$tags" }</code>, ¿cuántos documentos produce esa etapa?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q3" id="q3a" value="a"><label class="form-check-label" for="q3a">a) 1 documento con el arreglo intacto</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q3" id="q3b" value="b"><label class="form-check-label" for="q3b">b) 3 documentos, uno por cada elemento del arreglo</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q3" id="q3c" value="c"><label class="form-check-label" for="q3c">c) 0 documentos (elimina los que tienen arreglos)</label></div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q3" id="q3d" value="d"><label class="form-check-label" for="q3d">d) Un documento por cada par de elementos</label></div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="quiz-card" id="qcard-4">
+                    <h6 class="fw-bold mb-3">4. ¿Qué combinación de etapas implementa el patrón <strong>"Top-5 más vendidos"</strong>?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q4" id="q4a" value="a"><label class="form-check-label" for="q4a">a) <code>$limit → $sort</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q4" id="q4b" value="b"><label class="form-check-label" for="q4b">b) <code>$group → $sort → $limit</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q4" id="q4c" value="c"><label class="form-check-label" for="q4c">c) <code>$match → $project → $limit</code></label></div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q4" id="q4d" value="d"><label class="form-check-label" for="q4d">d) <code>$unwind → $limit</code></label></div>
+                </div>
+
+                <!-- Pregunta 5 -->
+                <div class="quiz-card" id="qcard-5">
+                    <h6 class="fw-bold mb-3">5. En la etapa <code>$project</code>, ¿qué valor se asigna a un campo para <strong>excluirlo</strong> del resultado?</h6>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q5" id="q5a" value="a"><label class="form-check-label" for="q5a">a) <code>true</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q5" id="q5b" value="b"><label class="form-check-label" for="q5b">b) <code>1</code></label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="radio" name="q5" id="q5c" value="c"><label class="form-check-label" for="q5c">c) <code>0</code></label></div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q5" id="q5d" value="d"><label class="form-check-label" for="q5d">d) <code>null</code></label></div>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 mt-3 flex-wrap">
+                    <button class="btn btn-primary px-4" id="btn-evaluar">
+                        <i class="bi bi-check2-circle me-1"></i>Evaluar Respuestas
+                    </button>
+                    <span id="quiz-score-display" style="display:none"></span>
+                </div>
+                <div id="quiz-feedback-detail" class="mt-3" style="display:none"></div>
+            </section>
+
+            <hr class="my-5">
+
+            <!-- =========================================================
+                 EJERCICIOS PROPUESTOS
+            ========================================================= -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-2 d-flex align-items-center">
+                    <span class="section-chip">5</span>Ejercicios Propuestos
+                </h4>
+                <p class="text-secondary mb-4">Los siguientes ejercicios están diseñados para que los alumnos construyan sus propios pipelines. Puedes intentar resolverlos en el simulador antes de ver la respuesta sugerida.</p>
+
+                <!-- Ejercicio 1 -->
+                <div class="exercise-zone mb-4">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <span class="badge bg-primary fs-6 rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;min-width:36px">1</span>
+                        <div>
+                            <h5 class="fw-bold mb-1">Monto promedio por vendedor</h5>
+                            <p class="text-secondary small mb-2">Usando la colección <code>ventas</code> del simulador, construye un pipeline que calcule el <strong>monto promedio</strong> de ventas por cada vendedor, ordenado de <strong>mayor a menor</strong> promedio. El resultado final debe mostrar solo los campos <code>vendedor</code> y <code>promedioMonto</code> (sin el campo <code>_id</code>).</p>
+                            <p class="text-secondary small mb-0"><strong>Etapas sugeridas:</strong> <code>$group</code> → <code>$project</code> → <code>$sort</code></p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-outline-primary btn-sm" onclick="loadExerciseEditor(1)"><i class="bi bi-pencil me-1"></i>Cargar en simulador</button>
+                        <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#exModal" onclick="showExerciseAnswer(1)"><i class="bi bi-lightbulb me-1"></i>Ver respuesta sugerida</button>
+                    </div>
+                </div>
+
+                <!-- Ejercicio 2 -->
+                <div class="exercise-zone mb-4">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <span class="badge bg-primary fs-6 rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;min-width:36px">2</span>
+                        <div>
+                            <h5 class="fw-bold mb-1">Resumen de ventas completadas por categoría</h5>
+                            <p class="text-secondary small mb-2">Filtra <strong>solo</strong> las ventas con estado <code>"completada"</code> y luego calcula por cada categoría: la <strong>suma total</strong> de montos (<code>totalMonto</code>), el <strong>número de transacciones</strong> (<code>numTransacciones</code>) y el <strong>monto máximo</strong> de una sola venta (<code>montoMax</code>). Ordena los resultados por <code>totalMonto</code> descendente.</p>
+                            <p class="text-secondary small mb-0"><strong>Etapas sugeridas:</strong> <code>$match</code> → <code>$group</code> → <code>$sort</code></p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-outline-primary btn-sm" onclick="loadExerciseEditor(2)"><i class="bi bi-pencil me-1"></i>Cargar en simulador</button>
+                        <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#exModal" onclick="showExerciseAnswer(2)"><i class="bi bi-lightbulb me-1"></i>Ver respuesta sugerida</button>
+                    </div>
+                </div>
+
+                <!-- Ejercicio 3 -->
+                <div class="exercise-zone mb-4">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <span class="badge bg-primary fs-6 rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;min-width:36px">3</span>
+                        <div>
+                            <h5 class="fw-bold mb-1">Frecuencia de etiquetas (tags) con $unwind</h5>
+                            <p class="text-secondary small mb-2">La colección <code>ventas</code> tiene un campo <code>tags</code> que es un arreglo. Construye un pipeline que: (a) descomponga el arreglo con <code>$unwind</code>, (b) agrupe por cada etiqueta y cuente su frecuencia, y (c) muestre solo las etiquetas con <strong>frecuencia ≥ 2</strong> usando una segunda etapa <code>$match</code> después del <code>$group</code>. Ordena el resultado por frecuencia de mayor a menor.</p>
+                            <p class="text-secondary small mb-0"><strong>Etapas sugeridas:</strong> <code>$unwind</code> → <code>$group</code> → <code>$match</code> → <code>$sort</code></p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-outline-primary btn-sm" onclick="loadExerciseEditor(3)"><i class="bi bi-pencil me-1"></i>Cargar en simulador</button>
+                        <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#exModal" onclick="showExerciseAnswer(3)"><i class="bi bi-lightbulb me-1"></i>Ver respuesta sugerida</button>
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- /class-content-wrapper -->
+    </main>
+</div>
+
+<!-- Modal respuesta ejercicio -->
+<div class="modal fade" id="exModal" tabindex="-1" aria-labelledby="exModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="background:var(--card-bg);border:1px solid var(--border-color);border-radius:16px">
+            <div class="modal-header" style="border-bottom:1px solid var(--border-color)">
+                <h5 class="modal-title fw-bold" id="exModalLabel"><i class="bi bi-lightbulb-fill text-warning me-2"></i>Respuesta Sugerida</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p id="ex-description" class="text-secondary small mb-3"></p>
+                <h6 class="fw-bold text-primary mb-2"><i class="bi bi-braces me-1"></i>Pipeline MongoDB:</h6>
+                <pre id="ex-mongo-code" class="code-snippet" style="white-space:pre-wrap;border-left-color:#00b894"></pre>
+                <h6 class="fw-bold text-secondary mt-3 mb-2"><i class="bi bi-info-circle me-1"></i>Explicación:</h6>
+                <p id="ex-explanation" class="text-secondary small mb-0"></p>
+            </div>
+            <div class="modal-footer" style="border-top:1px solid var(--border-color)">
+                <button type="button" class="btn btn-primary" id="btn-load-ex-sim"><i class="bi bi-terminal me-1"></i>Cargar en Simulador</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../js/menu.js"></script>
+<script src="../../js/main.js"></script>
+<script>
+// ============================================================
+//  DATASET SIMULADO
+// ============================================================
+const ventas = [
+    { _id:"v001", vendedor:"Ana Pérez",    categoria:"Electrónica", monto:1200, estado:"completada", mes:7, anio:2024, tags:["electrónica","premium"] },
+    { _id:"v002", vendedor:"Carlos López",  categoria:"Ropa",        monto:350,  estado:"completada", mes:7, anio:2024, tags:["ropa","oferta"] },
+    { _id:"v003", vendedor:"Ana Pérez",    categoria:"Electrónica", monto:890,  estado:"completada", mes:7, anio:2024, tags:["electrónica","oferta"] },
+    { _id:"v004", vendedor:"María García",  categoria:"Hogar",       monto:540,  estado:"pendiente",  mes:7, anio:2024, tags:["hogar"] },
+    { _id:"v005", vendedor:"Carlos López",  categoria:"Electrónica", monto:2100, estado:"completada", mes:7, anio:2024, tags:["electrónica","premium","oferta"] },
+    { _id:"v006", vendedor:"María García",  categoria:"Ropa",        monto:175,  estado:"completada", mes:7, anio:2024, tags:["ropa"] },
+    { _id:"v007", vendedor:"Luis Morales",  categoria:"Hogar",       monto:920,  estado:"completada", mes:7, anio:2024, tags:["hogar","premium"] },
+    { _id:"v008", vendedor:"Luis Morales",  categoria:"Electrónica", monto:430,  estado:"cancelada",  mes:7, anio:2024, tags:["electrónica"] },
+    { _id:"v009", vendedor:"Ana Pérez",    categoria:"Hogar",       monto:260,  estado:"completada", mes:7, anio:2024, tags:["hogar","oferta"] },
+    { _id:"v010", vendedor:"Carlos López",  categoria:"Ropa",        monto:610,  estado:"completada", mes:7, anio:2024, tags:["ropa","premium"] }
+];
+
+// ============================================================
+//  MOTOR DE AGGREGATION PIPELINE
+// ============================================================
+function runAggregatePipeline(dataset, stages) {
+    let docs = JSON.parse(JSON.stringify(dataset));
+    for (const stage of stages) {
+        const op = Object.keys(stage)[0];
+        const cfg = stage[op];
+        switch (op) {
+            case '$match':
+                docs = docs.filter(d => matchQuery(cfg, d));
+                break;
+            case '$group': {
+                const groups = {};
+                for (const d of docs) {
+                    const keyRaw = cfg._id;
+                    const key = resolveValue(keyRaw, d);
+                    const keyStr = JSON.stringify(key);
+                    if (!groups[keyStr]) {
+                        groups[keyStr] = { _id: key };
+                        for (const [field, expr] of Object.entries(cfg)) {
+                            if (field === '_id') continue;
+                            const op2 = Object.keys(expr)[0];
+                            groups[keyStr][field] = (op2 === '$push' || op2 === '$addToSet') ? [] : 0;
+                        }
+                    }
+                    for (const [field, expr] of Object.entries(cfg)) {
+                        if (field === '_id') continue;
+                        const accOp = Object.keys(expr)[0];
+                        const accVal = resolveValue(expr[accOp], d);
+                        switch (accOp) {
+                            case '$sum':  groups[keyStr][field] += (typeof accVal === 'number' ? accVal : 0); break;
+                            case '$avg':
+                                groups[keyStr]['__avg_sum_'+field]   = (groups[keyStr]['__avg_sum_'+field]   || 0) + (typeof accVal === 'number' ? accVal : 0);
+                                groups[keyStr]['__avg_count_'+field] = (groups[keyStr]['__avg_count_'+field] || 0) + 1;
+                                groups[keyStr][field] = parseFloat((groups[keyStr]['__avg_sum_'+field] / groups[keyStr]['__avg_count_'+field]).toFixed(2));
+                                break;
+                            case '$min':  groups[keyStr][field] = (groups[keyStr]['__init_'+field] ? Math.min(groups[keyStr][field], accVal) : accVal); groups[keyStr]['__init_'+field] = true; break;
+                            case '$max':  groups[keyStr][field] = Math.max(groups[keyStr][field], accVal); break;
+                            case '$push': groups[keyStr][field].push(accVal); break;
+                            case '$addToSet': if (!groups[keyStr][field].includes(accVal)) groups[keyStr][field].push(accVal); break;
+                            case '$first': if (!groups[keyStr]['__first_set_'+field]) { groups[keyStr][field] = accVal; groups[keyStr]['__first_set_'+field] = true; } break;
+                            case '$last':  groups[keyStr][field] = accVal; break;
+                        }
+                    }
+                }
+                docs = Object.values(groups).map(g => {
+                    const clean = {};
+                    for (const [k, v] of Object.entries(g)) {
+                        if (!k.startsWith('__')) clean[k] = v;
+                    }
+                    return clean;
+                });
+                break;
+            }
+            case '$project': {
+                docs = docs.map(d => {
+                    const out = {};
+                    let includeId = cfg._id !== 0 && cfg._id !== false;
+                    if (includeId && d._id !== undefined) out._id = d._id;
+                    for (const [field, val] of Object.entries(cfg)) {
+                        if (field === '_id') continue;
+                        if (val === 0 || val === false) continue;
+                        if (val === 1 || val === true) { if (d[field] !== undefined) out[field] = d[field]; }
+                        else if (typeof val === 'string' && val.startsWith('$')) { out[field] = d[val.slice(1)]; }
+                        else if (typeof val === 'object') { out[field] = evalExpr(val, d); }
+                    }
+                    return out;
+                });
+                break;
+            }
+            case '$sort': {
+                const sf = Object.entries(cfg);
+                docs.sort((a, b) => {
+                    for (const [field, dir] of sf) {
+                        if (a[field] < b[field]) return -1 * dir;
+                        if (a[field] > b[field]) return  1 * dir;
+                    }
+                    return 0;
+                });
+                break;
+            }
+            case '$limit': docs = docs.slice(0, cfg); break;
+            case '$skip':  docs = docs.slice(cfg); break;
+            case '$unwind': {
+                const path = typeof cfg === 'string' ? cfg.slice(1) : cfg.path.slice(1);
+                const nd = [];
+                for (const d of docs) {
+                    const arr = d[path];
+                    if (Array.isArray(arr)) { for (const item of arr) nd.push({...d,[path]:item}); }
+                    else nd.push(d);
+                }
+                docs = nd;
+                break;
+            }
+            case '$count': docs = [{[cfg]: docs.length}]; break;
+        }
+    }
+    return docs;
+}
+
+function resolveValue(expr, doc) {
+    if (typeof expr === 'string' && expr.startsWith('$')) return doc[expr.slice(1)];
+    if (typeof expr === 'number' || expr === null) return expr;
+    return expr;
+}
+
+function evalExpr(expr, doc) {
+    if (typeof expr !== 'object' || expr === null) return resolveValue(expr, doc);
+    const op = Object.keys(expr)[0];
+    const args = expr[op];
+    switch (op) {
+        case '$multiply': return args.reduce((a, v) => a * resolveValue(v, doc), 1);
+        case '$add':      return args.reduce((a, v) => a + resolveValue(v, doc), 0);
+        case '$subtract': return resolveValue(args[0], doc) - resolveValue(args[1], doc);
+        case '$divide':   return resolveValue(args[0], doc) / resolveValue(args[1], doc);
+        case '$round':    return parseFloat(resolveValue(args[0], doc).toFixed(args[1] || 0));
+        default: return null;
+    }
+}
+
+function matchQuery(query, doc) {
+    for (const [field, rule] of Object.entries(query)) {
+        if (field === '$and') { if (!rule.every(s => matchQuery(s, doc))) return false; continue; }
+        if (field === '$or')  { if (!rule.some(s  => matchQuery(s, doc))) return false; continue; }
+        if (field === '$nor') { if ( rule.some(s  => matchQuery(s, doc))) return false; continue; }
+        const val = doc[field];
+        if (rule !== null && typeof rule === 'object' && !Array.isArray(rule)) {
+            for (const [op, target] of Object.entries(rule)) {
+                switch (op) {
+                    case '$eq':  if (val !== target) return false; break;
+                    case '$ne':  if (val === target) return false; break;
+                    case '$gt':  if (!(val > target))  return false; break;
+                    case '$gte': if (!(val >= target)) return false; break;
+                    case '$lt':  if (!(val < target))  return false; break;
+                    case '$lte': if (!(val <= target)) return false; break;
+                    case '$in':  if (Array.isArray(val)) { if (!val.some(v => target.includes(v))) return false; } else if (!target.includes(val)) return false; break;
+                    case '$nin': if (Array.isArray(val)) { if (val.some(v => target.includes(v)))  return false; } else if (target.includes(val))  return false; break;
+                    case '$exists': if ((val !== undefined) !== target) return false; break;
+                    case '$regex': { const r = new RegExp(target, rule['$options'] || ''); if (!r.test(String(val||''))) return false; break; }
+                }
+            }
+        } else {
+            if (Array.isArray(val)) { if (!val.includes(rule)) return false; }
+            else if (val !== rule) return false;
+        }
+    }
+    return true;
+}
+
+// ============================================================
+//  PIPELINES PREDEFINIDOS
+// ============================================================
+const predefinedPipelines = {
+    dataset: { label: 'db.ventas.find({})  →  Dataset completo (10 docs)', stages: [] },
+    matchEstado: { label: 'db.ventas.aggregate([ { "$match": { "estado": "completada" } } ])', stages: [ { "$match": { "estado": "completada" } } ] },
+    groupCategoria: { label: 'db.ventas.aggregate([ $group por categoría ])', stages: [ { "$group": { "_id": "$categoria", "totalVentas": { "$sum": "$monto" }, "numTransacciones": { "$sum": 1 } } } ] },
+    avgCategoria: { label: 'db.ventas.aggregate([ $group avg por categoría ])', stages: [ { "$group": { "_id": "$categoria", "promedioMonto": { "$avg": "$monto" }, "montoMax": { "$max": "$monto" } } } ] },
+    top3vendedores: { label: 'db.ventas.aggregate([ $group → $sort → $limit:3 ])', stages: [ { "$group": { "_id": "$vendedor", "totalVendido": { "$sum": "$monto" } } }, { "$sort": { "totalVendido": -1 } }, { "$limit": 3 } ] },
+    matchGroup: { label: 'db.ventas.aggregate([ $match → $group → $sort ])', stages: [ { "$match": { "estado": "completada" } }, { "$group": { "_id": "$categoria", "totalMonto": { "$sum": "$monto" }, "numOrdenes": { "$sum": 1 } } }, { "$sort": { "totalMonto": -1 } } ] },
+    unwindTags: { label: 'db.ventas.aggregate([ $unwind → $group frecuencia ])', stages: [ { "$unwind": "$tags" }, { "$group": { "_id": "$tags", "frecuencia": { "$sum": 1 } } }, { "$sort": { "frecuencia": -1 } } ] }
+};
+
+function runPipeline(key) {
+    const pl = predefinedPipelines[key];
+    if (!pl) return;
+    document.getElementById('agg-console-cmd').textContent = pl.label;
+    const results = pl.stages.length === 0 ? ventas : runAggregatePipeline(ventas, pl.stages);
+    document.getElementById('agg-console-output').textContent = JSON.stringify(results, null, 2);
+    if (pl.stages.length > 0) document.getElementById('pipeline-custom-input').value = JSON.stringify(pl.stages);
+}
+
+function clearConsole() {
+    document.getElementById('agg-console-output').textContent = 'Consola limpiada. Selecciona un pipeline o escribe el tuyo.';
+    document.getElementById('agg-console-cmd').textContent = 'db.ventas.aggregate([...])';
+}
+
+document.getElementById('btn-run-pipeline').addEventListener('click', function () {
+    const raw = document.getElementById('pipeline-custom-input').value.trim();
+    const fb  = document.getElementById('pipeline-feedback');
+    fb.style.display = 'none';
+    try {
+        let jf = raw.replace(/'/g, '"').replace(/([{,\s])(\$?[\w]+)\s*:/g, '$1"$2":');
+        const stages = JSON.parse(jf);
+        if (!Array.isArray(stages)) throw new Error('El pipeline debe ser un arreglo [ ... ]');
+        document.getElementById('agg-console-cmd').textContent = `db.ventas.aggregate(${JSON.stringify(stages)})`;
+        const results = runAggregatePipeline(ventas, stages);
+        document.getElementById('agg-console-output').textContent = results.length > 0
+            ? JSON.stringify(results, null, 2)
+            : '/* Sin resultados */';
+    } catch (err) {
+        fb.textContent = `Error: ${err.message}`;
+        fb.style.display = 'block';
+    }
+});
+
+// ============================================================
+//  CUESTIONARIO
+// ============================================================
+const correctAnswers = { q1:'c', q2:'b', q3:'b', q4:'b', q5:'c' };
+const explanations = {
+    q1: '<strong>Correcto: c) $match.</strong> Colocar <code>$match</code> al inicio reduce el número de documentos que procesan etapas posteriores y permite aprovechar índices.',
+    q2: '<strong>Correcto: b) { "$sum": 1 }.</strong> Cada vez que un documento ingresa al grupo se suma 1, contando así los documentos.',
+    q3: '<strong>Correcto: b) 3 documentos.</strong> <code>$unwind</code> genera un documento independiente por cada elemento del arreglo, conservando los demás campos.',
+    q4: '<strong>Correcto: b) $group → $sort → $limit.</strong> Primero acumulas totales, luego ordenas de mayor a menor y tomas los N primeros.',
+    q5: '<strong>Correcto: c) 0.</strong> En <code>$project</code>, un valor de <code>1</code> incluye el campo y un valor de <code>0</code> lo excluye del resultado.'
+};
+
+document.getElementById('btn-evaluar').addEventListener('click', function () {
+    let score = 0, allAnswered = true;
+    const detail = [];
+    for (let i = 1; i <= 5; i++) {
+        const name = `q${i}`;
+        const checked = document.querySelector(`input[name="${name}"]:checked`);
+        if (!checked) { allAnswered = false; break; }
+        const card = document.getElementById(`qcard-${i}`);
+        card.classList.remove('answer-correct','answer-wrong');
+        if (checked.value === correctAnswers[name]) { score++; card.classList.add('answer-correct'); }
+        else card.classList.add('answer-wrong');
+        detail.push(`<p class="small mb-1"><strong>Pregunta ${i}:</strong> ${explanations[name]}</p>`);
+    }
+    if (!allAnswered) { alert('Por favor responde todas las preguntas antes de evaluar.'); return; }
+    const scoreEl = document.getElementById('quiz-score-display');
+    scoreEl.style.display = 'inline-block';
+    scoreEl.textContent = `Puntuación: ${score} / 5 (${Math.round(score/5*100)}%)`;
+    scoreEl.className = score === 5 ? 'fw-bold fs-5 text-success ms-2'
+                      : score >= 3  ? 'fw-bold fs-5 text-warning ms-2'
+                      :               'fw-bold fs-5 text-danger ms-2';
+    const fd = document.getElementById('quiz-feedback-detail');
+    fd.style.display = 'block';
+    fd.innerHTML = `<div class="p-3 rounded" style="background:var(--hover-bg);border:1px solid var(--border-color)">
+        <h6 class="fw-bold mb-3"><i class="bi bi-journal-check text-primary me-2"></i>Retroalimentación:</h6>${detail.join('')}</div>`;
+});
+
+// ============================================================
+//  EJERCICIOS
+// ============================================================
+const exerciseAnswers = {
+    1: {
+        description: 'Calcula el monto promedio por vendedor, ordenado de mayor a menor.',
+        mongo: `db.ventas.aggregate([
+  { "$group": {
+      "_id":          "$vendedor",
+      "promedioMonto": { "$avg": "$monto" }
+  }},
+  { "$project": {
+      "_id":          0,
+      "vendedor":     "$_id",
+      "promedioMonto": 1
+  }},
+  { "$sort": { "promedioMonto": -1 } }
+]);`,
+        explanation: 'Usamos <code>$group</code> con <code>$avg</code> sobre <code>monto</code>. <code>$project</code> renombra <code>_id</code> a <code>vendedor</code> y oculta <code>_id</code>. <code>$sort</code> ordena de mayor a menor promedio.',
+        stagesForSim: [
+            { "$group": { "_id": "$vendedor", "promedioMonto": { "$avg": "$monto" } } },
+            { "$project": { "_id": 0, "vendedor": "$_id", "promedioMonto": 1 } },
+            { "$sort": { "promedioMonto": -1 } }
+        ]
+    },
+    2: {
+        description: 'Filtra ventas completadas y agrupa por categoría con suma, conteo y máximo.',
+        mongo: `db.ventas.aggregate([
+  { "$match": { "estado": "completada" } },
+  { "$group": {
+      "_id":              "$categoria",
+      "totalMonto":       { "$sum": "$monto" },
+      "numTransacciones": { "$sum": 1 },
+      "montoMax":         { "$max": "$monto" }
+  }},
+  { "$sort": { "totalMonto": -1 } }
+]);`,
+        explanation: '<code>$match</code> al inicio reduce el dataset. <code>$group</code> acumula la suma, el conteo (<code>$sum:1</code>) y el máximo. <code>$sort</code> ordena descendente por <code>totalMonto</code>.',
+        stagesForSim: [
+            { "$match": { "estado": "completada" } },
+            { "$group": { "_id": "$categoria", "totalMonto": { "$sum": "$monto" }, "numTransacciones": { "$sum": 1 }, "montoMax": { "$max": "$monto" } } },
+            { "$sort": { "totalMonto": -1 } }
+        ]
+    },
+    3: {
+        description: 'Descompone el arreglo tags, cuenta frecuencias y filtra las que aparecen 2 o más veces.',
+        mongo: `db.ventas.aggregate([
+  { "$unwind": "$tags" },
+  { "$group": {
+      "_id":        "$tags",
+      "frecuencia": { "$sum": 1 }
+  }},
+  { "$match": { "frecuencia": { "$gte": 2 } } },
+  { "$sort":  { "frecuencia": -1 } }
+]);`,
+        explanation: '<code>$unwind</code> expande cada elemento del arreglo <code>tags</code> en un documento propio. <code>$group</code> cuenta la frecuencia de cada etiqueta. El segundo <code>$match</code> (post-group filter) filtra solo frecuencia ≥ 2. <code>$sort</code> ordena de mayor a menor.',
+        stagesForSim: [
+            { "$unwind": "$tags" },
+            { "$group": { "_id": "$tags", "frecuencia": { "$sum": 1 } } },
+            { "$match": { "frecuencia": { "$gte": 2 } } },
+            { "$sort": { "frecuencia": -1 } }
+        ]
+    }
+};
+
+let activeExerciseStages = null;
+
+function showExerciseAnswer(num) {
+    const ex = exerciseAnswers[num];
+    if (!ex) return;
+    document.getElementById('ex-description').textContent  = ex.description;
+    document.getElementById('ex-mongo-code').textContent   = ex.mongo;
+    document.getElementById('ex-explanation').innerHTML    = ex.explanation;
+    activeExerciseStages = ex.stagesForSim;
+}
+
+function loadExerciseEditor(num) {
+    const ex = exerciseAnswers[num];
+    if (!ex) return;
+    document.getElementById('pipeline-custom-input').value = JSON.stringify(ex.stagesForSim);
+    document.getElementById('btn-run-pipeline').click();
+    document.querySelector('.mongo-console').scrollIntoView({behavior:'smooth'});
+}
+
+document.getElementById('btn-load-ex-sim').addEventListener('click', function () {
+    if (activeExerciseStages) {
+        document.getElementById('pipeline-custom-input').value = JSON.stringify(activeExerciseStages);
+        document.getElementById('btn-run-pipeline').click();
+        bootstrap.Modal.getInstance(document.getElementById('exModal')).hide();
+        document.querySelector('.mongo-console').scrollIntoView({behavior:'smooth'});
+    }
+});
+
+// Inicializar con el dataset
+runPipeline('dataset');
+</script>
+</body>
+</html>
