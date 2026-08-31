@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 8: Modelado de Datos en MongoDB - Bases de Datos II</title>
+    <meta name="description" content="Aprende sobre las estrategias de diseño de esquemas en MongoDB: Modelos embebidos frente a referencias.">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- CSS Personalizado global -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* CSS ESPECÍFICO PARA CLASE 8 (incrustado) */
+        .concept-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+        .concept-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+        
+        .code-snippet {
+            background-color: #11121a; color: #f8f8f2;
+            padding: 16px 20px; border-radius: 10px;
+            font-family: 'Fira Code','Courier New',monospace;
+            font-size: .85rem; margin-bottom: 12px;
+            border-left: 3px solid #6c5ce7;
+            overflow-x: auto; line-height: 1.7;
+        }
+        .code-snippet .kw  { color: #ff79c6; }
+        .code-snippet .str { color: #f1fa8c; }
+        .code-snippet .num { color: #bd93f9; }
+        .code-snippet .cmt { color: #6272a4; font-style: italic; }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 22px;
+            margin-bottom: 16px; transition: all .3s ease;
+        }
+        .quiz-card:hover { box-shadow: var(--shadow); border-color: var(--primary); }
+
+        .class-step {
+            padding: 18px 22px; border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0; margin-bottom: 20px;
+        }
+        .objective-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+        .objective-icon {
+            width: 28px; height: 28px; min-width: 28px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: .75rem; font-weight: 700; margin-top: 2px;
+        }
+
+        .exercise-zone {
+            background-color: var(--card-bg);
+            border: 2px dashed var(--border-color);
+            border-radius: 16px; padding: 25px;
+            transition: border-color .3s;
+        }
+        .exercise-zone:hover { border-color: var(--primary); }
+
+        .schema-visualizer {
+            background-color: #0c0d14; color: #f8f8f2;
+            font-family: 'Fira Code','Courier New',Courier,monospace;
+            border-radius: 12px; overflow: hidden;
+            border: 1px solid #2d3139;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15); margin: 20px 0;
+        }
+        .schema-visualizer-header {
+            background-color: #1e1f29; padding: 10px 16px;
+            border-bottom: 1px solid #2d3139;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .schema-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .schema-dot.red    { background-color: #ff5f56; }
+        .schema-dot.yellow { background-color: #ffbd2e; }
+        .schema-dot.green  { background-color: #27c93f; }
+        .schema-visualizer-body {
+            padding: 20px; height: 380px; overflow-y: auto;
+            font-size: .85rem; background-color: #11121a;
+            white-space: pre-wrap;
+        }
+        
+        .sim-btn-group {
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .sim-btn {
+            background: rgba(108,92,231,.1); border: 1px solid var(--primary);
+            color: var(--primary); border-radius: 8px; padding: 10px 14px;
+            font-family: 'Fira Code',monospace; font-size: .85rem;
+            transition: all .2s; text-align: left; width: 100%;
+        }
+        .sim-btn:hover { background: var(--primary); color: white; transform: translateY(-1px); }
+
+        .section-chip {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg,var(--primary),#a29bfe);
+            color: #fff; font-weight: 700; font-size: .9rem;
+            margin-right: 10px; flex-shrink: 0;
+        }
+        
+        .answer-correct { background: rgba(0,184,148,.1) !important; border-color: #00b894 !important; }
+        .answer-wrong   { background: rgba(214,48,49,.08) !important; border-color: #d63031 !important; }
+
+        .json-key { color: #ff79c6; }
+        .json-string { color: #f1fa8c; }
+        .json-number { color: #bd93f9; }
+        .json-boolean { color: #50fa7b; }
+    </style>
+</head>
+
+<body>
+<div class="app-container">
+    <main class="main-content">
+        <!-- Header superior -->
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3">
+                <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h4 class="mb-0 fw-bold">Clase 8: Modelado de Datos</h4>
+                    <span class="text-muted" style="font-size:.85rem">Bases de Datos II (Duración: 120 min)</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                    <i class="bi bi-moon-fill" id="theme-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="class-content-wrapper mb-5">
+            <span class="badge-clase bg-success text-white mb-3">Clase 8</span>
+            <h3 class="fw-bold mb-4">Modelado de Datos: Embebido vs Referencias</h3>
+
+            <!-- OBJETIVOS -->
+            <div class="class-step mb-5">
+                <h5 class="fw-bold mb-3"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de Aprendizaje</h5>
+                <div class="objective-item">
+                    <div class="objective-icon">1</div>
+                    <p class="text-secondary mb-0">Entender la diferencia entre un modelo de datos <strong>embebido</strong> (desnormalizado) y uno <strong>referenciado</strong> (normalizado).</p>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">2</div>
+                    <p class="text-secondary mb-0">Identificar cuándo es conveniente embeber datos y cuándo se debe usar referencias manuales o <code>$lookup</code>.</p>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">3</div>
+                    <p class="text-secondary mb-0">Diseñar esquemas BSON eficientes para relaciones 1:1, 1:N y N:M.</p>
+                </div>
+            </div>
+
+            <!-- CONCEPTUALIZACION -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3 d-flex align-items-center">
+                    <span class="section-chip">1</span>Conceptualización de Términos
+                </h4>
+                
+                <div class="concept-card">
+                    <h6 class="fw-bold text-primary">Modelo Embebido (Embedded Data Models)</h6>
+                    <p class="text-secondary mb-0 small">En MongoDB, los datos relacionados pueden ser almacenados en un solo documento estructurado. Esto se conoce como datos "desnormalizados" y se aprovecha el poder del modelo de documentos jerárquicos (arreglos y subdocumentos).<br><br><strong>Ideal para:</strong> Relaciones "contiene un" (1:1 o 1:pocos) o cuando la información relacionada se consulta frecuentemente junto con el documento principal. Evita hacer múltiples consultas.</p>
+                </div>
+                <div class="concept-card">
+                    <h6 class="fw-bold text-primary">Modelo por Referencia (Normalized Data Models)</h6>
+                    <p class="text-secondary mb-0 small">Se almacenan las relaciones entre los datos incluyendo enlaces (referencias) de un documento a otro, similar al uso de claves foráneas en bases de datos relacionales.<br><br><strong>Ideal para:</strong> Relaciones "1:Muchos" grandes (cuando el tamaño del arreglo excedería el límite de 16MB) o relaciones N:M, o cuando los datos relacionados cambian independientemente y con frecuencia.</p>
+                </div>
+                <div class="concept-card">
+                    <h6 class="fw-bold text-primary">Regla General en NoSQL (MongoDB)</h6>
+                    <p class="text-secondary mb-0 small">"Los datos que se acceden juntos, deben almacenarse juntos." En MongoDB se recomienda favorecer el modelo embebido por defecto, a menos que haya una buena razón para normalizar (por ejemplo, duplicación excesiva de datos modificables frecuentemente o superar los límites de tamaño).</p>
+                </div>
+            </section>
+
+            <!-- EJEMPLOS -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-4 d-flex align-items-center">
+                    <span class="section-chip">2</span>Ejemplos de Relaciones
+                </h4>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold text-primary">1. Relación 1:1 (Embebido)</h6>
+                    <p class="text-secondary small">Por ejemplo, un usuario y su dirección principal. Dado que se consultan juntos, es mejor embeberlo.</p>
+                    <div class="code-snippet">{
+  <span class="str">"_id"</span>: <span class="str">"u100"</span>,
+  <span class="str">"nombre"</span>: <span class="str">"Ana Pérez"</span>,
+  <span class="str">"direccion"</span>: {  <span class="cmt">// Subdocumento embebido</span>
+    <span class="str">"calle"</span>: <span class="str">"Av. Central 123"</span>,
+    <span class="str">"ciudad"</span>: <span class="str">"San Salvador"</span>,
+    <span class="str">"cp"</span>: <span class="str">"1101"</span>
+  }
+}</div>
+                </div>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold text-primary">2. Relación 1:N (Referencias)</h6>
+                    <p class="text-secondary small">Por ejemplo, un publicador y sus libros. Un publicador puede tener millones de libros. Embeberlos haría que el documento supere los 16MB.</p>
+                    <div class="code-snippet"><span class="cmt">// Colección: publicadores</span>
+{
+  <span class="str">"_id"</span>: <span class="str">"pub_01"</span>,
+  <span class="str">"nombre"</span>: <span class="str">"O'Reilly Media"</span>
+}
+
+<span class="cmt">// Colección: libros</span>
+{
+  <span class="str">"_id"</span>: <span class="str">"book_99"</span>,
+  <span class="str">"titulo"</span>: <span class="str">"MongoDB: The Definitive Guide"</span>,
+  <span class="str">"publicador_id"</span>: <span class="str">"pub_01"</span>  <span class="cmt">// Referencia al publicador</span>
+}</div>
+                </div>
+            </section>
+
+            <!-- SIMULADOR -->
+            <section class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-braces text-primary me-2"></i>Simulador de Esquemas</h4>
+                        <p class="text-secondary mb-0 small">Explora cómo estructurar un escenario de <strong>Blog: Usuarios y Posts</strong> bajo ambos modelos.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4 sim-btn-group">
+                        <button class="sim-btn" onclick="mostrarEsquema('embebido')"><i class="bi bi-box-arrow-in-down me-2"></i>Ver Modelo Embebido</button>
+                        <button class="sim-btn" onclick="mostrarEsquema('referenciado')"><i class="bi bi-link me-2"></i>Ver Modelo Referenciado</button>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="schema-visualizer">
+                            <div class="schema-visualizer-header">
+                                <div>
+                                    <span class="schema-dot red"></span>
+                                    <span class="schema-dot yellow"></span>
+                                    <span class="schema-dot green"></span>
+                                    <span class="text-muted ms-2" style="font-size: 0.8rem;" id="schema-title">Estructura BSON</span>
+                                </div>
+                            </div>
+                            <div class="schema-visualizer-body" id="schema-body">Selecciona un modelo a la izquierda para visualizar el esquema JSON generado.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EJERCICIOS -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-4 d-flex align-items-center">
+                    <span class="section-chip">3</span>Ejercicios de Práctica
+                </h4>
+                
+                <div class="exercise-zone mb-3">
+                    <h6 class="fw-bold">Ejercicio 1: Modelado de 1:Pocos</h6>
+                    <p class="text-secondary small">Imagina una aplicación de contactos donde cada <code>contacto</code> tiene un arreglo de 2 o 3 números telefónicos. ¿Usarías embebido o referencia? Escribe el esquema de un documento embebido con un arreglo <code>telefonos</code>.</p>
+                    <button class="btn btn-sm btn-outline-primary mt-2" onclick="mostrarRespuesta(1)">Ver Solución</button>
+                    <div id="resp-ej-1" class="code-snippet mt-3" style="display:none;">// Embebido, porque son pocos teléfonos y siempre se piden con el contacto
+{
+  "nombre": "Carlos",
+  "telefonos": [ "2222-3333", "7777-8888" ]
+}</div>
+                </div>
+
+                <div class="exercise-zone mb-3">
+                    <h6 class="fw-bold">Ejercicio 2: Uniendo Colecciones (JOIN)</h6>
+                    <p class="text-secondary small">Supón que usaste un modelo por referencias (colección <code>ordenes</code> y colección <code>clientes</code>). En la orden guardas el <code>cliente_id</code>. ¿Qué etapa del Aggregation Pipeline usarías para unir (hacer JOIN) ambas colecciones?</p>
+                    <button class="btn btn-sm btn-outline-primary mt-2" onclick="mostrarRespuesta(2)">Ver Solución</button>
+                    <div id="resp-ej-2" class="code-snippet mt-3" style="display:none;">// Usarías la etapa $lookup
+{
+  "$lookup": {
+    "from": "clientes",
+    "localField": "cliente_id",
+    "foreignField": "_id",
+    "as": "datos_cliente"
+  }
+}</div>
+                </div>
+
+                <div class="exercise-zone mb-3">
+                    <h6 class="fw-bold">Ejercicio 3: Límite de Documento</h6>
+                    <p class="text-secondary small">¿Cuál es el tamaño máximo en megabytes que puede tener un documento BSON en MongoDB? ¿Qué relación tiene esto con no embeber arreglos que crecen indefinidamente (como los logs de un sistema)?</p>
+                    <button class="btn btn-sm btn-outline-primary mt-2" onclick="mostrarRespuesta(3)">Ver Solución</button>
+                    <div id="resp-ej-3" class="code-snippet mt-3" style="display:none;">El límite es 16 MB.
+Por lo tanto, no se debe usar el modelo embebido para arreglos ilimitados o gigantes (como eventos de log por usuario), ya que el documento terminará excediendo este límite (Anti-patrón: Unbounded Arrays).</div>
+                </div>
+            </section>
+
+            <!-- CUESTIONARIO -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-4 d-flex align-items-center">
+                    <span class="section-chip">4</span>Cuestionario de Autoevaluación
+                </h4>
+
+                <div class="quiz-card" id="qcard-1">
+                    <h6 class="fw-bold mb-3">1. ¿Cuál es el principal beneficio de un modelo de datos embebido en MongoDB?</h6>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="a"> a) Permite crear relaciones infinitas</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="b"> b) Requiere menos consultas, ya que se leen todos los datos de una vez (lecturas rápidas)</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="c"> c) Reduce el tamaño de los documentos</div>
+                </div>
+
+                <div class="quiz-card" id="qcard-2">
+                    <h6 class="fw-bold mb-3">2. ¿En qué escenario NO deberías embeber un arreglo dentro de un documento?</h6>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q2" value="a"> a) Cuando el arreglo contiene de 1 a 10 elementos</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q2" value="b"> b) Cuando el arreglo es estático y no crece</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q2" value="c"> c) Cuando el arreglo crece sin límites (unbounded growth)</div>
+                </div>
+
+                <div class="quiz-card" id="qcard-3">
+                    <h6 class="fw-bold mb-3">3. Si estás diseñando un sistema tipo Twitter, ¿cómo guardarías los millones de tweets de una persona famosa?</h6>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q3" value="a"> a) En un arreglo "tweets" embebido dentro del documento del usuario</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q3" value="b"> b) En una colección separada de "tweets", referenciando al _id del usuario (Referencias)</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q3" value="c"> c) Usando una base de datos SQL exclusivamente</div>
+                </div>
+
+                <div class="quiz-card" id="qcard-4">
+                    <h6 class="fw-bold mb-3">4. Si dos colecciones tienen una relación implementada por referencia, ¿cómo extraemos los datos combinados en una sola query en MongoDB?</h6>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q4" value="a"> a) Usando la instrucción JOIN explícitamente en find()</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q4" value="b"> b) Usando la etapa $lookup en el pipeline de agregación</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q4" value="c"> c) No se puede, hay que hacer dos queries (find) separadas obligatoriamente</div>
+                </div>
+
+                <div class="quiz-card" id="qcard-5">
+                    <h6 class="fw-bold mb-3">5. ¿Cuál es el tamaño máximo de un documento en MongoDB?</h6>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q5" value="a"> a) 16 MB</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q5" value="b"> b) 4 MB</div>
+                    <div class="form-check"><input class="form-check-input" type="radio" name="q5" value="c"> c) Ilimitado</div>
+                </div>
+
+                <button class="btn btn-primary mt-3" id="btn-evaluar"><i class="bi bi-check2-circle me-1"></i>Evaluar Respuestas</button>
+                <div id="quiz-feedback" class="mt-3 fs-5 fw-bold text-success" style="display:none;"></div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<!-- SCRIPTS INCRUSTADOS PARA LA CLASE -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../js/menu.js"></script>
+<script src="../../js/main.js"></script>
+<script>
+    // ===================================
+    // SIMULADOR JS (Visor JSON)
+    // ===================================
+    function mostrarEsquema(tipo) {
+        const body = document.getElementById('schema-body');
+        
+        if (tipo === 'embebido') {
+            body.innerHTML = `
+<span class="text-success">// Un solo documento (Colección 'usuarios')</span>
+{
+  <span class="json-key">"_id"</span>: <span class="json-string">"usr001"</span>,
+  <span class="json-key">"nombre"</span>: <span class="json-string">"Laura Montes"</span>,
+  <span class="json-key">"email"</span>: <span class="json-string">"laura@mail.com"</span>,
+  <span class="json-key">"posts"</span>: [  <span class="text-muted">// Arreglo de subdocumentos</span>
+    {
+      <span class="json-key">"titulo"</span>: <span class="json-string">"Día 1 en MongoDB"</span>,
+      <span class="json-key">"texto"</span>: <span class="json-string">"Aprendiendo modelos anidados."</span>
+    },
+    {
+      <span class="json-key">"titulo"</span>: <span class="json-string">"Día 2, índices"</span>,
+      <span class="json-key">"texto"</span>: <span class="json-string">"Agregando velocidad a mis consultas."</span>
+    }
+  ]
+}
+
+<span class="text-info">// VENTAJAS: Una sola consulta (find) para traer al usuario y todos sus posts.
+// DESVENTAJAS: Si el usuario publica millones de posts, el documento superará los 16MB.</span>`;
+        } else if (tipo === 'referenciado') {
+            body.innerHTML = `
+<span class="text-success">// Documento 1 (Colección 'usuarios')</span>
+{
+  <span class="json-key">"_id"</span>: <span class="json-string">"usr001"</span>,
+  <span class="json-key">"nombre"</span>: <span class="json-string">"Laura Montes"</span>,
+  <span class="json-key">"email"</span>: <span class="json-string">"laura@mail.com"</span>
+}
+
+<span class="text-success">// Documentos (Colección 'posts')</span>
+{
+  <span class="json-key">"_id"</span>: <span class="json-string">"post01"</span>,
+  <span class="json-key">"usuario_id"</span>: <span class="json-string">"usr001"</span>, <span class="text-muted">// REFERENCIA MANUAL</span>
+  <span class="json-key">"titulo"</span>: <span class="json-string">"Día 1 en MongoDB"</span>,
+  <span class="json-key">"texto"</span>: <span class="json-string">"Aprendiendo modelos anidados."</span>
+}
+{
+  <span class="json-key">"_id"</span>: <span class="json-string">"post02"</span>,
+  <span class="json-key">"usuario_id"</span>: <span class="json-string">"usr001"</span>,
+  <span class="json-key">"titulo"</span>: <span class="json-string">"Día 2, índices"</span>
+}
+
+<span class="text-info">// VENTAJAS: Los posts pueden crecer infinitamente sin límite.
+// DESVENTAJAS: Requiere dos consultas a la DB, o usar un $lookup (JOIN).</span>`;
+        }
+    }
+
+    // ===================================
+    // EJERCICIOS JS
+    // ===================================
+    function mostrarRespuesta(id) {
+        const elem = document.getElementById('resp-ej-' + id);
+        elem.style.display = elem.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // ===================================
+    // CUESTIONARIO JS
+    // ===================================
+    document.getElementById('btn-evaluar').addEventListener('click', function() {
+        const respuestasCorrectas = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'a' };
+        let puntaje = 0;
+
+        for (let i = 1; i <= 5; i++) {
+            const card = document.getElementById('qcard-' + i);
+            const selected = document.querySelector('input[name="q' + i + '"]:checked');
+            
+            // reset visual
+            card.classList.remove('answer-correct', 'answer-wrong');
+            
+            if (selected) {
+                if (selected.value === respuestasCorrectas['q'+i]) {
+                    puntaje++;
+                    card.classList.add('answer-correct');
+                } else {
+                    card.classList.add('answer-wrong');
+                }
+            } else {
+                card.classList.add('answer-wrong');
+            }
+        }
+
+        const feedback = document.getElementById('quiz-feedback');
+        feedback.style.display = 'block';
+        feedback.innerText = 'Tu puntaje es: ' + puntaje + ' de 5';
+    });
+</script>
+
+</body>
+</html>
