@@ -12,7 +12,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- CSS Personalizado global -->
     <link rel="stylesheet" href="../../css/styles.css">
     <style>
@@ -55,7 +57,8 @@
             cursor: pointer;
         }
 
-        .timeline-step-item:hover, .timeline-step-item.active {
+        .timeline-step-item:hover,
+        .timeline-step-item.active {
             border-color: var(--primary);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15);
@@ -88,9 +91,17 @@
             box-shadow: var(--shadow);
         }
 
-        .concept-card.accent-teal { border-left-color: var(--accent-teal); }
-        .concept-card.accent-amber { border-left-color: var(--accent-amber); }
-        .concept-card.accent-purple { border-left-color: var(--accent-purple); }
+        .concept-card.accent-teal {
+            border-left-color: var(--accent-teal);
+        }
+
+        .concept-card.accent-amber {
+            border-left-color: var(--accent-amber);
+        }
+
+        .concept-card.accent-purple {
+            border-left-color: var(--accent-purple);
+        }
 
         .concept-icon {
             width: 42px;
@@ -191,11 +202,28 @@
             border-color: var(--primary);
         }
 
-        .code-snippet .kw  { color: #ff79c6; font-weight: 600; }
-        .code-snippet .str { color: #f1fa8c; }
-        .code-snippet .num { color: #bd93f9; }
-        .code-snippet .cmt { color: #6272a4; font-style: italic; }
-        .code-snippet .key { color: #8be9fd; font-weight: 500; }
+        .code-snippet .kw {
+            color: #ff79c6;
+            font-weight: 600;
+        }
+
+        .code-snippet .str {
+            color: #f1fa8c;
+        }
+
+        .code-snippet .num {
+            color: #bd93f9;
+        }
+
+        .code-snippet .cmt {
+            color: #6272a4;
+            font-style: italic;
+        }
+
+        .code-snippet .key {
+            color: #8be9fd;
+            font-weight: 500;
+        }
 
         /* Visor y Simulador de Esquemas */
         .simulator-card {
@@ -234,9 +262,18 @@
             display: inline-block;
             margin-right: 6px;
         }
-        .schema-dot.red    { background-color: #ff5f56; }
-        .schema-dot.yellow { background-color: #ffbd2e; }
-        .schema-dot.green  { background-color: #27c93f; }
+
+        .schema-dot.red {
+            background-color: #ff5f56;
+        }
+
+        .schema-dot.yellow {
+            background-color: #ffbd2e;
+        }
+
+        .schema-dot.green {
+            background-color: #27c93f;
+        }
 
         .schema-visualizer-body {
             padding: 20px;
@@ -385,667 +422,748 @@
             margin-top: 2px;
         }
 
-        .json-key { color: #8be9fd; }
-        .json-string { color: #f1fa8c; }
-        .json-number { color: #bd93f9; }
-        .json-boolean { color: #50fa7b; }
-        .json-null { color: #ff79c6; }
+        .json-key {
+            color: #8be9fd;
+        }
+
+        .json-string {
+            color: #f1fa8c;
+        }
+
+        .json-number {
+            color: #bd93f9;
+        }
+
+        .json-boolean {
+            color: #50fa7b;
+        }
+
+        .json-null {
+            color: #ff79c6;
+        }
     </style>
 </head>
 
 <body>
-<div class="app-container">
-    <main class="main-content">
-        <!-- Header superior -->
-        <header class="header-top">
-            <div class="d-flex align-items-center gap-3">
-                <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-                <div>
-                    <h4 class="mb-0 fw-bold">Clase 8: Modelado de Datos en MongoDB</h4>
-                    <span class="text-muted" style="font-size:.85rem">Bases de Datos II • Duración: 120 minutos (2 horas)</span>
-                </div>
-            </div>
-            <div class="header-actions">
-                <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
-                    <i class="bi bi-moon-fill" id="theme-icon"></i>
-                </button>
-            </div>
-        </header>
-
-        <div class="class-content-wrapper mb-5">
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                <span class="badge-clase bg-primary text-white">Clase 8 • 2 Horas</span>
-                <span class="text-muted small"><i class="bi bi-clock me-1"></i>Tiempo estimado: 120 min</span>
-            </div>
-            
-            <h2 class="fw-bold mb-3">Estrategias de Diseño de Esquemas: Embebido vs Referencias</h2>
-            <p class="text-secondary lead fs-6 mb-4">
-                En bases de datos NoSQL orientadas a documentos como MongoDB, el modelado de datos no sigue la normalización estricta del modelo relacional. Aprenderás a tomar decisiones de arquitectura analizando patrones de consulta, rendimiento en lectura/escritura y límites de almacenamiento.
-            </p>
-
-            <!-- BARRA DE AGENDA DE 120 MINUTOS -->
-            <div class="agenda-bar mb-5">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    <h6 class="fw-bold mb-0 text-primary"><i class="bi bi-calendar-event me-2"></i>Planificación de la Clase (120 min)</h6>
-                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1 rounded-pill" style="font-size: 0.75rem;">6 Módulos Prácticos</span>
-                </div>
-                <div class="timeline-steps">
-                    <div class="timeline-step-item active" onclick="scrollToSection('sec-conceptos')">
-                        <span class="time-badge">00 - 25 min</span>
-                        <div class="fw-bold text-truncate">1. Conceptos Clave</div>
-                        <div class="text-muted text-truncate" style="font-size: 0.75rem;">Embebido vs Referencias</div>
-                    </div>
-                    <div class="timeline-step-item" onclick="scrollToSection('sec-comparativa')">
-                        <span class="time-badge">25 - 45 min</span>
-                        <div class="fw-bold text-truncate">2. Cuadro Comparativo</div>
-                        <div class="text-muted text-truncate" style="font-size: 0.75rem;">Ventajas y Desventajas</div>
-                    </div>
-                    <div class="timeline-step-item" onclick="scrollToSection('sec-patrones')">
-                        <span class="time-badge">45 - 70 min</span>
-                        <div class="fw-bold text-truncate">3. Patrones de Diseño</div>
-                        <div class="text-muted text-truncate" style="font-size: 0.75rem;">Cardinalidad 1:1, 1:N, N:M</div>
-                    </div>
-                    <div class="timeline-step-item" onclick="scrollToSection('sec-simulador')">
-                        <span class="time-badge">70 - 95 min</span>
-                        <div class="fw-bold text-truncate">4. Simulador NoSQL</div>
-                        <div class="text-muted text-truncate" style="font-size: 0.75rem;">Explorador BSON Vivo</div>
-                    </div>
-                    <div class="timeline-step-item" onclick="scrollToSection('sec-ejercicios')">
-                        <span class="time-badge">95 - 110 min</span>
-                        <div class="fw-bold text-truncate">5. 3 Ejercicios</div>
-                        <div class="text-muted text-truncate" style="font-size: 0.75rem;">Práctica Guiada</div>
-                    </div>
-                    <div class="timeline-step-item" onclick="scrollToSection('sec-cuestionario')">
-                        <span class="time-badge">110 - 120 min</span>
-                        <div class="fw-bold text-truncate">6. Autoevaluación</div>
-                        <div class="text-muted text-truncate" style="font-size: 0.75rem;">Cuestionario Interactivo</div>
+    <div class="app-container">
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 8: Modelado de Datos en MongoDB</h4>
+                        <span class="text-muted" style="font-size:.85rem">Bases de Datos II • Duración: 120 minutos (2
+                            horas)</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- OBJETIVOS DE APRENDIZAJE -->
-            <div class="class-step mb-5">
-                <h5 class="fw-bold mb-3"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de Aprendizaje</h5>
-                <div class="objective-item">
-                    <div class="objective-icon">1</div>
-                    <p class="text-secondary mb-0">Comprender a fondo la diferencia teórica y práctica entre datos <strong>desnormalizados (embebidos)</strong> y datos <strong>normalizados (referenciados)</strong> en MongoDB.</p>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
                 </div>
-                <div class="objective-item">
-                    <div class="objective-icon">2</div>
-                    <p class="text-secondary mb-0">Evaluar ventajas y desventajas mediante una matriz comparativa según operaciones I/O, atomicidad y restricción de 16MB por documento.</p>
+            </header>
+
+            <div class="class-content-wrapper mb-5">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <span class="badge-clase bg-primary text-white">Clase 8 • 2 Horas</span>
+                    <span class="text-muted small"><i class="bi bi-clock me-1"></i>Tiempo estimado: 120 min</span>
                 </div>
-                <div class="objective-item">
-                    <div class="objective-icon">3</div>
-                    <p class="text-secondary mb-0">Diseñar esquemas optimizados para cardinalidades de 1:1, 1:Pocos, 1:Muchos, 1:Zillones y N:M usando el simulador y resolviendo ejercicios reales.</p>
-                </div>
-            </div>
 
-            <!-- SECCIÓN 1: CONCEPTUALIZACIÓN DE TÉRMINOS -->
-            <section id="sec-conceptos" class="mb-5">
-                <h4 class="fw-bold mb-4 d-flex align-items-center">
-                    <span class="section-chip">1</span>Definición de Conceptos Fundamentales
-                </h4>
-                
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="concept-card accent-purple">
-                            <div class="concept-icon bg-primary-subtle text-primary">
-                                <i class="bi bi-diagram-3-fill"></i>
-                            </div>
-                            <h5 class="fw-bold mb-2">1. Modelo Embebido (Desnormalizado)</h5>
-                            <p class="text-secondary small mb-3">
-                                Consiste en almacenar datos relacionados directamente dentro de un mismo documento BSON utilizando subdocumentos o arreglos. 
-                            </p>
-                            <ul class="text-secondary small ps-3 mb-0">
-                                <li><strong>Atomicidad:</strong> Las operaciones de escritura sobre el documento son atómicas en un solo paso.</li>
-                                <li><strong>Velocidad de Lectura:</strong> Recupera toda la entidad en una única operación de lectura I/O de disco.</li>
-                                <li><strong>Uso ideal:</strong> Relaciones "contiene un" (1:1 o 1:Pocos) donde la información se consulta siempre junta.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="concept-card accent-teal">
-                            <div class="concept-icon bg-info-subtle text-info">
-                                <i class="bi bi-link-45deg"></i>
-                            </div>
-                            <h5 class="fw-bold mb-2">2. Modelo por Referencia (Normalizado)</h5>
-                            <p class="text-secondary small mb-3">
-                                Almacena los datos en colecciones separadas e incluye referencias (como el <code>_id</code> o DBRefs) de una colección a otra, similar a las claves foráneas en SQL.
-                            </p>
-                            <ul class="text-secondary small ps-3 mb-0">
-                                <li><strong>Flexibilidad:</strong> Evita la duplicación masiva de datos en entidades independientes.</li>
-                                <li><strong>Consulta:</strong> Requiere múltiples lecturas o el operador <code>$lookup</code> en Aggregation Pipeline.</li>
-                                <li><strong>Uso ideal:</strong> Relaciones 1:Muchos grandes (1:Zillones) o relaciones N:M dinámicas.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="concept-card accent-amber">
-                            <div class="concept-icon bg-warning-subtle text-warning">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
-                            </div>
-                            <h5 class="fw-bold mb-2">3. El Límite BSON de 16 MB y Arreglos Ilimitados</h5>
-                            <p class="text-secondary small mb-3">
-                                MongoDB impone un tamaño máximo estricto de <strong>16 MB por documento BSON</strong> para garantizar un rendimiento óptimo de memoria RAM y red.
-                            </p>
-                            <ul class="text-secondary small ps-3 mb-0">
-                                <li><strong>Anti-patrón Unbounded Growth:</strong> Ocurre al meter elementos infinitos (como logs o comentarios) en un arreglo embebido. El documento romperá el límite de 16 MB.</li>
-                                <li><strong>Solución:</strong> Cambiar la dirección de la referencia (del hijo hacia el padre) o usar el patrón de cubos (Bucketing).</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="concept-card">
-                            <div class="concept-icon bg-success-subtle text-success">
-                                <i class="bi bi-lightbulb-fill"></i>
-                            </div>
-                            <h5 class="fw-bold mb-2">4. La Regla de Oro NoSQL</h5>
-                            <p class="text-secondary small mb-3">
-                                A diferencia del modelado SQL orientado a reducir la redundancia a toda costa, en NoSQL el principio rector es el acceso a la información:
-                            </p>
-                            <div class="p-3 bg-body-tertiary rounded-3 border text-center font-monospace fw-semibold text-primary small">
-                                "Los datos que se consultan juntos, deben almacenarse juntos."
-                            </div>
-                            <p class="text-secondary small mt-2 mb-0">
-                                Favorece el diseño embebido por defecto y normaliza únicamente cuando existan razones justificadas (tamaño, actualizaciones frecuentes o relaciones N:M).
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 2: CUADRO DE VENTAJAS Y DESVENTAJAS -->
-            <section id="sec-comparativa" class="mb-5">
-                <h4 class="fw-bold mb-3 d-flex align-items-center">
-                    <span class="section-chip">2</span>Cuadro Comparativo: Ventajas y Desventajas
-                </h4>
-                <p class="text-secondary small mb-4">
-                    Compara los dos enfoques principales de modelado en MongoDB para tomar decisiones de arquitectura informadas:
+                <h2 class="fw-bold mb-3">Estrategias de Diseño de Esquemas: Embebido vs Referencias</h2>
+                <p class="text-secondary lead fs-6 mb-4">
+                    En bases de datos NoSQL orientadas a documentos como MongoDB, el modelado de datos no sigue la
+                    normalización estricta del modelo relacional. Aprenderás a tomar decisiones de arquitectura
+                    analizando patrones de consulta, rendimiento en lectura/escritura y límites de almacenamiento.
                 </p>
 
-                <div class="comparison-table-wrapper">
-                    <div class="table-responsive">
-                        <table class="table comparison-table align-middle">
-                            <thead>
-                                <tr>
-                                    <th style="width: 20%;">Criterio / Dimensión</th>
-                                    <th style="width: 38%;" class="text-primary"><i class="bi bi-box-seam me-2"></i>Modelo Embebido (Desnormalizado)</th>
-                                    <th style="width: 38%;" class="text-info"><i class="bi bi-diagram-2 me-2"></i>Modelo Referenciado (Normalizado)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="fw-bold">Rendimiento de Lectura</td>
-                                    <td>
-                                        <span class="tag-pro"><i class="bi bi-check-circle-fill"></i> Excelente</span>
-                                        <p class="small text-secondary mb-0 mt-1">Obtiene todos los datos en 1 sola consulta sin JOINs ni I/O adicional.</p>
-                                    </td>
-                                    <td>
-                                        <span class="tag-con"><i class="bi bi-x-circle-fill"></i> Moderado / Más lento</span>
-                                        <p class="small text-secondary mb-0 mt-1">Requiere múltiples consultas de red o etapas de agregación <code>$lookup</code>.</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold">Rendimiento de Escritura / Update</td>
-                                    <td>
-                                        <span class="tag-con"><i class="bi bi-exclamation-triangle-fill"></i> Complejo si hay duplicidad</span>
-                                        <p class="small text-secondary mb-0 mt-1">Si los datos embebidos se duplican en varios documentos, se deben actualizar todos.</p>
-                                    </td>
-                                    <td>
-                                        <span class="tag-pro"><i class="bi bi-check-circle-fill"></i> Rápido e independiente</span>
-                                        <p class="small text-secondary mb-0 mt-1">Se actualiza un solo documento centralizado sin afectar a otros.</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold">Atomicidad y Transacciones</td>
-                                    <td>
-                                        <span class="tag-pro"><i class="bi bi-check-circle-fill"></i> Atomicidad Novedosa</span>
-                                        <p class="small text-secondary mb-0 mt-1">Las actualizaciones dentro de un solo documento son atómicas por naturaleza.</p>
-                                    </td>
-                                    <td>
-                                        <span class="tag-con"><i class="bi bi-info-circle-fill"></i> Requiere Transacciones ACID</span>
-                                        <p class="small text-secondary mb-0 mt-1">Requiere transacciones multi-documento de MongoDB si se tocan varias colecciones.</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold">Riesgo de Tamaño de Documento</td>
-                                    <td>
-                                        <span class="tag-con"><i class="bi bi-exclamation-octagon-fill"></i> Riesgo si crece sin control</span>
-                                        <p class="small text-secondary mb-0 mt-1">Arreglos gigantes pueden alcanzar o superar el límite duro de 16 MB.</p>
-                                    </td>
-                                    <td>
-                                        <span class="tag-pro"><i class="bi bi-shield-check"></i> Seguro e Ilimitado</span>
-                                        <p class="small text-secondary mb-0 mt-1">Cada entidad vive en su propio documento de hasta 16 MB de manera independiente.</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold">Casos de Uso Principales</td>
-                                    <td>
-                                        <ul class="small text-secondary mb-0 ps-3">
-                                            <li>Relaciones 1:1 (ej. Usuario y Configuración).</li>
-                                            <li>Relaciones 1:Pocos (ej. Cliente y Direcciones).</li>
-                                            <li>Datos leídos juntos con frecuencia.</li>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="small text-secondary mb-0 ps-3">
-                                            <li>Relaciones 1:Muchos grandes (ej. Editorial y Libros).</li>
-                                            <li>Relaciones N:M (ej. Estudiantes y Cursos).</li>
-                                            <li>Entidades que cambian independientemente.</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+
+                <!-- OBJETIVOS DE APRENDIZAJE -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de Aprendizaje
+                    </h5>
+                    <div class="objective-item">
+                        <div class="objective-icon">1</div>
+                        <p class="text-secondary mb-0">Comprender a fondo la diferencia teórica y práctica entre datos
+                            <strong>desnormalizados (embebidos)</strong> y datos <strong>normalizados
+                                (referenciados)</strong> en MongoDB.
+                        </p>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-icon">2</div>
+                        <p class="text-secondary mb-0">Evaluar ventajas y desventajas mediante una matriz comparativa
+                            según operaciones I/O, atomicidad y restricción de 16MB por documento.</p>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-icon">3</div>
+                        <p class="text-secondary mb-0">Diseñar esquemas optimizados para cardinalidades de 1:1, 1:Pocos,
+                            1:Muchos, 1:Zillones y N:M usando el simulador y resolviendo ejercicios reales.</p>
                     </div>
                 </div>
-            </section>
 
-            <!-- SECCIÓN 3: PATRONES DE DISEÑO POR CARDINALIDAD -->
-            <section id="sec-patrones" class="mb-5">
-                <h4 class="fw-bold mb-4 d-flex align-items-center">
-                    <span class="section-chip">3</span>Patrones de Diseño de Esquemas por Cardinalidad
-                </h4>
+                <!-- SECCIÓN 1: CONCEPTUALIZACIÓN DE TÉRMINOS -->
+                <section id="sec-conceptos" class="mb-5">
+                    <h4 class="fw-bold mb-4 d-flex align-items-center">
+                        <span class="section-chip">1</span>Definición de Conceptos Fundamentales
+                    </h4>
 
-                <div class="row g-4">
-                    <!-- Patrón 1 -->
-                    <div class="col-lg-6">
-                        <div class="p-4 rounded-4 border bg-body-tertiary h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h6 class="fw-bold text-primary mb-0"><i class="bi bi-1-circle-fill me-2"></i>Relación 1:Pocos (One-to-Few)</h6>
-                                <span class="badge bg-success-subtle text-success">Modelo Embebido</span>
-                            </div>
-                            <p class="text-secondary small">
-                                Ocurre cuando un documento contiene un número reducido y acotado de subelementos (ej. Un usuario con 2 o 3 números telefónicos).
-                            </p>
-                            <div class="code-snippet">
-                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-{
-  <span class="key">"_id"</span>: <span class="str">"usr_10"</span>,
-  <span class="key">"nombre"</span>: <span class="str">"Elena Gomez"</span>,
-  <span class="key">"telefonos"</span>: [
-    { <span class="key">"tipo"</span>: <span class="str">"movil"</span>, <span class="key">"numero"</span>: <span class="str">"7890-1234"</span> },
-    { <span class="key">"tipo"</span>: <span class="str">"trabajo"</span>, <span class="key">"numero"</span>: <span class="str">"2255-0011"</span> }
-  ]
-}</div>
-                        </div>
-                    </div>
-
-                    <!-- Patrón 2 -->
-                    <div class="col-lg-6">
-                        <div class="p-4 rounded-4 border bg-body-tertiary h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h6 class="fw-bold text-info mb-0"><i class="bi bi-diagram-3 me-2"></i>Relación 1:Muchos (One-to-Many)</h6>
-                                <span class="badge bg-info-subtle text-info">Referencias Manuales</span>
-                            </div>
-                            <p class="text-secondary small">
-                                Cuando la entidad hija puede ser muy numerosa (ej. Una empresa con miles de productos), se usa la referencia del <code>_id</code> del padre en los hijos.
-                            </p>
-                            <div class="code-snippet">
-                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-<span class="cmt">// Colección: productos</span>
-{
-  <span class="key">"_id"</span>: <span class="str">"prod_55"</span>,
-  <span class="key">"nombre"</span>: <span class="str">"Laptop Gamer"</span>,
-  <span class="key">"precio"</span>: <span class="num">1200.00</span>,
-  <span class="key">"categoria_id"</span>: <span class="str">"cat_tech"</span> <span class="cmt">// Referencia al padre</span>
-}</div>
-                        </div>
-                    </div>
-
-                    <!-- Patrón 3 -->
-                    <div class="col-lg-6">
-                        <div class="p-4 rounded-4 border bg-body-tertiary h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h6 class="fw-bold text-warning mb-0"><i class="bi bi-infinity me-2"></i>Relación 1:Zillones (One-to-Squillions)</h6>
-                                <span class="badge bg-warning-subtle text-warning">Parent Referencing</span>
-                            </div>
-                            <p class="text-secondary small">
-                                Ocurre cuando se generan millones de eventos por entidad (ej. Sensores de temperatura). NUNCA embeber arreglos. Cada lectura referencia al sensor.
-                            </p>
-                            <div class="code-snippet">
-                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-<span class="cmt">// Colección: lecturas_sensor</span>
-{
-  <span class="key">"_id"</span>: ObjectId(<span class="str">"64f1a2b3..."</span>),
-  <span class="key">"sensor_id"</span>: <span class="str">"sensor_zona_north"</span>,
-  <span class="key">"temperatura"</span>: <span class="num">24.5</span>,
-  <span class="key">"fecha"</span>: ISODate(<span class="str">"2026-09-05T10:00:00Z"</span>)
-}</div>
-                        </div>
-                    </div>
-
-                    <!-- Patrón 4 -->
-                    <div class="col-lg-6">
-                        <div class="p-4 rounded-4 border bg-body-tertiary h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h6 class="fw-bold text-purple mb-0"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Relación N:M (Many-to-Many)</h6>
-                                <span class="badge bg-purple-subtle text-purple" style="background:rgba(139,92,246,0.15); color:var(--accent-purple);">Referencias Cruzadas</span>
-                            </div>
-                            <p class="text-secondary small">
-                                Estudiantes inscritos en múltiples cursos. Se guarda un arreglo de IDs en uno o ambos lados para permitir búsquedas directas.
-                            </p>
-                            <div class="code-snippet">
-                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-<span class="cmt">// Colección: estudiantes</span>
-{
-  <span class="key">"_id"</span>: <span class="str">"est_007"</span>,
-  <span class="key">"nombre"</span>: <span class="str">"Sofia Rivas"</span>,
-  <span class="key">"cursos"</span>: [<span class="str">"cur_bd2"</span>, <span class="str">"cur_prog1"</span>, <span class="str">"cur_redes"</span>]
-}</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 4: SIMULADOR INTERACTIVO DE ESQUEMAS -->
-            <section id="sec-simulador" class="mb-5">
-                <h4 class="fw-bold mb-3 d-flex align-items-center">
-                    <span class="section-chip">4</span>Simulador Interactivo de Esquemas BSON
-                </h4>
-                <p class="text-secondary small mb-4">
-                    Selecciona un escenario de negocio y alterna entre el <strong>Modelo Embebido</strong> y el <strong>Modelo Referenciado</strong> para visualizar cómo cambia la estructura JSON, los tiempos de consulta simulados y el impacto en memoria.
-                </p>
-
-                <div class="simulator-card">
-                    <!-- Selector de escenario -->
-                    <div class="row g-3 align-items-center mb-4">
+                    <div class="row g-4">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-secondary">Escenario de Aplicación:</label>
-                            <select class="form-select" id="sim-scenario-select" onchange="actualizarSimulador()">
-                                <option value="blog">1. Blog: Usuario con sus Publicaciones y Comentarios</option>
-                                <option value="ecommerce">2. E-commerce: Orden de Compra y Detalle de Productos</option>
-                                <option value="iot">3. Sensores IoT: Dispositivo y Millones de Lecturas</option>
-                                <option value="social">4. Red Social: Perfil de Usuario y Seguidores</option>
-                            </select>
+                            <div class="concept-card accent-purple">
+                                <div class="concept-icon bg-primary-subtle text-primary">
+                                    <i class="bi bi-diagram-3-fill"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">1. Modelo Embebido (Desnormalizado)</h5>
+                                <p class="text-secondary small mb-3">
+                                    Consiste en almacenar datos relacionados directamente dentro de un mismo documento
+                                    BSON utilizando subdocumentos o arreglos.
+                                </p>
+                                <ul class="text-secondary small ps-3 mb-0">
+                                    <li><strong>Atomicidad:</strong> Las operaciones de escritura sobre el documento son
+                                        atómicas en un solo paso.</li>
+                                    <li><strong>Velocidad de Lectura:</strong> Recupera toda la entidad en una única
+                                        operación de lectura I/O de disco.</li>
+                                    <li><strong>Uso ideal:</strong> Relaciones "contiene un" (1:1 o 1:Pocos) donde la
+                                        información se consulta siempre junta.</li>
+                                </ul>
+                            </div>
                         </div>
+
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-secondary">Modelo de Datos Seleccionado:</label>
-                            <div class="btn-group w-100" role="group">
-                                <button type="button" class="btn btn-outline-primary active" id="btn-mod-embebido" onclick="cambiarModeloSim('embebido')">
-                                    <i class="bi bi-box-seam me-1"></i> Embebido
-                                </button>
-                                <button type="button" class="btn btn-outline-primary" id="btn-mod-referenciado" onclick="cambiarModeloSim('referenciado')">
-                                    <i class="bi bi-link-45deg me-1"></i> Referenciado
-                                </button>
+                            <div class="concept-card accent-teal">
+                                <div class="concept-icon bg-info-subtle text-info">
+                                    <i class="bi bi-link-45deg"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">2. Modelo por Referencia (Normalizado)</h5>
+                                <p class="text-secondary small mb-3">
+                                    Almacena los datos en colecciones separadas e incluye referencias (como el
+                                    <code>_id</code> o DBRefs) de una colección a otra, similar a las claves foráneas en
+                                    SQL.
+                                </p>
+                                <ul class="text-secondary small ps-3 mb-0">
+                                    <li><strong>Flexibilidad:</strong> Evita la duplicación masiva de datos en entidades
+                                        independientes.</li>
+                                    <li><strong>Consulta:</strong> Requiere múltiples lecturas o el operador
+                                        <code>$lookup</code> en Aggregation Pipeline.
+                                    </li>
+                                    <li><strong>Uso ideal:</strong> Relaciones 1:Muchos grandes (1:Zillones) o
+                                        relaciones N:M dinámicas.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="concept-card accent-amber">
+                                <div class="concept-icon bg-warning-subtle text-warning">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">3. El Límite BSON de 16 MB y Arreglos Ilimitados</h5>
+                                <p class="text-secondary small mb-3">
+                                    MongoDB impone un tamaño máximo estricto de <strong>16 MB por documento
+                                        BSON</strong> para garantizar un rendimiento óptimo de memoria RAM y red.
+                                </p>
+                                <ul class="text-secondary small ps-3 mb-0">
+                                    <li><strong>Anti-patrón Unbounded Growth:</strong> Ocurre al meter elementos
+                                        infinitos (como logs o comentarios) en un arreglo embebido. El documento romperá
+                                        el límite de 16 MB.</li>
+                                    <li><strong>Solución:</strong> Cambiar la dirección de la referencia (del hijo hacia
+                                        el padre) o usar el patrón de cubos (Bucketing).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="concept-card">
+                                <div class="concept-icon bg-success-subtle text-success">
+                                    <i class="bi bi-lightbulb-fill"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">4. La Regla de Oro NoSQL</h5>
+                                <p class="text-secondary small mb-3">
+                                    A diferencia del modelado SQL orientado a reducir la redundancia a toda costa, en
+                                    NoSQL el principio rector es el acceso a la información:
+                                </p>
+                                <div
+                                    class="p-3 bg-body-tertiary rounded-3 border text-center font-monospace fw-semibold text-primary small">
+                                    "Los datos que se consultan juntos, deben almacenarse juntos."
+                                </div>
+                                <p class="text-secondary small mt-2 mb-0">
+                                    Favorece el diseño embebido por defecto y normaliza únicamente cuando existan
+                                    razones justificadas (tamaño, actualizaciones frecuentes o relaciones N:M).
+                                </p>
                             </div>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Métricas estimadas -->
-                    <div class="row g-3 mb-4">
-                        <div class="col-6 col-md-3">
-                            <div class="metric-badge">
-                                <div class="metric-value" id="metric-queries">1 Query</div>
-                                <div class="metric-label">Lecturas I/O</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="metric-badge">
-                                <div class="metric-value" id="metric-size">~1.2 KB</div>
-                                <div class="metric-label">Tamaño Estimado</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="metric-badge">
-                                <div class="metric-value" id="metric-speed">2 ms</div>
-                                <div class="metric-label">Latencia Lectura</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="metric-badge">
-                                <div class="metric-value" id="metric-risk">Bajo</div>
-                                <div class="metric-label">Riesgo 16MB</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visor BSON -->
-                    <div class="schema-visualizer">
-                        <div class="schema-visualizer-header">
-                            <div>
-                                <span class="schema-dot red"></span>
-                                <span class="schema-dot yellow"></span>
-                                <span class="schema-dot green"></span>
-                                <span class="text-white font-monospace ms-2" style="font-size: 0.85rem;" id="sim-schema-title">Esquema: Blog (Modelo Embebido)</span>
-                            </div>
-                            <span class="badge bg-secondary font-monospace" id="sim-lang-badge">JSON / BSON</span>
-                        </div>
-                        <div class="schema-visualizer-body" id="sim-code-body">
-                            <!-- Se llena dinámicamente con JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- Análisis del simulador -->
-                    <div class="p-3 bg-body-tertiary rounded-3 border mt-3" id="sim-analysis-text">
-                        <span class="fw-bold text-primary"><i class="bi bi-info-circle me-1"></i> Análisis de Arquitectura:</span> 
-                        <span class="text-secondary small">Cargando análisis del esquema...</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 5: 3 EJERCICIOS PRÁCTICOS -->
-            <section id="sec-ejercicios" class="mb-5">
-                <h4 class="fw-bold mb-4 d-flex align-items-center">
-                    <span class="section-chip">5</span>3 Ejercicios Prácticos de Modelado
-                </h4>
-
-                <!-- Ejercicio 1 -->
-                <div class="exercise-card">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                        <span class="exercise-badge"><i class="bi bi-pencil-square me-1"></i>Ejercicio 1 • Relaciones 1:Pocos</span>
-                        <span class="text-muted small">Dificultad: Principiante</span>
-                    </div>
-                    <h5 class="fw-bold">Perfil de Usuario con Preferencias y Redes Sociales</h5>
-                    <p class="text-secondary small mb-3">
-                        Estás diseñando la colección <code>usuarios</code>. Cada usuario tiene datos personales básicos y un conjunto acotado de 2 o 3 perfiles de redes sociales (twitter, linkedin, github). ¿Cuál es la estrategia óptima de modelado?
+                <!-- SECCIÓN 2: CUADRO DE VENTAJAS Y DESVENTAJAS -->
+                <section id="sec-comparativa" class="mb-5">
+                    <h4 class="fw-bold mb-3 d-flex align-items-center">
+                        <span class="section-chip">2</span>Cuadro Comparativo: Ventajas y Desventajas
+                    </h4>
+                    <p class="text-secondary small mb-4">
+                        Compara los dos enfoques principales de modelado en MongoDB para tomar decisiones de
+                        arquitectura informadas:
                     </p>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold small text-secondary">Elige la mejor estrategia:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="ex1_opt" id="ex1_opt_a" value="a">
-                            <label class="form-check-label small" for="ex1_opt_a">
-                                a) Crear una colección separada `redes_sociales` y colocar referencias `red_id` dentro del usuario.
-                            </label>
+                    <div class="comparison-table-wrapper">
+                        <div class="table-responsive">
+                            <table class="table comparison-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">Criterio / Dimensión</th>
+                                        <th style="width: 38%;" class="text-primary"><i
+                                                class="bi bi-box-seam me-2"></i>Modelo Embebido (Desnormalizado)</th>
+                                        <th style="width: 38%;" class="text-info"><i
+                                                class="bi bi-diagram-2 me-2"></i>Modelo Referenciado (Normalizado)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">Rendimiento de Lectura</td>
+                                        <td>
+                                            <span class="tag-pro"><i class="bi bi-check-circle-fill"></i>
+                                                Excelente</span>
+                                            <p class="small text-secondary mb-0 mt-1">Obtiene todos los datos en 1 sola
+                                                consulta sin JOINs ni I/O adicional.</p>
+                                        </td>
+                                        <td>
+                                            <span class="tag-con"><i class="bi bi-x-circle-fill"></i> Moderado / Más
+                                                lento</span>
+                                            <p class="small text-secondary mb-0 mt-1">Requiere múltiples consultas de
+                                                red o etapas de agregación <code>$lookup</code>.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Rendimiento de Escritura / Update</td>
+                                        <td>
+                                            <span class="tag-con"><i class="bi bi-exclamation-triangle-fill"></i>
+                                                Complejo si hay duplicidad</span>
+                                            <p class="small text-secondary mb-0 mt-1">Si los datos embebidos se duplican
+                                                en varios documentos, se deben actualizar todos.</p>
+                                        </td>
+                                        <td>
+                                            <span class="tag-pro"><i class="bi bi-check-circle-fill"></i> Rápido e
+                                                independiente</span>
+                                            <p class="small text-secondary mb-0 mt-1">Se actualiza un solo documento
+                                                centralizado sin afectar a otros.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Atomicidad y Transacciones</td>
+                                        <td>
+                                            <span class="tag-pro"><i class="bi bi-check-circle-fill"></i> Atomicidad
+                                                Novedosa</span>
+                                            <p class="small text-secondary mb-0 mt-1">Las actualizaciones dentro de un
+                                                solo documento son atómicas por naturaleza.</p>
+                                        </td>
+                                        <td>
+                                            <span class="tag-con"><i class="bi bi-info-circle-fill"></i> Requiere
+                                                Transacciones ACID</span>
+                                            <p class="small text-secondary mb-0 mt-1">Requiere transacciones
+                                                multi-documento de MongoDB si se tocan varias colecciones.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Riesgo de Tamaño de Documento</td>
+                                        <td>
+                                            <span class="tag-con"><i class="bi bi-exclamation-octagon-fill"></i> Riesgo
+                                                si crece sin control</span>
+                                            <p class="small text-secondary mb-0 mt-1">Arreglos gigantes pueden alcanzar
+                                                o superar el límite duro de 16 MB.</p>
+                                        </td>
+                                        <td>
+                                            <span class="tag-pro"><i class="bi bi-shield-check"></i> Seguro e
+                                                Ilimitado</span>
+                                            <p class="small text-secondary mb-0 mt-1">Cada entidad vive en su propio
+                                                documento de hasta 16 MB de manera independiente.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Casos de Uso Principales</td>
+                                        <td>
+                                            <ul class="small text-secondary mb-0 ps-3">
+                                                <li>Relaciones 1:1 (ej. Usuario y Configuración).</li>
+                                                <li>Relaciones 1:Pocos (ej. Cliente y Direcciones).</li>
+                                                <li>Datos leídos juntos con frecuencia.</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="small text-secondary mb-0 ps-3">
+                                                <li>Relaciones 1:Muchos grandes (ej. Editorial y Libros).</li>
+                                                <li>Relaciones N:M (ej. Estudiantes y Cursos).</li>
+                                                <li>Entidades que cambian independientemente.</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="ex1_opt" id="ex1_opt_b" value="b">
-                            <label class="form-check-label small" for="ex1_opt_b">
-                                b) Embeber un arreglo `redes` dentro del documento del usuario con subdocumentos `{ red, url }`.
-                            </label>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: PATRONES DE DISEÑO POR CARDINALIDAD -->
+                <section id="sec-patrones" class="mb-5">
+                    <h4 class="fw-bold mb-4 d-flex align-items-center">
+                        <span class="section-chip">3</span>Patrones de Diseño de Esquemas por Cardinalidad
+                    </h4>
+
+                    <div class="row g-4">
+                        <!-- Patrón 1 -->
+                        <div class="col-lg-6">
+                            <div class="p-4 rounded-4 border bg-body-tertiary h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h6 class="fw-bold text-primary mb-0"><i
+                                            class="bi bi-1-circle-fill me-2"></i>Relación 1:Pocos (One-to-Few)</h6>
+                                    <span class="badge bg-success-subtle text-success">Modelo Embebido</span>
+                                </div>
+                                <p class="text-secondary small">
+                                    Ocurre cuando un documento contiene un número reducido y acotado de subelementos
+                                    (ej. Un usuario con 2 o 3 números telefónicos).
+                                </p>
+                                <div class="code-snippet">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    {
+                                    <span class="key">"_id"</span>: <span class="str">"usr_10"</span>,
+                                    <span class="key">"nombre"</span>: <span class="str">"Elena Gomez"</span>,
+                                    <span class="key">"telefonos"</span>: [
+                                    { <span class="key">"tipo"</span>: <span class="str">"movil"</span>, <span
+                                        class="key">"numero"</span>: <span class="str">"7890-1234"</span> },
+                                    { <span class="key">"tipo"</span>: <span class="str">"trabajo"</span>, <span
+                                        class="key">"numero"</span>: <span class="str">"2255-0011"</span> }
+                                    ]
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Patrón 2 -->
+                        <div class="col-lg-6">
+                            <div class="p-4 rounded-4 border bg-body-tertiary h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h6 class="fw-bold text-info mb-0"><i class="bi bi-diagram-3 me-2"></i>Relación
+                                        1:Muchos (One-to-Many)</h6>
+                                    <span class="badge bg-info-subtle text-info">Referencias Manuales</span>
+                                </div>
+                                <p class="text-secondary small">
+                                    Cuando la entidad hija puede ser muy numerosa (ej. Una empresa con miles de
+                                    productos), se usa la referencia del <code>_id</code> del padre en los hijos.
+                                </p>
+                                <div class="code-snippet">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <span class="cmt">// Colección: productos</span>
+                                    {
+                                    <span class="key">"_id"</span>: <span class="str">"prod_55"</span>,
+                                    <span class="key">"nombre"</span>: <span class="str">"Laptop Gamer"</span>,
+                                    <span class="key">"precio"</span>: <span class="num">1200.00</span>,
+                                    <span class="key">"categoria_id"</span>: <span class="str">"cat_tech"</span> <span
+                                        class="cmt">// Referencia al padre</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Patrón 3 -->
+                        <div class="col-lg-6">
+                            <div class="p-4 rounded-4 border bg-body-tertiary h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h6 class="fw-bold text-warning mb-0"><i class="bi bi-infinity me-2"></i>Relación
+                                        1:Zillones (One-to-Squillions)</h6>
+                                    <span class="badge bg-warning-subtle text-warning">Parent Referencing</span>
+                                </div>
+                                <p class="text-secondary small">
+                                    Ocurre cuando se generan millones de eventos por entidad (ej. Sensores de
+                                    temperatura). NUNCA embeber arreglos. Cada lectura referencia al sensor.
+                                </p>
+                                <div class="code-snippet">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <span class="cmt">// Colección: lecturas_sensor</span>
+                                    {
+                                    <span class="key">"_id"</span>: ObjectId(<span class="str">"64f1a2b3..."</span>),
+                                    <span class="key">"sensor_id"</span>: <span class="str">"sensor_zona_north"</span>,
+                                    <span class="key">"temperatura"</span>: <span class="num">24.5</span>,
+                                    <span class="key">"fecha"</span>: ISODate(<span
+                                        class="str">"2026-09-05T10:00:00Z"</span>)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Patrón 4 -->
+                        <div class="col-lg-6">
+                            <div class="p-4 rounded-4 border bg-body-tertiary h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h6 class="fw-bold text-purple mb-0"><i
+                                            class="bi bi-grid-3x3-gap-fill me-2"></i>Relación N:M (Many-to-Many)</h6>
+                                    <span class="badge bg-purple-subtle text-purple"
+                                        style="background:rgba(139,92,246,0.15); color:var(--accent-purple);">Referencias
+                                        Cruzadas</span>
+                                </div>
+                                <p class="text-secondary small">
+                                    Estudiantes inscritos en múltiples cursos. Se guarda un arreglo de IDs en uno o
+                                    ambos lados para permitir búsquedas directas.
+                                </p>
+                                <div class="code-snippet">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <span class="cmt">// Colección: estudiantes</span>
+                                    {
+                                    <span class="key">"_id"</span>: <span class="str">"est_007"</span>,
+                                    <span class="key">"nombre"</span>: <span class="str">"Sofia Rivas"</span>,
+                                    <span class="key">"cursos"</span>: [<span class="str">"cur_bd2"</span>, <span
+                                        class="str">"cur_prog1"</span>, <span class="str">"cur_redes"</span>]
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 4: SIMULADOR INTERACTIVO DE ESQUEMAS -->
+                <section id="sec-simulador" class="mb-5">
+                    <h4 class="fw-bold mb-3 d-flex align-items-center">
+                        <span class="section-chip">4</span>Simulador Interactivo de Esquemas BSON
+                    </h4>
+                    <p class="text-secondary small mb-4">
+                        Selecciona un escenario de negocio y alterna entre el <strong>Modelo Embebido</strong> y el
+                        <strong>Modelo Referenciado</strong> para visualizar cómo cambia la estructura JSON, los tiempos
+                        de consulta simulados y el impacto en memoria.
+                    </p>
+
+                    <div class="simulator-card">
+                        <!-- Selector de escenario -->
+                        <div class="row g-3 align-items-center mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-secondary">Escenario de Aplicación:</label>
+                                <select class="form-select" id="sim-scenario-select" onchange="actualizarSimulador()">
+                                    <option value="blog">1. Blog: Usuario con sus Publicaciones y Comentarios</option>
+                                    <option value="ecommerce">2. E-commerce: Orden de Compra y Detalle de Productos
+                                    </option>
+                                    <option value="iot">3. Sensores IoT: Dispositivo y Millones de Lecturas</option>
+                                    <option value="social">4. Red Social: Perfil de Usuario y Seguidores</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-secondary">Modelo de Datos
+                                    Seleccionado:</label>
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button" class="btn btn-outline-primary active" id="btn-mod-embebido"
+                                        onclick="cambiarModeloSim('embebido')">
+                                        <i class="bi bi-box-seam me-1"></i> Embebido
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" id="btn-mod-referenciado"
+                                        onclick="cambiarModeloSim('referenciado')">
+                                        <i class="bi bi-link-45deg me-1"></i> Referenciado
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Métricas estimadas -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-6 col-md-3">
+                                <div class="metric-badge">
+                                    <div class="metric-value" id="metric-queries">1 Query</div>
+                                    <div class="metric-label">Lecturas I/O</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="metric-badge">
+                                    <div class="metric-value" id="metric-size">~1.2 KB</div>
+                                    <div class="metric-label">Tamaño Estimado</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="metric-badge">
+                                    <div class="metric-value" id="metric-speed">2 ms</div>
+                                    <div class="metric-label">Latencia Lectura</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="metric-badge">
+                                    <div class="metric-value" id="metric-risk">Bajo</div>
+                                    <div class="metric-label">Riesgo 16MB</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visor BSON -->
+                        <div class="schema-visualizer">
+                            <div class="schema-visualizer-header">
+                                <div>
+                                    <span class="schema-dot red"></span>
+                                    <span class="schema-dot yellow"></span>
+                                    <span class="schema-dot green"></span>
+                                    <span class="text-white font-monospace ms-2" style="font-size: 0.85rem;"
+                                        id="sim-schema-title">Esquema: Blog (Modelo Embebido)</span>
+                                </div>
+                                <span class="badge bg-secondary font-monospace" id="sim-lang-badge">JSON / BSON</span>
+                            </div>
+                            <div class="schema-visualizer-body" id="sim-code-body">
+                                <!-- Se llena dinámicamente con JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Análisis del simulador -->
+                        <div class="p-3 bg-body-tertiary rounded-3 border mt-3" id="sim-analysis-text">
+                            <span class="fw-bold text-primary"><i class="bi bi-info-circle me-1"></i> Análisis de
+                                Arquitectura:</span>
+                            <span class="text-secondary small">Cargando análisis del esquema...</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 5: 3 EJERCICIOS PRÁCTICOS -->
+                <section id="sec-ejercicios" class="mb-5">
+                    <h4 class="fw-bold mb-4 d-flex align-items-center">
+                        <span class="section-chip">5</span>3 Ejercicios Prácticos de Modelado
+                    </h4>
+
+                    <!-- Ejercicio 1 -->
+                    <div class="exercise-card">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                            <span class="exercise-badge"><i class="bi bi-pencil-square me-1"></i>Ejercicio 1 •
+                                Relaciones 1:Pocos</span>
+                            <span class="text-muted small">Dificultad: Principiante</span>
+                        </div>
+                        <h5 class="fw-bold">Perfil de Usuario con Preferencias y Redes Sociales</h5>
+                        <p class="text-secondary small mb-3">
+                            Estás diseñando la colección <code>usuarios</code>. Cada usuario tiene datos personales
+                            básicos y un conjunto acotado de 2 o 3 perfiles de redes sociales (twitter, linkedin,
+                            github). ¿Cuál es la estrategia óptima de modelado?
+                        </p>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small text-secondary">Elige la mejor
+                                estrategia:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ex1_opt" id="ex1_opt_a" value="a">
+                                <label class="form-check-label small" for="ex1_opt_a">
+                                    a) Crear una colección separada `redes_sociales` y colocar referencias `red_id`
+                                    dentro del usuario.
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ex1_opt" id="ex1_opt_b" value="b">
+                                <label class="form-check-label small" for="ex1_opt_b">
+                                    b) Embeber un arreglo `redes` dentro del documento del usuario con subdocumentos `{
+                                    red, url }`.
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-sm btn-primary" onclick="validarEjercicio1()">
+                            <i class="bi bi-check-circle me-1"></i>Verificar Solución
+                        </button>
+
+                        <div id="ex1-feedback" class="mt-3" style="display:none;"></div>
+                    </div>
+
+                    <!-- Ejercicio 2 -->
+                    <div class="exercise-card">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                            <span class="exercise-badge"><i class="bi bi-pencil-square me-1"></i>Ejercicio 2 •
+                                Relaciones 1:Muchos y $lookup</span>
+                            <span class="text-muted small">Dificultad: Intermedio</span>
+                        </div>
+                        <h5 class="fw-bold">Artículos de Noticias y Comentarios de Lectores</h5>
+                        <p class="text-secondary small mb-3">
+                            Un periódico digital publica artículos que reciben miles de comentarios. Los comentarios se
+                            almacenan en una colección independiente <code>comentarios</code> guardando el
+                            <code>articulo_id</code>. Completa la etapa del pipeline de agregación para unir (JOIN) el
+                            artículo con sus comentarios:
+                        </p>
+
+                        <div class="code-snippet mb-3">
+                            db.articulos.aggregate([
+                            {
+                            <span class="kw">"$lookup"</span>: {
+                            <span class="key">"from"</span>: <span class="str">"comentarios"</span>,
+                            <span class="key">"localField"</span>: <span class="str">"_id"</span>,
+                            <span class="key">"foreignField"</span>: <input type="text" id="ex2_input_field"
+                                class="form-control form-control-sm d-inline-block font-monospace"
+                                style="width: 180px; padding: 2px 8px;" placeholder="¿campo_foráneo?">,
+                            <span class="key">"as"</span>: <span class="str">"lista_comentarios"</span>
+                            }
+                            }
+                            ])
+                        </div>
+
+                        <button class="btn btn-sm btn-primary" onclick="validarEjercicio2()">
+                            <i class="bi bi-check-circle me-1"></i>Verificar Pipeline
+                        </button>
+
+                        <div id="ex2-feedback" class="mt-3" style="display:none;"></div>
+                    </div>
+
+                    <!-- Ejercicio 3 -->
+                    <div class="exercise-card">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                            <span class="exercise-badge"><i class="bi bi-pencil-square me-1"></i>Ejercicio 3 • Control
+                                de Tamaño BSON</span>
+                            <span class="text-muted small">Dificultad: Avanzado</span>
+                        </div>
+                        <h5 class="fw-bold">Diseño para Dispositivos IoT (Sensores de Alarma)</h5>
+                        <p class="text-secondary small mb-3">
+                            Un sensor industrial registra temperaturas cada 1 segundo (86,400 registros al día). Un
+                            desarrollador decidió embeber todas las lecturas dentro del documento del sensor:
+                        </p>
+                        <div class="code-snippet">
+                            { "_id": "sensor_01", "ubicacion": "Planta A", "lecturas": [ { "t": 22.1 }, { "t": 22.3 },
+                            ... ] }</div>
+
+                        <p class="text-secondary small mb-3">
+                            ¿Qué problema crítico ocurrirá en pocos días y cuál es la solución adecuada según los
+                            patrones de MongoDB?
+                        </p>
+
+                        <textarea id="ex3_response" class="form-control form-control-sm mb-3" rows="3"
+                            placeholder="Escribe tu diagnóstico y la solución recomendada..."></textarea>
+
+                        <button class="btn btn-sm btn-primary" onclick="validarEjercicio3()">
+                            <i class="bi bi-shield-check me-1"></i> Validar Respuesta
+                        </button>
+
+                        <div id="ex3-feedback" class="mt-3" style="display:none;"></div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 6: CUESTIONARIO DE AUTOEVALUACIÓN -->
+                <section id="sec-cuestionario" class="mb-5">
+                    <h4 class="fw-bold mb-4 d-flex align-items-center">
+                        <span class="section-chip">6</span>Cuestionario de Autoevaluación (5 Preguntas)
+                    </h4>
+
+                    <div class="quiz-card" id="qcard-1">
+                        <h6 class="fw-bold mb-3">1. ¿Cuál es el beneficio primordial de usar un Modelo Embebido en
+                            MongoDB?</h6>
+                        <div class="quiz-option" onclick="selectQuizOpt(1, 'a')">
+                            <input type="radio" name="q1" value="a" id="q1a">
+                            <label for="q1a" class="mb-0 small">a) Garantiza que nunca se supere el límite de 16MB en el
+                                servidor.</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(1, 'b')">
+                            <input type="radio" name="q1" value="b" id="q1b">
+                            <label for="q1b" class="mb-0 small">b) Permite leer toda la información de la entidad en 1
+                                sola consulta sin requerir JOINs ($lookup).</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(1, 'c')">
+                            <input type="radio" name="q1" value="c" id="q1c">
+                            <label for="q1c" class="mb-0 small">c) Elimina totalmente la redundancia de datos en toda la
+                                base de datos.</label>
                         </div>
                     </div>
 
-                    <button class="btn btn-sm btn-primary" onclick="validarEjercicio1()">
-                        <i class="bi bi-check-circle me-1"></i>Verificar Solución
-                    </button>
-
-                    <div id="ex1-feedback" class="mt-3" style="display:none;"></div>
-                </div>
-
-                <!-- Ejercicio 2 -->
-                <div class="exercise-card">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                        <span class="exercise-badge"><i class="bi bi-pencil-square me-1"></i>Ejercicio 2 • Relaciones 1:Muchos y $lookup</span>
-                        <span class="text-muted small">Dificultad: Intermedio</span>
+                    <div class="quiz-card" id="qcard-2">
+                        <h6 class="fw-bold mb-3">2. ¿Qué ocurre si embebemos un arreglo que crece de forma ilimitada
+                            (Unbounded Array)?</h6>
+                        <div class="quiz-option" onclick="selectQuizOpt(2, 'a')">
+                            <input type="radio" name="q2" value="a" id="q2a">
+                            <label for="q2a" class="mb-0 small">a) MongoDB automáticamente divide el documento en varios
+                                archivos en disco.</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(2, 'b')">
+                            <input type="radio" name="q2" value="b" id="q2b">
+                            <label for="q2b" class="mb-0 small">b) El documento superará el límite estricto de 16 MB de
+                                BSON y la inserción fallará con error.</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(2, 'c')">
+                            <input type="radio" name="q2" value="c" id="q2c">
+                            <label for="q2c" class="mb-0 small">c) La consulta find() se convierte automáticamente en
+                                una base de datos relacional SQL.</label>
+                        </div>
                     </div>
-                    <h5 class="fw-bold">Artículos de Noticias y Comentarios de Lectores</h5>
-                    <p class="text-secondary small mb-3">
-                        Un periódico digital publica artículos que reciben miles de comentarios. Los comentarios se almacenan en una colección independiente <code>comentarios</code> guardando el <code>articulo_id</code>. Completa la etapa del pipeline de agregación para unir (JOIN) el artículo con sus comentarios:
-                    </p>
 
-                    <div class="code-snippet mb-3">
-db.articulos.aggregate([
-  {
-    <span class="kw">"$lookup"</span>: {
-      <span class="key">"from"</span>: <span class="str">"comentarios"</span>,
-      <span class="key">"localField"</span>: <span class="str">"_id"</span>,
-      <span class="key">"foreignField"</span>: <input type="text" id="ex2_input_field" class="form-control form-control-sm d-inline-block font-monospace" style="width: 180px; padding: 2px 8px;" placeholder="¿campo_foráneo?">,
-      <span class="key">"as"</span>: <span class="str">"lista_comentarios"</span>
-    }
-  }
-])</div>
-
-                    <button class="btn btn-sm btn-primary" onclick="validarEjercicio2()">
-                        <i class="bi bi-check-circle me-1"></i>Verificar Pipeline
-                    </button>
-
-                    <div id="ex2-feedback" class="mt-3" style="display:none;"></div>
-                </div>
-
-                <!-- Ejercicio 3 -->
-                <div class="exercise-card">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                        <span class="exercise-badge"><i class="bi bi-pencil-square me-1"></i>Ejercicio 3 • Control de Tamaño BSON</span>
-                        <span class="text-muted small">Dificultad: Avanzado</span>
+                    <div class="quiz-card" id="qcard-3">
+                        <h6 class="fw-bold mb-3">3. Para relacionar la colección `ordenes` con `clientes` mediante
+                            referencias, ¿qué operador del Aggregation Pipeline utilizamos?</h6>
+                        <div class="quiz-option" onclick="selectQuizOpt(3, 'a')">
+                            <input type="radio" name="q3" value="a" id="q3a">
+                            <label for="q3a" class="mb-0 small">a) `$join`</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(3, 'b')">
+                            <input type="radio" name="q3" value="b" id="q3b">
+                            <label for="q3b" class="mb-0 small">b) `$lookup`</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(3, 'c')">
+                            <input type="radio" name="q3" value="c" id="q3c">
+                            <label for="q3c" class="mb-0 small">c) `$merge_tables`</label>
+                        </div>
                     </div>
-                    <h5 class="fw-bold">Diseño para Dispositivos IoT (Sensores de Alarma)</h5>
-                    <p class="text-secondary small mb-3">
-                        Un sensor industrial registra temperaturas cada 1 segundo (86,400 registros al día). Un desarrollador decidió embeber todas las lecturas dentro del documento del sensor:
-                    </p>
-                    <div class="code-snippet">
-{ "_id": "sensor_01", "ubicacion": "Planta A", "lecturas": [ { "t": 22.1 }, { "t": 22.3 }, ... ] }</div>
 
-                    <p class="text-secondary small mb-3">
-                        ¿Qué problema crítico ocurrirá en pocos días y cuál es la solución adecuada según los patrones de MongoDB?
-                    </p>
+                    <div class="quiz-card" id="qcard-4">
+                        <h6 class="fw-bold mb-3">4. ¿Cuándo es ALTAMENTE RECOMENDADO utilizar un modelo por Referencia
+                            en lugar de Embebido?</h6>
+                        <div class="quiz-option" onclick="selectQuizOpt(4, 'a')">
+                            <input type="radio" name="q4" value="a" id="q4a">
+                            <label for="q4a" class="mb-0 small">a) Cuando los datos son de tipo 1:1 y se leen juntos en
+                                el 100% de las pantallas.</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(4, 'b')">
+                            <input type="radio" name="q4" value="b" id="q4b">
+                            <label for="q4b" class="mb-0 small">b) Cuando se tienen datos en relaciones N:M o entidades
+                                independientes que cambian constantemente.</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(4, 'c')">
+                            <input type="radio" name="q4" value="c" id="q4c">
+                            <label for="q4c" class="mb-0 small">c) Cuando se requiere escribir menos código en la
+                                aplicación cliente.</label>
+                        </div>
+                    </div>
 
-                    <textarea id="ex3_response" class="form-control form-control-sm mb-3" rows="3" placeholder="Escribe tu diagnóstico y la solución recomendada..."></textarea>
+                    <div class="quiz-card" id="qcard-5">
+                        <h6 class="fw-bold mb-3">5. ¿Cuál es el tamaño máximo permitido por documento BSON en MongoDB?
+                        </h6>
+                        <div class="quiz-option" onclick="selectQuizOpt(5, 'a')">
+                            <input type="radio" name="q5" value="a" id="q5a">
+                            <label for="q5a" class="mb-0 small">a) 16 MegaBytes (MB)</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(5, 'b')">
+                            <input type="radio" name="q5" value="b" id="q5b">
+                            <label for="q5b" class="mb-0 small">b) 64 KiloBytes (KB)</label>
+                        </div>
+                        <div class="quiz-option" onclick="selectQuizOpt(5, 'c')">
+                            <input type="radio" name="q5" value="c" id="q5c">
+                            <label for="q5c" class="mb-0 small">c) Ilimitado mientras haya espacio libre en
+                                disco.</label>
+                        </div>
+                    </div>
 
-                    <button class="btn btn-sm btn-primary" onclick="validarEjercicio3()">
-                        <i class="bi bi-shield-check me-1"></i> Validar Respuesta
-                    </button>
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary px-4 py-2" id="btn-evaluar">
+                            <i class="bi bi-check2-circle me-2"></i>Evaluar Respuestas
+                        </button>
+                        <button class="btn btn-outline-secondary px-3 py-2" onclick="reiniciarQuiz()">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i>Reiniciar
+                        </button>
+                    </div>
 
-                    <div id="ex3-feedback" class="mt-3" style="display:none;"></div>
-                </div>
-            </section>
+                    <div id="quiz-feedback" class="mt-4 p-3 rounded-3 border" style="display:none;"></div>
+                </section>
 
-            <!-- SECCIÓN 6: CUESTIONARIO DE AUTOEVALUACIÓN -->
-            <section id="sec-cuestionario" class="mb-5">
-                <h4 class="fw-bold mb-4 d-flex align-items-center">
-                    <span class="section-chip">6</span>Cuestionario de Autoevaluación (5 Preguntas)
-                </h4>
+            </div>
+        </main>
+    </div>
 
-                <div class="quiz-card" id="qcard-1">
-                    <h6 class="fw-bold mb-3">1. ¿Cuál es el beneficio primordial de usar un Modelo Embebido en MongoDB?</h6>
-                    <div class="quiz-option" onclick="selectQuizOpt(1, 'a')">
-                        <input type="radio" name="q1" value="a" id="q1a">
-                        <label for="q1a" class="mb-0 small">a) Garantiza que nunca se supere el límite de 16MB en el servidor.</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(1, 'b')">
-                        <input type="radio" name="q1" value="b" id="q1b">
-                        <label for="q1b" class="mb-0 small">b) Permite leer toda la información de la entidad en 1 sola consulta sin requerir JOINs ($lookup).</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(1, 'c')">
-                        <input type="radio" name="q1" value="c" id="q1c">
-                        <label for="q1c" class="mb-0 small">c) Elimina totalmente la redundancia de datos en toda la base de datos.</label>
-                    </div>
-                </div>
+    <!-- SCRIPTS DE BOOTSTRAP Y LÓGICA DE LA CLASE -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
 
-                <div class="quiz-card" id="qcard-2">
-                    <h6 class="fw-bold mb-3">2. ¿Qué ocurre si embebemos un arreglo que crece de forma ilimitada (Unbounded Array)?</h6>
-                    <div class="quiz-option" onclick="selectQuizOpt(2, 'a')">
-                        <input type="radio" name="q2" value="a" id="q2a">
-                        <label for="q2a" class="mb-0 small">a) MongoDB automáticamente divide el documento en varios archivos en disco.</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(2, 'b')">
-                        <input type="radio" name="q2" value="b" id="q2b">
-                        <label for="q2b" class="mb-0 small">b) El documento superará el límite estricto de 16 MB de BSON y la inserción fallará con error.</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(2, 'c')">
-                        <input type="radio" name="q2" value="c" id="q2c">
-                        <label for="q2c" class="mb-0 small">c) La consulta find() se convierte automáticamente en una base de datos relacional SQL.</label>
-                    </div>
-                </div>
-
-                <div class="quiz-card" id="qcard-3">
-                    <h6 class="fw-bold mb-3">3. Para relacionar la colección `ordenes` con `clientes` mediante referencias, ¿qué operador del Aggregation Pipeline utilizamos?</h6>
-                    <div class="quiz-option" onclick="selectQuizOpt(3, 'a')">
-                        <input type="radio" name="q3" value="a" id="q3a">
-                        <label for="q3a" class="mb-0 small">a) `$join`</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(3, 'b')">
-                        <input type="radio" name="q3" value="b" id="q3b">
-                        <label for="q3b" class="mb-0 small">b) `$lookup`</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(3, 'c')">
-                        <input type="radio" name="q3" value="c" id="q3c">
-                        <label for="q3c" class="mb-0 small">c) `$merge_tables`</label>
-                    </div>
-                </div>
-
-                <div class="quiz-card" id="qcard-4">
-                    <h6 class="fw-bold mb-3">4. ¿Cuándo es ALTAMENTE RECOMENDADO utilizar un modelo por Referencia en lugar de Embebido?</h6>
-                    <div class="quiz-option" onclick="selectQuizOpt(4, 'a')">
-                        <input type="radio" name="q4" value="a" id="q4a">
-                        <label for="q4a" class="mb-0 small">a) Cuando los datos son de tipo 1:1 y se leen juntos en el 100% de las pantallas.</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(4, 'b')">
-                        <input type="radio" name="q4" value="b" id="q4b">
-                        <label for="q4b" class="mb-0 small">b) Cuando se tienen datos en relaciones N:M o entidades independientes que cambian constantemente.</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(4, 'c')">
-                        <input type="radio" name="q4" value="c" id="q4c">
-                        <label for="q4c" class="mb-0 small">c) Cuando se requiere escribir menos código en la aplicación cliente.</label>
-                    </div>
-                </div>
-
-                <div class="quiz-card" id="qcard-5">
-                    <h6 class="fw-bold mb-3">5. ¿Cuál es el tamaño máximo permitido por documento BSON en MongoDB?</h6>
-                    <div class="quiz-option" onclick="selectQuizOpt(5, 'a')">
-                        <input type="radio" name="q5" value="a" id="q5a">
-                        <label for="q5a" class="mb-0 small">a) 16 MegaBytes (MB)</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(5, 'b')">
-                        <input type="radio" name="q5" value="b" id="q5b">
-                        <label for="q5b" class="mb-0 small">b) 64 KiloBytes (KB)</label>
-                    </div>
-                    <div class="quiz-option" onclick="selectQuizOpt(5, 'c')">
-                        <input type="radio" name="q5" value="c" id="q5c">
-                        <label for="q5c" class="mb-0 small">c) Ilimitado mientras haya espacio libre en disco.</label>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center gap-3 mt-4">
-                    <button class="btn btn-primary px-4 py-2" id="btn-evaluar">
-                        <i class="bi bi-check2-circle me-2"></i>Evaluar Respuestas
-                    </button>
-                    <button class="btn btn-outline-secondary px-3 py-2" onclick="reiniciarQuiz()">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reiniciar
-                    </button>
-                </div>
-
-                <div id="quiz-feedback" class="mt-4 p-3 rounded-3 border" style="display:none;"></div>
-            </section>
-
-        </div>
-    </main>
-</div>
-
-<!-- SCRIPTS DE BOOTSTRAP Y LÓGICA DE LA CLASE -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../js/menu.js"></script>
-<script src="../../js/main.js"></script>
-
-<script>
-    // ===============================================
-    // DATA Y LÓGICA DEL SIMULADOR NO SQL
-    // ===============================================
-    const simulatorData = {
-        blog: {
-            embebido: {
-                title: "Blog: Modelo Embebido (Usuario + Posts + Comentarios)",
-                queries: "1 Query (find)",
-                size: "~ 4.5 KB",
-                speed: "2 ms",
-                risk: "Bajo (si los posts son pocos)",
-                code: `<span class="cmt">// Colección 'usuarios' (Todo en 1 documento)</span>
+    <script>
+        // ===============================================
+        // DATA Y LÓGICA DEL SIMULADOR NO SQL
+        // ===============================================
+        const simulatorData = {
+            blog: {
+                embebido: {
+                    title: "Blog: Modelo Embebido (Usuario + Posts + Comentarios)",
+                    queries: "1 Query (find)",
+                    size: "~ 4.5 KB",
+                    speed: "2 ms",
+                    risk: "Bajo (si los posts son pocos)",
+                    code: `<span class="cmt">// Colección 'usuarios' (Todo en 1 documento)</span>
 {
   <span class="json-key">"_id"</span>: <span class="json-string">"usr_laura"</span>,
   <span class="json-key">"nombre"</span>: <span class="json-string">"Laura Montes"</span>,
@@ -1062,15 +1180,15 @@ db.articulos.aggregate([
     }
   ]
 }`,
-                analysis: "<strong>Ventaja:</strong> Al cargar el perfil de Laura, con un solo <code>db.usuarios.find({_id:'usr_laura'})</code> obtienes toda su biografía, publicaciones y comentarios instantáneamente.<br><strong>Desventaja:</strong> Si Laura escribe 5,000 artículos con miles de comentarios, el documento superará el límite de 16 MB."
-            },
-            referenciado: {
-                title: "Blog: Modelo Referenciado (Colecciones Separadas)",
-                queries: "2 o 3 Queries (o $lookup)",
-                size: "~ 350 Bytes / doc",
-                speed: "12 ms ($lookup)",
-                risk: "Ninguno (Ilimitado)",
-                code: `<span class="cmt">// 1. Colección 'usuarios'</span>
+                    analysis: "<strong>Ventaja:</strong> Al cargar el perfil de Laura, con un solo <code>db.usuarios.find({_id:'usr_laura'})</code> obtienes toda su biografía, publicaciones y comentarios instantáneamente.<br><strong>Desventaja:</strong> Si Laura escribe 5,000 artículos con miles de comentarios, el documento superará el límite de 16 MB."
+                },
+                referenciado: {
+                    title: "Blog: Modelo Referenciado (Colecciones Separadas)",
+                    queries: "2 o 3 Queries (o $lookup)",
+                    size: "~ 350 Bytes / doc",
+                    speed: "12 ms ($lookup)",
+                    risk: "Ninguno (Ilimitado)",
+                    code: `<span class="cmt">// 1. Colección 'usuarios'</span>
 {
   <span class="json-key">"_id"</span>: <span class="json-string">"usr_laura"</span>,
   <span class="json-key">"nombre"</span>: <span class="json-string">"Laura Montes"</span>
@@ -1090,17 +1208,17 @@ db.articulos.aggregate([
   <span class="json-key">"autor"</span>: <span class="json-string">"Carlos"</span>,
   <span class="json-key">"texto"</span>: <span class="json-string">"¡Excelente artículo!"</span>
 }`,
-                analysis: "<strong>Ventaja:</strong> Laura puede publicar un millón de artículos sin correr peligro de exceder 16MB.<br><strong>Desventaja:</strong> Para renderizar la página del blog debes ejecutar un <code>$lookup</code> o hacer 3 consultas separadas a la base de datos."
-            }
-        },
-        ecommerce: {
-            embebido: {
-                title: "E-commerce: Orden con Foto Fija de Productos Embebidos",
-                queries: "1 Query",
-                size: "~ 2.1 KB",
-                speed: "3 ms",
-                risk: "Muy Bajo",
-                code: `<span class="cmt">// Colección 'ordenes' (Snapshot histórico)</span>
+                    analysis: "<strong>Ventaja:</strong> Laura puede publicar un millón de artículos sin correr peligro de exceder 16MB.<br><strong>Desventaja:</strong> Para renderizar la página del blog debes ejecutar un <code>$lookup</code> o hacer 3 consultas separadas a la base de datos."
+                }
+            },
+            ecommerce: {
+                embebido: {
+                    title: "E-commerce: Orden con Foto Fija de Productos Embebidos",
+                    queries: "1 Query",
+                    size: "~ 2.1 KB",
+                    speed: "3 ms",
+                    risk: "Muy Bajo",
+                    code: `<span class="cmt">// Colección 'ordenes' (Snapshot histórico)</span>
 {
   <span class="json-key">"_id"</span>: <span class="json-string">"ord_9901"</span>,
   <span class="json-key">"cliente_id"</span>: <span class="json-string">"cli_44"</span>,
@@ -1115,15 +1233,15 @@ db.articulos.aggregate([
   ],
   <span class="json-key">"total"</span>: <span class="json-number">850.00</span>
 }`,
-                analysis: "<strong>¡Patrón Recomendado!</strong> En e-commerce se embocan los items comprados dentro de la orden porque representan una 'fotografía histórica'. Si el precio del producto cambia mañana en el catálogo, la orden histórica conserva el precio pagado."
-            },
-            referenciado: {
-                title: "E-commerce: Orden referenciando Catálogo Vivo",
-                queries: "2 Queries ($lookup)",
-                size: "~ 400 Bytes",
-                speed: "15 ms",
-                risk: "Ninguno",
-                code: `<span class="cmt">// Colección 'ordenes' (Solo guarda IDs)</span>
+                    analysis: "<strong>¡Patrón Recomendado!</strong> En e-commerce se embocan los items comprados dentro de la orden porque representan una 'fotografía histórica'. Si el precio del producto cambia mañana en el catálogo, la orden histórica conserva el precio pagado."
+                },
+                referenciado: {
+                    title: "E-commerce: Orden referenciando Catálogo Vivo",
+                    queries: "2 Queries ($lookup)",
+                    size: "~ 400 Bytes",
+                    speed: "15 ms",
+                    risk: "Ninguno",
+                    code: `<span class="cmt">// Colección 'ordenes' (Solo guarda IDs)</span>
 {
   <span class="json-key">"_id"</span>: <span class="json-string">"ord_9901"</span>,
   <span class="json-key">"items"</span>: [
@@ -1137,17 +1255,17 @@ db.articulos.aggregate([
   <span class="json-key">"nombre"</span>: <span class="json-string">"Laptop HP Pro"</span>,
   <span class="json-key">"precio_actual"</span>: <span class="json-number">899.99</span>
 }`,
-                analysis: "<strong>Riesgo de Negocio:</strong> Si el producto cambia de precio en la colección de catálogo, al consultar la orden vieja reflejará el precio nuevo, alterando la contabilidad del cliente."
-            }
-        },
-        iot: {
-            embebido: {
-                title: "IoT: Anti-patrón Embebido (Todas las lecturas en 1 doc)",
-                queries: "1 Query",
-                size: "16 MB (¡Límite superado!)",
-                speed: "Lento / Error",
-                risk: "¡CRÍTICO (Excede 16MB!)",
-                code: `<span class="cmt">// ¡PELIGRO! Anti-Patrón Unbounded Array</span>
+                    analysis: "<strong>Riesgo de Negocio:</strong> Si el producto cambia de precio en la colección de catálogo, al consultar la orden vieja reflejará el precio nuevo, alterando la contabilidad del cliente."
+                }
+            },
+            iot: {
+                embebido: {
+                    title: "IoT: Anti-patrón Embebido (Todas las lecturas en 1 doc)",
+                    queries: "1 Query",
+                    size: "16 MB (¡Límite superado!)",
+                    speed: "Lento / Error",
+                    risk: "¡CRÍTICO (Excede 16MB!)",
+                    code: `<span class="cmt">// ¡PELIGRO! Anti-Patrón Unbounded Array</span>
 {
   <span class="json-key">"_id"</span>: <span class="json-string">"sensor_motor_1"</span>,
   <span class="json-key">"ubicacion"</span>: <span class="json-string">"Fabrica 2"</span>,
@@ -1156,220 +1274,220 @@ db.articulos.aggregate([
     <span class="text-muted">... 100,000 lecturas diarias ...</span>
   ]
 }`,
-                analysis: "<strong>¡Error de Arquitectura!</strong> Guardar lecturas continuas dentro de un arreglo embebido causará que en cuestión de horas el documento exceda 16 MB y la base de datos rechace los inserts."
-            },
-            referenciado: {
-                title: "IoT: Patrón de Referencia al Padre (Parent Referencing)",
-                queries: "1 Query con filtro sensor_id",
-                size: "~ 120 Bytes / lectura",
-                speed: "4 ms (con Índice)",
-                risk: "Seguro",
-                code: `<span class="cmt">// Colección 'lecturas_telemetria' (1 doc por lectura)</span>
+                    analysis: "<strong>¡Error de Arquitectura!</strong> Guardar lecturas continuas dentro de un arreglo embebido causará que en cuestión de horas el documento exceda 16 MB y la base de datos rechace los inserts."
+                },
+                referenciado: {
+                    title: "IoT: Patrón de Referencia al Padre (Parent Referencing)",
+                    queries: "1 Query con filtro sensor_id",
+                    size: "~ 120 Bytes / lectura",
+                    speed: "4 ms (con Índice)",
+                    risk: "Seguro",
+                    code: `<span class="cmt">// Colección 'lecturas_telemetria' (1 doc por lectura)</span>
 {
   <span class="json-key">"_id"</span>: ObjectId(<span class="json-string">"66d9c8..."</span>),
   <span class="json-key">"sensor_id"</span>: <span class="json-string">"sensor_motor_1"</span>,
   <span class="json-key">"temperatura"</span>: <span class="json-number">45.1</span>,
   <span class="json-key">"fecha"</span>: ISODate(<span class="json-string">"2026-09-05T00:00:01Z"</span>)
 }`,
-                analysis: "<strong>Solución Correcta:</strong> Cada medición es un documento independiente que apunta hacia el <code>sensor_id</code>. Indexando <code>{ sensor_id: 1, fecha: -1 }</code> las lecturas son ultrarrápidas e ilimitadas."
-            }
-        },
-        social: {
-            embebido: {
-                title: "Red Social: Arreglo Embebido de Seguidores",
-                queries: "1 Query",
-                size: "Variable",
-                speed: "5 ms",
-                risk: "Alto para Influencers",
-                code: `<span class="cmt">// Colección 'usuarios'</span>
+                    analysis: "<strong>Solución Correcta:</strong> Cada medición es un documento independiente que apunta hacia el <code>sensor_id</code>. Indexando <code>{ sensor_id: 1, fecha: -1 }</code> las lecturas son ultrarrápidas e ilimitadas."
+                }
+            },
+            social: {
+                embebido: {
+                    title: "Red Social: Arreglo Embebido de Seguidores",
+                    queries: "1 Query",
+                    size: "Variable",
+                    speed: "5 ms",
+                    risk: "Alto para Influencers",
+                    code: `<span class="cmt">// Colección 'usuarios'</span>
 {
   <span class="json-key">"_id"</span>: <span class="json-string">"usr_celebridad"</span>,
   <span class="json-key">"nombre"</span>: <span class="json-string">"Famoso VIP"</span>,
   <span class="json-key">"seguidores"</span>: [<span class="json-string">"usr_1"</span>, <span class="json-string">"usr_2"</span>, ... <span class="text-muted">10 millones de IDs</span>]
 }`,
-                analysis: "<strong>Problema de Escala:</strong> Funciona para usuarios comunes con 100 seguidores. Pero para cuentas VIP con millones de seguidores el arreglo revienta los 16 MB."
-            },
-            referenciado: {
-                title: "Red Social: Colección Intermedia de Seguimientos (N:M)",
-                queries: "1 Query con count/find",
-                size: "~ 90 Bytes",
-                speed: "3 ms",
-                risk: "Ninguno",
-                code: `<span class="cmt">// Colección 'follows'</span>
+                    analysis: "<strong>Problema de Escala:</strong> Funciona para usuarios comunes con 100 seguidores. Pero para cuentas VIP con millones de seguidores el arreglo revienta los 16 MB."
+                },
+                referenciado: {
+                    title: "Red Social: Colección Intermedia de Seguimientos (N:M)",
+                    queries: "1 Query con count/find",
+                    size: "~ 90 Bytes",
+                    speed: "3 ms",
+                    risk: "Ninguno",
+                    code: `<span class="cmt">// Colección 'follows'</span>
 {
   <span class="json-key">"_id"</span>: ObjectId(<span class="json-string">"66d9d1..."</span>),
   <span class="json-key">"seguidor_id"</span>: <span class="json-string">"usr_1"</span>,
   <span class="json-key">"seguido_id"</span>: <span class="json-string">"usr_celebridad"</span>,
   <span class="json-key">"fecha"</span>: ISODate(<span class="json-string">"2026-09-05"</span>)
 }`,
-                analysis: "<strong>Diseño Profesional:</strong> Similar a la tabla pivote SQL. Escala sin límites y permite consultas bidireccionales rápidas ('a quién sigo' y 'quiénes me siguen')."
+                    analysis: "<strong>Diseño Profesional:</strong> Similar a la tabla pivote SQL. Escala sin límites y permite consultas bidireccionales rápidas ('a quién sigo' y 'quiénes me siguen')."
+                }
+            }
+        };
+
+        let currentModel = 'embebido';
+
+        function actualizarSimulador() {
+            const scenario = document.getElementById('sim-scenario-select').value;
+            const data = simulatorData[scenario][currentModel];
+
+            document.getElementById('sim-schema-title').innerText = data.title;
+            document.getElementById('metric-queries').innerText = data.queries;
+            document.getElementById('metric-size').innerText = data.size;
+            document.getElementById('metric-speed').innerText = data.speed;
+            document.getElementById('metric-risk').innerText = data.risk;
+            document.getElementById('sim-code-body').innerHTML = data.code;
+            document.getElementById('sim-analysis-text').innerHTML = `<span class="fw-bold text-primary"><i class="bi bi-info-circle me-1"></i> Análisis de Arquitectura:</span> <span class="text-secondary small">${data.analysis}</span>`;
+        }
+
+        function cambiarModeloSim(modelo) {
+            currentModel = modelo;
+            document.getElementById('btn-mod-embebido').classList.toggle('active', modelo === 'embebido');
+            document.getElementById('btn-mod-referenciado').classList.toggle('active', modelo === 'referenciado');
+            actualizarSimulador();
+        }
+
+        function scrollToSection(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
             }
         }
-    };
 
-    let currentModel = 'embebido';
-
-    function actualizarSimulador() {
-        const scenario = document.getElementById('sim-scenario-select').value;
-        const data = simulatorData[scenario][currentModel];
-
-        document.getElementById('sim-schema-title').innerText = data.title;
-        document.getElementById('metric-queries').innerText = data.queries;
-        document.getElementById('metric-size').innerText = data.size;
-        document.getElementById('metric-speed').innerText = data.speed;
-        document.getElementById('metric-risk').innerText = data.risk;
-        document.getElementById('sim-code-body').innerHTML = data.code;
-        document.getElementById('sim-analysis-text').innerHTML = `<span class="fw-bold text-primary"><i class="bi bi-info-circle me-1"></i> Análisis de Arquitectura:</span> <span class="text-secondary small">${data.analysis}</span>`;
-    }
-
-    function cambiarModeloSim(modelo) {
-        currentModel = modelo;
-        document.getElementById('btn-mod-embebido').classList.toggle('active', modelo === 'embebido');
-        document.getElementById('btn-mod-referenciado').classList.toggle('active', modelo === 'referenciado');
-        actualizarSimulador();
-    }
-
-    function scrollToSection(sectionId) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
+        function copyCode(btn) {
+            const codeSnippet = btn.parentElement.innerText.replace('Copiar', '').trim();
+            navigator.clipboard.writeText(codeSnippet).then(() => {
+                btn.innerText = '¡Copiado!';
+                setTimeout(() => { btn.innerText = 'Copiar'; }, 2000);
+            });
         }
-    }
 
-    function copyCode(btn) {
-        const codeSnippet = btn.parentElement.innerText.replace('Copiar', '').trim();
-        navigator.clipboard.writeText(codeSnippet).then(() => {
-            btn.innerText = '¡Copiado!';
-            setTimeout(() => { btn.innerText = 'Copiar'; }, 2000);
-        });
-    }
+        // ===============================================
+        // VALIDACIÓN DE EJERCICIOS
+        // ===============================================
+        function validarEjercicio1() {
+            const selected = document.querySelector('input[name="ex1_opt"]:checked');
+            const feedback = document.getElementById('ex1-feedback');
+            feedback.style.display = 'block';
 
-    // ===============================================
-    // VALIDACIÓN DE EJERCICIOS
-    // ===============================================
-    function validarEjercicio1() {
-        const selected = document.querySelector('input[name="ex1_opt"]:checked');
-        const feedback = document.getElementById('ex1-feedback');
-        feedback.style.display = 'block';
+            if (selected && selected.value === 'b') {
+                feedback.className = 'alert alert-success mt-3 small mb-0';
+                feedback.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i><strong>¡Correcto!</strong> Dado que las redes sociales son "1:Pocos" (2 o 3 perfiles por persona) y siempre se leen junto con el usuario, embeber un arreglo de subdocumentos es la opción más rápida y eficiente.';
+            } else {
+                feedback.className = 'alert alert-danger mt-3 small mb-0';
+                feedback.innerHTML = '<i class="bi bi-x-circle-fill me-2"></i><strong>Incorrecto.</strong> La opción b) es la ideal. No tiene sentido crear una colección separada para solo 2 o 3 enlaces de redes sociales que no se comparten entre usuarios.';
+            }
+        }
 
-        if (selected && selected.value === 'b') {
+        function validarEjercicio2() {
+            const inputVal = document.getElementById('ex2_input_field').value.trim();
+            const feedback = document.getElementById('ex2-feedback');
+            feedback.style.display = 'block';
+
+            if (inputVal === '"articulo_id"' || inputVal === "'articulo_id'" || inputVal === 'articulo_id') {
+                feedback.className = 'alert alert-success mt-3 small mb-0';
+                feedback.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i><strong>¡Excelente!</strong> <code>foreignField: "articulo_id"</code> especifica la clave en la colección de comentarios que coincide con el <code>_id</code> local del artículo.';
+            } else {
+                feedback.className = 'alert alert-warning mt-3 small mb-0';
+                feedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i><strong>Casi.</strong> El campo clave foránea en la colección de comentarios es <code>"articulo_id"</code>.';
+            }
+        }
+
+        function validarEjercicio3() {
+            const text = document.getElementById('ex3_response').value.trim();
+            const feedback = document.getElementById('ex3-feedback');
+            feedback.style.display = 'block';
+
+            if (text.length < 10) {
+                feedback.className = 'alert alert-warning mt-3 small mb-0';
+                feedback.innerHTML = 'Por favor escribe una explicación breve indicando el problema del límite de 16 MB.';
+                return;
+            }
+
             feedback.className = 'alert alert-success mt-3 small mb-0';
-            feedback.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i><strong>¡Correcto!</strong> Dado que las redes sociales son "1:Pocos" (2 o 3 perfiles por persona) y siempre se leen junto con el usuario, embeber un arreglo de subdocumentos es la opción más rápida y eficiente.';
-        } else {
-            feedback.className = 'alert alert-danger mt-3 small mb-0';
-            feedback.innerHTML = '<i class="bi bi-x-circle-fill me-2"></i><strong>Incorrecto.</strong> La opción b) es la ideal. No tiene sentido crear una colección separada para solo 2 o 3 enlaces de redes sociales que no se comparten entre usuarios.';
-        }
-    }
-
-    function validarEjercicio2() {
-        const inputVal = document.getElementById('ex2_input_field').value.trim();
-        const feedback = document.getElementById('ex2-feedback');
-        feedback.style.display = 'block';
-
-        if (inputVal === '"articulo_id"' || inputVal === "'articulo_id'" || inputVal === 'articulo_id') {
-            feedback.className = 'alert alert-success mt-3 small mb-0';
-            feedback.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i><strong>¡Excelente!</strong> <code>foreignField: "articulo_id"</code> especifica la clave en la colección de comentarios que coincide con el <code>_id</code> local del artículo.';
-        } else {
-            feedback.className = 'alert alert-warning mt-3 small mb-0';
-            feedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i><strong>Casi.</strong> El campo clave foránea en la colección de comentarios es <code>"articulo_id"</code>.';
-        }
-    }
-
-    function validarEjercicio3() {
-        const text = document.getElementById('ex3_response').value.trim();
-        const feedback = document.getElementById('ex3-feedback');
-        feedback.style.display = 'block';
-
-        if (text.length < 10) {
-            feedback.className = 'alert alert-warning mt-3 small mb-0';
-            feedback.innerHTML = 'Por favor escribe una explicación breve indicando el problema del límite de 16 MB.';
-            return;
-        }
-
-        feedback.className = 'alert alert-success mt-3 small mb-0';
-        feedback.innerHTML = `
+            feedback.innerHTML = `
             <div class="fw-bold mb-1"><i class="bi bi-check-circle-fill me-1"></i>Solución del Ejercicio 3:</div>
             <p class="mb-1"><strong>Problema:</strong> Se genera el anti-patrón de arreglos ilimitados (Unbounded Array). Con 86,400 lecturas diarias el documento superará el límite máximo de 16 MB en 2 o 3 días.</p>
             <p class="mb-0"><strong>Solución:</strong> Cambiar a la estrategia por referencias (Parent Referencing) creando 1 documento por cada lectura con <code>sensor_id</code>, o utilizar la técnica de Agrupamiento por Horas (Bucketing Pattern).</p>
         `;
-    }
-
-    // ===============================================
-    // CUESTIONARIO DE AUTOEVALUACIÓN
-    // ===============================================
-    const selectedAnswers = {};
-
-    function selectQuizOpt(qNum, optVal) {
-        selectedAnswers['q' + qNum] = optVal;
-        const qCard = document.getElementById('qcard-' + qNum);
-        const options = qCard.querySelectorAll('.quiz-option');
-        options.forEach(opt => {
-            opt.classList.remove('selected');
-            const radio = opt.querySelector('input[type="radio"]');
-            if (radio.value === optVal) {
-                opt.classList.add('selected');
-                radio.checked = true;
-            }
-        });
-    }
-
-    document.getElementById('btn-evaluar').addEventListener('click', function() {
-        const correctAnswers = { q1: 'b', q2: 'b', q3: 'b', q4: 'b', q5: 'a' };
-        let score = 0;
-
-        for (let i = 1; i <= 5; i++) {
-            const card = document.getElementById('qcard-' + i);
-            const userAns = selectedAnswers['q' + i];
-            
-            card.classList.remove('answer-correct', 'answer-wrong');
-
-            if (userAns === correctAnswers['q' + i]) {
-                score++;
-                card.classList.add('answer-correct');
-            } else {
-                card.classList.add('answer-wrong');
-            }
         }
 
-        const feedback = document.getElementById('quiz-feedback');
-        feedback.style.display = 'block';
-        
-        let colorClass = score >= 4 ? 'alert-success' : (score >= 3 ? 'alert-warning' : 'alert-danger');
-        feedback.className = `mt-4 p-3 rounded-3 border alert ${colorClass}`;
-        feedback.innerHTML = `
+        // ===============================================
+        // CUESTIONARIO DE AUTOEVALUACIÓN
+        // ===============================================
+        const selectedAnswers = {};
+
+        function selectQuizOpt(qNum, optVal) {
+            selectedAnswers['q' + qNum] = optVal;
+            const qCard = document.getElementById('qcard-' + qNum);
+            const options = qCard.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                const radio = opt.querySelector('input[type="radio"]');
+                if (radio.value === optVal) {
+                    opt.classList.add('selected');
+                    radio.checked = true;
+                }
+            });
+        }
+
+        document.getElementById('btn-evaluar').addEventListener('click', function () {
+            const correctAnswers = { q1: 'b', q2: 'b', q3: 'b', q4: 'b', q5: 'a' };
+            let score = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const card = document.getElementById('qcard-' + i);
+                const userAns = selectedAnswers['q' + i];
+
+                card.classList.remove('answer-correct', 'answer-wrong');
+
+                if (userAns === correctAnswers['q' + i]) {
+                    score++;
+                    card.classList.add('answer-correct');
+                } else {
+                    card.classList.add('answer-wrong');
+                }
+            }
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.style.display = 'block';
+
+            let colorClass = score >= 4 ? 'alert-success' : (score >= 3 ? 'alert-warning' : 'alert-danger');
+            feedback.className = `mt-4 p-3 rounded-3 border alert ${colorClass}`;
+            feedback.innerHTML = `
             <div class="d-flex align-items-center justify-content-between">
-                <h5 class="fw-bold mb-0">Resultado: ${score} / 5 Respuestas Correctas (${(score/5)*100}%)</h5>
-                <span class="badge ${score>=4?'bg-success':'bg-warning'} fs-6">${score>=4?'¡Excelente Dominio!':'Repasar Conceptos'}</span>
+                <h5 class="fw-bold mb-0">Resultado: ${score} / 5 Respuestas Correctas (${(score / 5) * 100}%)</h5>
+                <span class="badge ${score >= 4 ? 'bg-success' : 'bg-warning'} fs-6">${score >= 4 ? '¡Excelente Dominio!' : 'Repasar Conceptos'}</span>
             </div>
             <p class="small text-secondary mb-0 mt-2">
                 ${score === 5 ? '¡Felicidades! Has dominado los conceptos de modelado NoSQL en MongoDB, límites BSON y patrones de diseño.' : 'Revisa las preguntas resaltadas en rojo y consulta el cuadro comparativo para reforzar las diferencias entre datos embebidos y por referencias.'}
             </p>
         `;
-    });
+        });
 
-    function reiniciarQuiz() {
-        for (let i = 1; i <= 5; i++) {
-            delete selectedAnswers['q' + i];
-            const card = document.getElementById('qcard-' + i);
-            card.classList.remove('answer-correct', 'answer-wrong');
-            const options = card.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('selected');
-                const radio = opt.querySelector('input[type="radio"]');
-                if (radio) radio.checked = false;
-            });
+        function reiniciarQuiz() {
+            for (let i = 1; i <= 5; i++) {
+                delete selectedAnswers['q' + i];
+                const card = document.getElementById('qcard-' + i);
+                card.classList.remove('answer-correct', 'answer-wrong');
+                const options = card.querySelectorAll('.quiz-option');
+                options.forEach(opt => {
+                    opt.classList.remove('selected');
+                    const radio = opt.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = false;
+                });
+            }
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.style.display = 'none';
         }
-        const feedback = document.getElementById('quiz-feedback');
-        feedback.style.display = 'none';
-    }
 
-    // Inicializar simulador al cargar
-    document.addEventListener("DOMContentLoaded", () => {
-        actualizarSimulador();
-    });
-</script>
+        // Inicializar simulador al cargar
+        document.addEventListener("DOMContentLoaded", () => {
+            actualizarSimulador();
+        });
+    </script>
 
-<script src="../../js/menudb.js"></script>
+    <script src="../../js/menudb.js"></script>
 </body>
-</html>
 
+</html>
