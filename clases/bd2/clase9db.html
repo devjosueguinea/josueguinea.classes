@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 9: Claves de Partición y Escalabilidad Horizontal en MongoDB - Bases de Datos II</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Estilos y Tarjetas Didácticas ── */
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--warning, #f1c40f);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .concept-badge {
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            color: #2c3e50;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .btn-warning-gradient {
+            background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%);
+            border: none;
+            color: #2c3e50;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .btn-warning-gradient:hover {
+            opacity: 0.9;
+            color: #2c3e50;
+        }
+
+        /* ── Diseños de los Shards del Cluster ── */
+        .shard-node {
+            background-color: #1a1d2e;
+            border: 2px solid #2d3139;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .shard-node.active-target {
+            border-color: #2ecc71;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .shard-node.hotspot-danger {
+            border-color: #e74c3c;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+
+        .progress-bar-shard {
+            height: 18px;
+            border-radius: 9px;
+            transition: width 0.5s ease;
+        }
+
+        .mongos-router {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .code-snippet {
+            background-color: #0c0d14;
+            color: #55efc4;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.88rem;
+            border: 1px solid #2d3139;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 9: Claves de Partición y Sharding</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II (NoSQL)</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="badge-clase bg-warning text-dark">Clase 9</span>
+                    <span class="text-muted small"><i class="bi bi-clock"></i> 2 horas</span>
+                </div>
+                <h3 class="fw-bold mb-2">Claves de Partición y Escalabilidad Horizontal en MongoDB</h3>
+                <p class="text-secondary mb-4">
+                    Aprende a distribuir horizontalmente tus colecciones de MongoDB a través de un cluster particionado (Sharded Cluster). Domina los criterios de selección de Shard Keys para garantizar un rendimiento óptimo sin cuellos de botella.
+                </p>
+
+                <!-- Objetivos -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-warning me-2"></i>Objetivos de la Clase</h5>
+                    <ul class="text-secondary mb-0 ps-3">
+                        <li>Diferenciar entre <strong>escalabilidad vertical (Scale-Up)</strong> y <strong>escalabilidad horizontal (Scale-Out / Sharding)</strong>.</li>
+                        <li>Identificar la función de los tres componentes de un cluster de Sharding: <code>mongos</code>, <strong>Config Servers</strong> y <strong>Shards</strong>.</li>
+                        <li>Seleccionar la <strong>Shard Key ideal</strong> según los criterios de cardinalidad, frecuencia y tasa de cambio de valor.</li>
+                        <li>Diferenciar entre estrategias de particionamiento por <strong>Rango (Ranged)</strong>, <strong>Hash (Hashed)</strong> y <strong>Zonas (Zoned)</strong>.</li>
+                        <li>Experimentar con simuladores interactivos para visualizar la distribución de chunks y prevenir <em>hotspots</em>.</li>
+                    </ul>
+                </div>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 1: CONCEPTOS Y ARQUITECTURA -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-hdd-network text-warning fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. Escalabilidad Horizontal y Arquitectura de Sharding</h3>
+                    </div>
+                    <p class="text-secondary">
+                        Cuando el volumen de datos o la tasa de operaciones por segundo excede la capacidad de un solo servidor físico (memoria RAM, disco SSD o CPU), existen dos opciones para escalar:
+                    </p>
+
+                    <div class="row g-4 my-3">
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">Scale-Up</span>
+                                <h6 class="fw-bold">Escalabilidad Vertical</h6>
+                                <p class="small text-muted mb-0">
+                                    Agregar más RAM o mejores procesadores a una misma máquina. Tiene un <strong>límite físico estricto</strong> y los costos financieros crecen de manera exponencial.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">Scale-Out</span>
+                                <h6 class="fw-bold">Escalabilidad Horizontal (Sharding)</h6>
+                                <p class="small text-muted mb-0">
+                                    Distribuir los datos entre múltiples servidores independientes (Shards). Permite <strong>crecimiento casi ilimitado</strong> utilizando hardware estándar de menor costo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold mt-4 mb-3"><i class="bi bi-diagram-3-fill text-warning me-2"></i>Los 3 Componentes de un Cluster Particionado en MongoDB</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-body">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-signpost-split me-1"></i> 1. mongos (Router)</h6>
+                                <p class="small text-muted mb-0">Actúa como un enrutador inteligente. Las aplicaciones cliente se conectan a <code>mongos</code>, el cual consulta los metadatos del cluster para dirigir cada operación al Shard correspondiente.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-body">
+                                <h6 class="fw-bold text-warning"><i class="bi bi-database-gear me-1"></i> 2. Config Servers</h6>
+                                <p class="small text-muted mb-0">Un Replica Set especial que guarda la tabla de mapeo y metadatos del cluster: qué rangos de datos (Chunks) residen en qué Shards específicos.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-body">
+                                <h6 class="fw-bold text-success"><i class="bi bi-server me-1"></i> 3. Shards (Fragmentos)</h6>
+                                <p class="small text-muted mb-0">Cada Shard es un Replica Set independiente que almacena un subconjunto (fragmento) del total de documentos de la colección.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 2: ESTRATEGIAS DE SHARD KEY Y CASOS DE USO -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-key-fill text-warning fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Estrategias de Shard Key y Casos de Uso</h3>
+                    </div>
+                    <p class="text-secondary">
+                        Una <strong>Estrategia de Shard Key</strong> es la técnica de arquitectura mediante la cual se elige y estructura el campo indexado que MongoDB utilizará para fragmentar y repartir los documentos entre los nodos del cluster.
+                    </p>
+                    <p class="text-secondary">
+                        Su objetivo fundamental es resolver el gran dilema del particionamiento: <strong>distribuir homogéneamente las escrituras</strong> sin arruinar el <strong>rendimiento de las lecturas</strong>.
+                    </p>
+
+                    <div class="alert alert-warning border-warning d-flex align-items-center gap-3 my-4">
+                        <i class="bi bi-exclamation-triangle-fill fs-2 flex-shrink-0"></i>
+                        <div>
+                            <strong>¡Decisión Crítica e Inmutable!</strong><br>
+                            Elegir una estrategia incorrecta puede provocar que el 100% de las escrituras caigan en un solo servidor (<strong>Hotspotting</strong>) o forzar a que cada lectura deba consultar a todos los Shards del cluster (<strong>Scatter-Gather Queries</strong>).
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold mt-4 mb-3"><i class="bi bi-check2-circle text-warning me-2"></i>Tres Propiedades de una Shard Key Ideal</h5>
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-4">
+                            <div class="interactive-box">
+                                <h6 class="fw-bold text-success"><i class="bi bi-bar-chart-fill me-1"></i> 1. Alta Cardinalidad</h6>
+                                <p class="small text-muted mb-0">El campo debe poseer un rango muy amplio de valores únicos (ej. <code>user_id</code> o <code>uuid</code>). Si la cardinalidad es baja (ej. <code>gender</code>), MongoDB no podrá dividir los documentos en Chunks equilibrados.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="interactive-box">
+                                <h6 class="fw-bold text-info"><i class="bi bi-pie-chart-fill me-1"></i> 2. Baja Frecuencia</h6>
+                                <p class="small text-muted mb-0">Ningún valor individual debe repetirse masivamente. Si el 80% de los documentos comparten el mismo valor en la Shard Key, se creará un "Jumbo Chunk" gigante e indivisible.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="interactive-box">
+                                <h6 class="fw-bold text-danger"><i class="bi bi-graph-up-arrow me-1"></i> 3. Cambio No Monótono</h6>
+                                <p class="small text-muted mb-0">Campos como <code>timestamp</code> u <code>ObjectId</code> crecen secuencialmente. En particionamiento por rango, <strong>todas las nuevas inserciones caerán siempre en el último Shard</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold mt-5 mb-4 text-warning"><i class="bi bi-journal-code me-2"></i>Las 4 Estrategias Principales y sus Casos de Uso</h4>
+
+                    <!-- ESTRATEGIA 1: RANGED -->
+                    <div class="card mb-4 border-light shadow-sm">
+                        <div class="card-header bg-primary text-white fw-bold d-flex justify-content-between align-items-center">
+                            <span>1. Particionamiento Basado en Rango (Ranged Sharding)</span>
+                            <span class="badge bg-light text-primary">Búsquedas por Rango</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="small text-secondary mb-2">
+                                <strong>Cómo funciona:</strong> Agrupa documentos con valores contiguos en Chunks según rangos continuos (ej. <code>[A - D]</code> en Shard 1, <code>[E - H]</code> en Shard 2).
+                            </p>
+                            <div class="code-snippet mb-3">
+                                sh.shardCollection("tienda.productos", { sku_producto: 1 });
+                            </div>
+                            <h6 class="fw-bold text-success small mb-1"><i class="bi bi-briefcase-fill me-1"></i> Casos de Uso Típicos:</h6>
+                            <ul class="text-secondary small mb-0 ps-3">
+                                <li><strong>Catálogos de Productos con Búsquedas por Rango:</strong> Consultas que filtran rangos de precios o códigos (<code>{ precio: { $gte: 10, $lte: 50 } }</code>).</li>
+                                <li><strong>Sistemas de Reportes Históricos donde las escrituras son dispersas:</strong> Consultas frecuentes por rangos de fechas en datos históricos ya estabilizados.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ESTRATEGIA 2: HASHED -->
+                    <div class="card mb-4 border-light shadow-sm">
+                        <div class="card-header bg-success text-white fw-bold d-flex justify-content-between align-items-center">
+                            <span>2. Particionamiento por Hash (Hashed Sharding)</span>
+                            <span class="badge bg-light text-success">Escritura Masiva Uniforme</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="small text-secondary mb-2">
+                                <strong>Cómo funciona:</strong> Aplica una función Hash MD5 de 64 bits al valor del campo para obtener una distribución pseudo-aleatoria <strong>perfectamente uniforme</strong> a través de todos los Shards del cluster.
+                            </p>
+                            <div class="code-snippet mb-3">
+                                sh.shardCollection("telemetria.lecturas", { fecha_registro: "hashed" });
+                            </div>
+                            <h6 class="fw-bold text-success small mb-1"><i class="bi bi-briefcase-fill me-1"></i> Casos de Uso Típicos:</h6>
+                            <ul class="text-secondary small mb-0 ps-3">
+                                <li><strong>Telemetría e Internet de las Cosas (IoT):</strong> Dispositivos enviando millones de métricas por segundo con timestamps secuenciales (destruye el problema de Hotspots).</li>
+                                <li><strong>Sistemas de Logs en Tiempo Real y Auditorías:</strong> Registro masivo de eventos de seguridad o logs de microservicios.</li>
+                                <li><strong>Aplicaciones Write-Heavy:</strong> Sistemas donde la velocidad y paralelismo de inserción de datos supera a las búsquedas por rango.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ESTRATEGIA 3: COMPOUND -->
+                    <div class="card mb-4 border-light shadow-sm">
+                        <div class="card-header bg-info text-white fw-bold d-flex justify-content-between align-items-center">
+                            <span>3. Particionamiento Compuesto (Compound Shard Key)</span>
+                            <span class="badge bg-light text-info">Aislamiento + Alta Cardinalidad</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="small text-secondary mb-2">
+                                <strong>Cómo funciona:</strong> Combina dos o más campos en la clave de partición (ej. <code>{ tenant_id: 1, user_id: 1 }</code>). El primer campo agrupa los datos lógicamente y el segundo aporta alta cardinalidad.
+                            </p>
+                            <div class="code-snippet mb-3">
+                                sh.shardCollection("saas.clientes", { tenant_id: 1, user_id: 1 });
+                            </div>
+                            <h6 class="fw-bold text-success small mb-1"><i class="bi bi-briefcase-fill me-1"></i> Casos de Uso Típicos:</h6>
+                            <ul class="text-secondary small mb-0 ps-3">
+                                <li><strong>Plataformas SaaS Multi-Inquilino (Multi-Tenant):</strong> Garantiza que todas las operaciones de un cliente específico vivan en el mismo Shard (Targeted Queries).</li>
+                                <li><strong>E-Commerce con Consultas Frecuentes por Usuario:</strong> Búsquedas del historial de pedidos de un comprador (<code>{ cliente_id: 1, fecha_pedido: -1 }</code>).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ESTRATEGIA 4: ZONED -->
+                    <div class="card mb-4 border-light shadow-sm">
+                        <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
+                            <span>4. Particionamiento por Zonas (Zoned / Geographical Sharding)</span>
+                            <span class="badge bg-warning text-dark">Soberanía de Datos y Latencia</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="small text-secondary mb-2">
+                                <strong>Cómo funciona:</strong> Asocia etiquetas de zona (*Tags*) a rangos de la Shard Key y asigna esas zonas a Shards ubicados en centros de datos o regiones geográficas específicas.
+                            </p>
+                            <div class="code-snippet mb-3">
+                                sh.addShardTag("shard_EU_1", "ZONA_EUROPA");<br>
+                                sh.addTagRange("global.usuarios", { pais: "ES", _id: MinKey }, { pais: "ES", _id: MaxKey }, "ZONA_EUROPA");
+                            </div>
+                            <h6 class="fw-bold text-success small mb-1"><i class="bi bi-briefcase-fill me-1"></i> Casos de Uso Típicos:</h6>
+                            <ul class="text-secondary small mb-0 ps-3">
+                                <li><strong>Cumplimiento Normativo (GDPR / Soberanía de Datos):</strong> Restricción legal que obliga a guardar datos de ciudadanos europeos exclusivamente en servidores dentro de la Unión Europea.</li>
+                                <li><strong>Redes Sociales y Videojuegos Multijugador Globales:</strong> Mantener datos de usuarios asiáticos en Tokio y americanos en Virginia para reducir latencia de red.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- TABLA RESUMEN COMPARATIVO -->
+                    <h5 class="fw-bold mt-5 mb-3"><i class="bi bi-table me-2"></i>Cuadro Comparativo de Estrategias</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle text-center small">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Estrategia</th>
+                                    <th>Distribución de Escritura</th>
+                                    <th>Rendimiento en Lecturas por Rango</th>
+                                    <th>Riesgo Principal</th>
+                                    <th>Caso de Uso Ideal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold text-primary">Rango (Ranged)</td>
+                                    <td>Variable</td>
+                                    <td><span class="badge bg-success">Excelente</span></td>
+                                    <td>Hotspots si la clave es monótona</td>
+                                    <td>Catálogos con búsquedas por rango de precios/códigos</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-success">Hash (Hashed)</td>
+                                    <td><span class="badge bg-success">Perfecta / Homogénea</span></td>
+                                    <td><span class="badge bg-danger">Pobre (Scatter-Gather)</span></td>
+                                    <td>Lecturas por rango requieren consultar todos los Shards</td>
+                                    <td>Telemetría IoT, Logs, Series de Tiempo, IDs secuenciales</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-info">Compuesta (Compound)</td>
+                                    <td>Equilibrada</td>
+                                    <td><span class="badge bg-success">Alta (Si incluye prefijo)</span></td>
+                                    <td>Complejidad en el diseño del índice</td>
+                                    <td>SaaS Multi-Tenant, E-Commerce, Historial por Usuario</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-dark">Zonas (Zoned)</td>
+                                    <td>Dirigida por Región</td>
+                                    <td><span class="badge bg-success">Excelente en Región Local</span></td>
+                                    <td>Desbalance si una región recibe el 90% del tráfico</td>
+                                    <td>Soberanía de datos GDPR, Redes sociales globales</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 3: SIMULADORES INTERACTIVOS -->
+                <section class="mb-5" id="simulador-sharding-section">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-cpu text-warning fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Simulador Interactivo de Distribución en Cluster</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Prueba cómo reacciona un Cluster de 3 Shards según la estrategia de Shard Key elegida al simular la inserción masiva de 300 documentos:
+                    </p>
+
+                    <div class="interactive-box p-4 bg-body-tertiary">
+                        <div class="row g-4">
+                            <!-- Controles -->
+                            <div class="col-lg-4">
+                                <h6 class="fw-bold mb-3"><i class="bi bi-sliders me-1"></i> Configuración de la Shard Key</h6>
+                                <div class="mb-3">
+                                    <label for="sim-strategy" class="form-label fw-semibold small">Estrategia de Shard Key:</label>
+                                    <select class="form-select form-select-sm" id="sim-strategy">
+                                        <option value="monotone">Monótonamente Creciente ({ timestamp: 1 }) [Hotspot Danger]</option>
+                                        <option value="low-card">Baja Cardinalidad ({ estado: 1 }) [Desbalanceado]</option>
+                                        <option value="hashed" selected>Clave Hashed ({ _id: "hashed" }) [Distribución Uniforme]</option>
+                                        <option value="compound">Compuesta ({ region: 1, user_id: 1 }) [Ideal Aislamiento]</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="sim-doc-count" class="form-label fw-semibold small">Documentos a Insertar:</label>
+                                    <input type="number" class="form-control form-control-sm" id="sim-doc-count" value="300" min="30" max="900" step="30">
+                                </div>
+
+                                <button class="btn btn-warning-gradient w-100 py-2 text-dark fw-bold mb-3" id="btn-run-shard-sim">
+                                    <i class="bi bi-play-circle-fill me-1"></i> Simular Inserción de Datos
+                                </button>
+
+                                <div class="p-3 border rounded bg-body">
+                                    <span class="text-muted small fw-bold d-block mb-1">Estado de Diagnóstico:</span>
+                                    <div id="sim-diag-status" class="fw-bold text-success">Esperando simulación...</div>
+                                    <small class="text-muted d-block mt-1" id="sim-diag-desc">Selecciona una estrategia y presiona "Simular Inserción".</small>
+                                </div>
+                            </div>
+
+                            <!-- Dashboard de Shards -->
+                            <div class="col-lg-8">
+                                <div class="mongos-router mb-4">
+                                    <i class="bi bi-signpost-split-fill me-2"></i> mongos Router (Asignación Activa)
+                                </div>
+
+                                <div class="row g-3">
+                                    <!-- Shard 1 -->
+                                    <div class="col-md-4">
+                                        <div class="shard-node" id="node-shard1">
+                                            <h6 class="fw-bold mb-1"><i class="bi bi-server text-warning"></i> Shard 1</h6>
+                                            <span class="badge bg-secondary mb-2" id="cnt-shard1">0 docs</span>
+                                            <div class="progress bg-dark mb-2">
+                                                <div class="progress-bar progress-bar-shard bg-success" id="bar-shard1" style="width: 0%;"></div>
+                                            </div>
+                                            <small class="text-muted" id="pct-shard1">0% del total</small>
+                                        </div>
+                                    </div>
+                                    <!-- Shard 2 -->
+                                    <div class="col-md-4">
+                                        <div class="shard-node" id="node-shard2">
+                                            <h6 class="fw-bold mb-1"><i class="bi bi-server text-warning"></i> Shard 2</h6>
+                                            <span class="badge bg-secondary mb-2" id="cnt-shard2">0 docs</span>
+                                            <div class="progress bg-dark mb-2">
+                                                <div class="progress-bar progress-bar-shard bg-success" id="bar-shard2" style="width: 0%;"></div>
+                                            </div>
+                                            <small class="text-muted" id="pct-shard2">0% del total</small>
+                                        </div>
+                                    </div>
+                                    <!-- Shard 3 -->
+                                    <div class="col-md-4">
+                                        <div class="shard-node" id="node-shard3">
+                                            <h6 class="fw-bold mb-1"><i class="bi bi-server text-warning"></i> Shard 3</h6>
+                                            <span class="badge bg-secondary mb-2" id="cnt-shard3">0 docs</span>
+                                            <div class="progress bg-dark mb-2">
+                                                <div class="progress-bar progress-bar-shard bg-success" id="bar-shard3" style="width: 0%;"></div>
+                                            </div>
+                                            <small class="text-muted" id="pct-shard3">0% del total</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 4: 3 EJERCICIOS PRÁCTICOS -->
+                <section class="mb-5" id="ejercicios-sharding-section">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-pencil-square text-warning fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Ejercicios Prácticos de Diseño de Shard Keys</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Analiza estos 3 escenarios reales de arquitectura NoSQL y selecciona la Shard Key óptima en cada caso:</p>
+
+                    <div class="d-flex flex-column gap-4">
+                        <!-- EJERCICIO 1 -->
+                        <div class="interactive-box">
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                                <div>
+                                    <span class="badge bg-primary mb-2">Ejercicio 1 - Nivel Básico</span>
+                                    <h5 class="fw-bold mb-1">Monitoreo Masivo de Sensores IoT</h5>
+                                    <p class="text-muted small mb-0">Caso: Sistema de telemetría de 50,000 sensores industriales enviando métricas cada 5 segundos.</p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-warning text-dark" onclick="loadStrategyToSim('monotone')">
+                                        <i class="bi bi-box-arrow-in-down-right"></i> Probar en Simulador
+                                    </button>
+                                    <button class="btn btn-sm btn-warning-gradient" type="button" data-bs-toggle="collapse" data-bs-target="#solucion-db-ej1">
+                                        <i class="bi bi-eye"></i> Ver Solución
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-secondary small">
+                                <strong>Desafío:</strong> Si particionas la colección <code>lecturas</code> únicamente por el campo <code>fecha_registro</code> (timestamp), la tasa de inserción sufre un severo cuello de botella (Hotspotting) en un solo Shard. ¿Cómo resuelves la distribución de escritura manteniendo alto rendimiento?
+                            </p>
+
+                            <!-- Desplegable Solución Ejercicio 1 -->
+                            <div class="collapse mt-3" id="solucion-db-ej1">
+                                <div class="card card-body bg-body-tertiary border border-warning">
+                                    <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill me-1"></i> Solución Arquitectónica Recomendada</h6>
+                                    <p class="small text-secondary mb-2">
+                                        Utilizar una <strong>Hashed Shard Key</strong> sobre el timestamp o una <strong>Shard Key Compuesta</strong> combinando el ID del sensor con la fecha:
+                                    </p>
+                                    <div class="code-snippet">
+                                        // Opción A: Hashed Shard Key (Excelente balanceo de escrituras)<br>
+                                        sh.shardCollection("telemetria.lecturas", { fecha_registro: "hashed" });<br><br>
+                                        // Opción B: Compuesta (Aisla consultas por sensor y distribuye en tiempo)<br>
+                                        sh.shardCollection("telemetria.lecturas", { sensor_id: 1, fecha_registro: 1 });
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EJERCICIO 2 -->
+                        <div class="interactive-box">
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                                <div>
+                                    <span class="badge bg-warning text-dark mb-2">Ejercicio 2 - Nivel Intermedio</span>
+                                    <h5 class="fw-bold mb-1">Plataforma E-Commerce Global</h5>
+                                    <p class="text-muted small mb-0">Caso: Catálogo y pedidos con millones de usuarios comprando de manera concurrente.</p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-warning text-dark" onclick="loadStrategyToSim('compound')">
+                                        <i class="bi bi-box-arrow-in-down-right"></i> Probar en Simulador
+                                    </button>
+                                    <button class="btn btn-sm btn-warning-gradient" type="button" data-bs-toggle="collapse" data-bs-target="#solucion-db-ej2">
+                                        <i class="bi bi-eye"></i> Ver Solución
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-secondary small">
+                                <strong>Desafío:</strong> Las consultas más comunes buscan los pedidos de un cliente específico (<code>db.pedidos.find({ cliente_id: "USR_10" })</code>). ¿Qué Shard Key evita consultas "Scatter-Gather" a todos los Shards?
+                            </p>
+
+                            <!-- Desplegable Solución Ejercicio 2 -->
+                            <div class="collapse mt-3" id="solucion-db-ej2">
+                                <div class="card card-body bg-body-tertiary border border-warning">
+                                    <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill me-1"></i> Solución Arquitectónica Recomendada</h6>
+                                    <p class="small text-secondary mb-2">
+                                        Usar <code>cliente_id</code> como Shard Key primaria o una clave compuesta <code>{ cliente_id: 1, fecha_pedido: -1 }</code>:
+                                    </p>
+                                    <div class="code-snippet">
+                                        sh.shardCollection("tienda.pedidos", { cliente_id: 1, fecha_pedido: -1 });
+                                    </div>
+                                    <p class="small text-muted mt-2 mb-0">
+                                        <strong>Beneficio:</strong> Garantiza <strong>Targeted Queries (Consultas Dirigidas)</strong>. <code>mongos</code> envía la consulta a un único Shard, reduciendo la latencia de red.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EJERCICIO 3 -->
+                        <div class="interactive-box">
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                                <div>
+                                    <span class="badge bg-danger text-white mb-2">Ejercicio 3 - Nivel Avanzado</span>
+                                    <h5 class="fw-bold mb-1">Red Social Multirregión (Zoned Sharding)</h5>
+                                    <p class="text-muted small mb-0">Caso: Plataforma global con regulación de privacidad de datos en Europa (GDPR), EE.UU. y Asia.</p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-warning text-dark" onclick="loadStrategyToSim('compound')">
+                                        <i class="bi bi-box-arrow-in-down-right"></i> Probar en Simulador
+                                    </button>
+                                    <button class="btn btn-sm btn-warning-gradient" type="button" data-bs-toggle="collapse" data-bs-target="#solucion-db-ej3">
+                                        <i class="bi bi-eye"></i> Ver Solución
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-secondary small">
+                                <strong>Desafío:</strong> Los datos de usuarios de Europa deben residir obligatoriamente en Shards situados físicamente en Frankfurt, mientras que usuarios de América deben estar en Virginia. ¿Cómo implementas esta regla en MongoDB?
+                            </p>
+
+                            <!-- Desplegable Solución Ejercicio 3 -->
+                            <div class="collapse mt-3" id="solucion-db-ej3">
+                                <div class="card card-body bg-body-tertiary border border-warning">
+                                    <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill me-1"></i> Solución Arquitectónica Recomendada</h6>
+                                    <p class="small text-secondary mb-2">
+                                        Utilizar <strong>Zoned Sharding (Particionamiento por Zonas)</strong> asociando etiquetas de zona a la Shard Key Compuesta <code>{ region: 1, usuario_id: 1 }</code>:
+                                    </p>
+                                    <div class="code-snippet">
+                                        // 1. Crear Shard Key Compuesta<br>
+                                        sh.shardCollection("red.usuarios", { region: 1, usuario_id: 1 });<br><br>
+                                        // 2. Definir Zonas e asociar a Shards<br>
+                                        sh.addShardTag("shard_EU_1", "ZONA_EUROPA");<br>
+                                        sh.addTagRange("red.usuarios", { region: "EU", usuario_id: MinKey }, { region: "EU", usuario_id: MaxKey }, "ZONA_EUROPA");
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 5: CUESTIONARIO DE EVALUACIÓN -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-check2-square text-warning fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Evaluación de Aprendizajes</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Responde a las siguientes 5 preguntas para autoevaluar tus conocimientos sobre Sharding en MongoDB:</p>
+
+                    <div id="quiz-container">
+                        <!-- Pregunta 1 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 1: ¿Cuál es el componente de un cluster particionado que recibe las peticiones del cliente y las enruta hacia el Shard correcto?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label text-secondary" for="q1a">mongod</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label text-secondary" for="q1b">mongos</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label text-secondary" for="q1c">Config Replica Set</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 2: ¿Qué sucede si utilizas un campo monótonamente creciente (como un timestamp o auto-incremental) como Shard Key por Rango?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label text-secondary" for="q2a">Todas las inserciones nuevas se concentrarán en un solo Shard (Hotspotting).</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label text-secondary" for="q2b">Los datos se distribuirán de forma perfectamente uniforme mediante round-robin.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label text-secondary" for="q2c">MongoDB lanzará un error de sintaxis al intentar crear la colección.</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 3: ¿Qué tipo de estrategia de Shard Key es la más recomendable para garantizar una distribución de escritura uniforme independientemente del patrón de entrada?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label text-secondary" for="q3a">Particionamiento por Baja Cardinalidad</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label text-secondary" for="q3b">Clave Hashed (Hashed Shard Key)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label text-secondary" for="q3c">Particionamiento por defecto sin índice</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 4: ¿Qué es una consulta "Scatter-Gather"?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label text-secondary" for="q4a">Una consulta que no incluye la Shard Key, obligando a mongos a enviar la operación a todos los Shards del cluster.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label text-secondary" for="q4b">Una consulta optimizada que se ejecuta exclusivamente en la memoria RAM del cliente.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label text-secondary" for="q4c">Un proceso automático de reparación de índices corruptos.</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 5 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 5: ¿Es posible modificar o cambiar la Shard Key de una colección una vez que ya ha sido particionada en MongoDB 5.0+?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label text-secondary" for="q5a">No, nunca se puede modificar bajo ninguna versión.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label text-secondary" for="q5b">Sí, MongoDB 5.0+ permite refinar y cambiar la Shard Key mediante el comando reshardingCollection.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label text-secondary" for="q5c">Sólo si eliminas el cluster completo primero.</label>
+                            </div>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div class="d-flex align-items-center gap-3 mt-4">
+                            <button class="btn btn-warning-gradient fw-bold px-4 py-2 text-dark" id="btn-evaluar-sharding">Comprobar Cuestionario</button>
+                            <span id="quiz-result-score" style="display: none;"></span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p>
+    </footer>
+
+    <!-- Scripts y Lógica -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menudb.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+
+    <script>
+        // ==========================================
+        //        SIMULADOR DE SHARDING
+        // ==========================================
+        document.getElementById('btn-run-shard-sim').addEventListener('click', runShardingSimulation);
+
+        function runShardingSimulation() {
+            const strategy = document.getElementById('sim-strategy').value;
+            const docCount = parseInt(document.getElementById('sim-doc-count').value, 10) || 300;
+
+            let s1 = 0, s2 = 0, s3 = 0;
+
+            if (strategy === 'monotone') {
+                // Hotspotting: 90% cae en Shard 3 (el más reciente)
+                s1 = Math.round(docCount * 0.05);
+                s2 = Math.round(docCount * 0.05);
+                s3 = docCount - s1 - s2;
+            } else if (strategy === 'low-card') {
+                // Desbalanceado severo
+                s1 = Math.round(docCount * 0.70);
+                s2 = Math.round(docCount * 0.25);
+                s3 = docCount - s1 - s2;
+            } else if (strategy === 'hashed') {
+                // Distribución uniforme excelente
+                s1 = Math.floor(docCount / 3);
+                s2 = Math.floor(docCount / 3);
+                s3 = docCount - s1 - s2;
+            } else if (strategy === 'compound') {
+                // Distribución equilibrada dirigida
+                s1 = Math.round(docCount * 0.35);
+                s2 = Math.round(docCount * 0.33);
+                s3 = docCount - s1 - s2;
+            }
+
+            // Actualizar interfaz
+            updateShardNode('1', s1, docCount);
+            updateShardNode('2', s2, docCount);
+            updateShardNode('3', s3, docCount);
+
+            // Diagnóstico
+            const diagStatus = document.getElementById('sim-diag-status');
+            const diagDesc = document.getElementById('sim-diag-desc');
+
+            if (strategy === 'monotone') {
+                diagStatus.textContent = '¡ALERTA CRÍTICA: HOTSPOTTING SEVERO!';
+                diagStatus.className = 'fw-bold text-danger';
+                diagDesc.textContent = 'Las nuevas inserciones caen al 90% en Shard 3. El cluster no está aprovechando la paralelización.';
+            } else if (strategy === 'low-card') {
+                diagStatus.textContent = 'DESBALANCEO DE CHUNKS DETECTADO';
+                diagStatus.className = 'fw-bold text-warning';
+                diagDesc.textContent = 'La baja cardinalidad impide que MongoDB divida los chunks masivos entre Shards.';
+            } else if (strategy === 'hashed') {
+                diagStatus.textContent = 'DISTRIBUCIÓN OPTIMA AL 100%';
+                diagStatus.className = 'fw-bold text-success';
+                diagDesc.textContent = 'Las escrituras se reparten homogéneamente entre todos los Shards del cluster.';
+            } else if (strategy === 'compound') {
+                diagStatus.textContent = 'EQUILIBRADO CON AISLAMIENTO DE CONSULTAS';
+                diagStatus.className = 'fw-bold text-success';
+                diagDesc.textContent = 'Ideal para sistemas globales. Alta velocidad en lecturas y excelente balance de escrituras.';
+            }
+        }
+
+        function updateShardNode(id, count, total) {
+            const pct = Math.round((count / total) * 100);
+            document.getElementById(`cnt-shard${id}`).textContent = `${count} docs`;
+            document.getElementById(`pct-shard${id}`).textContent = `${pct}% del total`;
+
+            const bar = document.getElementById(`bar-shard${id}`);
+            bar.style.width = `${pct}%`;
+
+            const node = document.getElementById(`node-shard${id}`);
+            node.classList.remove('hotspot-danger', 'active-target');
+
+            if (pct >= 65) {
+                bar.className = 'progress-bar progress-bar-shard bg-danger';
+                node.classList.add('hotspot-danger');
+            } else {
+                bar.className = 'progress-bar progress-bar-shard bg-success';
+                node.classList.add('active-target');
+            }
+        }
+
+        function loadStrategyToSim(stratKey) {
+            document.getElementById('sim-strategy').value = stratKey;
+            runShardingSimulation();
+            document.getElementById('simulador-sharding-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Ejecutar simulación por defecto
+        runShardingSimulation();
+
+        // ==========================================
+        //        CUESTIONARIO DE EVALUACIÓN
+        // ==========================================
+        document.getElementById('btn-evaluar-sharding').addEventListener('click', () => {
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'b',
+                q4: 'a',
+                q5: 'b'
+            };
+
+            let score = 0;
+            const total = 5;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checked) {
+                    unanswered = true;
+                    break;
+                }
+                if (checked.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result-score');
+            result.style.display = 'inline-block';
+            result.textContent = `Puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                result.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 3) {
+                result.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                result.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+    </script>
+</body>
+
+</html>

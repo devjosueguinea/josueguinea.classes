@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <li><a href="clase5db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 5: Consultas avanzadas</span></a></li>
                 <li><a href="clase7db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 7: Aggregation Pipeline</span></a></li>
                 <li><a href="clase8db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 8: Modelado de Datos</span></a></li>
+                <li><a href="clase9db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 9: Claves de Partición y Sharding</span></a></li>
             </ul>
         </div>
     </div>
