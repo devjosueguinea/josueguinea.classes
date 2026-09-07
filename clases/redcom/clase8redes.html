@@ -395,11 +395,300 @@
 
                 <hr class="my-5">
 
-                <!-- SECCIÓN 4: CUESTIONARIO -->
+                <!-- SECCIÓN 4: EJERCICIOS PRÁCTICOS -->
+                <section class="mb-5" id="ejercicios-vlsm-section">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-pencil-square text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Ejercicios Prácticos de Cálculo VLSM</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Pon a prueba tus habilidades resolviendo estos 3 escenarios reales de diseño de red. Puedes intentar calcular la tabla manualmente y luego verificar tu respuesta desplegando la solución o cargando el ejercicio directamente en el simulador.</p>
+
+                    <div class="d-flex flex-column gap-4">
+                        <!-- EJERCICIO 1 -->
+                        <div class="interactive-box">
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                                <div>
+                                    <span class="badge bg-primary mb-2">Ejercicio 1 - Nivel Básico</span>
+                                    <h5 class="fw-bold mb-1">Red Corporativa de Sucursal</h5>
+                                    <p class="text-muted small mb-0">IP Base asignada: <code>192.168.10.0 /24</code></p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="loadExerciseToSimulator('192.168.10.0', 24, [{name:'LAN Ventas', hosts:60}, {name:'LAN Admin', hosts:25}, {name:'LAN Soporte', hosts:12}, {name:'Enlace WAN', hosts:2}])">
+                                        <i class="bi bi-box-arrow-in-down-right"></i> Cargar en Simulador
+                                    </button>
+                                    <button class="btn btn-sm btn-primary-gradient" type="button" data-bs-toggle="collapse" data-bs-target="#solucion-ej1">
+                                        <i class="bi bi-eye"></i> Ver Solución
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-secondary small">
+                                La empresa <strong>TechCorp</strong> requiere segmentar su red local <code>192.168.10.0/24</code> para 4 departamentos con las siguientes necesidades de hosts:
+                            </p>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6 col-md-3"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-primary">60 hosts</strong><small class="text-muted">LAN Ventas</small></div></div>
+                                <div class="col-6 col-md-3"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-primary">25 hosts</strong><small class="text-muted">LAN Administración</small></div></div>
+                                <div class="col-6 col-md-3"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-primary">12 hosts</strong><small class="text-muted">LAN Soporte Técnico</small></div></div>
+                                <div class="col-6 col-md-3"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-primary">2 hosts</strong><small class="text-muted">Enlace WAN Serial</small></div></div>
+                            </div>
+
+                            <!-- Desplegable Solución Ejercicio 1 -->
+                            <div class="collapse mt-3" id="solucion-ej1">
+                                <div class="card card-body bg-body-tertiary border">
+                                    <h6 class="fw-bold text-success mb-3"><i class="bi bi-check-circle-fill me-1"></i> Tabla de Direccionamiento Calculada (VLSM)</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover align-middle small text-center mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Subred</th>
+                                                    <th>Req / Asig</th>
+                                                    <th>IP Red</th>
+                                                    <th>Rango IP Utilizable</th>
+                                                    <th>Broadcast</th>
+                                                    <th>Máscara</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="fw-bold text-start">LAN Ventas</td>
+                                                    <td>60 / 62</td>
+                                                    <td><code>192.168.10.0</code></td>
+                                                    <td>192.168.10.1 - 192.168.10.62</td>
+                                                    <td><code>192.168.10.63</code></td>
+                                                    <td><span class="badge bg-secondary">/26</span> (255.255.255.192)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">LAN Administración</td>
+                                                    <td>25 / 30</td>
+                                                    <td><code>192.168.10.64</code></td>
+                                                    <td>192.168.10.65 - 192.168.10.94</td>
+                                                    <td><code>192.168.10.95</code></td>
+                                                    <td><span class="badge bg-secondary">/27</span> (255.255.255.224)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">LAN Soporte Técnico</td>
+                                                    <td>12 / 14</td>
+                                                    <td><code>192.168.10.96</code></td>
+                                                    <td>192.168.10.97 - 192.168.10.110</td>
+                                                    <td><code>192.168.10.111</code></td>
+                                                    <td><span class="badge bg-secondary">/28</span> (255.255.255.240)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Enlace WAN Serial</td>
+                                                    <td>2 / 2</td>
+                                                    <td><code>192.168.10.112</code></td>
+                                                    <td>192.168.10.113 - 192.168.10.114</td>
+                                                    <td><code>192.168.10.115</code></td>
+                                                    <td><span class="badge bg-secondary">/30</span> (255.255.255.252)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EJERCICIO 2 -->
+                        <div class="interactive-box">
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                                <div>
+                                    <span class="badge bg-warning text-dark mb-2">Ejercicio 2 - Nivel Intermedio</span>
+                                    <h5 class="fw-bold mb-1">Infraestructura Universitaria Multi-Campus</h5>
+                                    <p class="text-muted small mb-0">IP Base asignada: <code>172.16.0.0 /16</code></p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="loadExerciseToSimulator('172.16.0.0', 16, [{name:'Laboratorios', hosts:500}, {name:'Wi-Fi Campus', hosts:250}, {name:'Campus Norte', hosts:100}, {name:'Servidores', hosts:50}, {name:'WAN Central-Norte', hosts:2}])">
+                                        <i class="bi bi-box-arrow-in-down-right"></i> Cargar en Simulador
+                                    </button>
+                                    <button class="btn btn-sm btn-primary-gradient" type="button" data-bs-toggle="collapse" data-bs-target="#solucion-ej2">
+                                        <i class="bi bi-eye"></i> Ver Solución
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-secondary small">
+                                Un campus universitario requiere diseñar una red eficiente con bloque de direccionamiento de Clase B <code>172.16.0.0/16</code> para conectar 5 segmentos distintos:
+                            </p>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-warning">500 hosts</strong><small class="text-muted">Laboratorios</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-warning">250 hosts</strong><small class="text-muted">Wi-Fi Campus</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-3"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-warning">100 hosts</strong><small class="text-muted">Campus Norte Aulas</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-warning">50 hosts</strong><small class="text-muted">Servidores</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-3"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-warning">2 hosts</strong><small class="text-muted">WAN Central - Norte</small></div></div>
+                            </div>
+
+                            <!-- Desplegable Solución Ejercicio 2 -->
+                            <div class="collapse mt-3" id="solucion-ej2">
+                                <div class="card card-body bg-body-tertiary border">
+                                    <h6 class="fw-bold text-success mb-3"><i class="bi bi-check-circle-fill me-1"></i> Tabla de Direccionamiento Calculada (VLSM)</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover align-middle small text-center mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Subred</th>
+                                                    <th>Req / Asig</th>
+                                                    <th>IP Red</th>
+                                                    <th>Rango IP Utilizable</th>
+                                                    <th>Broadcast</th>
+                                                    <th>Máscara</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Laboratorios</td>
+                                                    <td>500 / 510</td>
+                                                    <td><code>172.16.0.0</code></td>
+                                                    <td>172.16.0.1 - 172.16.1.254</td>
+                                                    <td><code>172.16.1.255</code></td>
+                                                    <td><span class="badge bg-secondary">/23</span> (255.255.254.0)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Wi-Fi Campus</td>
+                                                    <td>250 / 254</td>
+                                                    <td><code>172.16.2.0</code></td>
+                                                    <td>172.16.2.1 - 172.16.2.254</td>
+                                                    <td><code>172.16.2.255</code></td>
+                                                    <td><span class="badge bg-secondary">/24</span> (255.255.255.0)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Campus Norte Aulas</td>
+                                                    <td>100 / 126</td>
+                                                    <td><code>172.16.3.0</code></td>
+                                                    <td>172.16.3.1 - 172.16.3.126</td>
+                                                    <td><code>172.16.3.127</code></td>
+                                                    <td><span class="badge bg-secondary">/25</span> (255.255.255.128)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Servidores Datacenter</td>
+                                                    <td>50 / 62</td>
+                                                    <td><code>172.16.3.128</code></td>
+                                                    <td>172.16.3.129 - 172.16.3.190</td>
+                                                    <td><code>172.16.3.191</code></td>
+                                                    <td><span class="badge bg-secondary">/26</span> (255.255.255.192)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">WAN Central - Norte</td>
+                                                    <td>2 / 2</td>
+                                                    <td><code>172.16.3.192</code></td>
+                                                    <td>172.16.3.193 - 172.16.3.194</td>
+                                                    <td><code>172.16.3.195</code></td>
+                                                    <td><span class="badge bg-secondary">/30</span> (255.255.255.252)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EJERCICIO 3 -->
+                        <div class="interactive-box">
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                                <div>
+                                    <span class="badge bg-danger text-white mb-2">Ejercicio 3 - Nivel Avanzado</span>
+                                    <h5 class="fw-bold mb-1">Red Empresarial de Alta Disponibilidad</h5>
+                                    <p class="text-muted small mb-0">IP Base asignada: <code>10.50.0.0 /16</code></p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="loadExerciseToSimulator('10.50.0.0', 16, [{name:'LAN I+D', hosts:1000}, {name:'Call Center', hosts:450}, {name:'Contabilidad', hosts:120}, {name:'Gerencia', hosts:30}, {name:'WAN Principal', hosts:2}, {name:'WAN Redundante', hosts:2}])">
+                                        <i class="bi bi-box-arrow-in-down-right"></i> Cargar en Simulador
+                                    </button>
+                                    <button class="btn btn-sm btn-primary-gradient" type="button" data-bs-toggle="collapse" data-bs-target="#solucion-ej3">
+                                        <i class="bi bi-eye"></i> Ver Solución
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-secondary small">
+                                Diseña la arquitectura VLSM para una casa matriz conectada por dos enlaces WAN serie redundantes con la red <code>10.50.0.0/16</code>:
+                            </p>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-danger">1000 hosts</strong><small class="text-muted">LAN I+D</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-danger">450 hosts</strong><small class="text-muted">Call Center</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-danger">120 hosts</strong><small class="text-muted">Contabilidad</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-danger">30 hosts</strong><small class="text-muted">Gerencia</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-danger">2 hosts</strong><small class="text-muted">WAN Principal</small></div></div>
+                                <div class="col-6 col-md-4 col-lg-2"><div class="p-2 border rounded text-center bg-body"><strong class="d-block text-danger">2 hosts</strong><small class="text-muted">WAN Backup</small></div></div>
+                            </div>
+
+                            <!-- Desplegable Solución Ejercicio 3 -->
+                            <div class="collapse mt-3" id="solucion-ej3">
+                                <div class="card card-body bg-body-tertiary border">
+                                    <h6 class="fw-bold text-success mb-3"><i class="bi bi-check-circle-fill me-1"></i> Tabla de Direccionamiento Calculada (VLSM)</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover align-middle small text-center mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Subred</th>
+                                                    <th>Req / Asig</th>
+                                                    <th>IP Red</th>
+                                                    <th>Rango IP Utilizable</th>
+                                                    <th>Broadcast</th>
+                                                    <th>Máscara</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="fw-bold text-start">LAN I+D (Desarrollo)</td>
+                                                    <td>1000 / 1022</td>
+                                                    <td><code>10.50.0.0</code></td>
+                                                    <td>10.50.0.1 - 10.50.3.254</td>
+                                                    <td><code>10.50.3.255</code></td>
+                                                    <td><span class="badge bg-secondary">/22</span> (255.255.252.0)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Call Center</td>
+                                                    <td>450 / 510</td>
+                                                    <td><code>10.50.4.0</code></td>
+                                                    <td>10.50.4.1 - 10.50.5.254</td>
+                                                    <td><code>10.50.5.255</code></td>
+                                                    <td><span class="badge bg-secondary">/23</span> (255.255.254.0)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Contabilidad y Finanzas</td>
+                                                    <td>120 / 126</td>
+                                                    <td><code>10.50.6.0</code></td>
+                                                    <td>10.50.6.1 - 10.50.6.126</td>
+                                                    <td><code>10.50.6.127</code></td>
+                                                    <td><span class="badge bg-secondary">/25</span> (255.255.255.128)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">Gerencia y Directivos</td>
+                                                    <td>30 / 30</td>
+                                                    <td><code>10.50.6.128</code></td>
+                                                    <td>10.50.6.129 - 10.50.6.158</td>
+                                                    <td><code>10.50.6.159</code></td>
+                                                    <td><span class="badge bg-secondary">/27</span> (255.255.255.224)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">WAN Principal (R1 - R2)</td>
+                                                    <td>2 / 2</td>
+                                                    <td><code>10.50.6.160</code></td>
+                                                    <td>10.50.6.161 - 10.50.6.162</td>
+                                                    <td><code>10.50.6.163</code></td>
+                                                    <td><span class="badge bg-secondary">/30</span> (255.255.255.252)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-start">WAN Backup (R1 - R3)</td>
+                                                    <td>2 / 2</td>
+                                                    <td><code>10.50.6.164</code></td>
+                                                    <td>10.50.6.165 - 10.50.6.166</td>
+                                                    <td><code>10.50.6.167</code></td>
+                                                    <td><span class="badge bg-secondary">/30</span> (255.255.255.252)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 5: CUESTIONARIO -->
                 <section class="mb-5">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <i class="bi bi-check2-square text-primary fs-3"></i>
-                        <h3 class="fw-bold mb-0">4. Evaluación de Aprendizajes</h3>
+                        <h3 class="fw-bold mb-0">5. Evaluación de Aprendizajes</h3>
                     </div>
                     <p class="text-secondary mb-4">Responde a las siguientes preguntas teóricas y prácticas para
                         comprobar tus conocimientos sobre VLSM:</p>
@@ -532,10 +821,35 @@
 
     <script src="../../js/main.js"></script>
     <script>
-        // ==========================================
-        //        LÓGICA DEL SIMULADOR VLSM
-        // ==========================================
-        let subnetRowCount = 3;
+        // Helper para cargar ejercicios al simulador
+        function loadExerciseToSimulator(ip, mask, subnets) {
+            document.getElementById('base-ip').value = ip;
+            document.getElementById('base-mask').value = mask;
+
+            const container = document.getElementById('subnets-input-container');
+            container.innerHTML = '';
+
+            subnetRowCount = 0;
+            subnets.forEach((s, idx) => {
+                const newRow = document.createElement('div');
+                newRow.className = 'subnet-card-input d-flex gap-2 align-items-center';
+                newRow.id = `subnet-input-row-${idx}`;
+                newRow.innerHTML = `
+                    <span class="fw-bold text-muted">#${idx + 1}</span>
+                    <input type="text" class="form-control form-control-sm subnet-name" placeholder="Nombre" value="${s.name}">
+                    <input type="number" class="form-control form-control-sm subnet-hosts" style="width: 100px;" placeholder="Hosts" value="${s.hosts}">
+                    <button class="btn btn-sm btn-outline-danger btn-remove-row" onclick="removeSubnetRow(${idx})"><i class="bi bi-trash"></i></button>
+                `;
+                container.appendChild(newRow);
+                subnetRowCount++;
+            });
+
+            // Ejecutar cálculo automático
+            document.getElementById('btn-calculate-vlsm').click();
+
+            // Desplazar suavemente hacia el simulador
+            document.getElementById('simulador-vlsm-section').scrollIntoView({ behavior: 'smooth' });
+        }
 
         document.getElementById('btn-add-subnet').addEventListener('click', () => {
             const container = document.getElementById('subnets-input-container');
