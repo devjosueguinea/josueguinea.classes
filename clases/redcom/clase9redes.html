@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 9: Panorama Completo del Modelo OSI y Modelo TCP/IP - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Tarjetas y Diseños Didácticos ── */
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .interactive-box {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .concept-badge {
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, #6c5ce7 100%);
+            border: none;
+            color: white;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary-gradient:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        /* ── Estilos de las Capas OSI ── */
+        .osi-layer-card {
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            background: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+
+        .osi-layer-card:hover {
+            box-shadow: 0 8px 24px rgba(108, 92, 231, 0.15);
+            transform: translateX(4px);
+        }
+
+        .osi-layer-header {
+            padding: 12px 18px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .layer-7 { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .layer-6 { background: linear-gradient(135deg, #e67e22, #d35400); }
+        .layer-5 { background: linear-gradient(135deg, #f1c40f, #f39c12); color: #2c3e50 !important; }
+        .layer-4 { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .layer-3 { background: linear-gradient(135deg, #1abc9c, #16a085); }
+        .layer-2 { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .layer-1 { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+
+        .osi-layer-body {
+            padding: 16px;
+        }
+
+        .pdu-tag {
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.25);
+            color: currentColor;
+        }
+
+        /* ── Estilos del Simulador de Encapsulamiento ── */
+        .simulator-container {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #30363d;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .pdu-visualizer {
+            background: #161b22;
+            border: 2px dashed #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .header-block {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            animation: popIn 0.3s ease-out;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .header-block:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .payload-block {
+            background: #238636;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border: 1px solid #2ea043;
+        }
+
+        .bits-stream {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #39ff14;
+            padding: 12px;
+            border-radius: 8px;
+            word-break: break-all;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .table-osi-tcp {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        .table-osi-tcp td, .table-osi-tcp th {
+            vertical-align: middle;
+            padding: 12px;
+        }
+
+        .table-osi-tcp tbody tr {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 9: Modelo OSI y TCP/IP</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="badge-clase bg-primary text-white">Clase 9</span>
+                    <span class="text-muted small"><i class="bi bi-clock"></i> 2 horas</span>
+                </div>
+                <h3 class="fw-bold mb-2">Panorama Completo del Modelo OSI y Modelo TCP/IP</h3>
+                <p class="text-secondary mb-4">
+                    Comprende en profundidad cómo viajan los datos a través de una red informática mediante el estudio detallado de la arquitectura de 7 capas del Modelo de Interconexión de Sistemas Abiertos (OSI) y la pila práctica TCP/IP.
+                </p>
+
+                <!-- Objetivos -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-primary me-2"></i>Objetivos de la Clase</h5>
+                    <ul class="text-secondary mb-0 ps-3">
+                        <li>Identificar y explicar las responsabilidades específicas de cada una de las <strong>7 capas del modelo OSI</strong>.</li>
+                        <li>Analizar las <strong>Unidades de Datos del Protocolo (PDU)</strong> correspondientes a cada nivel (Datos, Segmento, Paquete, Trama y Bits).</li>
+                        <li>Comprender las diferencias arquitectónicas y operativas entre el modelo teórico <strong>OSI</strong> y la pila práctica <strong>TCP/IP</strong>.</li>
+                        <li>Experimentar mediante un <strong>simulador interactivo</strong> la formación de encabezados durante el proceso de encapsulamiento y desencapsulamiento.</li>
+                    </ul>
+                </div>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 1: INTRODUCCIÓN AL MODELO OSI -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-layers-half text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">1. Introducción y Arquitectura del Modelo OSI</h3>
+                    </div>
+                    <p class="text-secondary">
+                        El <strong>Modelo de Interconexión de Sistemas Abiertos (OSI)</strong> fue creado en 1984 por la Organización Internacional de Normalización (<strong>ISO 7498</strong>). En los inicios de las redes informáticas, cada fabricante (IBM, DEC, Apple) utilizaba sus propios protocolos propietarios, impidiendo que equipos de distintos fabricantes se comunicaran entre sí.
+                    </p>
+                    <p class="text-secondary">
+                        Para resolver este problema, la ISO diseñó una arquitectura abstracta modular dividida en <strong>7 capas jerárquicas</strong>, donde cada capa presta servicios a la capa superior y solicita servicios a la capa inferior.
+                    </p>
+
+                    <div class="row g-4 my-3">
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">Abstracción Modular</span>
+                                <h6 class="fw-bold">Dividir y Conquistar</h6>
+                                <p class="small text-muted mb-0">
+                                    Si cambia una tecnología en una capa (ejemplo: cambiar de cable UTP a Fibra Óptica en Capa 1), el navegador web (Capa 7) sigue funcionando sin necesidad de modificar una sola línea de código.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <span class="concept-badge mb-2">Mnemotecnia</span>
+                                <h6 class="fw-bold">¿Cómo recordar el orden de las capas?</h6>
+                                <p class="small text-muted mb-0">
+                                    De la Capa 7 a la 1: <strong>A</strong>plicación, <strong>P</strong>resentación, <strong>S</strong>esión, <strong>T</strong>ransporte, <strong>R</strong>ed, <strong>E</strong>nlace, <strong>F</strong>ísica. <br>
+                                    <em>Frase mnemotécnica:</em> "<strong>A P</strong>etición de <strong>S</strong>us <strong>T</strong>ransparentes <strong>R</strong>edes <strong>E</strong>nvíe <strong>F</strong>ísicamente".
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 2: LAS 7 CAPAS EN DETALLE CON EJEMPLOS -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-diagram-3 text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">2. Las 7 Capas del Modelo OSI: Funciones y Ejemplos Prácticos</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Analicemos cada capa comenzando por la más cercana al usuario final (Capa 7) hasta llegar al medio de transmisión físico (Capa 1), usando como hilo conductor la visita a un sitio web (ej. <code>https://www.google.com</code>):
+                    </p>
+
+                    <!-- CAPA 7 -->
+                    <div class="osi-layer-card">
+                        <div class="osi-layer-header layer-7">
+                            <span><i class="bi bi-window me-2"></i>Capa 7: Aplicación</span>
+                            <span class="pdu-tag">PDU: Datos</span>
+                        </div>
+                        <div class="osi-layer-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-danger">Función Principal:</h6>
+                                    <p class="small text-secondary">Proporciona la interfaz gráfica y los servicios de red directamente a las aplicaciones del usuario (navegadores, clientes de correo, transferencias de archivos).</p>
+                                    <h6 class="fw-bold text-dark">Protocolos y Dispositivos:</h6>
+                                    <p class="small text-secondary mb-0">HTTP, HTTPS, FTP, DNS, SMTP, DHCP, SSH. Dispositivos: Gateway de Aplicación, Firewalls de Capa 7 (WAF).</p>
+                                </div>
+                                <div class="col-md-4 border-start">
+                                    <h6 class="fw-bold text-primary"><i class="bi bi-play-circle me-1"></i>Ejemplo Práctico:</h6>
+                                    <p class="small text-secondary mb-0">Un usuario escribe <code>www.google.com</code> en Chrome. El navegador genera un mensaje HTTP de solicitud: <code>GET /index.html HTTP/1.1</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAPA 6 -->
+                    <div class="osi-layer-card">
+                        <div class="osi-layer-header layer-6">
+                            <span><i class="bi bi-shield-lock me-2"></i>Capa 6: Presentación</span>
+                            <span class="pdu-tag">PDU: Datos</span>
+                        </div>
+                        <div class="osi-layer-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-warning">Función Principal:</h6>
+                                    <p class="small text-secondary">Traduce el formato de datos (codificación ASCII/Unicode), gestiona la compresión de datos y aplica el cifrado/descifrado de seguridad.</p>
+                                    <h6 class="fw-bold text-dark">Protocolos y Formatos:</h6>
+                                    <p class="small text-secondary mb-0">SSL/TLS, ASCII, JPEG, PNG, MP4, JSON, XML. Traductor sintáctico de la red.</p>
+                                </div>
+                                <div class="col-md-4 border-start">
+                                    <h6 class="fw-bold text-primary"><i class="bi bi-play-circle me-1"></i>Ejemplo Práctico:</h6>
+                                    <p class="small text-secondary mb-0">El mensaje HTTP se cifra mediante <strong>TLS 1.3</strong> para proteger contraseñas y se formatean las imágenes en código binario utilizable.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAPA 5 -->
+                    <div class="osi-layer-card">
+                        <div class="osi-layer-header layer-5">
+                            <span><i class="bi bi-telephone-outbound me-2"></i>Capa 5: Sesión</span>
+                            <span class="pdu-tag">PDU: Datos</span>
+                        </div>
+                        <div class="osi-layer-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-warning">Función Principal:</h6>
+                                    <p class="small text-secondary">Establece, administra, sincroniza y finaliza las conexiones (sesiones) entre las aplicaciones en ambos extremos.</p>
+                                    <h6 class="fw-bold text-dark">Protocolos:</h6>
+                                    <p class="small text-secondary mb-0">NetBIOS, RPC (Remote Procedure Call), Sockets API, PPTP.</p>
+                                </div>
+                                <div class="col-md-4 border-start">
+                                    <h6 class="fw-bold text-primary"><i class="bi bi-play-circle me-1"></i>Ejemplo Práctico:</h6>
+                                    <p class="small text-secondary mb-0">Abre un canal de diálogo persistente y asigna un ID de sesión para garantizar que los paquetes devueltos por el servidor pertenezcan a esa pestaña específica del navegador.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAPA 4 -->
+                    <div class="osi-layer-card">
+                        <div class="osi-layer-header layer-4">
+                            <span><i class="bi bi-box-seam me-2"></i>Capa 4: Transporte</span>
+                            <span class="pdu-tag">PDU: Segmento (TCP) / Datagrama (UDP)</span>
+                        </div>
+                        <div class="osi-layer-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-success">Función Principal:</h6>
+                                    <p class="small text-secondary">Garantiza la transferencia confiable de datos extremo a extremo. Realiza segmentación, control de flujo (ventana deslizante), control de errores y multiplexación mediante puertos.</p>
+                                    <h6 class="fw-bold text-dark">Protocolos:</h6>
+                                    <p class="small text-secondary mb-0">TCP (orientado a conexión, confiable) y UDP (no orientado a conexión, rápido). Números de Puerto (ej. Puerto 80 HTTP, 443 HTTPS).</p>
+                                </div>
+                                <div class="col-md-4 border-start">
+                                    <h6 class="fw-bold text-primary"><i class="bi bi-play-circle me-1"></i>Ejemplo Práctico:</h6>
+                                    <p class="small text-secondary mb-0">TCP divide los datos en segmentos, agrega un encabezado con Puerto Origen (ej. 54321) y Puerto Destino (443 HTTPS) y gestiona los ACKs de confirmación.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAPA 3 -->
+                    <div class="osi-layer-card">
+                        <div class="osi-layer-header layer-3">
+                            <span><i class="bi bi-globe me-2"></i>Capa 3: Red</span>
+                            <span class="pdu-tag">PDU: Paquete</span>
+                        </div>
+                        <div class="osi-layer-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-info">Función Principal:</h6>
+                                    <p class="small text-secondary">Responsable del direccionamiento lógico (direcciones IP) y del enrutamiento (Routing) de paquetes a través de múltiples redes interconectadas para encontrar la mejor ruta.</p>
+                                    <h6 class="fw-bold text-dark">Protocolos y Dispositivos:</h6>
+                                    <p class="small text-secondary mb-0">IPv4, IPv6, ICMP, ARP, OSPF, BGP. Dispositivos: <strong>Routers</strong> y Switches Capa 3.</p>
+                                </div>
+                                <div class="col-md-4 border-start">
+                                    <h6 class="fw-bold text-primary"><i class="bi bi-play-circle me-1"></i>Ejemplo Práctico:</h6>
+                                    <p class="small text-secondary mb-0">Agrega el encabezado IP con la IP Origen (ej. <code>192.168.1.50</code>) y la IP Destino del servidor (ej. <code>142.250.190.46</code>).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAPA 2 -->
+                    <div class="osi-layer-card">
+                        <div class="osi-layer-header layer-2">
+                            <span><i class="bi bi-diagram-2 me-2"></i>Capa 2: Enlace de Datos</span>
+                            <span class="pdu-tag">PDU: Trama (Frame)</span>
+                        </div>
+                        <div class="osi-layer-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-primary">Función Principal:</h6>
+                                    <p class="small text-secondary">Proporciona direccionamiento físico (dirección MAC), control de acceso al medio (MAC) e inspección de errores mediante secuencia de verificación de trama (FCS/CRC).</p>
+                                    <h6 class="fw-bold text-dark">Protocolos y Dispositivos:</h6>
+                                    <p class="small text-secondary mb-0">Ethernet (802.3), Wi-Fi (802.11), PPP, HDLC, VLAN (802.1Q). Dispositivos: <strong>Switches (Capa 2)</strong> y Bridges.</p>
+                                </div>
+                                <div class="col-md-4 border-start">
+                                    <h6 class="fw-bold text-primary"><i class="bi bi-play-circle me-1"></i>Ejemplo Práctico:</h6>
+                                    <p class="small text-secondary mb-0">Encapsula el paquete IP en una Trama Ethernet adicionando la Dirección MAC de origen de tu laptop y la MAC de destino de tu Router Gateway.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAPA 1 -->
+                    <div class="osi-layer-card">
+                        <div class="osi-layer-header layer-1">
+                            <span><i class="bi bi-lightning-charge me-2"></i>Capa 1: Física</span>
+                            <span class="pdu-tag">PDU: Bits</span>
+                        </div>
+                        <div class="osi-layer-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-purple" style="color: #8e44ad;">Función Principal:</h6>
+                                    <p class="small text-secondary">Transmite la secuencia bruta de bits (0s y 1s) a través de medios físicos (eléctricos, ópticos o radiofrecuencia). Define conectores, voltajes y frecuencias.</p>
+                                    <h6 class="fw-bold text-dark">Medios y Dispositivos:</h6>
+                                    <p class="small text-secondary mb-0">Cables UTP (RJ-45), Fibra Óptica, Ondas Wi-Fi (2.4/5GHz). Dispositivos: Hubs, Repetidores, Tarjetas de Red (NIC).</p>
+                                </div>
+                                <div class="col-md-4 border-start">
+                                    <h6 class="fw-bold text-primary"><i class="bi bi-play-circle me-1"></i>Ejemplo Práctico:</h6>
+                                    <p class="small text-secondary mb-0">La trama binaria se convierte en pulsos eléctricos de voltaje o fotones de luz que viajan por el cable de red hacia el puerto del Switch.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 3: COMPARACIÓN OSI VS TCP/IP -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-arrow-left-right text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Modelo OSI vs. Modelo TCP/IP</h3>
+                    </div>
+                    <p class="text-secondary">
+                        Mientras que el modelo OSI es el **modelo de referencia teórico** estándar utilizado mundialmente para la enseñanza y especificación de arquitecturas, el **Modelo TCP/IP** es la **pila de protocolos real de la Internet comercial**.
+                    </p>
+
+                    <div class="table-responsive my-4">
+                        <table class="table table-bordered align-middle text-center table-osi-tcp">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th style="width: 50%;">Modelo OSI (7 Capas)</th>
+                                    <th style="width: 50%;">Modelo TCP/IP (4 Capas)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="bg-danger text-white fw-bold">7. Aplicación</td>
+                                    <td rowspan="3" class="bg-primary text-white fw-bold align-middle fs-5">
+                                        1. Capa de Aplicación<br>
+                                        <small class="fw-normal" style="font-size: 0.8rem;">(Integra Aplicación, Presentación y Sesión)</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-warning text-dark fw-bold">6. Presentación</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-warning text-dark fw-bold">5. Sesión</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-success text-white fw-bold">4. Transporte</td>
+                                    <td class="bg-success text-white fw-bold">2. Capa de Transporte</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-info text-white fw-bold">3. Red</td>
+                                    <td class="bg-info text-white fw-bold">3. Capa de Internet</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-primary text-white fw-bold">2. Enlace de Datos</td>
+                                    <td rowspan="2" class="bg-secondary text-white fw-bold align-middle fs-5">
+                                        4. Capa de Acceso a la Red<br>
+                                        <small class="fw-normal" style="font-size: 0.8rem;">(Integra Enlace de Datos y Física)</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background: #8e44ad;" class="text-white fw-bold">1. Física</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="class-step mt-4">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-lightbulb-fill me-1"></i> Resumen de Diferencias Clave:</h6>
+                        <ul class="text-secondary small mb-0 ps-3">
+                            <li><strong>OSI:</strong> Modelo conceptual rígido independiente de protocolos específicos. Define claramente la separación de servicios, interfaces y protocolos.</li>
+                            <li><strong>TCP/IP:</strong> Pila de protocolos práctica creada antes del modelo OSI (desarrollada por el Departamento de Defensa de EE.UU. / ARPANET). Combina las capas superiores en una sola capa de aplicación.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 4: SIMULADOR INTERACTIVO DE ENCAPSULAMIENTO -->
+                <section class="mb-5" id="simulador-osi-section">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-cpu text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">4. Simulador Interactivo de Encapsulamiento OSI</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Observa cómo la PDU se transforma a medida que los datos descienden desde la Capa 7 de Aplicación (agregando encabezados en el Emisor) hasta convertirse en un flujo binario en la Capa 1, y cómo se desencapsulan al llegar al Receptor.
+                    </p>
+
+                    <div class="simulator-container">
+                        <div class="row g-4">
+                            <!-- Controles -->
+                            <div class="col-lg-4">
+                                <h5 class="fw-bold text-white mb-3"><i class="bi bi-sliders me-2"></i>Controles del Flujo</h5>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">1. Mensaje de Datos (Payload):</label>
+                                    <input type="text" class="form-control form-control-sm bg-dark text-white border-secondary" id="sim-payload" value="GET /index.html HTTP/1.1">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">2. Dirección IP Destino:</label>
+                                    <input type="text" class="form-control form-control-sm bg-dark text-white border-secondary" id="sim-ip" value="142.250.190.46">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">3. Modo de Operación:</label>
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-sm btn-outline-success active" id="btn-mode-encaps">Encapsular (Emisor)</button>
+                                        <button type="button" class="btn btn-sm btn-outline-info" id="btn-mode-decaps">Desencapsular (Receptor)</button>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2 mt-4">
+                                    <button class="btn btn-primary-gradient btn-sm w-100 fw-bold py-2 text-white" id="btn-sim-next">
+                                        <i class="bi bi-arrow-right-circle me-1"></i> Avanzar Capa
+                                    </button>
+                                    <button class="btn btn-outline-light btn-sm" id="btn-sim-reset" title="Reiniciar">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-dark rounded border border-secondary">
+                                    <span class="text-muted small d-block mb-1">Estado del Proceso:</span>
+                                    <div class="fw-bold text-warning" id="sim-status">Capa Activa: Capa 7 (Aplicación)</div>
+                                    <div class="small text-white-50 mt-1" id="sim-pdu-name">PDU Actual: <strong>Datos</strong></div>
+                                </div>
+                            </div>
+
+                            <!-- Visualizador -->
+                            <div class="col-lg-8">
+                                <h5 class="fw-bold text-white mb-3 d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-eye me-2"></i>Estructura Visual de la PDU</span>
+                                    <span class="badge bg-secondary" id="sim-layer-badge">Capa 7 de 7</span>
+                                </h5>
+
+                                <div class="pdu-visualizer mb-3" id="pdu-container">
+                                    <!-- Inyectado por JS -->
+                                </div>
+
+                                <div class="p-3 bg-dark rounded border border-secondary mb-3">
+                                    <h6 class="fw-bold text-info mb-1"><i class="bi bi-info-circle me-1"></i>Detalle de la Capa Actual:</h6>
+                                    <p class="small text-light mb-0" id="sim-layer-desc">
+                                        Capa 7 - Aplicación: Se genera la información pura suministrada por la aplicación (HTTP Payload).
+                                    </p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <span class="text-muted small fw-bold"><i class="bi bi-ethernet me-1"></i>Representación Física en Transmisión (Bits):</span>
+                                </div>
+                                <div class="bits-stream" id="sim-bits">
+                                    01000111 01000101 01010100 00100000 00101111 01101001 01101110 01100100 01100101 01111000 00101110 01101000 01110100 01101101 01101100
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 5: CUESTIONARIO DE EVALUACIÓN -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-check2-square text-primary fs-3"></i>
+                        <h3 class="fw-bold mb-0">5. Evaluación de Aprendizajes</h3>
+                    </div>
+                    <p class="text-secondary mb-4">Responde las siguientes 5 preguntas para autoevaluar tus conocimientos sobre el Modelo OSI y TCP/IP:</p>
+
+                    <div id="quiz-container">
+                        <!-- Pregunta 1 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 1: ¿Cómo se denomina la Unidad de Datos del Protocolo (PDU) en la Capa de Transporte (Capa 4) cuando se utiliza el protocolo TCP?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label text-secondary" for="q1a">Trama (Frame)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label text-secondary" for="q1b">Segmento</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label text-secondary" for="q1c">Paquete</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 2: ¿Cuál capa del Modelo OSI es la encargada de determinar la mejor ruta a través de redes conectadas utilizando direccionamiento IP?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label text-secondary" for="q2a">Capa 3: Red</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label text-secondary" for="q2b">Capa 2: Enlace de Datos</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label text-secondary" for="q2c">Capa 5: Sesión</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 3: Las capas 5 (Sesión), 6 (Presentación) y 7 (Aplicación) del modelo OSI corresponden en el Modelo TCP/IP a:</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label text-secondary" for="q3a">La Capa de Internet</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label text-secondary" for="q3b">La Capa de Aplicación</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label text-secondary" for="q3c">La Capa de Acceso a la Red</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 4: ¿En qué capa del modelo OSI operan principalmente los Switches de red tradicionales que conmutan por direcciones MAC?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label text-secondary" for="q4a">Capa 1: Física</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label text-secondary" for="q4b">Capa 2: Enlace de Datos</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label text-secondary" for="q4c">Capa 4: Transporte</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 5 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 5: ¿Qué capa del Modelo OSI es responsable del cifrado, compresión y traducción de formatos de sintaxis de los datos (como TLS/SSL)?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label text-secondary" for="q5a">Capa 6: Presentación</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label text-secondary" for="q5b">Capa 7: Aplicación</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label text-secondary" for="q5c">Capa 3: Red</label>
+                            </div>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div class="d-flex align-items-center gap-3 mt-4">
+                            <button class="btn btn-primary-gradient fw-bold px-4 py-2 text-white" id="btn-evaluar-osi">Comprobar Cuestionario</button>
+                            <span id="quiz-result-score" style="display: none;"></span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- Scripts y Lógica -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+
+    <script>
+        // ==========================================
+        //        LÓGICA DEL SIMULADOR OSI
+        // ==========================================
+        const layerInfo = [
+            {
+                layer: 7,
+                name: "Capa 7: Aplicación",
+                pdu: "Datos",
+                badgeClass: "layer-7",
+                desc: "Capa 7 (Aplicación): Se captura el mensaje enviado por la aplicación (HTTP Payload).",
+                headers: []
+            },
+            {
+                layer: 6,
+                name: "Capa 6: Presentación",
+                pdu: "Datos Cifrados",
+                badgeClass: "layer-6",
+                desc: "Capa 6 (Presentación): Se aplica formato sintáctico y cifrado SSL/TLS a la carga de datos.",
+                headers: [{ title: "H6: SSL/TLS", bg: "#e67e22" }]
+            },
+            {
+                layer: 5,
+                name: "Capa 5: Sesión",
+                pdu: "Datos con Sesión",
+                badgeClass: "layer-5",
+                desc: "Capa 5 (Sesión): Se adjunta el identificador de sesión y diálogo de comunicación.",
+                headers: [{ title: "H6: SSL/TLS", bg: "#e67e22" }, { title: "H5: SessionID", bg: "#f39c12" }]
+            },
+            {
+                layer: 4,
+                name: "Capa 4: Transporte",
+                pdu: "Segmento TCP",
+                badgeClass: "layer-4",
+                desc: "Capa 4 (Transporte): Se segmentan los datos y se agrega el encabezado TCP con Puerto Origen (54321) y Puerto Destino (443).",
+                headers: [{ title: "H4: TCP (Port 443)", bg: "#27ae60" }, { title: "H6: SSL/TLS", bg: "#e67e22" }, { title: "H5: SessionID", bg: "#f39c12" }]
+            },
+            {
+                layer: 3,
+                name: "Capa 3: Red",
+                pdu: "Paquete IP",
+                badgeClass: "layer-3",
+                desc: "Capa 3 (Red): Se agrega el encabezado IP con la dirección IP Origen (192.168.1.50) e IP Destino especificada.",
+                headers: [{ title: "H3: IP (192.168.1.50 -> Dest)", bg: "#16a085" }, { title: "H4: TCP", bg: "#27ae60" }, { title: "H6: SSL", bg: "#e67e22" }, { title: "H5: Ses", bg: "#f39c12" }]
+            },
+            {
+                layer: 2,
+                name: "Capa 2: Enlace de Datos",
+                pdu: "Trama Ethernet",
+                badgeClass: "layer-2",
+                desc: "Capa 2 (Enlace de Datos): Se encapsula con la Dirección MAC Origen/Destino y se agrega la Cola FCS (Control de Errores).",
+                headers: [{ title: "H2: MAC (Eth)", bg: "#2980b9" }, { title: "H3: IP", bg: "#16a085" }, { title: "H4: TCP", bg: "#27ae60" }, { title: "H6: SSL", bg: "#e67e22" }, { title: "H5: Ses", bg: "#f39c12" }],
+                trailer: { title: "T2: FCS (CRC32)", bg: "#2980b9" }
+            },
+            {
+                layer: 1,
+                name: "Capa 1: Física",
+                pdu: "Bits (Señal Eléctrica/Óptica)",
+                badgeClass: "layer-1",
+                desc: "Capa 1 (Física): Toda la trama estructurada se codifica en impulsos eléctricos o binarios y se transmite por el medio físico.",
+                headers: [{ title: "H2: MAC", bg: "#2980b9" }, { title: "H3: IP", bg: "#16a085" }, { title: "H4: TCP", bg: "#27ae60" }, { title: "H6: SSL", bg: "#e67e22" }],
+                trailer: { title: "T2: FCS", bg: "#2980b9" }
+            }
+        ];
+
+        let currentStepIndex = 0;
+        let isEncapsulating = true;
+
+        function updateSimulatorUI() {
+            const payloadVal = document.getElementById('sim-payload').value.trim() || "GET / HTTP/1.1";
+            const ipVal = document.getElementById('sim-ip').value.trim() || "142.250.190.46";
+            const container = document.getElementById('pdu-container');
+            const statusEl = document.getElementById('sim-status');
+            const pduNameEl = document.getElementById('sim-pdu-name');
+            const descEl = document.getElementById('sim-layer-desc');
+            const badgeEl = document.getElementById('sim-layer-badge');
+            const bitsEl = document.getElementById('sim-bits');
+
+            const info = layerInfo[currentStepIndex];
+
+            // Actualizar textos
+            statusEl.textContent = `Capa Activa: ${info.name}`;
+            pduNameEl.innerHTML = `PDU Actual: <strong>${info.pdu}</strong>`;
+            descEl.textContent = info.desc.replace("Dest", ipVal);
+            badgeEl.textContent = `Capa ${7 - currentStepIndex} de 7`;
+
+            // Construir bloque gráfico PDU
+            container.innerHTML = '';
+
+            // Renderizar Headers
+            info.headers.forEach(h => {
+                const hEl = document.createElement('div');
+                hEl.className = 'header-block';
+                hEl.style.backgroundColor = h.bg;
+                hEl.textContent = h.title;
+                container.appendChild(hEl);
+            });
+
+            // Renderizar Payload
+            const pEl = document.createElement('div');
+            pEl.className = 'payload-block';
+            pEl.textContent = `[ Data: "${payloadVal}" ]`;
+            container.appendChild(pEl);
+
+            // Renderizar Trailer si existe
+            if (info.trailer) {
+                const tEl = document.createElement('div');
+                tEl.className = 'header-block';
+                tEl.style.backgroundColor = info.trailer.bg;
+                tEl.textContent = info.trailer.title;
+                container.appendChild(tEl);
+            }
+
+            // Generar vista de bits binarios
+            let strBits = "";
+            for (let i = 0; i < payloadVal.length; i++) {
+                strBits += payloadVal.charCodeAt(i).toString(2).padStart(8, '0') + " ";
+            }
+            if (currentStepIndex >= 3) strBits = "01000101 00000000 00111100 " + strBits;
+            if (currentStepIndex >= 5) strBits = "11001010 11110000 " + strBits + " 10101100";
+            bitsEl.textContent = strBits;
+        }
+
+        document.getElementById('btn-sim-next').addEventListener('click', () => {
+            if (isEncapsulating) {
+                if (currentStepIndex < layerInfo.length - 1) {
+                    currentStepIndex++;
+                } else {
+                    currentStepIndex = layerInfo.length - 1;
+                }
+            } else {
+                if (currentStepIndex > 0) {
+                    currentStepIndex--;
+                } else {
+                    currentStepIndex = 0;
+                }
+            }
+            updateSimulatorUI();
+        });
+
+        document.getElementById('btn-sim-reset').addEventListener('click', () => {
+            currentStepIndex = isEncapsulating ? 0 : layerInfo.length - 1;
+            updateSimulatorUI();
+        });
+
+        document.getElementById('btn-mode-encaps').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-mode-decaps').classList.remove('active');
+            isEncapsulating = true;
+            currentStepIndex = 0;
+            updateSimulatorUI();
+        });
+
+        document.getElementById('btn-mode-decaps').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-mode-encaps').classList.remove('active');
+            isEncapsulating = false;
+            currentStepIndex = layerInfo.length - 1;
+            updateSimulatorUI();
+        });
+
+        // Inicializar simulador
+        updateSimulatorUI();
+
+        // ==========================================
+        //        LÓGICA DEL CUESTIONARIO
+        // ==========================================
+        document.getElementById('btn-evaluar-osi').addEventListener('click', () => {
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'b',
+                q4: 'b',
+                q5: 'a'
+            };
+
+            let score = 0;
+            const total = 5;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checked) {
+                    unanswered = true;
+                    break;
+                }
+                if (checked.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result-score');
+            result.style.display = 'inline-block';
+            result.textContent = `Puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                result.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 3) {
+                result.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                result.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+    </script>
+</body>
+
+</html>
