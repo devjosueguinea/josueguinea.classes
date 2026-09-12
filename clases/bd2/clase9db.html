@@ -9,6 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../../css/styles.css">
     <style>
@@ -113,9 +115,118 @@
             color: #55efc4;
             border-radius: 10px;
             padding: 12px 18px;
-            font-family: 'Courier New', monospace;
+            font-family: 'Fira Code', 'Courier New', monospace;
             font-size: 0.88rem;
             border: 1px solid #2d3139;
+            position: relative;
+        }
+
+        /* ── Terminal e Instrucciones Interactiva de CLI ── */
+        .terminal-card {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .terminal-header {
+            background-color: #161b22;
+            padding: 10px 16px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+
+        .terminal-title {
+            color: #8b949e;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .terminal-body {
+            padding: 16px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            color: #e6edf3;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+
+        .terminal-cmd {
+            color: #79c0ff;
+            font-weight: bold;
+        }
+
+        .terminal-flag {
+            color: #d2a8ff;
+        }
+
+        .terminal-val {
+            color: #a5d6ff;
+        }
+
+        .terminal-comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .terminal-output {
+            color: #7ee787;
+            font-size: 0.82rem;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #30363d;
+        }
+
+        .btn-copy-code {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .param-explain-pill {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid #f1c40f;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #0984e3, #6c5ce7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: bold;
+        }
+
+        .institution-badge {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 24px;
         }
     </style>
 </head>
@@ -132,7 +243,7 @@
                     </a>
                     <div>
                         <h4 class="mb-0 fw-bold">Clase 9: Claves de Partición y Sharding</h4>
-                        <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II (NoSQL)</span>
+                        <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II (NoSQL) | Universidad Evangélica de El Salvador</span>
                     </div>
                 </div>
                 <div class="header-actions">
@@ -147,13 +258,24 @@
 
             <!-- Contenido Didáctico -->
             <div class="class-content-wrapper mb-5">
+                <!-- Banner Institucional -->
+                <div class="institution-badge d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <span class="badge bg-primary mb-1">UNIVERSIDAD EVANGÉLICA DE EL SALVADOR</span>
+                        <h6 class="fw-bold mb-0 text-body">Facultad de Ingenierías | Carrera: Ingeniería en Desarrollo de Software y Ciencia de Datos</h6>
+                    </div>
+                    <div class="text-end">
+                        <small class="text-muted d-block"><i class="bi bi-person-badge me-1"></i>Docente: Mg. Josué Alberto Guinea Henríquez</small>
+                    </div>
+                </div>
+
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <span class="badge-clase bg-warning text-dark">Clase 9</span>
                     <span class="text-muted small"><i class="bi bi-clock"></i> 2 horas</span>
                 </div>
-                <h3 class="fw-bold mb-2">Claves de Partición y Escalabilidad Horizontal en MongoDB</h3>
+                <h3 class="fw-bold mb-2">Claves de Partición, Escalabilidad Horizontal y Despliegue de Sharding en MongoDB</h3>
                 <p class="text-secondary mb-4">
-                    Aprende a distribuir horizontalmente tus colecciones de MongoDB a través de un cluster particionado (Sharded Cluster). Domina los criterios de selección de Shard Keys para garantizar un rendimiento óptimo sin cuellos de botella.
+                    El particionamiento horizontal de datos (<strong>Sharding</strong>) en MongoDB es una arquitectura diseñada para resolver las limitaciones físicas de almacenamiento y cómputo de un único servidor. A través de la distribución de la carga de trabajo entre múltiples nodos independientes, esta técnica permite escalar una base de datos de manera indefinida sin comprometer la disponibilidad ni el rendimiento.
                 </p>
 
                 <!-- Objetivos -->
@@ -161,10 +283,11 @@
                     <h5 class="fw-bold"><i class="bi bi-bullseye text-warning me-2"></i>Objetivos de la Clase</h5>
                     <ul class="text-secondary mb-0 ps-3">
                         <li>Diferenciar entre <strong>escalabilidad vertical (Scale-Up)</strong> y <strong>escalabilidad horizontal (Scale-Out / Sharding)</strong>.</li>
-                        <li>Identificar la función de los tres componentes de un cluster de Sharding: <code>mongos</code>, <strong>Config Servers</strong> y <strong>Shards</strong>.</li>
-                        <li>Seleccionar la <strong>Shard Key ideal</strong> según los criterios de cardinalidad, frecuencia y tasa de cambio de valor.</li>
-                        <li>Diferenciar entre estrategias de particionamiento por <strong>Rango (Ranged)</strong>, <strong>Hash (Hashed)</strong> y <strong>Zonas (Zoned)</strong>.</li>
-                        <li>Experimentar con simuladores interactivos para visualizar la distribución de chunks y prevenir <em>hotspots</em>.</li>
+                        <li>Identificar la función y arquitectura de las 3 entidades fundamentales: <code>mongos</code> (Router), <strong>Config Servers</strong> (<code>configRS</code>) y <strong>Shard Nodes</strong> (<code>mongod</code>).</li>
+                        <li>Comprender la <strong>gestión de almacenamiento y límites físicos</strong>, saturación de disco, journaling y el proceso del <strong>Balancer</strong>.</li>
+                        <li>Seleccionar la <strong>Shard Key ideal</strong> según cardinalidad, frecuencia y tasa de cambio de valor.</li>
+                        <li>Diferenciar las estrategias de particionamiento por <strong>Rango (Ranged)</strong>, <strong>Hash (Hashed)</strong>, <strong>Compuesto</strong> y <strong>Zonas (Zoned / Hardware NVMe vs Mecánico)</strong>.</li>
+                        <li>Ejecutar paso a paso la inicialización del cluster desde la <strong>Línea de Comandos (CLI)</strong> y la configuración desde <strong>MongoDB Compass / mongosh</strong>.</li>
                     </ul>
                 </div>
 
@@ -174,10 +297,10 @@
                 <section class="mb-5">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <i class="bi bi-hdd-network text-warning fs-3"></i>
-                        <h3 class="fw-bold mb-0">1. Escalabilidad Horizontal y Arquitectura de Sharding</h3>
+                        <h3 class="fw-bold mb-0">1. Fundamentos, Arquitectura del Clúster y Gestión Física</h3>
                     </div>
                     <p class="text-secondary">
-                        Cuando el volumen de datos o la tasa de operaciones por segundo excede la capacidad de un solo servidor físico (memoria RAM, disco SSD o CPU), existen dos opciones para escalar:
+                        Cuando el volumen de datos o la tasa de operaciones por segundo excede la capacidad de un solo servidor físico (memoria RAM, disco SSD/NVMe o CPU), existen dos opciones para escalar:
                     </p>
 
                     <div class="row g-4 my-3">
@@ -201,24 +324,66 @@
                         </div>
                     </div>
 
-                    <h5 class="fw-bold mt-4 mb-3"><i class="bi bi-diagram-3-fill text-warning me-2"></i>Los 3 Componentes de un Cluster Particionado en MongoDB</h5>
-                    <div class="row g-3">
+                    <h5 class="fw-bold mt-4 mb-3"><i class="bi bi-diagram-3-fill text-warning me-2"></i>Las 3 Entidades Fundamentales de un Clúster Fragmentado</h5>
+                    <p class="text-secondary small">
+                        Un clúster fragmentado de MongoDB se compone de tres entidades fundamentales que cooperan para ofrecer transparencia total a las aplicaciones cliente:
+                    </p>
+                    <div class="row g-3 mb-4">
                         <div class="col-md-4">
-                            <div class="p-3 border rounded bg-body">
-                                <h6 class="fw-bold text-primary"><i class="bi bi-signpost-split me-1"></i> 1. mongos (Router)</h6>
-                                <p class="small text-muted mb-0">Actúa como un enrutador inteligente. Las aplicaciones cliente se conectan a <code>mongos</code>, el cual consulta los metadatos del cluster para dirigir cada operación al Shard correspondiente.</p>
+                            <div class="p-3 border rounded bg-body height-100">
+                                <h6 class="fw-bold text-success"><i class="bi bi-server me-1"></i> 1. Shard Nodes (Nodos de Almacenamiento)</h6>
+                                <p class="small text-muted mb-0">Instancias de <code>mongod</code> que contienen un subconjunto o segmento (<em>chunk</em>) de los datos reales de la aplicación. Su capacidad está supeditada al almacenamiento físico (SSD/NVMe/HDD) del volumen asignado a su directorio de trabajo (<code>--dbpath</code>).</p>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 border rounded bg-body">
-                                <h6 class="fw-bold text-warning"><i class="bi bi-database-gear me-1"></i> 2. Config Servers</h6>
-                                <p class="small text-muted mb-0">Un Replica Set especial que guarda la tabla de mapeo y metadatos del cluster: qué rangos de datos (Chunks) residen en qué Shards específicos.</p>
+                            <div class="p-3 border rounded bg-body height-100">
+                                <h6 class="fw-bold text-warning"><i class="bi bi-database-gear me-1"></i> 2. Config Servers (Servidores de Configuración)</h6>
+                                <p class="small text-muted mb-0">Nodos organizados en un Replica Set (<code>configRS</code>) dedicados a almacenar exclusivamente el catálogo de metadatos del clúster, el estado del balanceador y la cartografía exacta de ubicación de los <em>chunks</em>.</p>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 border rounded bg-body">
-                                <h6 class="fw-bold text-success"><i class="bi bi-server me-1"></i> 3. Shards (Fragmentos)</h6>
-                                <p class="small text-muted mb-0">Cada Shard es un Replica Set independiente que almacena un subconjunto (fragmento) del total de documentos de la colección.</p>
+                            <div class="p-3 border rounded bg-body height-100">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-signpost-split me-1"></i> 3. Router (mongos)</h6>
+                                <p class="small text-muted mb-0">Servicio intermedio sin estado que actúa como punto de enlace entre la capa de aplicación y la infraestructura distribuida. Evalúa las peticiones entrantes, consulta los metadatos y reenvía las operaciones de lectura o escritura al shard correspondiente.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBSECCIÓN 1.2: GESTIÓN DE ALMACENAMIENTO Y LÍMITES FÍSICOS -->
+                    <div class="card border-warning bg-body-tertiary my-4 shadow-sm">
+                        <div class="card-header bg-warning text-dark fw-bold d-flex align-items-center gap-2">
+                            <i class="bi bi-hdd-fill fs-5"></i>
+                            <span>Gestión del Almacenamiento y Límites Físicos en Shards</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="small text-secondary mb-3">
+                                Un shard individual está limitado por el espacio de almacenamiento disponible en la partición o servidor donde reside. Cuando un nodo alcanza el límite de su disco físico:
+                            </p>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-body border rounded">
+                                        <h6 class="fw-bold text-danger small mb-1"><i class="bi bi-shield-lock-fill me-1"></i> Comportamiento en Saturación</h6>
+                                        <p class="small text-muted mb-0">
+                                            El motor de almacenamiento bloquea las escrituras locales para preservar la integridad de los índices y archivos de diario (<em>journaling</em>).
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-body border rounded">
+                                        <h6 class="fw-bold text-primary small mb-1"><i class="bi bi-plus-circle-fill me-1"></i> Solución de Escalado Horizontal (Scale Out)</h6>
+                                        <p class="small text-muted mb-0">
+                                            La estrategia adecuada consiste en provisionar e integrar un nuevo nodo (ej. <code>shard2RS</code>) alojado en una unidad de disco o servidor independiente.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-body border rounded">
+                                        <h6 class="fw-bold text-success small mb-1"><i class="bi bi-arrow-repeat me-1"></i> Proceso del Balancer</h6>
+                                        <p class="small text-muted mb-0">
+                                            Al registrar el nuevo nodo con <code>sh.addShard()</code>, el proceso balanceador del clúster detecta la asimetría de carga e inicia la migración de <em>chunks</em> en segundo plano desde el nodo saturado hacia el nuevo recurso.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -226,18 +391,36 @@
 
                 <hr class="my-5">
 
-                <!-- SECCIÓN 2: ESTRATEGIAS DE SHARD KEY Y CASOS DE USO -->
+                <!-- SECCIÓN 2: ESTRATEGIAS DE CONTROL Y DISTRIBUCIÓN DE DATOS -->
                 <section class="mb-5">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <i class="bi bi-key-fill text-warning fs-3"></i>
-                        <h3 class="fw-bold mb-0">2. Estrategias de Shard Key y Casos de Uso</h3>
+                        <h3 class="fw-bold mb-0">2. Estrategias de Control y Distribución de Datos</h3>
                     </div>
                     <p class="text-secondary">
-                        Una <strong>Estrategia de Shard Key</strong> es la técnica de arquitectura mediante la cual se elige y estructura el campo indexado que MongoDB utilizará para fragmentar y repartir los documentos entre los nodos del cluster.
+                        MongoDB ofrece mecanismos para decidir de manera precisa la ubicación de la información en función de los patrones de tráfico, costo de hardware o requisitos de latencia:
                     </p>
-                    <p class="text-secondary">
-                        Su objetivo fundamental es resolver el gran dilema del particionamiento: <strong>distribuir homogéneamente las escrituras</strong> sin arruinar el <strong>rendimiento de las lecturas</strong>.
-                    </p>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="interactive-box">
+                                <h6 class="fw-bold text-warning"><i class="bi bi-key me-1"></i> Clave de Fragmentación (Shard Key)</h6>
+                                <p class="small text-muted mb-0">Determina el criterio de división de los documentos (basado en rangos o algoritmos de hash). Una elección adecuada evita la aparición de puntos calientes (<em>hotspots</em>) de escritura.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="interactive-box">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-cpu-fill me-1"></i> Particionado por Zonas (Zone Sharding)</h6>
+                                <p class="small text-muted mb-0">Permite vincular rangos específicos de una colección a hardware determinado. Por ejemplo, es posible dirigir datos de alto tráfico a servidores equipados con unidades <strong>NVMe (Zona Premium)</strong> y relegar datos históricos o de bajo tráfico a unidades <strong>mecánicas más económicas (Zona Estándar)</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="interactive-box">
+                                <h6 class="fw-bold text-success"><i class="bi bi-folder-symlink-fill me-1"></i> Asignación por Colección / Base de Datos</h6>
+                                <p class="small text-muted mb-0">Las colecciones no fragmentadas residen de forma predeterminada en el <strong>Shard Primario</strong> asignado a la base de datos, lo que permite aislar colecciones de lectura/escritura intensiva en nodos dedicados.</p>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="alert alert-warning border-warning d-flex align-items-center gap-3 my-4">
                         <i class="bi bi-exclamation-triangle-fill fs-2 flex-shrink-0"></i>
@@ -339,11 +522,11 @@
                     <div class="card mb-4 border-light shadow-sm">
                         <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
                             <span>4. Particionamiento por Zonas (Zoned / Geographical Sharding)</span>
-                            <span class="badge bg-warning text-dark">Soberanía de Datos y Latencia</span>
+                            <span class="badge bg-warning text-dark">Soberanía de Datos y Tiering de Hardware</span>
                         </div>
                         <div class="card-body">
                             <p class="small text-secondary mb-2">
-                                <strong>Cómo funciona:</strong> Asocia etiquetas de zona (*Tags*) a rangos de la Shard Key y asigna esas zonas a Shards ubicados en centros de datos o regiones geográficas específicas.
+                                <strong>Cómo funciona:</strong> Asocia etiquetas de zona (<em>Tags</em>) a rangos de la Shard Key y asigna esas zonas a Shards ubicados en centros de datos o equipados con tipos de hardware específicos (ej. Zona Premium NVMe vs Zona Estándar Mecánica).
                             </p>
                             <div class="code-snippet mb-3">
                                 sh.addShardTag("shard_EU_1", "ZONA_EUROPA");<br>
@@ -352,7 +535,7 @@
                             <h6 class="fw-bold text-success small mb-1"><i class="bi bi-briefcase-fill me-1"></i> Casos de Uso Típicos:</h6>
                             <ul class="text-secondary small mb-0 ps-3">
                                 <li><strong>Cumplimiento Normativo (GDPR / Soberanía de Datos):</strong> Restricción legal que obliga a guardar datos de ciudadanos europeos exclusivamente en servidores dentro de la Unión Europea.</li>
-                                <li><strong>Redes Sociales y Videojuegos Multijugador Globales:</strong> Mantener datos de usuarios asiáticos en Tokio y americanos en Virginia para reducir latencia de red.</li>
+                                <li><strong>Optimización por Hardware (Tiering):</strong> Dirigir colecciones de alta frecuencia a discos NVMe ultra-rápidos y relegar archivos históricos a discos duros tradicionales.</li>
                             </ul>
                         </div>
                     </div>
@@ -394,10 +577,10 @@
                                 </tr>
                                 <tr>
                                     <td class="fw-bold text-dark">Zonas (Zoned)</td>
-                                    <td>Dirigida por Región</td>
+                                    <td>Dirigida por Región / Hardware</td>
                                     <td><span class="badge bg-success">Excelente en Región Local</span></td>
                                     <td>Desbalance si una región recibe el 90% del tráfico</td>
-                                    <td>Soberanía de datos GDPR, Redes sociales globales</td>
+                                    <td>Soberanía de datos GDPR, Redes sociales globales, Hardware NVMe vs HDD</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -406,11 +589,231 @@
 
                 <hr class="my-5">
 
-                <!-- SECCIÓN 3: SIMULADORES INTERACTIVOS -->
+                <!-- SECCIÓN 3: INSTRUCCIONES DE EJECUCIÓN (DESPLIEGUE Y CONFIGURACIÓN EN COMPASS) -->
+                <section class="mb-5" id="instrucciones-ejecucion-section">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-terminal-fill text-warning fs-3"></i>
+                        <h3 class="fw-bold mb-0">3. Instrucciones de Ejecución: Despliegue del Clúster y MongoDB Compass</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Sigue esta guía práctica de tres fases para desplegar un entorno de Sharding local completo con su <strong>Config Server</strong>, un <strong>Shard de Almacenamiento</strong> y el <strong>Router (mongos)</strong>, conectándolos mediante <strong>MongoDB Compass</strong> y la consola <code>MONGOSH</code>.
+                    </p>
+
+                    <!-- PASO 1: CONFIG SERVER -->
+                    <div class="terminal-card mb-4">
+                        <div class="terminal-header">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="terminal-dots">
+                                    <span class="dot dot-red"></span>
+                                    <span class="dot dot-yellow"></span>
+                                    <span class="dot dot-green"></span>
+                                </div>
+                                <span class="terminal-title"><i class="bi bi-gear-fill me-1"></i> Paso 1: Inicialización del Servidor de Configuración (Config Server)</span>
+                            </div>
+                            <button class="btn btn-outline-warning btn-copy-code" onclick="copyCommandText('cmd-step1', this)">
+                                <i class="bi bi-clipboard me-1"></i> Copiar Comando
+                            </button>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-comment"># 1. Comando CLI en Windows PowerShell / CMD (Puerto 27019):</div>
+                            <div id="cmd-step1">
+                                <span class="terminal-cmd">"C:\Program Files\MongoDB\Server\8.3\bin\mongod.exe"</span> <span class="terminal-flag">--configsvr</span> <span class="terminal-flag">--replSet</span> <span class="terminal-val">configRS</span> <span class="terminal-flag">--port</span> <span class="terminal-val">27019</span> <span class="terminal-flag">--dbpath</span> <span class="terminal-val">C:\data\configdb</span> <span class="terminal-flag">--bind_ip</span> <span class="terminal-val">127.0.0.1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explicación del comando 1 -->
+                    <div class="interactive-box p-3 mb-4 bg-body-tertiary">
+                        <h6 class="fw-bold text-warning mb-2"><i class="bi bi-info-circle-fill me-1"></i> Explicación del comando:</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>--configsvr</code>: Define la instancia como el servidor de metadatos de configuración del clúster.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>--replSet configRS</code>: Establece el nombre del Replica Set mandatorio para los Config Servers.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>--dbpath C:\data\configdb</code>: Asigna la carpeta de persistencia física en el disco duro local.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>--bind_ip 127.0.0.1</code>: Limita la escucha exclusivamente a la interfaz de bucle de retorno (<em>loopback</em>).
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-success mt-3 mb-2"><i class="bi bi-compass-fill me-1"></i> Inicializar el Config Server desde MongoDB Compass:</h6>
+                        <ol class="small text-secondary mb-0 ps-3">
+                            <li>Abre <strong>MongoDB Compass</strong> y en el campo <strong>URI</strong> pega la siguiente dirección:<br>
+                                <div class="code-snippet my-1 d-flex justify-content-between align-items-center">
+                                    <span id="uri-step1">mongodb://127.0.0.1:27019/?directConnection=true</span>
+                                    <button class="btn btn-sm btn-outline-warning py-0 px-2 text-dark" onclick="copyCommandText('uri-step1', this)">Copiar URI</button>
+                                </div>
+                            </li>
+                            <li>Haz clic en <strong>Connect</strong>.</li>
+                            <li>En la parte inferior de la ventana, haz clic en la pestaña <strong>&gt;_ MONGOSH</strong> para desplegar la consola integrada.</li>
+                            <li>Copia y pega este comando de inicialización y presiona Enter:<br>
+                                <div class="code-snippet my-1 d-flex justify-content-between align-items-center">
+                                    <span id="js-step1">rs.initiate({_id: 'configRS', configsvr: true, members: [{_id: 0, host: 'localhost:27019'}]})</span>
+                                    <button class="btn btn-sm btn-outline-warning py-0 px-2 text-dark" onclick="copyCommandText('js-step1', this)">Copiar JS</button>
+                                </div>
+                            </li>
+                            <li>Para verificar que fue exitoso, la consola responderá <code>{ ok: 1 }</code>.</li>
+                        </ol>
+                    </div>
+
+                    <!-- PASO 2: SHARD 1 NODE -->
+                    <div class="terminal-card mb-4">
+                        <div class="terminal-header">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="terminal-dots">
+                                    <span class="dot dot-red"></span>
+                                    <span class="dot dot-yellow"></span>
+                                    <span class="dot dot-green"></span>
+                                </div>
+                                <span class="terminal-title"><i class="bi bi-hdd-rack-fill me-1"></i> Paso 2: Inicialización del Nodo de Almacenamiento (Shard 1)</span>
+                            </div>
+                            <button class="btn btn-outline-warning btn-copy-code" onclick="copyCommandText('cmd-step2', this)">
+                                <i class="bi bi-clipboard me-1"></i> Copiar Comando
+                            </button>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-comment"># 2. Comando CLI en Windows PowerShell / CMD (Puerto 27018):</div>
+                            <div id="cmd-step2">
+                                <span class="terminal-cmd">"C:\Program Files\MongoDB\Server\8.3\bin\mongod.exe"</span> <span class="terminal-flag">--shardsvr</span> <span class="terminal-flag">--replSet</span> <span class="terminal-val">shard1RS</span> <span class="terminal-flag">--port</span> <span class="terminal-val">27018</span> <span class="terminal-flag">--dbpath</span> <span class="terminal-val">C:\data\shard1</span> <span class="terminal-flag">--bind_ip</span> <span class="terminal-val">127.0.0.1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explicación del comando 2 -->
+                    <div class="interactive-box p-3 mb-4 bg-body-tertiary">
+                        <h6 class="fw-bold text-warning mb-2"><i class="bi bi-info-circle-fill me-1"></i> Explicación del comando:</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>--shardsvr</code>: Inicia la instancia configurada como un nodo de almacenamiento de datos fragmentados.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>--replSet shard1RS</code>: Nombra el grupo de réplica del primer shard.
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-success mt-3 mb-2"><i class="bi bi-compass-fill me-1"></i> Inicializar el Shard 1 desde Compass:</h6>
+                        <ol class="small text-secondary mb-0 ps-3">
+                            <li>En Compass, haz clic en <strong>Disconnect</strong> (arriba a la izquierda).</li>
+                            <li>En el campo <strong>URI</strong>, pega la dirección del Shard 1:<br>
+                                <div class="code-snippet my-1 d-flex justify-content-between align-items-center">
+                                    <span id="uri-step2">mongodb://127.0.0.1:27018/?directConnection=true</span>
+                                    <button class="btn btn-sm btn-outline-warning py-0 px-2 text-dark" onclick="copyCommandText('uri-step2', this)">Copiar URI</button>
+                                </div>
+                            </li>
+                            <li>Haz clic en <strong>Connect</strong>.</li>
+                            <li>Abre la consola <strong>&gt;_ MONGOSH</strong> abajo, ejecuta este comando y presiona Enter:<br>
+                                <div class="code-snippet my-1 d-flex justify-content-between align-items-center">
+                                    <span id="js-step2">rs.initiate({_id: 'shard1RS', members: [{_id: 0, host: 'localhost:27018'}]})</span>
+                                    <button class="btn btn-sm btn-outline-warning py-0 px-2 text-dark" onclick="copyCommandText('js-step2', this)">Copiar JS</button>
+                                </div>
+                            </li>
+                            <li>Para verificar que fue exitoso, la consola responderá <code>{ ok: 1 }</code>.</li>
+                        </ol>
+                    </div>
+
+                    <!-- PASO 3: ROUTER MONGOS -->
+                    <div class="terminal-card mb-4">
+                        <div class="terminal-header">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="terminal-dots">
+                                    <span class="dot dot-red"></span>
+                                    <span class="dot dot-yellow"></span>
+                                    <span class="dot dot-green"></span>
+                                </div>
+                                <span class="terminal-title"><i class="bi bi-signpost-split-fill me-1"></i> Paso 3: Registro del Shard en el Enrutador (mongos)</span>
+                            </div>
+                            <button class="btn btn-outline-warning btn-copy-code" onclick="copyCommandText('cmd-step3', this)">
+                                <i class="bi bi-clipboard me-1"></i> Copiar Comando
+                            </button>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-comment"># 3. Comando CLI en Windows PowerShell / CMD (Puerto 27050):</div>
+                            <div id="cmd-step3">
+                                <span class="terminal-cmd">"C:\Program Files\MongoDB\Server\8.3\bin\mongos.exe"</span> <span class="terminal-flag">--configdb</span> <span class="terminal-val">configRS/127.0.0.1:27019</span> <span class="terminal-flag">--port</span> <span class="terminal-val">27050</span> <span class="terminal-flag">--bind_ip</span> <span class="terminal-val">127.0.0.1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explicación del comando 3 -->
+                    <div class="interactive-box p-3 mb-4 bg-body-tertiary">
+                        <h6 class="fw-bold text-warning mb-2"><i class="bi bi-info-circle-fill me-1"></i> Explicación del comando:</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>mongos.exe</code>: Ejecutable principal del servicio enrutador inteligente.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="param-explain-pill small">
+                                    <code>--configdb configRS/127.0.0.1:27019</code>: Conecta el enrutador con la semilla de configuración primaria.
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-success mt-3 mb-2"><i class="bi bi-compass-fill me-1"></i> Vincular el Shard al Enrutador mongos desde Compass:</h6>
+                        <ol class="small text-secondary mb-0 ps-3">
+                            <li>Haz clic en <strong>Disconnect</strong> en Compass.</li>
+                            <li>Conéctate al puerto del enrutador <code>mongos</code> (aquí no se requiere <code>directConnection</code>):<br>
+                                <div class="code-snippet my-1 d-flex justify-content-between align-items-center">
+                                    <span id="uri-step3">mongodb://127.0.0.1:27050/</span>
+                                    <button class="btn btn-sm btn-outline-warning py-0 px-2 text-dark" onclick="copyCommandText('uri-step3', this)">Copiar URI</button>
+                                </div>
+                            </li>
+                            <li>Haz clic en <strong>Connect</strong>.</li>
+                            <li>Abre la consola <strong>&gt;_ MONGOSH</strong> abajo, ejecuta este comando y presiona Enter:<br>
+                                <div class="code-snippet my-1 d-flex justify-content-between align-items-center">
+                                    <span id="js-step3">sh.addShard('shard1RS/localhost:27018')</span>
+                                    <button class="btn btn-sm btn-outline-warning py-0 px-2 text-dark" onclick="copyCommandText('js-step3', this)">Copiar JS</button>
+                                </div>
+                            </li>
+                            <li>Para verificar que fue exitoso, la consola responderá <code>{ shardAdded: 'shard1RS', ok: 1 }</code>.</li>
+                        </ol>
+                    </div>
+
+                    <!-- SIMULADOR INTERACTIVO DE CONSOLA DE COMANDOS -->
+                    <div class="interactive-box p-4 border-primary">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="fw-bold text-primary mb-0"><i class="bi bi-play-square-fill me-2"></i>Simulador de Secuencia de Inicialización del Clúster</h6>
+                            <span class="badge bg-primary">Interactivo</span>
+                        </div>
+                        <p class="small text-muted mb-3">Presiona los botones en orden secuencial para simular el arranque de los servicios en la terminal:</p>
+                        <div class="d-flex gap-2 flex-wrap mb-3">
+                            <button class="btn btn-sm btn-outline-primary" id="btn-sim-start-config" onclick="simClusterStep(1)">1. Arrancar Config Server (27019)</button>
+                            <button class="btn btn-sm btn-outline-success" id="btn-sim-start-shard" onclick="simClusterStep(2)">2. Arrancar Shard 1 (27018)</button>
+                            <button class="btn btn-sm btn-outline-info" id="btn-sim-start-router" onclick="simClusterStep(3)">3. Arrancar Router mongos (27050)</button>
+                            <button class="btn btn-sm btn-outline-warning text-dark" id="btn-sim-add-shard" onclick="simClusterStep(4)">4. sh.addShard() en Compass</button>
+                        </div>
+                        <div class="terminal-card mb-0">
+                            <div class="terminal-body" id="cluster-sim-log" style="height: 140px; overflow-y: auto;">
+                                <div class="terminal-comment">// Presiona una acción arriba para visualizar la salida de la consola...</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5">
+
+                <!-- SECCIÓN 4: SIMULADOR INTERACTIVO DE DISTRIBUCIÓN -->
                 <section class="mb-5" id="simulador-sharding-section">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <i class="bi bi-cpu text-warning fs-3"></i>
-                        <h3 class="fw-bold mb-0">3. Simulador Interactivo de Distribución en Cluster</h3>
+                        <h3 class="fw-bold mb-0">4. Simulador Interactivo de Distribución en Cluster</h3>
                     </div>
                     <p class="text-secondary mb-4">
                         Prueba cómo reacciona un Cluster de 3 Shards según la estrategia de Shard Key elegida al simular la inserción masiva de 300 documentos:
@@ -495,11 +898,11 @@
 
                 <hr class="my-5">
 
-                <!-- SECCIÓN 4: 3 EJERCICIOS PRÁCTICOS -->
+                <!-- SECCIÓN 5: EJERCICIOS PRÁCTICOS -->
                 <section class="mb-5" id="ejercicios-sharding-section">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <i class="bi bi-pencil-square text-warning fs-3"></i>
-                        <h3 class="fw-bold mb-0">4. Ejercicios Prácticos de Diseño de Shard Keys</h3>
+                        <h3 class="fw-bold mb-0">5. Ejercicios Prácticos de Diseño de Shard Keys</h3>
                     </div>
                     <p class="text-secondary mb-4">Analiza estos 3 escenarios reales de arquitectura NoSQL y selecciona la Shard Key óptima en cada caso:</p>
 
@@ -623,13 +1026,13 @@
 
                 <hr class="my-5">
 
-                <!-- SECCIÓN 5: CUESTIONARIO DE EVALUACIÓN -->
+                <!-- SECCIÓN 6: CUESTIONARIO DE EVALUACIÓN -->
                 <section class="mb-5">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <i class="bi bi-check2-square text-warning fs-3"></i>
-                        <h3 class="fw-bold mb-0">5. Evaluación de Aprendizajes</h3>
+                        <h3 class="fw-bold mb-0">6. Evaluación de Aprendizajes</h3>
                     </div>
-                    <p class="text-secondary mb-4">Responde a las siguientes 5 preguntas para autoevaluar tus conocimientos sobre Sharding en MongoDB:</p>
+                    <p class="text-secondary mb-4">Responde a las siguientes 7 preguntas para autoevaluar tus conocimientos sobre Sharding y Comandos en MongoDB:</p>
 
                     <div id="quiz-container">
                         <!-- Pregunta 1 -->
@@ -651,69 +1054,103 @@
 
                         <!-- Pregunta 2 -->
                         <div class="quiz-card">
-                            <h6 class="fw-bold mb-3">Pregunta 2: ¿Qué sucede si utilizas un campo monótonamente creciente (como un timestamp o auto-incremental) como Shard Key por Rango?</h6>
+                            <h6 class="fw-bold mb-3">Pregunta 2: ¿Qué sucede cuando un Shard individual agota el almacenamiento físico de su disco duro?</h6>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
-                                <label class="form-check-label text-secondary" for="q2a">Todas las inserciones nuevas se concentrarán en un solo Shard (Hotspotting).</label>
+                                <label class="form-check-label text-secondary" for="q2a">El motor de almacenamiento bloquea las escrituras locales para preservar la integridad de índices y archivos de diario (journaling).</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
-                                <label class="form-check-label text-secondary" for="q2b">Los datos se distribuirán de forma perfectamente uniforme mediante round-robin.</label>
+                                <label class="form-check-label text-secondary" for="q2b">MongoDB elimina automáticamente los índices más antiguos para liberar espacio sin notificar.</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
-                                <label class="form-check-label text-secondary" for="q2c">MongoDB lanzará un error de sintaxis al intentar crear la colección.</label>
+                                <label class="form-check-label text-secondary" for="q2c">El enrutador mongos se apaga y el clúster entero queda inoperativo inmediatamente.</label>
                             </div>
                         </div>
 
                         <!-- Pregunta 3 -->
                         <div class="quiz-card">
-                            <h6 class="fw-bold mb-3">Pregunta 3: ¿Qué tipo de estrategia de Shard Key es la más recomendable para garantizar una distribución de escritura uniforme independientemente del patrón de entrada?</h6>
+                            <h6 class="fw-bold mb-3">Pregunta 3: ¿Qué parámetro mandatorio en CLI define a una instancia de mongod como el servidor de metadatos de configuración del clúster?</h6>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
-                                <label class="form-check-label text-secondary" for="q3a">Particionamiento por Baja Cardinalidad</label>
+                                <label class="form-check-label text-secondary" for="q3a">--shardsvr</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
-                                <label class="form-check-label text-secondary" for="q3b">Clave Hashed (Hashed Shard Key)</label>
+                                <label class="form-check-label text-secondary" for="q3b">--configsvr</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
-                                <label class="form-check-label text-secondary" for="q3c">Particionamiento por defecto sin índice</label>
+                                <label class="form-check-label text-secondary" for="q3c">--routerMode</label>
                             </div>
                         </div>
 
                         <!-- Pregunta 4 -->
                         <div class="quiz-card">
-                            <h6 class="fw-bold mb-3">Pregunta 4: ¿Qué es una consulta "Scatter-Gather"?</h6>
+                            <h6 class="fw-bold mb-3">Pregunta 4: ¿Qué sucede si utilizas un campo monótonamente creciente (como un timestamp o auto-incremental) como Shard Key por Rango?</h6>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
-                                <label class="form-check-label text-secondary" for="q4a">Una consulta que no incluye la Shard Key, obligando a mongos a enviar la operación a todos los Shards del cluster.</label>
+                                <label class="form-check-label text-secondary" for="q4a">Todas las inserciones nuevas se concentrarán en un solo Shard (Hotspotting).</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
-                                <label class="form-check-label text-secondary" for="q4b">Una consulta optimizada que se ejecuta exclusivamente en la memoria RAM del cliente.</label>
+                                <label class="form-check-label text-secondary" for="q4b">Los datos se distribuirán de forma perfectamente uniforme mediante round-robin.</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
-                                <label class="form-check-label text-secondary" for="q4c">Un proceso automático de reparación de índices corruptos.</label>
+                                <label class="form-check-label text-secondary" for="q4c">MongoDB lanzará un error de sintaxis al intentar crear la colección.</label>
                             </div>
                         </div>
 
                         <!-- Pregunta 5 -->
                         <div class="quiz-card">
-                            <h6 class="fw-bold mb-3">Pregunta 5: ¿Es posible modificar o cambiar la Shard Key de una colección una vez que ya ha sido particionada en MongoDB 5.0+?</h6>
+                            <h6 class="fw-bold mb-3">Pregunta 5: ¿Qué comando de MONGOSH se ejecuta en el enrutador mongos (puerto 27050) para registrar un nuevo Shard en el clúster?</h6>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
-                                <label class="form-check-label text-secondary" for="q5a">No, nunca se puede modificar bajo ninguna versión.</label>
+                                <label class="form-check-label text-secondary" for="q5a">rs.initiate({_id: 'shard1RS'})</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
-                                <label class="form-check-label text-secondary" for="q5b">Sí, MongoDB 5.0+ permite refinar y cambiar la Shard Key mediante el comando reshardingCollection.</label>
+                                <label class="form-check-label text-secondary" for="q5b">sh.addShard('shard1RS/localhost:27018')</label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
-                                <label class="form-check-label text-secondary" for="q5c">Sólo si eliminas el cluster completo primero.</label>
+                                <label class="form-check-label text-secondary" for="q5c">db.createCollection('shard1')</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 6 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 6: ¿Por qué se añade el parámetro ?directConnection=true en la URI al conectarse por MongoDB Compass a un nodo individual (puertos 27019 o 27018)?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6a" value="a">
+                                <label class="form-check-label text-secondary" for="q6a">Para forzar la conexión a esa instancia específica evitando la detección automática del Replica Set sin inicializar.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6b" value="b">
+                                <label class="form-check-label text-secondary" for="q6b">Para acelerar la velocidad de descarga de archivos binarios.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6c" value="c">
+                                <label class="form-check-label text-secondary" for="q6c">Para encriptar las claves de partición en tránsito.</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 7 -->
+                        <div class="quiz-card">
+                            <h6 class="fw-bold mb-3">Pregunta 7: ¿Qué función cumple el proceso del Balancer al integrar un nuevo nodo (shard2RS) mediante sh.addShard()?</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7a" value="a">
+                                <label class="form-check-label text-secondary" for="q7a">Detecta la asimetría de carga y migra chunks en segundo plano desde el nodo saturado hacia el nuevo recurso.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7b" value="b">
+                                <label class="form-check-label text-secondary" for="q7b">Reinicia todos los servidores del clúster para vaciar la memoria RAM cacheada.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7c" value="c">
+                                <label class="form-check-label text-secondary" for="q7c">Convierte automáticamente las colecciones de Rango a Hashed.</label>
                             </div>
                         </div>
 
@@ -730,7 +1167,7 @@
 
     <!-- Footer -->
     <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
-        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p>
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Mg. Josué Alberto Guinea Henríquez. Bases de Datos II | Universidad Evangélica de El Salvador</p>
     </footer>
 
     <!-- Scripts y Lógica -->
@@ -740,6 +1177,64 @@
     <script src="../../js/main.js"></script>
 
     <script>
+        // ==========================================
+        //  UTILIDAD: COPIAR COMANDOS AL PORTAPAPELES
+        // ==========================================
+        function copyCommandText(elementId, btnBtn) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const textToCopy = el.innerText || el.textContent;
+            navigator.clipboard.writeText(textToCopy.trim()).then(() => {
+                const originalText = btnBtn.innerHTML;
+                btnBtn.innerHTML = '<i class="bi bi-check-lg me-1"></i> ¡Copiado!';
+                btnBtn.classList.remove('btn-outline-warning');
+                btnBtn.classList.add('btn-success', 'text-white');
+                setTimeout(() => {
+                    btnBtn.innerHTML = originalText;
+                    btnBtn.classList.remove('btn-success', 'text-white');
+                    btnBtn.classList.add('btn-outline-warning');
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+            });
+        }
+
+        // ==========================================
+        //  SIMULADOR DE SECUENCIA DE INICIALIZACIÓN
+        // ==========================================
+        let clusterState = { config: false, shard: false, router: false, linked: false };
+
+        function simClusterStep(stepNum) {
+            const logBox = document.getElementById('cluster-sim-log');
+            let timeStr = new Date().toLocaleTimeString();
+
+            if (stepNum === 1) {
+                clusterState.config = true;
+                logBox.innerHTML += `<div><span class="terminal-cmd">[${timeStr}] CONFIGSERVER:</span> Instancia iniciada en puerto <span class="terminal-val">27019</span> con replica set <span class="terminal-val">configRS</span>. Esperando rs.initiate()...</div>`;
+                logBox.innerHTML += `<div class="terminal-output">[OK] rs.initiate() ejecutado -&gt; { ok: 1 }. Config Server como PRIMARIO.</div>`;
+            } else if (stepNum === 2) {
+                clusterState.shard = true;
+                logBox.innerHTML += `<div><span class="terminal-cmd">[${timeStr}] SHARD1:</span> Instancia mongod arrancada en puerto <span class="terminal-val">27018</span> con --shardsvr y replica set <span class="terminal-val">shard1RS</span>.</div>`;
+                logBox.innerHTML += `<div class="terminal-output">[OK] rs.initiate() ejecutado en Compass -&gt; { ok: 1 }. Replica Set de Shard 1 activo.</div>`;
+            } else if (stepNum === 3) {
+                if (!clusterState.config) {
+                    logBox.innerHTML += `<div class="text-danger">[ERROR] Imposible iniciar mongos: El Config Server (configRS/127.0.0.1:27019) no está disponible.</div>`;
+                    return;
+                }
+                clusterState.router = true;
+                logBox.innerHTML += `<div><span class="terminal-cmd">[${timeStr}] MONGOS ROUTER:</span> Enrutador inteligente escuchando en puerto <span class="terminal-val">27050</span>, conectado a la semilla de metadatos configRS.</div>`;
+            } else if (stepNum === 4) {
+                if (!clusterState.router || !clusterState.shard) {
+                    logBox.innerHTML += `<div class="text-danger">[ERROR] sh.addShard() falló: Asegúrate de tener arrancados mongos y el Shard 1 primero.</div>`;
+                    return;
+                }
+                clusterState.linked = true;
+                logBox.innerHTML += `<div><span class="terminal-cmd">[${timeStr}] MONGOSH (mongos 27050):</span> Ejecutando sh.addShard('shard1RS/localhost:27018')...</div>`;
+                logBox.innerHTML += `<div class="terminal-output">[ÉXITO COMPLETO] Respondió: { shardAdded: 'shard1RS', ok: 1 }. ¡Clúster fragmentado listo para operar!</div>`;
+            }
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
         // ==========================================
         //        SIMULADOR DE SHARDING
         // ==========================================
@@ -839,11 +1334,13 @@
                 q2: 'a',
                 q3: 'b',
                 q4: 'a',
-                q5: 'b'
+                q5: 'b',
+                q6: 'a',
+                q7: 'a'
             };
 
             let score = 0;
-            const total = 5;
+            const total = 7;
             let unanswered = false;
 
             for (let i = 1; i <= total; i++) {
@@ -858,7 +1355,7 @@
             }
 
             if (unanswered) {
-                alert('Por favor responde a todas las preguntas antes de comprobar los resultados.');
+                alert('Por favor responde a todas las 7 preguntas antes de comprobar los resultados.');
                 return;
             }
 
@@ -868,7 +1365,7 @@
 
             if (score === total) {
                 result.className = 'fw-bold fs-5 text-success ms-3';
-            } else if (score >= 3) {
+            } else if (score >= 4) {
                 result.className = 'fw-bold fs-5 text-warning ms-3';
             } else {
                 result.className = 'fw-bold fs-5 text-danger ms-3';
@@ -878,3 +1375,4 @@
 </body>
 
 </html>
+
