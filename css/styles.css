@@ -429,7 +429,8 @@ body {
     pointer-events: none;
 }
 
-.class-floating-sidebar.show {
+.class-floating-sidebar.show,
+.class-floating-sidebar.active {
     transform: translateY(0) scale(1);
     opacity: 1;
     pointer-events: auto;

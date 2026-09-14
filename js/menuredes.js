@@ -88,22 +88,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById('close-floating-sidebar-btn');
 
     // 4. Lógica de apertura y cierre
-    if (fabBtn && sidebar && closeBtn) {
+    if (fabBtn && sidebar && closeBtn && !fabBtn.dataset.bound) {
+        fabBtn.dataset.bound = "true";
         // Abrir menú al pulsar el botón flotante
         fabBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            sidebar.classList.add('active');
+            sidebar.classList.toggle('show');
+            sidebar.classList.toggle('active');
         });
 
         // Cerrar menú al presionar la "X"
-        closeBtn.addEventListener('click', () => {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.remove('show');
             sidebar.classList.remove('active');
         });
 
         // Cerrar el menú si el usuario hace clic en cualquier lugar fuera de él
         document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !fabBtn.contains(e.target)) {
-                sidebar.classList.remove('active');
+            if (sidebar.classList.contains('show') || sidebar.classList.contains('active')) {
+                if (!sidebar.contains(e.target) && !fabBtn.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                    sidebar.classList.remove('active');
+                }
             }
         });
     }

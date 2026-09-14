@@ -219,25 +219,30 @@ document.addEventListener('DOMContentLoaded', function () {
     const classFloatingSidebar = document.getElementById('class-floating-sidebar');
     const closeFloatingSidebarBtn = document.getElementById('close-floating-sidebar-btn');
 
-    if (classFabBtn && classFloatingSidebar) {
+    if (classFabBtn && classFloatingSidebar && !classFabBtn.dataset.bound) {
+        classFabBtn.dataset.bound = "true";
         classFabBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             classFloatingSidebar.classList.toggle('show');
+            classFloatingSidebar.classList.toggle('active');
         });
     }
 
-    if (closeFloatingSidebarBtn && classFloatingSidebar) {
+    if (closeFloatingSidebarBtn && classFloatingSidebar && !closeFloatingSidebarBtn.dataset.bound) {
+        closeFloatingSidebarBtn.dataset.bound = "true";
         closeFloatingSidebarBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             classFloatingSidebar.classList.remove('show');
+            classFloatingSidebar.classList.remove('active');
         });
     }
 
     // Cerrar al hacer clic fuera del menú
     document.addEventListener('click', (e) => {
-        if (classFloatingSidebar && classFloatingSidebar.classList.contains('show')) {
-            if (!classFloatingSidebar.contains(e.target) && e.target !== classFabBtn && !classFabBtn.contains(e.target)) {
+        if (classFloatingSidebar && (classFloatingSidebar.classList.contains('show') || classFloatingSidebar.classList.contains('active'))) {
+            if (!classFloatingSidebar.contains(e.target) && classFabBtn && e.target !== classFabBtn && !classFabBtn.contains(e.target)) {
                 classFloatingSidebar.classList.remove('show');
+                classFloatingSidebar.classList.remove('active');
             }
         }
     });

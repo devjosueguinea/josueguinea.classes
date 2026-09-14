@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 10: Diseño de Esquemas para Casos de Uso Reales en MongoDB - Bases de Datos II</title>
+    <meta name="description"
+        content="Clase interactiva sobre patrones avanzados de diseño de esquemas NoSQL en MongoDB (Subset, Extended Reference, Bucket, Outlier, Computed, Attribute), metodología Think in Use Cases, 4 casos reales y benchmark interactivo.">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Estilos Específicos para Clase 10 ── */
+        :root {
+            --mongo-green: #00ed64;
+            --mongo-dark: #001e2b;
+            --mongo-slate: #132733;
+            --mongo-accent: #00684a;
+            --code-bg: #0d1117;
+            --code-border: #30363d;
+        }
+
+        .badge-mongo {
+            background: linear-gradient(135deg, #00ed64 0%, #00684a 100%);
+            color: #001e2b;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0, 237, 100, 0.25);
+        }
+
+        .class-step {
+            padding: 22px;
+            border-left: 4px solid var(--mongo-green);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 24px;
+        }
+
+        /* Agenda / Timeline */
+        .agenda-bar {
+            background: linear-gradient(135deg, rgba(0, 237, 100, 0.08), rgba(0, 104, 74, 0.08));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .timeline-step-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 0.82rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-step-item:hover {
+            border-color: var(--mongo-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 237, 100, 0.15);
+        }
+
+        .timeline-step-item .time-badge {
+            display: inline-block;
+            background: rgba(0, 237, 100, 0.18);
+            color: var(--mongo-accent);
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-bottom: 6px;
+        }
+
+        /* Tarjetas de Metodología y Factores */
+        .factor-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            height: 100%;
+            transition: all 0.28s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .factor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #00ed64, #0984e3);
+            opacity: 0;
+            transition: opacity 0.28s ease;
+        }
+
+        .factor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: rgba(0, 237, 100, 0.4);
+        }
+
+        .factor-card:hover::before {
+            opacity: 1;
+        }
+
+        .factor-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(0, 237, 100, 0.15), rgba(9, 132, 227, 0.15));
+            color: var(--mongo-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 14px;
+        }
+
+        /* Tabs de Patrones de Diseño */
+        .pattern-nav-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .pattern-nav-btn:hover {
+            background-color: var(--hover-bg);
+            border-color: var(--mongo-green);
+        }
+
+        .pattern-nav-btn.active {
+            background: linear-gradient(135deg, var(--mongo-dark) 0%, var(--mongo-slate) 100%);
+            color: var(--mongo-green);
+            border-color: var(--mongo-green);
+            box-shadow: 0 6px 16px rgba(0, 30, 43, 0.25);
+        }
+
+        .pattern-content-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Código / JSON Snippets */
+        .json-code-box {
+            background-color: #0b0f19;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .json-key {
+            color: #7dd3fc;
+        }
+
+        .json-str {
+            color: #86efac;
+        }
+
+        .json-num {
+            color: #fde047;
+        }
+
+        .json-bool {
+            color: #f472b6;
+        }
+
+        .json-comment {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .json-highlight {
+            background-color: rgba(0, 237, 100, 0.15);
+            border-left: 3px solid #00ed64;
+            display: block;
+            margin: 0 -16px;
+            padding: 2px 16px;
+        }
+
+        /* Contenedores de Casos de Uso */
+        .use-case-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .use-case-card:hover {
+            border-color: var(--mongo-green);
+            box-shadow: var(--shadow);
+        }
+
+        .use-case-badge {
+            background-color: rgba(9, 132, 227, 0.12);
+            color: #0984e3;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+        }
+
+        /* Benchmark Simulator Component */
+        .simulator-container {
+            background: linear-gradient(145deg, #001e2b 0%, #0d2836 100%);
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0, 237, 100, 0.3);
+        }
+
+        .metric-score-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-score-card .val {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--mongo-green);
+        }
+
+        .metric-score-card .label {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .schema-option-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: left;
+            width: 100%;
+            transition: all 0.25s ease;
+            font-size: 0.9rem;
+        }
+
+        .schema-option-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .schema-option-btn.active {
+            background: linear-gradient(135deg, rgba(0, 237, 100, 0.25), rgba(0, 104, 74, 0.4));
+            border-color: var(--mongo-green);
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0, 237, 100, 0.2);
+        }
+
+        /* Terminal Styles */
+        .terminal-card {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            margin-bottom: 24px;
+        }
+
+        .terminal-header {
+            background-color: #161b22;
+            padding: 10px 16px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-red {
+            background-color: #ff5f56;
+        }
+
+        .dot-yellow {
+            background-color: #ffbd2e;
+        }
+
+        .dot-green {
+            background-color: #27c93f;
+        }
+
+        .terminal-body {
+            padding: 18px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #e6edf3;
+            line-height: 1.65;
+            word-break: break-all;
+        }
+
+        /* Quiz Styling */
+        .quiz-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+            transition: all 0.25s ease;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--mongo-green);
+        }
+
+        .quiz-option {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--mongo-green);
+            background-color: rgba(0, 237, 100, 0.05);
+        }
+
+        .quiz-option.selected-correct {
+            background-color: rgba(46, 204, 113, 0.15);
+            border-color: #2ecc71;
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .quiz-option.selected-incorrect {
+            background-color: rgba(231, 76, 60, 0.15);
+            border-color: #e74c3c;
+            color: #c0392b;
+            font-weight: 600;
+        }
+
+        .badge-pattern-type {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 10: Diseño de Esquemas para Casos de Uso Reales</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II (NoSQL - MongoDB)</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico Wrapper -->
+            <div class="class-content-wrapper mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <span class="badge-mongo"><i class="bi bi-database-fill-gear me-1"></i> Clase 10 - MongoDB Schema
+                        Design</span>
+                    <span class="text-muted small"><i class="bi bi-clock me-1"></i> 2 horas (120 min)</span>
+                </div>
+                <h2 class="fw-bold mb-3">Diseño de Esquemas NoSQL Orientado a Casos de Uso Reales en MongoDB</h2>
+                <p class="text-secondary mb-4 style-lead" style="font-size: 1.05rem; line-height: 1.7;">
+                    A diferencia del modelo relacional donde los esquemas se diseñan según la estructura de las
+                    entidades del dominio de negocio (normalización hasta 3NF), en <strong>MongoDB el diseño de esquemas
+                        es guiado estrictamente por los patrones de consulta y las operaciones de la
+                        aplicación</strong>. En esta sesión aprenderás los 6 patrones de diseño indispensables de
+                    MongoDB, la metodología <em>"Think in Use Cases"</em>, el análisis de 4 arquitecturas empresariales
+                    y una simulación comparativa de rendimiento en vivo.
+                </p>
+
+                <!-- Agenda de la Clase -->
+                <div class="agenda-bar">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h6 class="fw-bold mb-0 text-uppercase tracking-wider"
+                            style="font-size: 0.85rem; color: var(--mongo-accent);">
+                            <i class="bi bi-calendar3-week me-2"></i>Agenda de la Sesión (120 Minutos)
+                        </h6>
+                    </div>
+                    <div class="timeline-steps">
+                        <div class="timeline-step-item">
+                            <span class="time-badge">00 - 25 min</span>
+                            <div class="fw-bold">Think in Use Cases</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">5 Factores Críticos</div>
+                        </div>
+                        <div class="timeline-step-item">
+                            <span class="time-badge">25 - 60 min</span>
+                            <div class="fw-bold">6 Patrones MongoDB</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Subset, Bucket, Outlier...</div>
+                        </div>
+                        <div class="timeline-step-item">
+                            <span class="time-badge">60 - 90 min</span>
+                            <div class="fw-bold">4 Casos Reales</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">E-commerce, Redes, IoT...</div>
+                        </div>
+                        <div class="timeline-step-item">
+                            <span class="time-badge">90 - 110 min</span>
+                            <div class="fw-bold">Demo & Benchmark</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Normalizado vs Optimizado</div>
+                        </div>
+                        <div class="timeline-step-item">
+                            <span class="time-badge">110 - 120 min</span>
+                            <div class="fw-bold">Evaluación Interactiva</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Quiz & Feedback</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Objetivos -->
+                <div class="class-step mb-5">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-bullseye text-success me-2"></i>Objetivos de
+                        Aprendizaje</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <ul class="text-secondary mb-0 ps-3 space-y-2">
+                                <li>Dominar la metodología <strong>"Think in Use Cases"</strong> para modelar datos
+                                    según patrones de acceso y SLAs de velocidad.</li>
+                                <li>Aplicar y combinar los <strong>6 Patrones de Diseño clave de MongoDB</strong>:
+                                    <em>Subset, Extended Reference, Bucket, Outlier, Computed y Attribute</em>.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="text-secondary mb-0 ps-3 space-y-2">
+                                <li>Analizar la arquitectura de datos para <strong>4 sistemas reales de escala
+                                        global</strong> (E-Commerce, Red Social, Logística IoT, Streaming Video).</li>
+                                <li>Medir numéricamente las implicaciones en latencia, operaciones <code>$lookup</code>,
+                                    RAM e IOPS de disco usando el <strong>Simulador Comparativo</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 1: METODOLOGÍA THINK IN USE CASES & FACTORES CRÍTICOS -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary rounded-pill">Sección 1</span>
+                        <h3 class="fw-bold mb-0">La Metodología "Think in Use Cases" y Factores Críticos</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        En SQL se parte de las entidades y sus relaciones (ERD) para crear tablas normalizadas. En
+                        MongoDB, el proceso se invierte: <strong>primero se definen las consultas de lectura y las
+                            operaciones de escritura que la aplicación ejecutará con mayor frecuencia</strong>, y a
+                        partir de ellas se empaqueta la información en documentos.
+                    </p>
+
+                    <!-- Tarjetas de Pasos de la Metodología -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="factor-card">
+                                <div class="factor-icon"><i class="bi bi-card-checklist"></i></div>
+                                <h6 class="fw-bold mb-2">1. Listar Operaciones</h6>
+                                <p class="text-muted small mb-0">Identificar todas las consultas, insert, updates y
+                                    deletes de la aplicación con su frecuencia estimada (ej: 90% lecturas / 10%
+                                    escrituras).</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="factor-card">
+                                <div class="factor-icon"><i class="bi bi-diagram-3-fill"></i></div>
+                                <h6 class="fw-bold mb-2">2. Determinar Relaciones</h6>
+                                <p class="text-muted small mb-0">Establecer cardinalidades reales (1:1, 1:N acotado, 1:N
+                                    no acotado, N:M) y la frecuencia con que se consultan juntas.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="factor-card">
+                                <div class="factor-icon"><i class="bi bi-puzzle-fill"></i></div>
+                                <h6 class="fw-bold mb-2">3. Elegir Patrones</h6>
+                                <p class="text-muted small mb-0">Combinar patrones de diseño para embeber, referenciar o
+                                    pre-calcular datos eliminando joins en caliente.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="factor-card">
+                                <div class="factor-icon"><i class="bi bi-speedometer2"></i></div>
+                                <h6 class="fw-bold mb-2">4. Validar y Medir</h6>
+                                <p class="text-muted small mb-0">Verificar que los documentos no excedan los 16MB de
+                                    BSON y que el Working Set quepa eficientemente en la RAM.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Los 5 Factores Críticos -->
+                    <div class="card border-0 shadow-sm rounded-4 p-4 bg-body-tertiary mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Los 5
+                            Factores Críticos del Diseño de Esquemas</h5>
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex gap-3">
+                                    <div class="fs-3 text-success"><i class="bi bi-arrow-down-up"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">1. Frecuencia Lectura vs Escritura</h6>
+                                        <p class="text-muted small mb-0">Si el sistema es <strong>Read-Heavy</strong>
+                                            (ej. catálogo de productos), conviene denormalizar y duplicar datos para
+                                            lecturas de 1-click. Si es <strong>Write-Heavy</strong> (ej. logs), conviene
+                                            esquemas delgados con referencias.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex gap-3">
+                                    <div class="fs-3 text-info"><i class="bi bi-hdd-stack-fill"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">2. Tamaño de Documentos (16MB Limit)</h6>
+                                        <p class="text-muted small mb-0">Un único documento BSON en MongoDB no puede
+                                            sobrepasar los <strong>16MB</strong>. Los arrays de crecimiento ilimitado
+                                            (<em>Unbounded Arrays</em>) son el antipatrón #1 que hace colapsar MongoDB.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex gap-3">
+                                    <div class="fs-3 text-warning"><i class="bi bi-search-heart"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">3. Patrones de Consulta & $lookup</h6>
+                                        <p class="text-muted small mb-0">El uso excesivo de <code>$lookup</code> imita
+                                            el comportamiento de SQL en NoSQL, incrementando el consumo de CPU y tiempo
+                                            de respuesta. La información que se consulta junta debe residir junta.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex gap-3">
+                                    <div class="fs-3 text-primary"><i class="bi bi-graph-up-arrow"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">4. Crecimiento de Datos y Retención</h6>
+                                        <p class="text-muted small mb-0">Modelar anticipando la tasa de crecimiento
+                                            anual. Aislar el <em>Working Set</em> (datos activos más buscados) en RAM y
+                                            archivar datos fríos a almacenamiento secundario.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex gap-3">
+                                    <div class="fs-3 text-danger"><i class="bi bi-shield-lock-fill"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">5. Consistencia & Atomicidad</h6>
+                                        <p class="text-muted small mb-0">En MongoDB, las operaciones sobre un
+                                            <strong>único documento son atómicas por naturaleza</strong>. Si requerimos
+                                            cambios consistentes multiobjeto, embeber elimina la necesidad de
+                                            transacciones de dos fases.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="p-3 bg-success bg-opacity-10 border border-success rounded-3">
+                                    <h6 class="fw-bold text-success mb-1"><i class="bi bi-lightbulb-fill me-1"></i>
+                                        Regla de Oro NoSQL</h6>
+                                    <p class="text-muted small mb-0"><em>"Data that is accessed together should be
+                                            stored together."</em> (Los datos que se consultan juntos se almacenan
+                                        juntos).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 2: LOS 6 PATRONES DE DISEÑO FUNDAMENTALES -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary rounded-pill">Sección 2</span>
+                        <h3 class="fw-bold mb-0">Los 6 Patrones de Diseño Fundamentales en MongoDB</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        MongoDB ha catalogado los patrones de diseño recurrentes utilizados por arquitectos de software
+                        de clase mundial. Haz clic en cada patrón para examinar el problema, la solución de ingeniería y
+                        su estructura de datos JSON:
+                    </p>
+
+                    <!-- Navegador de Patrones -->
+                    <div class="row g-4">
+                        <!-- Columna de Botones Selector de Patrón -->
+                        <div class="col-lg-4">
+                            <div class="d-flex flex-column gap-2" id="pattern-tabs-container">
+                                <button class="pattern-nav-btn active" onclick="switchPattern('subset')">
+                                    <i class="bi bi-funnel-fill text-warning fs-5"></i>
+                                    <div>
+                                        <div>1. Subset Pattern</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">Patrón de Subconjunto</div>
+                                    </div>
+                                </button>
+                                <button class="pattern-nav-btn" onclick="switchPattern('extended_ref')">
+                                    <i class="bi bi-link-45deg text-info fs-5"></i>
+                                    <div>
+                                        <div>2. Extended Reference Pattern</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">Referencia Extendida /
+                                            Snapshots</div>
+                                    </div>
+                                </button>
+                                <button class="pattern-nav-btn" onclick="switchPattern('bucket')">
+                                    <i class="bi bi-box-seam-fill text-success fs-5"></i>
+                                    <div>
+                                        <div>3. Bucket Pattern</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">Agrupamiento por Cubos /
+                                            Time Series</div>
+                                    </div>
+                                </button>
+                                <button class="pattern-nav-btn" onclick="switchPattern('outlier')">
+                                    <i class="bi bi-star-fill text-danger fs-5"></i>
+                                    <div>
+                                        <div>4. Outlier Pattern</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">Manejo de Valores Atípicos
+                                        </div>
+                                    </div>
+                                </button>
+                                <button class="pattern-nav-btn" onclick="switchPattern('computed')">
+                                    <i class="bi bi-calculator-fill text-primary fs-5"></i>
+                                    <div>
+                                        <div>5. Computed Pattern</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">Valores Pre-calculados</div>
+                                    </div>
+                                </button>
+                                <button class="pattern-nav-btn" onclick="switchPattern('attribute')">
+                                    <i class="bi bi-tags-fill text-secondary fs-5"></i>
+                                    <div>
+                                        <div>6. Attribute Pattern</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">Atributos Polimórficos
+                                            Clave-Valor</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Columna de Detalle del Patrón -->
+                        <div class="col-lg-8">
+                            <div class="pattern-content-card" id="pattern-display-area">
+                                <!-- El contenido se renderiza dinámicamente con JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: 4 CASOS DE USO REALES -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary rounded-pill">Sección 3</span>
+                        <h3 class="fw-bold mb-0">Análisis de 4 Casos de Uso Reales</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Analicemos cómo las grandes empresas de tecnología combinan estos patrones para solucionar
+                        cuellos de botella de escalabilidad real:
+                    </p>
+
+                    <!-- Acordeón o Pestañas de Casos de Uso -->
+                    <div class="row g-4">
+                        <!-- Caso 1: E-Commerce -->
+                        <div class="col-md-6">
+                            <div class="use-case-card h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <span class="use-case-badge"><i class="bi bi-cart3 me-1"></i> E-Commerce</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success">Alta Escala</span>
+                                </div>
+                                <h5 class="fw-bold mb-2">Catálogo de Productos y Órdenes de Compra</h5>
+                                <p class="text-muted small mb-3">
+                                    Un marketplace tiene millones de productos heterogéneos (laptops, ropa, alimentos) y
+                                    procesa miles de compras por minuto.
+                                </p>
+                                <div class="bg-body-tertiary p-3 rounded-3 mb-3 border">
+                                    <h6 class="fw-bold text-primary mb-2" style="font-size: 0.85rem;"><i
+                                            class="bi bi-puzzle me-1"></i> Patrones Combinados Aplicados:</h6>
+                                    <ul class="small text-secondary mb-0 ps-3">
+                                        <li><strong>Attribute Pattern:</strong> Para filtrar productos por
+                                            especificaciones dinámicas (RAM, talla, color) usando un único índice
+                                            compuesto.</li>
+                                        <li><strong>Extended Reference Pattern:</strong> Al generar una orden, se
+                                            congela una copia snapshot del nombre del producto y precio al momento de la
+                                            compra (evitando que cambios de precio futuros alteren facturas pasadas).
+                                        </li>
+                                        <li><strong>Computed Pattern:</strong> Mantiene la suma de ventas totales y el
+                                            <code>stock_disponible</code> actualizado de forma atómica.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <span class="text-muted small"><i
+                                            class="bi bi-lightning-charge-fill text-warning"></i> Beneficio: Lectura de
+                                        Orden en 1 ms sin `$lookup`.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Caso 2: Red Social -->
+                        <div class="col-md-6">
+                            <div class="use-case-card h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <span class="use-case-badge"><i class="bi bi-people-fill me-1"></i> Red
+                                        Social</span>
+                                    <span class="badge bg-info bg-opacity-10 text-info">Feed & Celebridades</span>
+                                </div>
+                                <h5 class="fw-bold mb-2">Perfil de Usuarios y Feed de Comentarios</h5>
+                                <p class="text-muted small mb-3">
+                                    Plataforma social donde un usuario normal tiene 200 seguidores pero las celebridades
+                                    tienen 50 millones de seguidores.
+                                </p>
+                                <div class="bg-body-tertiary p-3 rounded-3 mb-3 border">
+                                    <h6 class="fw-bold text-primary mb-2" style="font-size: 0.85rem;"><i
+                                            class="bi bi-puzzle me-1"></i> Patrones Combinados Aplicados:</h6>
+                                    <ul class="small text-secondary mb-0 ps-3">
+                                        <li><strong>Outlier Pattern:</strong> Para el 99% de usuarios, sus seguidores
+                                            caben embebidos en el documento. Si supera los 10,000 seguidores, el flag
+                                            <code>has_outliers: true</code> redirige el exceso a la colección
+                                            <code>followers_overflow</code>.
+                                        </li>
+                                        <li><strong>Subset Pattern:</strong> En cada post se almacenan únicamente los 10
+                                            comentarios más recientes en <code>recent_comments</code>. Si el usuario
+                                            desea ver el resto, se invoca paginación a la colección completa.</li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <span class="text-muted small"><i class="bi bi-shield-check text-success"></i>
+                                        Prevención: Cero errores de límite de 16MB.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Caso 3: Logística y Telemetría IoT -->
+                        <div class="col-md-6">
+                            <div class="use-case-card h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <span class="use-case-badge"><i class="bi bi-truck me-1"></i> Logística / IoT</span>
+                                    <span class="badge bg-warning bg-opacity-10 text-warning">Series de Tiempo</span>
+                                </div>
+                                <h5 class="fw-bold mb-2">Telemetría de Flota y Sensores GPS/Temperatura</h5>
+                                <p class="text-muted small mb-3">
+                                    Una empresa de transporte rastrea 5,000 camiones enviando coordenadas GPS y
+                                    temperatura de carga cada 5 segundos.
+                                </p>
+                                <div class="bg-body-tertiary p-3 rounded-3 mb-3 border">
+                                    <h6 class="fw-bold text-primary mb-2" style="font-size: 0.85rem;"><i
+                                            class="bi bi-puzzle me-1"></i> Patrones Combinados Aplicados:</h6>
+                                    <ul class="small text-secondary mb-0 ps-3">
+                                        <li><strong>Bucket Pattern:</strong> En lugar de insertar 17,280 documentos
+                                            individuales por camión al día, se agrupan las lecturas en cubos de 1 hora o
+                                            1 día (ej: 1 documento por camión/hora con array de lecturas).</li>
+                                        <li><strong>Computed Pattern:</strong> El cubo calcula automáticamente
+                                            <code>temp_min</code>, <code>temp_max</code> y
+                                            <code>distancia_recorrida_km</code> conforme entran los pings de telemetría.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <span class="text-muted small"><i class="bi bi-cpu-fill text-danger"></i> Impacto:
+                                        90% reducción en consumo de RAM e Índices.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Caso 4: Streaming Video Multimedia -->
+                        <div class="col-md-6">
+                            <div class="use-case-card h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <span class="use-case-badge"><i class="bi bi-play-btn-fill me-1"></i> Streaming
+                                        Multimedia</span>
+                                    <span class="badge bg-danger bg-opacity-10 text-danger">Catálogo & Historial</span>
+                                </div>
+                                <h5 class="fw-bold mb-2">Catálogo de Películas, Series e Historial "Continuar Viendo"
+                                </h5>
+                                <p class="text-muted small mb-3">
+                                    Plataforma de streaming estilo Netflix con millones de reproducciones simultáneas en
+                                    múltiples países.
+                                </p>
+                                <div class="bg-body-tertiary p-3 rounded-3 mb-3 border">
+                                    <h6 class="fw-bold text-primary mb-2" style="font-size: 0.85rem;"><i
+                                            class="bi bi-puzzle me-1"></i> Patrones Combinados Aplicados:</h6>
+                                    <ul class="small text-secondary mb-0 ps-3">
+                                        <li><strong>Subset Pattern:</strong> El documento del usuario mantiene en
+                                            <code>continue_watching</code> solo los últimos 5 contenidos reproduciéndose
+                                            con su timestamp exacto para renderizar la pantalla principal en
+                                            milisegundos.
+                                        </li>
+                                        <li><strong>Extended Reference Pattern:</strong> La película embebe el nombre
+                                            del director y los 3 actores principales. Los detalles bibliográficos
+                                            completos residen en <code>celebrities</code>.</li>
+                                        <li><strong>Attribute Pattern:</strong> Manejo de licencias regionales de
+                                            reproducción por país y disponibilidad de audio/subtítulos.</li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <span class="text-muted small"><i class="bi bi-speedometer text-info"></i>
+                                        Resultado: Carga instantánea de la UI del usuario.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 4: DEMO COMPARATIVA E INTERACTIVA DE RENDIMIENTO -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary rounded-pill">Sección 4</span>
+                        <h3 class="fw-bold mb-0">Demo Interactiva: Comparador de Esquemas & Benchmark</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Experimenta en tiempo real cómo la elección del modelo de datos afecta las métricas críticas del
+                        servidor MongoDB: latencia, uso de RAM, operaciones <code>$lookup</code> y riesgo de
+                        desbordamiento de BSON.
+                    </p>
+
+                    <!-- Componente Simulador -->
+                    <div class="simulator-container">
+                        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                            <div>
+                                <h4 class="fw-bold text-white mb-1"><i class="bi bi-cpu text-success me-2"></i>Simulador
+                                    de Impacto en Arquitectura MongoDB</h4>
+                                <p class="text-muted small mb-0">Caso de Estudio: <strong>Sistema de Gestión de Pedidos
+                                        y Detalles de Producto</strong></p>
+                            </div>
+                            <span class="badge bg-success text-dark fw-bold px-3 py-2">Motor de Simulación BSON
+                                v2.4</span>
+                        </div>
+
+                        <div class="row g-4">
+                            <!-- Opciones de Esquema a Probar -->
+                            <div class="col-lg-5">
+                                <h6 class="text-uppercase tracking-wider small fw-bold text-success mb-3">1. Selecciona
+                                    el Enfoque de Diseño:</h6>
+                                <div class="d-flex flex-column gap-3 mb-4">
+                                    <button class="schema-option-btn" id="btn-schema-sql" onclick="runBenchmark('sql')">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <strong>A. Relacional Normalizado (Estilo SQL)</strong>
+                                            <span class="badge bg-danger">Ineficiente</span>
+                                        </div>
+                                        <div class="small opacity-75">Tablas separadas para Pedidos, Usuarios, Items y
+                                            Productos. Requiere múltiples <code>$lookup</code> en cada lectura.</div>
+                                    </button>
+
+                                    <button class="schema-option-btn" id="btn-schema-naive"
+                                        onclick="runBenchmark('naive')">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <strong>B. Denormalizado Naive (Embebido Infinito)</strong>
+                                            <span class="badge bg-warning text-dark">Riesgoso</span>
+                                        </div>
+                                        <div class="small opacity-75">Todo el historial de compras y reviews embebido
+                                            dentro del documento del Usuario sin límites.</div>
+                                    </button>
+
+                                    <button class="schema-option-btn active" id="btn-schema-pattern"
+                                        onclick="runBenchmark('pattern')">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <strong>C. Optimizado NoSQL (Patrones Combinados)</strong>
+                                            <span class="badge bg-success text-dark">Recomendado</span>
+                                        </div>
+                                        <div class="small opacity-75">Uso de Extended Reference para snapshot de items +
+                                            Subset Pattern para ultimas compras + Computed total.</div>
+                                    </button>
+                                </div>
+
+                                <!-- Sliders de Carga de Trabajo -->
+                                <h6 class="text-uppercase tracking-wider small fw-bold text-success mb-2">2. Ajusta la
+                                    Carga de Trabajo:</h6>
+                                <div class="bg-dark bg-opacity-50 p-3 rounded-3 border border-secondary mb-3">
+                                    <label class="form-label small text-light d-flex justify-content-between">
+                                        <span>Volumen de Consultas por Segundo (RPS):</span>
+                                        <span class="fw-bold text-success" id="rps-val-display">5,000 req/s</span>
+                                    </label>
+                                    <input type="range" class="form-range" id="slider-rps" min="500" max="25000"
+                                        step="500" value="5000" oninput="updateSimulatorWorkload()">
+
+                                    <label class="form-label small text-light d-flex justify-content-between mt-3">
+                                        <span>Cantidad de Ítems en Historial del Usuario:</span>
+                                        <span class="fw-bold text-warning" id="items-val-display">150 ítems</span>
+                                    </label>
+                                    <input type="range" class="form-range" id="slider-items" min="10" max="2500"
+                                        step="20" value="150" oninput="updateSimulatorWorkload()">
+                                </div>
+                            </div>
+
+                            <!-- Resultados de Benchmark y Visualización -->
+                            <div class="col-lg-7">
+                                <h6 class="text-uppercase tracking-wider small fw-bold text-success mb-3">3. Métricas de
+                                    Rendimiento Calculadas:</h6>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-6 col-md-3">
+                                        <div class="metric-score-card">
+                                            <div class="val" id="metric-latency">4.2 ms</div>
+                                            <div class="label">Latencia Lectura</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="metric-score-card">
+                                            <div class="val" id="metric-lookups">0</div>
+                                            <div class="label">$lookup / req</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="metric-score-card">
+                                            <div class="val" id="metric-docsize">2.4 KB</div>
+                                            <div class="label">Tamaño BSON</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="metric-score-card">
+                                            <div class="val" id="metric-ram">1.8 GB</div>
+                                            <div class="label">RAM (Working Set)</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cuadro de Alerta / Estado del Servidor -->
+                                <div id="server-status-banner"
+                                    class="p-3 rounded-3 border mb-3 text-start bg-success bg-opacity-20 border-success text-white">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                                        <div>
+                                            <h6 class="fw-bold mb-0" id="banner-title">Esquema Altamente Optimizado</h6>
+                                            <p class="small mb-0 opacity-90" id="banner-desc">El rendimiento de lectura
+                                                se mantiene sub-5ms sin saturar la memoria RAM ni ejecutar joins
+                                                costosos.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vista previa de Estructura JSON del Enfoque Seleccionado -->
+                                <div class="json-code-box">
+                                    <div
+                                        class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary">
+                                        <span class="text-uppercase small text-muted font-monospace"><i
+                                                class="bi bi-filetype-json text-warning me-1"></i> Documento resultante
+                                            BSON</span>
+                                        <span class="badge bg-secondary font-monospace" id="doc-status-badge">OK -
+                                            Dentro de Límites</span>
+                                    </div>
+                                    <pre id="json-schema-preview" class="mb-0"
+                                        style="max-height: 220px; overflow-y: auto;">
+                                        <!-- Renderizado con JS -->
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 5: COMANDOS Y SCRIPTING MONGO SHELL -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary rounded-pill">Sección 5</span>
+                        <h3 class="fw-bold mb-0">Implementación Práctica en MongoDB Shell (mongosh)</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Examina las instrucciones exactas de MongoDB para aplicar atómicamente estos patrones mediante
+                        operadores como <code>$push</code>, <code>$slice</code>, <code>$inc</code> y la creación de
+                        índices compuestos:
+                    </p>
+
+                    <div class="terminal-card">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <span class="terminal-title">mongosh - MongoDB Enterprise Shell v7.0</span>
+                            <button class="btn btn-sm btn-outline-light btn-copy-code" onclick="copyCodeSnippet()">
+                                <i class="bi bi-clipboard me-1"></i>Copiar Código
+                            </button>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="text-comment">// 1. Implementación del SUBSET PATTERN (Mantener solo los 5
+                                comentarios más recientes en el post)</span>
+                            db.posts.updateOne(
+                            { <span class="text-info">_id</span>: ObjectId("6501a2b3f4e19c0012345678") },
+                            {
+                            <span class="text-warning">$push</span>: {
+                            <span class="text-success">recent_comments</span>: {
+                            <span class="text-warning">$each</span>: [{ <span class="text-info">user</span>: "mguinea",
+                            <span class="text-info">comment</span>: "¡Excelente clase de patrones NoSQL!", <span
+                                class="text-info">date</span>: <span class="text-warning">new</span> Date() }],
+                            <span class="text-warning">$sort</span>: { <span class="text-info">date</span>: -1 },
+                            <span class="text-warning">$slice</span>: 5 <span class="text-comment">// <-- Retiene
+                                    atómicamente solo los últimos 5 elementos</span>
+                                    }
+                                    },
+                                    <span class="text-warning">$inc</span>: { <span
+                                        class="text-info">total_comments_count</span>: 1 } <span class="text-comment">//
+                                        <-- COMPUTED PATTERN incremental</span>
+                                            }
+                                            );
+
+                                            <span class="text-comment">// 2. Implementación del ATTRIBUTE PATTERN
+                                                (Índice único para cientos de especificaciones)</span>
+                                            db.products.createIndex(
+                                            { <span class="text-success">"attributes.k"</span>: 1, <span
+                                                class="text-success">"attributes.v"</span>: 1 },
+                                            { <span class="text-info">name</span>: <span
+                                                class="text-success">"idx_dynamic_attributes"</span> }
+                                            );
+
+                                            <span class="text-comment">// Consulta ultra rápida sobre cualquier atributo
+                                                dinámico:</span>
+                                            db.products.find({
+                                            <span class="text-success">attributes</span>: { <span
+                                                class="text-warning">$elemMatch</span>: { <span
+                                                class="text-info">k</span>: "resolucion", <span
+                                                class="text-info">v</span>: "4K UHD" } }
+                                            });
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 6: QUIZ INTERACTIVO DE EVALUACIÓN -->
+                <section class="mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary rounded-pill">Sección 6</span>
+                        <h3 class="fw-bold mb-0">Evaluación de Conocimientos: Patrones de Diseño</h3>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Ponte a prueba resolviendo estas preguntas de diseño de arquitectura NoSQL. Selecciona la
+                        respuesta correcta para recibir retroalimentación explicativa inmediata:
+                    </p>
+
+                    <div class="row g-4" id="quiz-container">
+                        <!-- Pregunta 1 -->
+                        <div class="col-md-6">
+                            <div class="quiz-card h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge bg-secondary">Pregunta 1</span>
+                                    <span class="badge-pattern-type bg-warning text-dark">Riesgo BSON</span>
+                                </div>
+                                <h6 class="fw-bold mb-3">¿Cuál es el peligro principal de almacenar un array de
+                                    historial de compras sin límite (Unbounded Array) en el documento del Usuario?</h6>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 1)">
+                                    <i class="bi bi-circle me-2"></i> MongoDB no permite arrays de más de 100 elementos.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, true, 1)">
+                                    <i class="bi bi-circle me-2"></i> Superar el límite rígido de 16MB por documento y
+                                    degradar la RAM por fragmentación.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 1)">
+                                    <i class="bi bi-circle me-2"></i> Obliga a usar transacciones multi-documento ACID
+                                    obligatorias.
+                                </div>
+                                <div class="quiz-feedback mt-2 d-none p-2 rounded small"></div>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="col-md-6">
+                            <div class="quiz-card h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge bg-secondary">Pregunta 2</span>
+                                    <span class="badge-pattern-type bg-info text-white">Extended Reference</span>
+                                </div>
+                                <h6 class="fw-bold mb-3">En un e-commerce, ¿por qué se aplica el Extended Reference
+                                    Pattern al guardar la dirección del cliente en la Orden de Compra?</h6>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 2)">
+                                    <i class="bi bi-circle me-2"></i> Para normalizar la base de datos y evitar la
+                                    duplicación de texto.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, true, 2)">
+                                    <i class="bi bi-circle me-2"></i> Para evitar $lookup y congelar un snapshot de la
+                                    dirección histórica aunque el cliente cambie de domicilio.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 2)">
+                                    <i class="bi bi-circle me-2"></i> Para convertir los atributos de la dirección en un
+                                    par clave-valor.
+                                </div>
+                                <div class="quiz-feedback mt-2 d-none p-2 rounded small"></div>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="col-md-6">
+                            <div class="quiz-card h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge bg-secondary">Pregunta 3</span>
+                                    <span class="badge-pattern-type bg-success text-white">Bucket Pattern</span>
+                                </div>
+                                <h6 class="fw-bold mb-3">¿Para qué caso de uso es ideal aplicar el Bucket Pattern
+                                    (Patrón de Cubo)?</h6>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 3)">
+                                    <i class="bi bi-circle me-2"></i> Para manejar perfiles de usuarios con millones de
+                                    seguidores.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 3)">
+                                    <i class="bi bi-circle me-2"></i> Para crear un catálogo de productos con tallas y
+                                    colores variables.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, true, 3)">
+                                    <i class="bi bi-circle me-2"></i> Para datos de telemetría IoT o Series de Tiempo,
+                                    agrupando mediciones por hora/día en un único documento.
+                                </div>
+                                <div class="quiz-feedback mt-2 d-none p-2 rounded small"></div>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="col-md-6">
+                            <div class="quiz-card h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge bg-secondary">Pregunta 4</span>
+                                    <span class="badge-pattern-type bg-danger text-white">Outlier Pattern</span>
+                                </div>
+                                <h6 class="fw-bold mb-3">¿Cómo resuelve el Outlier Pattern el problema de cuentas
+                                    "celebridad" en una red social?</h6>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, true, 4)">
+                                    <i class="bi bi-circle me-2"></i> Embebe datos para el 99% de usuarios normales y
+                                    desborda a los usuarios masivos mediante un flag a otra colección.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 4)">
+                                    <i class="bi bi-circle me-2"></i> Crea un índice de texto sobre todos los seguidores
+                                    de la celebridad.
+                                </div>
+                                <div class="quiz-option" onclick="checkQuizAnswer(this, false, 4)">
+                                    <i class="bi bi-circle me-2"></i> Elimina los seguidores antiguos automáticamente
+                                    mediante un TTL Index.
+                                </div>
+                                <div class="quiz-feedback mt-2 d-none p-2 rounded small"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4"
+        style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II
+            (MongoDB)</p>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Menú Dinámico y Lógica Global -->
+    <script src="../../js/menudb.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+
+    <!-- Script Interactivo de la Clase 10 -->
+    <script>
+        // Data de los 6 Patrones de Diseño
+        const patternsData = {
+            subset: {
+                title: "1. Subset Pattern (Patrón de Subconjunto)",
+                icon: "bi-funnel-fill text-warning",
+                problem: "Un documento contiene un array gigante con cientos o miles de elementos (ej: comentarios de un post, historial de compras, reviews). Cargar todo el documento satura la memoria RAM y el ancho de banda cuando la UI solo muestra los 5 más recientes.",
+                solution: "Dividir el array: mantener solo los N elementos más frecuentes/recientes en el documento principal para visualización en 1-click, y almacenar el historial completo en una colección secundaria.",
+                json: `{
+  <span class="json-key">"_id"</span>: <span class="json-str">"post_1092"</span>,
+  <span class="json-key">"title"</span>: <span class="json-str">"Lanzamiento de MongoDB 7.0"</span>,
+  <span class="json-key">"author"</span>: <span class="json-str">"Alex Dev"</span>,
+  <span class="json-key">"total_comments"</span>: <span class="json-num">1420</span>,
+  <span class="json-highlight"><span class="json-key">"recent_comments"</span>: [ <span class="json-comment">// <-- SUBSET: Solo los 3 más recientes</span>
+    { <span class="json-key">"user"</span>: "carla", <span class="json-key">"text"</span>: "¡Excelente update!", <span class="json-key">"date"</span>: "2026-09-13" },
+    { <span class="json-key">"user"</span>: "dev_josue", <span class="json-key">"text"</span>: "Me encantan los patrones", <span class="json-key">"date"</span>: "2026-09-13" },
+    { <span class="json-key">"user"</span>: "mario", <span class="json-key">"text"</span>: "Grandioso", <span class="json-key">"date"</span>: "2026-09-12" }
+  ]</span>
+}`
+            },
+            extended_ref: {
+                title: "2. Extended Reference Pattern (Referencia Extendida)",
+                icon: "bi-link-45deg text-info",
+                problem: "Se tienen colecciones separadas (ej: Ordenes y Clientes). Para renderizar un pedido se requiere hacer un $lookup (JOIN) costoso únicamente para obtener el Nombre y la Dirección del cliente.",
+                solution: "Embeber una referencia extendida con solo los 2 o 3 campos del cliente indispensables para la orden. Sirve como 'Snapshot' inmutable (inmune a cambios futuros de dirección del cliente).",
+                json: `{
+  <span class="json-key">"_id"</span>: <span class="json-str">"ord_9941"</span>,
+  <span class="json-key">"order_date"</span>: <span class="json-str">"2026-09-13T10:00:00Z"</span>,
+  <span class="json-highlight"><span class="json-key">"customer"</span>: { <span class="json-comment">// <-- EXTENDED REFERENCE: Solo los campos necesarios</span>
+    <span class="json-key">"customer_id"</span>: "usr_4021",
+    <span class="json-key">"name"</span>: "Sofía Martínez",
+    <span class="json-key">"shipping_address"</span>: "Av. Central #450, San Salvador"
+  }</span>,
+  <span class="json-key">"total_amount"</span>: <span class="json-num">125.50</span>
+}`
+            },
+            bucket: {
+                title: "3. Bucket Pattern (Patrón de Cubo / Agrupamiento)",
+                icon: "bi-box-seam-fill text-success",
+                problem: "Sistemas de telemetría IoT o logs insertan millones de documentos individuales por segundo con estructura idéntica ({ sensor_id, timestamp, temp }). Esto satura los índices y agota el disco rápidamente.",
+                solution: "Agrupar o 'empaquetar' las mediciones por intervalos de tiempo (ej. 1 hora) dentro de un único documento 'cubo' con un array de submétricas y agregados pre-calculados.",
+                json: `{
+  <span class="json-key">"_id"</span>: <span class="json-str">"bucket_sensor_42_20260913_10"</span>,
+  <span class="json-key">"sensor_id"</span>: <span class="json-str">"TEMP_CAMION_04"</span>,
+  <span class="json-key">"date_bucket"</span>: <span class="json-str">"2026-09-13T10:00:00Z"</span>,
+  <span class="json-key">"count"</span>: <span class="json-num">60</span>,
+  <span class="json-key">"temp_min"</span>: <span class="json-num">4.1</span>,
+  <span class="json-key">"temp_max"</span>: <span class="json-num">5.8</span>,
+  <span class="json-highlight"><span class="json-key">"readings"</span>: [ <span class="json-comment">// <-- BUCKET: 60 lecturas de 1 min en 1 solo documento</span>
+    { <span class="json-key">"sec"</span>: 0, <span class="json-key">"temp"</span>: 4.2 },
+    { <span class="json-key">"sec"</span>: 60, <span class="json-key">"temp"</span>: 4.5 }
+  ]</span>
+}`
+            },
+            outlier: {
+                title: "4. Outlier Pattern (Patrón de Valor Atípico)",
+                icon: "bi-star-fill text-danger",
+                problem: "Un diseño embebido funciona perfecto para el 99.9% de los elementos, pero falla catastróficamente con unos pocos 'casos atípicos' (ej. Una celebridad con 40M seguidores frente a un usuario común con 200).",
+                solution: "Agregar una bandera booleana `has_outliers: true`. Los usuarios normales almacenan todo embebido; para los usuarios celebridad, el exceso se redirige transparentemente a una colección de desbordamiento.",
+                json: `{
+  <span class="json-key">"_id"</span>: <span class="json-str">"usr_taylorswift"</span>,
+  <span class="json-key">"name"</span>: <span class="json-str">"Taylor Swift"</span>,
+  <span class="json-highlight"><span class="json-key">"has_outlier"</span>: <span class="json-bool">true</span>, <span class="json-comment">// <-- OUTLIER FLAG</span>
+  <span class="json-key">"followers_count"</span>: <span class="json-num">95000000</span>,
+  <span class="json-key">"inline_followers"</span>: [ <span class="json-comment">// Muestra los primeros 1,000</span>
+    "usr_001", "usr_002"
+  ]</span>
+  <span class="json-comment">// El resto reside en db.followers_overflow.find({ vip_user: "usr_taylorswift" })</span>
+}`
+            },
+            computed: {
+                title: "5. Computed Pattern (Valor Computado / Pre-calculado)",
+                icon: "bi-calculator-fill text-primary",
+                problem: "Ejecutar agregaciones intensivas ($sum, $avg, $count) en cada lectura de un dashboard de alto tráfico consume 100% de CPU del servidor de base de datos.",
+                solution: "Calcular el valor de forma incremental durante la operación de escritura (mediante `$inc` o en segundo plano con workers) y guardarlo directamente en el documento para lecturas O(1).",
+                json: `{
+  <span class="json-key">"_id"</span>: <span class="json-str">"prod_macbook_m3"</span>,
+  <span class="json-key">"name"</span>: <span class="json-str">"MacBook Pro M3"</span>,
+  <span class="json-key">"price"</span>: <span class="json-num">1999.00</span>,
+  <span class="json-highlight"><span class="json-key">"total_sales_count"</span>: <span class="json-num">14820</span>, <span class="json-comment">// <-- COMPUTED: Incrementado con $inc</span>
+  <span class="json-key">"total_revenue"</span>: <span class="json-num">29625180.00</span>,
+  <span class="json-key">"avg_rating"</span>: <span class="json-num">4.9</span></span>
+}`
+            },
+            attribute: {
+                title: "6. Attribute Pattern (Patrón de Atributos)",
+                icon: "bi-tags-fill text-secondary",
+                problem: "Colecciones con productos extremadamente heterogéneos donde cada ítem tiene decenas de campos únicos (ej: TVs tienen pulgadas, Laptops tienen RAM, Zapatos tienen Talla). Crear un índice para cada campo causa una 'Explosión de Índices'.",
+                solution: "Convertir las propiedades dinámicas en un array de pares `{ k: 'nombre', v: 'valor' }` y crear un único índice compuesto sobre `attributes.k` y `attributes.v`.",
+                json: `{
+  <span class="json-key">"_id"</span>: <span class="json-str">"prod_tv_lg_65"</span>,
+  <span class="json-key">"name"</span>: <span class="json-str">"Smart TV LG OLED 65"</span>,
+  <span class="json-highlight"><span class="json-key">"attributes"</span>: [ <span class="json-comment">// <-- ATTRIBUTE PATTERN: Pares k/v indexables</span>
+    { <span class="json-key">"k"</span>: "pantalla_pulgadas", <span class="json-key">"v"</span>: "65" },
+    { <span class="json-key">"k"</span>: "tecnologia", <span class="json-key">"v"</span>: "OLED" },
+    { <span class="json-key">"k"</span>: "resolucion", <span class="json-key">"v"</span>: "4K UHD" }
+  ]</span>
+}`
+            }
+        };
+
+        // Renderizar Patrón al hacer click
+        function switchPattern(patternKey) {
+            const data = patternsData[patternKey];
+            if (!data) return;
+
+            // Actualizar botones de navegación
+            const buttons = document.querySelectorAll('#pattern-tabs-container .pattern-nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Actualizar display
+            const display = document.getElementById('pattern-display-area');
+            display.innerHTML = `
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <i class="bi ${data.icon} fs-3"></i>
+                    <h4 class="fw-bold mb-0">${data.title}</h4>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-danger bg-opacity-10 border border-danger rounded-3 h-100">
+                            <h6 class="fw-bold text-danger mb-2"><i class="bi bi-x-circle-fill me-1"></i> El Problema:</h6>
+                            <p class="small text-secondary mb-0" style="line-height: 1.6;">${data.problem}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-success bg-opacity-10 border border-success rounded-3 h-100">
+                            <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill me-1"></i> La Solución NoSQL:</h6>
+                            <p class="small text-secondary mb-0" style="line-height: 1.6;">${data.solution}</p>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="fw-bold mb-2 text-muted font-monospace"><i class="bi bi-code-slash text-warning me-1"></i> Representación BSON / JSON en MongoDB:</h6>
+                <div class="json-code-box">
+                    <pre class="mb-0">${data.json}</pre>
+                </div>
+            `;
+        }
+
+        // --- LÓGICA DEL SIMULADOR / BENCHMARK INTERACTIVO ---
+        let currentBenchmarkApproach = 'pattern';
+
+        function runBenchmark(approachKey) {
+            currentBenchmarkApproach = approachKey;
+
+            // Actualizar estado de botones
+            document.getElementById('btn-schema-sql').classList.remove('active');
+            document.getElementById('btn-schema-naive').classList.remove('active');
+            document.getElementById('btn-schema-pattern').classList.remove('active');
+
+            if (approachKey === 'sql') document.getElementById('btn-schema-sql').classList.add('active');
+            if (approachKey === 'naive') document.getElementById('btn-schema-naive').classList.add('active');
+            if (approachKey === 'pattern') document.getElementById('btn-schema-pattern').classList.add('active');
+
+            updateSimulatorWorkload();
+        }
+
+        function updateSimulatorWorkload() {
+            const rps = parseInt(document.getElementById('slider-rps').value);
+            const items = parseInt(document.getElementById('slider-items').value);
+
+            document.getElementById('rps-val-display').innerText = rps.toLocaleString() + ' req/s';
+            document.getElementById('items-val-display').innerText = items.toLocaleString() + ' ítems';
+
+            let latency = 0;
+            let lookups = 0;
+            let docSizeKB = 0;
+            let ramGB = 0;
+            let bannerTitle = "";
+            let bannerDesc = "";
+            let bannerClass = "";
+            let jsonCode = "";
+            let badgeText = "";
+
+            if (currentBenchmarkApproach === 'sql') {
+                // Relacional Normalizado
+                lookups = 3;
+                latency = (4.5 + (lookups * 35) + (rps / 4000)).toFixed(1);
+                docSizeKB = 1.2;
+                ramGB = (2.1 + (rps / 3000)).toFixed(1);
+                bannerTitle = "Alto Overhead de CPU por $lookup Multi-Colección";
+                bannerDesc = "Cada consulta requiere realizar 3 joins virtuales ($lookup). Al escalar a más de 5,000 req/s la latencia se dispara por encima de 100ms.";
+                bannerClass = "bg-danger bg-opacity-25 border-danger text-white";
+                badgeText = "DESOPTIMIZADO - $lookup JOINS";
+
+                jsonCode = `{
+  <span class="json-comment">// COLECCIÓN SEPARADA: orders (Requiere $lookup a Users, Products e Items)</span>
+  "_id": "order_7710",
+  "user_id": "usr_9912",
+  "status": "completed"
+}
+<span class="json-comment">// + Query: db.orders.aggregate([{ $lookup: ... }, { $lookup: ... }])</span>`;
+            } else if (currentBenchmarkApproach === 'naive') {
+                // Denormalizado Naive (Array gigante)
+                lookups = 0;
+                docSizeKB = ((items * 6.5) / 10).toFixed(1); // Crece con items
+                latency = (2.1 + (docSizeKB / 15)).toFixed(1);
+                ramGB = (1.5 + (docSizeKB / 500) * (rps / 2000)).toFixed(1);
+
+                if (parseFloat(docSizeKB) > 16000) {
+                    bannerTitle = "¡CRÍTICO! Límite de 16MB Excedido";
+                    bannerDesc = "El documento BSON intentó superar los 16MB permitidos por MongoDB. Las operaciones de escritura fallan inmediatamente.";
+                    bannerClass = "bg-danger border-danger text-white fw-bold";
+                    badgeText = "ERROR GRAVE: >16MB BSON LIMIT";
+                } else if (parseFloat(docSizeKB) > 8000) {
+                    bannerTitle = "Peligro de Degradación de RAM (Working Set Saturado)";
+                    bannerDesc = "Cargar documentos de " + docSizeKB + " KB agota la memoria RAM del servidor de base de datos rápidamente.";
+                    bannerClass = "bg-warning bg-opacity-25 border-warning text-white";
+                    badgeText = "RIESGO ALTO - BSON GIGANTE";
+                } else {
+                    bannerTitle = "Enfoque Embebido Simple (Funciona con arrays pequeños)";
+                    bannerDesc = "Cero joins, pero el tamaño del documento crece sin control a medida que el usuario acumula historial.";
+                    bannerClass = "bg-warning bg-opacity-20 border-warning text-white";
+                    badgeText = "UNBOUNDED ARRAY DANGER";
+                }
+
+                jsonCode = `{
+  "_id": "usr_9912",
+  "name": "Carlos Ruíz",
+  "purchase_history": [ <span class="json-comment">// <-- UNBOUNDED ARRAY (${items} elementos embebidos)</span>
+    /* ${items} compras completas guardadas aquí sin límite... */
+  ]
+}`;
+            } else {
+                // Optimizado con Patrones MongoDB
+                lookups = 0;
+                docSizeKB = (2.1 + (Math.min(items, 5) * 0.4)).toFixed(1);
+                latency = (1.8 + (rps / 15000)).toFixed(1);
+                ramGB = (1.2 + (rps / 10000)).toFixed(1);
+                bannerTitle = "Esquema MongoDB de Máximo Rendimiento";
+                bannerDesc = "Uso de Subset Pattern (últimas 5 compras) + Extended Reference + Computed Totals. Respuesta sub-3ms garantizada.";
+                bannerClass = "bg-success bg-opacity-25 border-success text-white";
+                badgeText = "OPTIMIZADO - PRODUCTION READY";
+
+                jsonCode = `{
+  "_id": "usr_9912",
+  "name": "Carlos Ruíz",
+  <span class="json-highlight">"recent_orders": [ <span class="json-comment">// SUBSET PATTERN: Solo 5 últimas</span>
+    { "order_id": "ord_99", "total": 45.00, "date": "2026-09-13" }
+  ],
+  "total_orders_count": ${items}, <span class="json-comment">// COMPUTED PATTERN</span>
+  "total_spent_usd": ${(items * 42.5).toFixed(2)}</span>
+}`;
+            }
+
+            // Actualizar métricas UI
+            document.getElementById('metric-latency').innerText = latency + ' ms';
+            document.getElementById('metric-lookups').innerText = lookups;
+            document.getElementById('metric-docsize').innerText = docSizeKB + ' KB';
+            document.getElementById('metric-ram').innerText = ramGB + ' GB';
+
+            const banner = document.getElementById('server-status-banner');
+            banner.className = `p-3 rounded-3 border mb-3 text-start ${bannerClass}`;
+            document.getElementById('banner-title').innerText = bannerTitle;
+            document.getElementById('banner-desc').innerText = bannerDesc;
+            document.getElementById('doc-status-badge').innerText = badgeText;
+            document.getElementById('json-schema-preview').innerHTML = jsonCode;
+        }
+
+        // --- LÓGICA DE QUIZ DE EVALUACIÓN ---
+        function checkQuizAnswer(element, isCorrect, qId) {
+            const card = element.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+
+            options.forEach(opt => {
+                opt.classList.remove('selected-correct', 'selected-incorrect');
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (isCorrect) {
+                element.classList.add('selected-correct');
+                feedback.className = "quiz-feedback mt-2 p-2 rounded small bg-success bg-opacity-10 text-success border border-success";
+                feedback.innerHTML = "<i class='bi bi-check-circle-fill me-1'></i> <strong>¡Correcto!</strong> Has comprendido perfectamente la regla de arquitectura MongoDB.";
+            } else {
+                element.classList.add('selected-incorrect');
+                feedback.className = "quiz-feedback mt-2 p-2 rounded small bg-danger bg-opacity-10 text-danger border border-danger";
+                feedback.innerHTML = "<i class='bi bi-x-circle-fill me-1'></i> <strong>Incorrecto.</strong> Revisa los principios de tamaño BSON y minimización de joins ($lookup).";
+            }
+            feedback.classList.remove('d-none');
+        }
+
+        function copyCodeSnippet() {
+            navigator.clipboard.writeText(`db.posts.updateOne(
+  { _id: ObjectId("6501a2b3f4e19c0012345678") },
+  {
+    $push: {
+      recent_comments: {
+        $each: [{ user: "mguinea", comment: "¡Excelente clase!", date: new Date() }],
+        $sort: { date: -1 },
+        $slice: 5
+      }
+    },
+    $inc: { total_comments_count: 1 }
+  }
+);`);
+            alert("¡Código copiado al portapapeles!");
+        }
+
+        // Inicialización al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            switchPattern('subset');
+            runBenchmark('pattern');
+        });
+    </script>
+</body>
+
+</html>
