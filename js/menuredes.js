@@ -74,6 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 10: Panorama completo de modelo TCP/IP">Clase 10: Panorama completo de modelo TCP/IP</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase11redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 11: Repaso General y Preparación Examen Parcial">Clase 11: Repaso General y Preparación Examen Parcial</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

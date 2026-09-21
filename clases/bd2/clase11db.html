@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 11: Repaso General y Taller Conexión Power BI con MongoDB - Bases de Datos II</title>
+    <meta name="description"
+        content="Clase interactiva de repaso general (Clases 7 a 10), Taller guiado de conexión de Power BI con MongoDB, 2 ejercicios prácticos para preparación de examen parcial y cuestionario de 10 preguntas.">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        :root {
+            --mongo-green: #00ed64;
+            --mongo-dark: #001e2b;
+            --mongo-slate: #132733;
+            --mongo-accent: #00684a;
+            --powerbi-yellow: #f2c811;
+            --powerbi-dark: #252423;
+            --code-bg: #0d1117;
+            --code-border: #30363d;
+        }
+
+        .badge-mongo {
+            background: linear-gradient(135deg, #00ed64 0%, #00684a 100%);
+            color: #001e2b;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0, 237, 100, 0.25);
+        }
+
+        .badge-powerbi {
+            background: linear-gradient(135deg, #f2c811 0%, #d8a800 100%);
+            color: #252423;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(242, 200, 17, 0.3);
+        }
+
+        .interactive-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .workshop-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--mongo-green);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .exercise-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--primary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            color: #c9d1d9;
+            border: 1px solid var(--code-border);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        .solution-box {
+            background-color: var(--code-bg);
+            color: #c9d1d9;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .solution-box.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Quiz */
+        .quiz-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .step-num {
+            width: 34px;
+            height: 34px;
+            background: var(--mongo-accent);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--mongo-accent) 0%, var(--primary) 100%);
+            border: none;
+            color: white;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-primary-gradient:hover {
+            opacity: 0.92;
+            color: white;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Header Superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 11: Repaso General y Taller Power BI con MongoDB</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Bases de Datos II • NoSQL & Business Intelligence</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <!-- Encabezado de la Clase -->
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <div>
+                        <span class="badge-mongo me-2"><i class="bi bi-journal-check me-1"></i> Clase 11</span>
+                        <span class="badge-powerbi"><i class="bi bi-bar-chart-fill me-1"></i> Taller Power BI</span>
+                    </div>
+                    <span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración: 120 Minutos</span>
+                </div>
+                <h2 class="fw-bold mb-3">Repaso de Evaluación y Taller Práctico: Conexión de Power BI con MongoDB</h2>
+                <p class="text-secondary lead fs-6 mb-4">
+                    Sesión integral de preparación para el <strong>Examen Parcial de Bases de Datos II</strong>. Repasa los conceptos nucleares de las <strong>Clases 7 (Aggregation Pipeline)</strong>, <strong>8 (Modelado NoSQL)</strong>, <strong>9 (Sharding e Índices)</strong> y <strong>10 (Patrones de Diseño Reales)</strong>, y desarrolla un taller guiado para conectar bases de datos orientadas a documentos con <strong>Power BI Desktop</strong> mediante conectores SQL y desanidado de JSON.
+                </p>
+
+                <!-- ========================================== -->
+                <!--       PLAN Y TEMARIO DE LA SESIÓN (120 M)  -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <div class="card border-0 shadow-sm rounded-4 p-4" style="background: var(--card-bg);">
+                        <h4 class="fw-bold mb-3 text-primary"><i class="bi bi-calendar-check me-2"></i>Estructura Didáctica de la Clase (120 Minutos)</h4>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <span class="badge bg-success mb-2">00:00 - 00:30 (30 min)</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-layers me-1"></i>1. Síntesis Teórica 7 a 10</h6>
+                                    <p class="text-muted extra-small mb-0">Revisión de agregación, patrones de esquemas, sharding e índices NoSQL.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <span class="badge bg-warning text-dark mb-2">00:30 - 01:10 (40 min)</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-bar-chart-line me-1"></i>2. Taller Power BI + Mongo</h6>
+                                    <p class="text-muted extra-small mb-0">Configuración de conector BI, desanidado en Power Query M y modelado dimensional.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <span class="badge bg-primary mb-2">01:10 - 01:40 (30 min)</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-pencil-square me-1"></i>3. Ejercicios Prácticos</h6>
+                                    <p class="text-muted extra-small mb-0">2 casos prácticos resueltos de pipeline analítico y estrategia de sharding para BI.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <span class="badge bg-danger mb-2">01:40 - 02:00 (20 min)</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-patch-check me-1"></i>4. Simulacro Parcial</h6>
+                                    <p class="text-muted extra-small mb-0">Cuestionario interactivo de 10 preguntas tipo examen teórico con calificación.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--    SECCIÓN 1: MATRIZ DE REPASO TEÓRICO     -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-bookmark-star-fill text-primary me-2"></i>1. Resumen Ejecutivo de Clases 7, 8, 9 y 10</h3>
+                    
+                    <div class="row g-4">
+                        <!-- Clase 7 -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <span class="badge bg-success mb-2">Clase 7</span>
+                                <h6 class="fw-bold text-success mb-2"><i class="bi bi-funnel-fill me-1"></i>Aggregation Pipeline</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    Procesamiento por etapas secuenciales sobre colecciones de MongoDB.
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li><code>$match</code>: Filtrado temprano de documentos.</li>
+                                    <li><code>$group</code>: Agregación con <code>$sum</code>, <code>$avg</code>, <code>$first</code>.</li>
+                                    <li><code>$unwind</code>: Aplanado de arrays de subdocumentos.</li>
+                                    <li><code>$lookup</code>: Joins entre colecciones.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Clase 8 -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <span class="badge bg-primary mb-2">Clase 8</span>
+                                <h6 class="fw-bold text-primary mb-2"><i class="bi bi-diagram-3-fill me-1"></i>Modelado de Datos</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    Decisión entre Incrustación (Embedding) y Referencia (Referencing).
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li><strong>Embedding:</strong> Rendimiento de lectura atómico, relación 1:1 y 1:N contenido.</li>
+                                    <li><strong>Referencing:</strong> Evita duplicación masiva en relaciones 1:N grandes y N:M.</li>
+                                    <li>Límite atómico BSON: 16 MB por documento.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Clase 9 -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <span class="badge bg-warning text-dark mb-2">Clase 9</span>
+                                <h6 class="fw-bold text-warning-emphasis mb-2"><i class="bi bi-cpu-fill me-1"></i>Sharding e Índices</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    Escalabilidad horizontal mediante particionado de datos en clusters.
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li>Componentes: <code>mongos</code> (Router), Config Servers, Shards.</li>
+                                    <li><strong>Shard Key:</strong> Elección basada en Rango vs Hashed vs Compuesta.</li>
+                                    <li>Índices Compuestos: Regla ESR (Equality, Sort, Range).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Clase 10 -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <span class="badge bg-danger mb-2">Clase 10</span>
+                                <h6 class="fw-bold text-danger mb-2"><i class="bi bi-grid-fill me-1"></i>Patrones de Diseño</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    Soluciones avanzadas para casos de uso reales en producción NoSQL.
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li><strong>Bucket Pattern:</strong> Agrupación por intervalos de tiempo (IoT/Logs).</li>
+                                    <li><strong>Outlier Pattern:</strong> Manejo de excepciones fuera de la norma.</li>
+                                    <li><strong>Pre-computation:</strong> Métricas calculadas previamente.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--  SECCIÓN 2: TALLER CONEXIÓN POWER BI - MONGO -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <div class="workshop-card">
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <h4 class="fw-bold text-dark mb-0">
+                                <i class="bi bi-laptop-fill text-warning me-2"></i>Taller Guiado: Conexión y Analítica de MongoDB en Power BI Desktop
+                            </h4>
+                            <span class="badge-powerbi"><i class="bi bi-diagram-2 me-1"></i>Business Intelligence NoSQL</span>
+                        </div>
+                        <p class="text-secondary small mb-4">
+                            En las organizaciones modernas, las aplicaciones transaccionales operan sobre MongoDB en estructuras NoSQL flexibles (JSON/BSON). Sin embargo, las herramientas analíticas corporativas como <strong>Power BI</strong> requieren modelos relacionales tubulares (Tablas, Filas y Columnas). Aprende la arquitectura y los pasos para integrar ambas tecnologías.
+                        </p>
+
+                        <!-- Arquitectura de Conexión -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-gear-wide-connected me-1"></i>Opción A: MongoDB BI Connector (mongosqld)</h6>
+                                    <p class="text-secondary extra-small mb-2">
+                                        Componente de software de MongoDB que traduce SQL entrante emitido por Power BI a consultas NoSQL de Aggregation Pipeline en tiempo real.
+                                    </p>
+                                    <ul class="text-muted extra-small ps-3 mb-0">
+                                        <li>Proporciona un esquema relacional virtual mapeando BSON a tablas.</li>
+                                        <li>Conexión mediante Driver ODBC de MySQL/MongoDB.</li>
+                                        <li>Soporta modos de importación DirectQuery e Import en Power BI.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h6 class="fw-bold text-success mb-2"><i class="bi bi-cloud-arrow-up-fill me-1"></i>Opción B: MongoDB Atlas SQL Connector / Power Query M</h6>
+                                    <p class="text-secondary extra-small mb-2">
+                                        Conector nativo disponible para clusters en la nube (MongoDB Atlas SQL Interface) o importación directa JSON.
+                                    </p>
+                                    <ul class="text-muted extra-small ps-3 mb-0">
+                                        <li>Conexión segura vía TLS/SSL directamente a la URI de Atlas.</li>
+                                        <li>Desanidado visual de documentos complejos mediante Power Query M.</li>
+                                        <li>Transformación de arrays con <code>Table.ExpandListColumn</code>.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pasos del Taller -->
+                        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-list-ol text-primary me-2"></i>Pasos de Transformación en Power Query M (Desanidado JSON):</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <div class="p-3 rounded-3 border bg-white h-100">
+                                    <span class="badge bg-primary mb-2">Paso 1</span>
+                                    <h6 class="fw-bold small mb-1">Obtener Datos</h6>
+                                    <p class="text-muted extra-small mb-0">Conectar a MongoDB mediante conector ODBC o Atlas SQL especificando Server y Database.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 rounded-3 border bg-white h-100">
+                                    <span class="badge bg-success mb-2">Paso 2</span>
+                                    <h6 class="fw-bold small mb-1">Expandir Record</h6>
+                                    <p class="text-muted extra-small mb-0">En el editor de Power Query, seleccionar el icono de expansión en la columna `Value` para desglosar subdocumentos.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 rounded-3 border bg-white h-100">
+                                    <span class="badge bg-warning text-dark mb-2">Paso 3</span>
+                                    <h6 class="fw-bold small mb-1">Expandir en Filas</h6>
+                                    <p class="text-muted extra-small mb-0">Para campos que contienen arreglos (Lists), seleccionar <em>"Expandir a nuevas filas"</em> equivalentemente al <code>$unwind</code> de MongoDB.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 rounded-3 border bg-white h-100">
+                                    <span class="badge bg-info text-dark mb-2">Paso 4</span>
+                                    <h6 class="fw-bold small mb-1">Modelado en Estrella</h6>
+                                    <p class="text-muted extra-small mb-0">Definir tipos de datos (Fecha, Moneda, Entero) y crear relaciones entre la Tabla de Hechos y Dimensiones.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Código Power Query M de ejemplo -->
+                        <label class="form-label fw-bold text-dark small">Ejemplo de Script Power Query M generado automáticamente:</label>
+                        <div class="code-block mb-3">
+                            <pre class="mb-0"><code>let
+    Origen = Odbc.DataSource("dsn=MongoDB_BI_Connector", [HierarchicalNavigation=true]),
+    db_Database = Origen{[Name="tienda_online",Kind="Database"]}[Data],
+    pedidos_Collection = db_Database{[Name="pedidos",Kind="Table"]}[Data],
+    #"Registro Expandido" = Table.ExpandRecordColumn(pedidos_Collection, "cliente", {"nombre", "email", "pais"}, {"cliente.nombre", "cliente.email", "cliente.pais"}),
+    #"Lista Expandida a Filas" = Table.ExpandListColumn(#"Registro Expandido", "items"),
+    #"Items Expandidos" = Table.ExpandRecordColumn(#"Lista Expandida a Filas", "items", {"producto_id", "cantidad", "precio"}, {"item.producto_id", "item.cantidad", "item.precio"}),
+    #"Tipo Cambiado" = Table.TransformColumnTypes(#"Items Expandidos",{{"item.cantidad", Int64.Type}, {"item.precio", Currency.Type}})
+in
+    #"Tipo Cambiado"</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--  SECCIÓN 3: EJERCICIOS PRÁCTICOS PARCIAL   -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-pencil-square text-primary me-2"></i>3. Ejercicios Prácticos de Preparación para el Parcial</h3>
+                    <p class="text-secondary mb-4">
+                        Resuelve estos dos casos prácticos de nivel intermedio para afianzar tus competencias en pipelines de agregación NoSQL y estrategias de escalabilidad para analítica.
+                    </p>
+
+                    <!-- Ejercicio 1 -->
+                    <div class="exercise-card">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h4 class="fw-bold text-primary mb-0">
+                                <i class="bi bi-calculator-fill me-2"></i>Ejercicio 1: Agregación Analítica de Ventas para Tablero de Power BI
+                            </h4>
+                            <span class="badge bg-warning text-dark">Complejidad Intermedia</span>
+                        </div>
+                        <p class="text-secondary small mb-3">
+                            <strong>Enunciado:</strong> Se cuenta con una colección de documentos de <code>ventas</code> en MongoDB con la siguiente estructura:
+                        </p>
+
+                        <div class="code-block mb-3">
+                            <pre class="mb-0"><code>{
+  "_id": ObjectId("65a1f2b..."),
+  "sucursal": "Centro",
+  "fecha": ISODate("2026-02-15T10:30:00Z"),
+  "estado": "Completado",
+  "productos": [
+    { "sku": "PROD-01", "categoria": "Electrónica", "cantidad": 2, "precio_unitario": 150.00 },
+    { "sku": "PROD-09", "categoria": "Accesorios", "cantidad": 1, "precio_unitario": 25.00 }
+  ]
+}</code></pre>
+                        </div>
+
+                        <p class="text-secondary small mb-3">
+                            <strong>Requerimiento:</strong> Escribe una pipeline de agregación en MongoDB que prepare la información para exponer a Power BI calculando:
+                            1. Filtrar solo las ventas con estado <code>"Completado"</code>.
+                            2. Desanidar el arreglo de <code>productos</code>.
+                            3. Agrupar por <code>sucursal</code> y <code>categoria</code>.
+                            4. Calcular el <strong>Total de Ingresos</strong> (multiplicando cantidad * precio_unitario) y la <strong>Cantidad Total de Productos Vendidos</strong>.
+                        </p>
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-muted small"><i class="bi bi-lightbulb-fill text-warning me-1"></i> Utiliza las etapas <code>$match</code>, <code>$unwind</code>, <code>$group</code> y operadores aritméticos en <code>$group</code>.</span>
+                            <button class="btn btn-outline-primary btn-sm fw-bold" id="btn-toggle-sol1">
+                                <i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso
+                            </button>
+                        </div>
+
+                        <!-- Solución 1 -->
+                        <div class="solution-box mt-3" id="sol-box-1">
+                            <h6 class="text-success fw-bold mb-3"><i class="bi bi-check-circle-fill me-2"></i>Pipeline de Agregación MongoDB Resuelta:</h6>
+                            <div class="code-block mb-3">
+                                <pre class="mb-0"><code>db.ventas.aggregate([
+  // Etapa 1: Filtrar solo ventas completadas
+  {
+    $match: { "estado": "Completado" }
+  },
+  // Etapa 2: Desanidar el arreglo de productos ($unwind)
+  {
+    $unwind: "$productos"
+  },
+  // Etapa 3: Agrupar por sucursal y categoría
+  {
+    $group: {
+      _id: {
+        sucursal: "$sucursal",
+        categoria: "$productos.categoria"
+      },
+      ingresosTotales: {
+        $sum: { $multiply: ["$productos.cantidad", "$productos.precio_unitario"] }
+      },
+      unidadesVendidas: {
+        $sum: "$productos.cantidad"
+      }
+    }
+  },
+  // Etapa 4: Formatear la salida para consumo plano en Power BI
+  {
+    $project: {
+      _id: 0,
+      sucursal: "$_id.sucursal",
+      categoria: "$_id.categoria",
+      ingresosTotales: 1,
+      unidadesVendidas: 1
+    }
+  }
+]);</code></pre>
+                            </div>
+                            <p class="small text-muted mb-0">
+                                <em>Explicación Analítica:</em> Esta pipeline transforma documentos anidados de alta flexibilidad en un conjunto plano tridimensional (Sucursal | Categoría | Ingresos | Unidades), permitiendo a Power BI importar únicamente el resultado agregado súper rápido.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 2 -->
+                    <div class="exercise-card">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h4 class="fw-bold text-success mb-0">
+                                <i class="bi bi-diagram-2-fill me-2"></i>Ejercicio 2: Estrategia de Sharding y Diseños para Analytics a Gran Escala
+                            </h4>
+                            <span class="badge bg-warning text-dark">Complejidad Intermedia</span>
+                        </div>
+                        <p class="text-secondary small mb-3">
+                            <strong>Enunciado:</strong> Una empresa de telemetría IoT recopila 50 millones de lecturas mensuales de sensores de temperatura (<code>sensor_id</code>, <code>fecha</code>, <code>lectura</code>, <code>ubicacion</code>). Power BI consulta constantemente tableros ejecutivos agregando promedios diarios por <code>ubicacion</code>.
+                        </p>
+                        
+                        <div class="exercise-step mb-3">
+                            <h6 class="fw-bold text-dark small mb-2">Preguntas de Diseño NoSQL:</h6>
+                            <ol class="text-secondary small mb-0 ps-3">
+                                <li class="mb-2">¿Qué patrón de diseño NoSQL (Clase 10) se debe aplicar para consolidar estas mediciones por hora/día y evitar el desbordamiento de lecturas individuales?</li>
+                                <li class="mb-0">Si se configura Sharding en el cluster de MongoDB (Clase 9), ¿qué Shard Key compuestas sugieres para balancear la carga de escritura masiva y permitir consultas analíticas eficientes desde Power BI?</li>
+                            </ol>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-muted small"><i class="bi bi-info-circle-fill text-info me-1"></i> Analiza la cardinalidad de la clave y el principio de consultas dirigidas (Targeted Queries).</span>
+                            <button class="btn btn-outline-success btn-sm fw-bold" id="btn-toggle-sol2">
+                                <i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso
+                            </button>
+                        </div>
+
+                        <!-- Solución 2 -->
+                        <div class="solution-box mt-3" id="sol-box-2">
+                            <h6 class="text-success fw-bold mb-3"><i class="bi bi-check-circle-fill me-2"></i>Solución de Diseño de Arquitectura NoSQL:</h6>
+                            <ul class="text-secondary small mb-0 ps-3">
+                                <li class="mb-2">
+                                    <strong>1. Patrón de Diseño Recomendado:</strong> Aplicar el <strong>Bucket Pattern (Patrón Cubeta)</strong>. En lugar de almacenar 1 documento por cada lectura del sensor cada segundo, se agrupan las mediciones de 1 hora dentro de un mismo documento con un arreglo de lecturas y métricas pre-calculadas (<code>sum_temperatura</code>, <code>count_lecturas</code>). Esto reduce el volumen de documentos de 50 millones a solo 700,000 por mes.
+                                </li>
+                                <li>
+                                    <strong>2. Selección de la Shard Key:</strong> Una clave de fragmentación compuesta ideal es:
+                                    <code class="d-block my-1 bg-dark text-warning p-2 rounded">{ "ubicacion": 1, "fecha": 1 }</code>
+                                    <em>Justificación:</em> La combinación de <code>ubicacion</code> (alta cardinalidad por zonas) con <code>fecha</code> distribuye uniformemente la escritura continua entre los shards del cluster y permite que las consultas de Power BI dirigidas por región se enruten directamente al shard específico (Targeted Query) sin golpear a todo el cluster (Scatter-Gather).
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--    SECCIÓN 4: CUESTIONARIO SIMULACRO PARCIAL -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-patch-question-fill text-primary me-2"></i>4. Simulacro de Examen Teórico (10 Preguntas)</h3>
+                    <p class="text-secondary mb-4">
+                        Ponte a prueba con este cuestionario preparatorio tipo examen. Evalúa tus conocimientos en Aggregation Pipeline, Modelado NoSQL, Sharding, Patrones de Diseño e Integración BI.
+                    </p>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">1</span>
+                            <h6 class="fw-bold mb-0">¿Qué etapa de Aggregation Pipeline en MongoDB se utiliza para desestructurar o aplanar un arreglo de subdocumentos creando un documento por cada elemento del array?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label text-secondary" for="q1a"><code>$project</code></label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label text-secondary" for="q1b"><code>$unwind</code></label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label text-secondary" for="q1c"><code>$lookup</code></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">2</span>
+                            <h6 class="fw-bold mb-0">¿Cuál es el límite máximo estricto de tamaño de un único documento BSON en MongoDB?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label text-secondary" for="q2a">8 Megabytes (8 MB)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label text-secondary" for="q2b">16 Megabytes (16 MB)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label text-secondary" for="q2c">Sin límite de tamaño</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">3</span>
+                            <h6 class="fw-bold mb-0">En el modelado NoSQL, ¿cuándo es más recomendable utilizar Incrustación (Embedding) en lugar de Referencia?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label text-secondary" for="q3a">Cuando las entidades se consultan juntas con frecuencia y la relación es 1 a N de tamaño acotado.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label text-secondary" for="q3b">Cuando existe una relación Muchos a Muchos (N:M) con millones de registros que cambian constantemente.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label text-secondary" for="q3c">Únicamente cuando se desea normalizar la base de datos según la 3ra Forma Normal.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">4</span>
+                            <h6 class="fw-bold mb-0">¿Cuál es el componente de la arquitectura de Sharding en MongoDB que actúa como router recibiendo las consultas de las aplicaciones y enrutándolas hacia los Shards correspondientes?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label text-secondary" for="q4a">Config Server</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label text-secondary" for="q4b">mongos</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label text-secondary" for="q4c">Replica Set Primary</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">5</span>
+                            <h6 class="fw-bold mb-0">¿Qué patrón de diseño de MongoDB es el más idóneo para manejar publicaciones de blogs donde el 99% de las entradas tienen pocos comentarios pero 1% se vuelve viral con millones de comentarios?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label text-secondary" for="q5a">Outlier Pattern (Patrón Atípico)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label text-secondary" for="q5b">Polymorphic Pattern</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label text-secondary" for="q5c">Schema Versioning Pattern</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 6 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">6</span>
+                            <h6 class="fw-bold mb-0">¿Cuál es la función principal del software **MongoDB BI Connector** (`mongosqld`) en la integración con Power BI?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6a" value="a">
+                                <label class="form-check-label text-secondary" for="q6a">Convertir la base de datos NoSQL de MongoDB a una base de datos MySQL relacional de manera permanente.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6b" value="b">
+                                <label class="form-check-label text-secondary" for="q6b">Traducir en tiempo real las consultas SQL emitidas por Power BI a pipelines de agregación de MongoDB.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6c" value="c">
+                                <label class="form-check-label text-secondary" for="q6c">Comprimir los archivos BSON para almacenarlos en la memoria RAM del servidor de Power BI.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 7 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">7</span>
+                            <h6 class="fw-bold mb-0">En el editor de Power Query M de Power BI, ¿qué transformación es equivalente a la etapa <code>$unwind</code> de MongoDB cuando se trabaja con campos de tipo Lista (Arrays)?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7a" value="a">
+                                <label class="form-check-label text-secondary" for="q7a">Filtrar filas duplicadas</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7b" value="b">
+                                <label class="form-check-label text-secondary" for="q7b">Expandir a nuevas filas (Expand List Column)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7c" value="c">
+                                <label class="form-check-label text-secondary" for="q7c">Agrupar por filas (Group By)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 8 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">8</span>
+                            <h6 class="fw-bold mb-0">De acuerdo con la regla ESR para el diseño de Índices Compuestos en MongoDB, ¿cuál es el orden correcto de los campos en la clave del índice?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8a" value="a">
+                                <label class="form-check-label text-secondary" for="q8a">Equality (Igualdad) &rarr; Sort (Ordenamiento) &rarr; Range (Rango)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8b" value="b">
+                                <label class="form-check-label text-secondary" for="q8b">Range (Rango) &rarr; Equality (Igualdad) &rarr; Sort (Ordenamiento)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8c" value="c">
+                                <label class="form-check-label text-secondary" for="q8c">Sort (Ordenamiento) &rarr; Range (Rango) &rarr; Equality (Igualdad)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 9 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">9</span>
+                            <h6 class="fw-bold mb-0">¿Qué inconveniente grave ocurre si se elige una Shard Key con baja cardinalidad (por ejemplo, el campo <code>"estado": "Activo" / "Inactivo"</code>)?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9a" value="a">
+                                <label class="form-check-label text-secondary" for="q9a">Provoca la creación de Jumbo Chunks indivisibles y hotspots donde un solo Shard recibe casi todo el tráfico.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9b" value="b">
+                                <label class="form-check-label text-secondary" for="q9b">La base de datos automáticamente convierte el cluster en una base de datos relacional SQL.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9c" value="c">
+                                <label class="form-check-label text-secondary" for="q9c">Se borran los índices creados en las colecciones secundarias.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 10 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">10</span>
+                            <h6 class="fw-bold mb-0">En el Patrón de Diseño "Bucket" (Cubeta), ¿cuál es el beneficio principal al almacenar datos de series de tiempo (IoT o Logs)?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10a" value="a">
+                                <label class="form-check-label text-secondary" for="q10a">Reduce drásticamente el número total de documentos y el tamaño del índice en RAM agrupan las lecturas por periodos de tiempo.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10b" value="b">
+                                <label class="form-check-label text-secondary" for="q10b">Permite ejecutar consultas relacionales SQL sin necesidad de un conector BI.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10c" value="c">
+                                <label class="form-check-label text-secondary" for="q10c">Elimina la necesidad de utilizar claves primarias `_id` en los documentos.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Evaluar -->
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary-gradient fw-bold px-4 py-2 text-white" id="btn-evaluar-db">Comprobar Simulacro de Parcial</button>
+                        <span id="quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menudb.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+
+    <script>
+        // ==========================================
+        //  REVELADO DE SOLUCIONES DE EJERCICIOS
+        // ==========================================
+        document.getElementById('btn-toggle-sol1').addEventListener('click', function() {
+            const box = document.getElementById('sol-box-1');
+            if (box.classList.contains('show')) {
+                box.classList.remove('show');
+                this.innerHTML = '<i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso';
+            } else {
+                box.classList.add('show');
+                this.innerHTML = '<i class="bi bi-eye-slash-fill me-1"></i> Ocultar Solución';
+            }
+        });
+
+        document.getElementById('btn-toggle-sol2').addEventListener('click', function() {
+            const box = document.getElementById('sol-box-2');
+            if (box.classList.contains('show')) {
+                box.classList.remove('show');
+                this.innerHTML = '<i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso';
+            } else {
+                box.classList.add('show');
+                this.innerHTML = '<i class="bi bi-eye-slash-fill me-1"></i> Ocultar Solución';
+            }
+        });
+
+        // ==========================================
+        //  EVALUACIÓN DEL QUIZ DE SIMULACRO BD2
+        // ==========================================
+        document.getElementById('btn-evaluar-db').addEventListener('click', () => {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'a',
+                q4: 'b',
+                q5: 'a',
+                q6: 'b',
+                q7: 'b',
+                q8: 'a',
+                q9: 'a',
+                q10: 'a'
+            };
+
+            let score = 0;
+            const total = 10;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checked) {
+                    unanswered = true;
+                    break;
+                }
+                if (checked.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las 10 preguntas antes de evaluar tu simulacro.');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result-score');
+            result.style.display = 'inline-block';
+            result.textContent = `Puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                result.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 7) {
+                result.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                result.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+    </script>
+</body>
+
+</html>

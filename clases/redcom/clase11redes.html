@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 11: Repaso General y Preparación para el Examen Parcial - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Tarjetas Didácticas y Estilos de Repaso ── */
+        .interactive-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, #6c5ce7 100%);
+            border: none;
+            color: white;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-primary-gradient:hover {
+            opacity: 0.92;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* ── Tarjetas de Ejercicios Prácticos ── */
+        .exercise-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--primary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .exercise-step {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .solution-box {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .solution-box.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Cronograma y Medallas ── */
+        .timeline-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+
+        .review-topic-card {
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+
+        /* ── Quiz ── */
+        .quiz-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .step-num {
+            width: 34px;
+            height: 34px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Header Superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 11: Repaso General y Preparación para el Examen Parcial</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones • CCNA 1</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <!-- Encabezado de la Clase -->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="badge-clase bg-warning text-dark"><i class="bi bi-award-fill me-1"></i> Clase 11: Repaso Parcial</span>
+                    <span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración: 120 Minutos</span>
+                </div>
+                <h2 class="fw-bold mb-3">Repaso General y Taller Práctico Preparatorio (Semana 12)</h2>
+                <p class="text-secondary lead fs-6 mb-4">
+                    Bienvenido a la sesión de consolidación de competencias. En esta clase repasarás los pilares teóricos y prácticos evaluados en el <strong>Examen Parcial de la Semana 12</strong>, enfocados en: <strong>División de Subredes FLSM (Clase 7)</strong>, <strong>Subredes VLSM (Clase 8)</strong>, <strong>Modelo de Referencia OSI (Clase 9)</strong> y <strong>Modelo TCP/IP (Clase 10)</strong>.
+                </p>
+
+                <!-- ========================================== -->
+                <!--       AGENDAS Y PLAN DE CLASE (120 MIN)    -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <div class="card border-0 shadow-sm rounded-4 p-4" style="background: var(--card-bg);">
+                        <h4 class="fw-bold mb-3 text-primary"><i class="bi bi-journal-check me-2"></i>Estructura del Taller de Repaso (120 Minutos)</h4>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="review-topic-card">
+                                    <span class="timeline-badge bg-primary">00:00 - 00:30</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-diagram-3 me-1"></i>1. Matriz de Repaso Teórico</h6>
+                                    <p class="text-muted extra-small mb-0">Síntesis rápida de conceptos clave: FLSM, VLSM, OSI 7 capas y TCP/IP 4 capas.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="review-topic-card">
+                                    <span class="timeline-badge bg-success">00:30 - 01:00</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-calculator me-1"></i>2. Caso Práctico N° 1</h6>
+                                    <p class="text-muted extra-small mb-0">Diseño completo de subredes VLSM empresariales con optimización de IPs.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="review-topic-card">
+                                    <span class="timeline-badge bg-info text-dark">01:00 - 01:30</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-search me-1"></i>3. Caso Práctico N° 2</h6>
+                                    <p class="text-muted extra-small mb-0">Análisis de trama de red, encapsulado OSI/TCP-IP, puertos y sockets.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="review-topic-card">
+                                    <span class="timeline-badge bg-warning text-dark">01:30 - 02:00</span>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-patch-check me-1"></i>4. Cuestionario Tipo Examen</h6>
+                                    <p class="text-muted extra-small mb-0">Simulacro teórico de 10 preguntas de selección múltiple con retroalimentación.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--    SECCIÓN 1: MATRIZ DE REPASO TEÓRICO     -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-bookmark-star-fill text-primary me-2"></i>1. Resumen Ejecutivo de Clases 7, 8, 9 y 10</h3>
+                    
+                    <div class="row g-4">
+                        <!-- Clase 7: FLSM -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <div class="badge bg-primary mb-2">Clase 7</div>
+                                <h6 class="fw-bold text-primary mb-2"><i class="bi bi-grid-3x3-gap-fill me-1"></i>Subredes FLSM</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    División en subredes de <strong>longitud fija</strong>. Todas las subredes resultantes tienen la misma máscara y el mismo tamaño de hosts.
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li>Fórmula subredes: $2^n \ge \text{Subredes necesarias}$</li>
+                                    <li>Fórmula hosts: $2^h - 2 \ge \text{Hosts por subred}$</li>
+                                    <li>Provoca desperdicio de IPs en enlaces seriales WAN.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Clase 8: VLSM -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <div class="badge bg-success mb-2">Clase 8</div>
+                                <h6 class="fw-bold text-success mb-2"><i class="bi bi-diagram-2-fill me-1"></i>Subredes VLSM</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    División en subredes de <strong>longitud variable</strong>. Se asignan máscaras a medida según los requerimientos exactos de hosts.
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li><strong>Regla de oro:</strong> Ordenar requerimientos de MAYOR a MENOR.</li>
+                                    <li>Usa subredes `/30` o `/31` para enlaces WAN de 2 hosts.</li>
+                                    <li>Elimina el desperdicio masivo de direcciones.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Clase 9: Modelo OSI -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <div class="badge bg-info text-dark mb-2">Clase 9</div>
+                                <h6 class="fw-bold text-info-emphasis mb-2"><i class="bi bi-layers-fill me-1"></i>Modelo OSI (7 Capas)</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    Marco conceptual de referencia (ISO 7498) dividido en 7 niveles teóricos bien delimitados.
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li>Capas 7-5: Aplicación, Presentación, Sesión (Datos).</li>
+                                    <li>Capa 4: Transporte (Segmento).</li>
+                                    <li>Capa 3: Red (Paquete IP).</li>
+                                    <li>Capas 2-1: Enlace (Trama) y Física (Bits).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Clase 10: Modelo TCP/IP -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="interactive-box">
+                                <div class="badge bg-danger mb-2">Clase 10</div>
+                                <h6 class="fw-bold text-danger mb-2"><i class="bi bi-globe me-1"></i>Modelo TCP/IP (4 Capas)</h6>
+                                <p class="text-secondary extra-small mb-2">
+                                    Estándar práctico <em>De Facto</em> sobre el que funciona la infraestructura de Internet actual.
+                                </p>
+                                <ul class="text-muted extra-small ps-3 mb-0">
+                                    <li>Capas: Aplicación, Transporte, Internet y Acceso a Red.</li>
+                                    <li>TCP (Confiable, 3-Way Handshake) vs UDP (Rápido, Datagrama).</li>
+                                    <li>Socket = Dirección IP + Número de Puerto.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--  SECCIÓN 2: EJERCICIO PRÁCTICO N° 1 (VLSM) -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <div class="exercise-card">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h4 class="fw-bold text-primary mb-0">
+                                <i class="bi bi-cpu-fill me-2"></i>Ejercicio Práctico N° 1: Diseños de Subredes Empresariales VLSM
+                            </h4>
+                            <span class="badge bg-warning text-dark">Complejidad Intermedia</span>
+                        </div>
+                        <p class="text-secondary small mb-3">
+                            <strong>Escenario del Caso:</strong> La corporación "TechGlobal S.A." ha sido asignada con el bloque IP privado de Clase C <code>192.168.50.0/24</code>. El departamento de arquitectura debe dividir esta red utilizando <strong>VLSM</strong> para interconectar 4 redes de área local (LAN) y 2 enlaces seriales punto a punto (WAN):
+                        </p>
+
+                        <div class="table-responsive mb-4">
+                            <table class="table table-sm table-bordered text-center align-middle bg-light">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Subred / Departamento</th>
+                                        <th>Hosts Útiles Requeridos</th>
+                                        <th>Máscara CIDR Sugerida</th>
+                                        <th>Hosts Útiles Totales ($2^h - 2$)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold text-start ps-3">LAN 1: Desarrollo de Software</td>
+                                        <td><span class="badge bg-primary">60 hosts</span></td>
+                                        <td><code>/26</code> (255.255.255.192)</td>
+                                        <td>$2^6 - 2 = 62$ hosts</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start ps-3">LAN 2: Ventas y Finanzas</td>
+                                        <td><span class="badge bg-success">28 hosts</span></td>
+                                        <td><code>/27</code> (255.255.255.224)</td>
+                                        <td>$2^5 - 2 = 30$ hosts</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start ps-3">LAN 3: Administración y RRHH</td>
+                                        <td><span class="badge bg-info text-dark">12 hosts</span></td>
+                                        <td><code>/28</code> (255.255.255.240)</td>
+                                        <td>$2^4 - 2 = 14$ hosts</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start ps-3">LAN 4: Servidores Internos</td>
+                                        <td><span class="badge bg-secondary">6 hosts</span></td>
+                                        <td><code>/29</code> (255.255.255.248)</td>
+                                        <td>$2^3 - 2 = 6$ hosts</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start ps-3">WAN 1: Router Principal a Router Sucursal A</td>
+                                        <td><span class="badge bg-dark">2 hosts</span></td>
+                                        <td><code>/30</code> (255.255.255.252)</td>
+                                        <td>$2^2 - 2 = 2$ hosts</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start ps-3">WAN 2: Router Principal a Router Sucursal B</td>
+                                        <td><span class="badge bg-dark">2 hosts</span></td>
+                                        <td><code>/30</code> (255.255.255.252)</td>
+                                        <td>$2^2 - 2 = 2$ hosts</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-muted small"><i class="bi bi-lightbulb-fill text-warning me-1"></i> Intenta realizar los cálculos en tu cuaderno antes de consultar la solución oficial.</span>
+                            <button class="btn btn-outline-primary btn-sm fw-bold" id="btn-toggle-sol1">
+                                <i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso
+                            </button>
+                        </div>
+
+                        <!-- Caja de Solución Revelable -->
+                        <div class="solution-box mt-3" id="sol-box-1">
+                            <h6 class="text-success fw-bold mb-3"><i class="bi bi-check-circle-fill me-2"></i>Tabla Oficial de Direccionamiento VLSM Resuelta:</h6>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-striped table-sm text-center align-middle font-monospace small">
+                                    <thead>
+                                        <tr class="table-secondary text-dark">
+                                            <th>Subred</th>
+                                            <th>ID de Red</th>
+                                            <th>Prefijo CIDR</th>
+                                            <th>Primera IP Útil</th>
+                                            <th>Última IP Útil</th>
+                                            <th>Dirección Broadcast</th>
+                                            <th>Máscara Subred</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-bold text-primary">LAN 1 (60)</td>
+                                            <td>192.168.50.0</td>
+                                            <td>/26</td>
+                                            <td>192.168.50.1</td>
+                                            <td>192.168.50.62</td>
+                                            <td>192.168.50.63</td>
+                                            <td>255.255.255.192</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-success">LAN 2 (28)</td>
+                                            <td>192.168.50.64</td>
+                                            <td>/27</td>
+                                            <td>192.168.50.65</td>
+                                            <td>192.168.50.94</td>
+                                            <td>192.168.50.95</td>
+                                            <td>255.255.255.224</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-info">LAN 3 (12)</td>
+                                            <td>192.168.50.96</td>
+                                            <td>/28</td>
+                                            <td>192.168.50.97</td>
+                                            <td>192.168.50.110</td>
+                                            <td>192.168.50.111</td>
+                                            <td>255.255.255.240</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-warning">LAN 4 (6)</td>
+                                            <td>192.168.50.112</td>
+                                            <td>/29</td>
+                                            <td>192.168.50.113</td>
+                                            <td>192.168.50.118</td>
+                                            <td>192.168.50.119</td>
+                                            <td>255.255.255.248</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-danger">WAN 1 (2)</td>
+                                            <td>192.168.50.120</td>
+                                            <td>/30</td>
+                                            <td>192.168.50.121</td>
+                                            <td>192.168.50.122</td>
+                                            <td>192.168.50.123</td>
+                                            <td>255.255.255.252</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-danger">WAN 2 (2)</td>
+                                            <td>192.168.50.124</td>
+                                            <td>/30</td>
+                                            <td>192.168.50.125</td>
+                                            <td>192.168.50.126</td>
+                                            <td>192.168.50.127</td>
+                                            <td>255.255.255.252</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="small text-muted mb-0 mt-2">
+                                <em>Explicación Clave:</em> Al ordenar las subredes de mayor a menor tamaño (60 &rarr; 28 &rarr; 12 &rarr; 6 &rarr; 2 &rarr; 2), garantizamos que las fronteras de bits se alineen perfectamente sin solapamiento de direcciones IP.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--  SECCIÓN 3: EJERCICIO PRÁCTICO N° 2 (DIAGNOSTICO) -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <div class="exercise-card">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h4 class="fw-bold text-success mb-0">
+                                <i class="bi bi-hdd-network-fill me-2"></i>Ejercicio Práctico N° 2: Análisis de Tráfico de Red, Sockets y Encapsulamiento
+                            </h4>
+                            <span class="badge bg-warning text-dark">Complejidad Intermedia</span>
+                        </div>
+                        <p class="text-secondary small mb-3">
+                            <strong>Escenario del Caso:</strong> Una computadora de escritorio de la red corporativa (<code>PC-1</code>) inicia una conexión navegando a un sitio bancario seguro. Examina los siguientes datos capturados en el sniffer de red:
+                        </p>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-laptop me-1"></i>Host Origen (PC-1):</h6>
+                                    <ul class="list-unstyled extra-small text-secondary mb-0">
+                                        <li><strong>Dirección IP:</strong> <code>192.168.1.45 /24</code></li>
+                                        <li><strong>Dirección MAC:</strong> <code>00:11:22:33:44:55</code></li>
+                                        <li><strong>Gateway Predeterminado:</strong> <code>192.168.1.1</code></li>
+                                        <li><strong>Puerto Origen Efímero:</strong> <code>51234</code></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-server me-1"></i>Destino y Router Gateway:</h6>
+                                    <ul class="list-unstyled extra-small text-secondary mb-0">
+                                        <li><strong>Servidor Web IP:</strong> <code>200.50.10.15</code></li>
+                                        <li><strong>MAC del Router Gateway (192.168.1.1):</strong> <code>AA:BB:CC:DD:EE:FF</code></li>
+                                        <li><strong>Servicio / Puerto Destino:</strong> <code>HTTPS (Puerto 443)</code></li>
+                                        <li><strong>Protocolo Transporte:</strong> <code>TCP (SYN Flag active)</code></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preguntas de Análisis -->
+                        <div class="exercise-step">
+                            <h6 class="fw-bold text-primary mb-2">Preguntas de Diagnóstico para el Estudiante:</h6>
+                            <ol class="text-secondary small mb-0 ps-3">
+                                <li class="mb-2">¿Pertenecen <code>PC-1</code> (192.168.1.45/24) y el Servidor (200.50.10.15) a la misma red local? ¿Cuál es la dirección MAC que colocará <code>PC-1</code> en el campo <strong>MAC Destino</strong> de la trama Ethernet?</li>
+                                <li class="mb-2">Define el <strong>Socket Origen</strong> y el <strong>Socket Destino</strong> para esta sesión de comunicación.</li>
+                                <li class="mb-0">¿Cuáles son las PDUs generadas en la Capa 3 (Internet) y Capa 2 (Enlace de Datos) respectivamente?</li>
+                            </ol>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mt-3">
+                            <span class="text-muted small"><i class="bi bi-info-circle-fill text-info me-1"></i> Recuerda el principio: "IP origen/destino no cambian; MAC destino es la del Gateway cuando se sale de la LAN".</span>
+                            <button class="btn btn-outline-success btn-sm fw-bold" id="btn-toggle-sol2">
+                                <i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso
+                            </button>
+                        </div>
+
+                        <!-- Caja de Solución Revelable 2 -->
+                        <div class="solution-box mt-3" id="sol-box-2">
+                            <h6 class="text-success fw-bold mb-3"><i class="bi bi-check-circle-fill me-2"></i>Solución Explicada del Análisis de Tráfico:</h6>
+                            <ul class="text-secondary small mb-0 ps-3">
+                                <li class="mb-2">
+                                    <strong>1. Enrutamiento y Dirección MAC Destino:</strong> No pertenecen a la misma red (200.50.10.15 no está en 192.168.1.0/24). Por lo tanto, <code>PC-1</code> envía la trama a su Gateway local. La <strong>MAC Destino en la trama es <code>AA:BB:CC:DD:EE:FF</code></strong> (la MAC del Router), mientras que la IP Destino sigue siendo <code>200.50.10.15</code>.
+                                </li>
+                                <li class="mb-2">
+                                    <strong>2. Sockets de Comunicación:</strong>
+                                    <ul class="mb-0">
+                                        <li><strong>Socket Origen:</strong> <code>192.168.1.45:51234</code></li>
+                                        <li><strong>Socket Destino:</strong> <code>200.50.10.15:443</code></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>3. PDUs Generadas:</strong>
+                                    <ul class="mb-0">
+                                        <li>Capa 3 (Internet): <strong>Paquete IP</strong> [Src IP: 192.168.1.45 | Dst IP: 200.50.10.15 | Protocol: 6 (TCP)].</li>
+                                        <li>Capa 2 (Enlace): <strong>Trama Ethernet</strong> [Src MAC: 00:11:22:33:44:55 | Dst MAC: AA:BB:CC:DD:EE:FF | Type: 0x0800 IP].</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!-- SECCIÓN 4: CUESTIONARIO SIMULACRO PARCIAL  -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-patch-question-fill text-primary me-2"></i>4. Simulacro de Examen Teórico (10 Preguntas)</h3>
+                    <p class="text-secondary mb-4">
+                        Responde a este cuestionario de preparación que integra contenidos de las Clases 7 a 10. Al finalizar, haz clic en el botón para obtener tu puntuación y retroalimentación instantánea.
+                    </p>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">1</span>
+                            <h6 class="fw-bold mb-0">En una red dividida mediante FLSM con dirección base <code>192.168.1.0/24</code> y máscara <code>/26</code> (255.255.255.192), ¿cuántas subredes útiles se crean y cuántos hosts utilizables ofrece cada una?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label text-secondary" for="q1a">2 subredes de 126 hosts cada una</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label text-secondary" for="q1b">4 subredes de 62 hosts útiles cada una</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label text-secondary" for="q1c">8 subredes de 30 hosts útiles cada una</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">2</span>
+                            <h6 class="fw-bold mb-0">¿Cuál es la regla metodológica fundamental que se debe seguir al realizar una división de subredes con VLSM?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label text-secondary" for="q2a">Asignar primero los enlaces WAN punto a punto (/30) y luego las redes de hosts mayores.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label text-secondary" for="q2b">Ordenar los requerimientos de subredes de MAYOR a MENOR número de hosts solicitados.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label text-secondary" for="q2c">Utilizar siempre la misma máscara decimal en todas las subredes resultantes.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">3</span>
+                            <h6 class="fw-bold mb-0">¿Qué prefijo CIDR y máscara de subred son los más eficientes para configurar un enlace serial o punto a punto entre dos routers evitando el desperdicio de direcciones IP?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label text-secondary" for="q3a"><code>/28</code> (255.255.255.240)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label text-secondary" for="q3b"><code>/30</code> (255.255.255.252)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label text-secondary" for="q3c"><code>/24</code> (255.255.255.0)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">4</span>
+                            <h6 class="fw-bold mb-0">¿Cuál es el nombre de la Unidad de Datos del Protocolo (PDU) correspondiente a la Capa 2 (Enlace de Datos) en el modelo OSI?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label text-secondary" for="q4a">Segmento</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label text-secondary" for="q4b">Paquete</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label text-secondary" for="q4c">Trama (Frame)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">5</span>
+                            <h6 class="fw-bold mb-0">En el Modelo OSI, ¿cuál es la capa responsable del cifrado, compresión de datos y traducción de formatos sintácticos?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label text-secondary" for="q5a">Capa 6: Presentación</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label text-secondary" for="q5b">Capa 5: Sesión</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label text-secondary" for="q5c">Capa 3: Red</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 6 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">6</span>
+                            <h6 class="fw-bold mb-0">¿A cuántas capas reduce el modelo práctico TCP/IP las 7 capas del marco conceptual OSI?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6a" value="a">
+                                <label class="form-check-label text-secondary" for="q6a">3 capas</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6b" value="b">
+                                <label class="form-check-label text-secondary" for="q6b">4 capas (Aplicación, Transporte, Internet y Acceso a la Red)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6c" value="c">
+                                <label class="form-check-label text-secondary" for="q6c">6 capas</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 7 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">7</span>
+                            <h6 class="fw-bold mb-0">¿Qué protocolo de la capa de transporte de TCP/IP se utiliza para aplicaciones que requieren baja latencia (como voz sobre IP o streaming) y no necesitan retransmisión de datos?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7a" value="a">
+                                <label class="form-check-label text-secondary" for="q7a">TCP (Transmission Control Protocol)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7b" value="b">
+                                <label class="form-check-label text-secondary" for="q7b">UDP (User Datagram Protocol)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7c" value="c">
+                                <label class="form-check-label text-secondary" for="q7c">ICMP (Internet Control Message Protocol)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 8 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">8</span>
+                            <h6 class="fw-bold mb-0">¿Qué banderas (Flags) de TCP intervienen en el segundo paso del Handshake de 3 Vías enviado por el servidor?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8a" value="a">
+                                <label class="form-check-label text-secondary" for="q8a">Únicamente la bandera FIN</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8b" value="b">
+                                <label class="form-check-label text-secondary" for="q8b">Las banderas SYN y ACK combinadas (SYN-ACK)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8c" value="c">
+                                <label class="form-check-label text-secondary" for="q8c">La bandera RST (Reset)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 9 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">9</span>
+                            <h6 class="fw-bold mb-0">Si un host tiene la IP <code>192.168.10.50/24</code> y desea enviar datos a la IP <code>172.16.1.100</code>, ¿qué ocurre durante el encapsulamiento de la trama Ethernet?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9a" value="a">
+                                <label class="form-check-label text-secondary" for="q9a">El host coloca la dirección MAC del host destino 172.16.1.100 directamente en la trama.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9b" value="b">
+                                <label class="form-check-label text-secondary" for="q9b">El host detecta que está en otra red y coloca como MAC Destino la dirección MAC del Router Gateway predeterminado.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9c" value="c">
+                                <label class="form-check-label text-secondary" for="q9c">La trama se descarta de inmediato porque no se pueden enviar paquetes fuera de la LAN local.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 10 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">10</span>
+                            <h6 class="fw-bold mb-0">¿Qué protocolo de la capa de Internet de TCP/IP se encarga de resolver direcciones IP en direcciones físicas MAC en un segmento local?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10a" value="a">
+                                <label class="form-check-label text-secondary" for="q10a">DNS (Domain Name System)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10b" value="b">
+                                <label class="form-check-label text-secondary" for="q10b">ARP (Address Resolution Protocol)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10c" value="c">
+                                <label class="form-check-label text-secondary" for="q10c">HTTP (Hypertext Transfer Protocol)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Evaluar -->
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary-gradient fw-bold px-4 py-2 text-white" id="btn-evaluar-repaso">Comprobar Simulacro de Parcial</button>
+                        <span id="quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+
+    <script>
+        // ==========================================
+        //  REVELADO DE SOLUCIONES DE EJERCICIOS
+        // ==========================================
+        document.getElementById('btn-toggle-sol1').addEventListener('click', function() {
+            const box = document.getElementById('sol-box-1');
+            if (box.classList.contains('show')) {
+                box.classList.remove('show');
+                this.innerHTML = '<i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso';
+            } else {
+                box.classList.add('show');
+                this.innerHTML = '<i class="bi bi-eye-slash-fill me-1"></i> Ocultar Solución';
+            }
+        });
+
+        document.getElementById('btn-toggle-sol2').addEventListener('click', function() {
+            const box = document.getElementById('sol-box-2');
+            if (box.classList.contains('show')) {
+                box.classList.remove('show');
+                this.innerHTML = '<i class="bi bi-eye-fill me-1"></i> Revelar Solución Paso a Paso';
+            } else {
+                box.classList.add('show');
+                this.innerHTML = '<i class="bi bi-eye-slash-fill me-1"></i> Ocultar Solución';
+            }
+        });
+
+        // ==========================================
+        //  EVALUACIÓN DEL QUIZ DE SIMULACRO
+        // ==========================================
+        document.getElementById('btn-evaluar-repaso').addEventListener('click', () => {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b',
+                q4: 'c',
+                q5: 'a',
+                q6: 'b',
+                q7: 'b',
+                q8: 'b',
+                q9: 'b',
+                q10: 'b'
+            };
+
+            let score = 0;
+            const total = 10;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checked) {
+                    unanswered = true;
+                    break;
+                }
+                if (checked.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las 10 preguntas antes de evaluar tu simulacro.');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result-score');
+            result.style.display = 'inline-block';
+            result.textContent = `Puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                result.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 7) {
+                result.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                result.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+    </script>
+</body>
+
+</html>
