@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 10: Panorama Completo del Modelo TCP/IP - Redes de Comunicaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* ── Tarjetas y Estilos Didácticos ── */
+        .class-step {
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--hover-bg);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .interactive-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            height: 100%;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .concept-badge {
+            background: linear-gradient(135deg, var(--primary), #a29bfe);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, #6c5ce7 100%);
+            border: none;
+            color: white;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-primary-gradient:hover {
+            opacity: 0.92;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* ── Estilos de Capas TCP/IP ── */
+        .tcp-layer-card {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .tcp-layer-card:hover {
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .tcp-layer-header {
+            padding: 16px 20px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tcp-layer-4 { background: linear-gradient(135deg, #e74c3c, #c0392b); } /* Aplicación */
+        .tcp-layer-3 { background: linear-gradient(135deg, #2ecc71, #27ae60); } /* Transporte */
+        .tcp-layer-2 { background: linear-gradient(135deg, #1abc9c, #16a085); } /* Internet */
+        .tcp-layer-1 { background: linear-gradient(135deg, #3498db, #2980b9); } /* Acceso a Red */
+
+        .tcp-layer-body {
+            padding: 20px;
+        }
+
+        .pdu-tag {
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.25);
+            color: currentColor;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── Estilos del Simulador ── */
+        .simulator-container {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #30363d;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .pdu-visualizer {
+            background: #161b22;
+            border: 2px dashed #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header-block {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            animation: popIn 0.3s ease-out;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .header-block:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .payload-block {
+            background: #238636;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border: 1px solid #2ea043;
+        }
+
+        .bits-stream {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #39ff14;
+            padding: 12px;
+            border-radius: 8px;
+            word-break: break-all;
+            font-size: 0.88rem;
+            letter-spacing: 2px;
+            max-height: 90px;
+            overflow-y: auto;
+        }
+
+        /* ── Cuadro Comparativo OSI vs TCP/IP ── */
+        .table-osi-tcp {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            width: 100%;
+        }
+
+        .table-osi-tcp td, .table-osi-tcp th {
+            vertical-align: middle;
+            padding: 14px 16px;
+        }
+
+        .table-osi-tcp tbody tr {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+
+        .table-osi-tcp tbody tr:hover {
+            transform: scale(1.01);
+        }
+
+        /* ── Cronograma 120 Minutos ── */
+        .timeline-box {
+            border-left: 3px solid var(--primary);
+            padding-left: 18px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .timeline-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+
+        /* ── Quiz ── */
+        .quiz-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+            transition: box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .quiz-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .step-num {
+            width: 34px;
+            height: 34px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Header Superior -->
+            <header class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Clase 10: Panorama Completo del Modelo TCP/IP</h4>
+                        <span class="text-muted" style="font-size: 0.85rem;">Redes de Comunicaciones • CCNA 1</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+                        <i class="bi bi-moon-fill" id="theme-icon"></i>
+                    </button>
+                    <div class="profile-widget">
+                        <div class="profile-avatar">JG</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido Didáctico -->
+            <div class="class-content-wrapper mb-5">
+                <!-- Encabezado de la Clase -->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="badge-clase bg-primary text-white"><i class="bi bi-diagram-3-fill me-1"></i> Clase 10</span>
+                    <span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración: 120 Minutos</span>
+                </div>
+                <h2 class="fw-bold mb-3">Panorama Completo del Modelo TCP/IP</h2>
+                <p class="text-secondary lead fs-6 mb-4">
+                    Explora en detalle la arquitectura de la pila de protocolos <strong>TCP/IP</strong> (Transmission Control Protocol / Internet Protocol), el estándar real sobre el cual se edifica Internet global. Domina sus 4 capas funcionales, las unidades de datos (PDU), el protocolo TCP vs UDP, la comparativa rigurosa con el modelo OSI y simula el flujo de información en tiempo real.
+                </p>
+
+                <!-- ========================================== -->
+                <!--    AGENDAS Y PLAN DE CLASE (120 MINUTOS)   -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <div class="card border-0 shadow-sm rounded-4 p-4" style="background: var(--card-bg);">
+                        <h4 class="fw-bold mb-3 text-primary"><i class="bi bi-calendar-event me-2"></i>Estructura Didáctica de la Sesión (120 Minutos)</h4>
+                        <p class="text-secondary small mb-4">
+                            Esta clase se encuentra estructurada metodológicamente para cubrir aspectos teóricos, análisis analítico, simulación práctica e interacción en un período lectivo de 2 horas.
+                        </p>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="timeline-box">
+                                    <span class="timeline-badge">00:00 - 00:25 (25 min)</span>
+                                    <h6 class="fw-bold mb-1">1. Orígenes y Filosofía TCP/IP</h6>
+                                    <p class="text-muted small mb-0">Historia de ARPANET/DoD, diseño sin estado, robustez y principio End-to-End.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="timeline-box">
+                                    <span class="timeline-badge">00:25 - 00:55 (30 min)</span>
+                                    <h6 class="fw-bold mb-1">2. Las 4 Capas y Protocolos</h6>
+                                    <p class="text-muted small mb-0">Aplicación, Transporte (TCP/UDP), Internet (IP/ICMP/ARP) y Acceso a Red.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="timeline-box">
+                                    <span class="timeline-badge">00:55 - 01:25 (30 min)</span>
+                                    <h6 class="fw-bold mb-1">3. Encapsulamiento y Handshake</h6>
+                                    <p class="text-muted small mb-0">Formato PDU, numeración de puertos, sockets y 3-Way Handshake TCP (SYN-ACK).</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="timeline-box">
+                                    <span class="timeline-badge">01:25 - 01:45 (20 min)</span>
+                                    <h6 class="fw-bold mb-1">4. Cuadro Comparativo TCP/IP vs OSI</h6>
+                                    <p class="text-muted small mb-0">Mapeo de capas (7 vs 4), diferencias filosóficas, estándar de jure vs de facto.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="timeline-box">
+                                    <span class="timeline-badge">01:45 - 02:00 (15 min)</span>
+                                    <h6 class="fw-bold mb-1">5. Simulación Interactiva y Quiz</h6>
+                                    <p class="text-muted small mb-0">Laboratorio visual de flujo de tramas/paquetes y cuestionario de autoevaluación.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--       SECCIÓN 1: TEORÍA Y FUNDAMENTOS      -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-book-half text-primary me-2"></i>1. Fundamentos Teóricos e Historia del Modelo TCP/IP</h3>
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-7">
+                            <div class="interactive-box">
+                                <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-globe2 me-2"></i>¿Qué es el Modelo TCP/IP?</h5>
+                                <p class="text-secondary mb-3">
+                                    El modelo <strong>TCP/IP</strong> (Protocolo de Control de Transmisión / Protocolo de Internet) es un conjunto jerárquico de protocolos de comunicación diseñado en la década de 1970 por el Departamento de Defensa de los EE. UU. (DoD - DARPA) a través de investigadores como <strong>Vinton Cerf</strong> y <strong>Robert Kahn</strong>.
+                                </p>
+                                <p class="text-secondary mb-3">
+                                    A diferencia del Modelo OSI, que se creó como una referencia teórica conceptual, TCP/IP fue diseñado como una <strong>solución práctica e implementable</strong> para interconectar redes heterogéneas (satélite, radio, cable coaxial, enlaces dedicados) garantizando que la red continúe funcionando aun cuando nodos intermedios sean destruidos o fallen.
+                                </p>
+                                <div class="p-3 rounded-3 bg-light border text-secondary small">
+                                    <i class="bi bi-info-circle-fill text-primary me-1"></i>
+                                    <strong>Documentación RFC:</strong> Las especificaciones de TCP/IP no se publican como libros cerrados, sino mediante <strong>RFCs</strong> (Request for Comments) abiertos mantenidos por el IETF (Internet Engineering Task Force). Por ejemplo: RFC 791 (IPv4), RFC 793 (TCP) y RFC 768 (UDP).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="interactive-box">
+                                <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-cpu-fill me-2"></i>Principios de Diseño Fundamentales</h5>
+                                <ul class="list-unstyled text-secondary mb-0">
+                                    <li class="mb-3 d-flex align-items-start">
+                                        <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Principio Extremo a Extremo (End-to-End):</strong>
+                                            <span class="d-block small text-muted">La inteligencia y el control de errores residen en los hosts finales, manteniendo el núcleo de la red simple y eficiente.</span>
+                                        </div>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-start">
+                                        <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Conmutación de Paquetes (Packet Switching):</strong>
+                                            <span class="d-block small text-muted">Los mensajes se fragmentan en paquetes independientes que pueden viajar por diferentes rutas dinámicas.</span>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex align-items-start">
+                                        <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Tolerancia a Fallos e Independencia del Medio:</strong>
+                                            <span class="d-block small text-muted">Funcionamiento agnóstico sobre cualquier tecnología física (Ethernet, Fibra Óptica, Wi-Fi, LTE/5G).</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--       SECCIÓN 2: LAS 4 CAPAS DE TCP/IP      -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-layers-fill text-primary me-2"></i>2. Desglose de las 4 Capas del Modelo TCP/IP</h3>
+                    <p class="text-secondary mb-4">
+                        El modelo original del DoD define 4 capas superpuestas. A continuación se analiza detalladamente cada nivel, sus funciones, unidades de datos (PDU) y protocolos representativos:
+                    </p>
+
+                    <div class="row g-4">
+                        <!-- Capa 4: Aplicación -->
+                        <div class="col-md-6">
+                            <div class="tcp-layer-card">
+                                <div class="tcp-layer-header tcp-layer-4">
+                                    <div>
+                                        <i class="bi bi-window-stack me-2"></i>Capa 4: Aplicación
+                                    </div>
+                                    <span class="pdu-tag">PDU: Datos / Mensaje</span>
+                                </div>
+                                <div class="tcp-layer-body">
+                                    <p class="text-secondary small mb-3">
+                                        Representa la interfaz directa para los procesos de software del usuario final. Engloba las funciones que en OSI se dividen en Aplicación, Presentación y Sesión (cifrado, compresión y diálogo).
+                                    </p>
+                                    <h6 class="fw-bold text-dark mb-2 small"><i class="bi bi-tools text-danger me-1"></i>Protocolos Principales:</h6>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">HTTP / HTTPS (80/443)</span>
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">DNS (53)</span>
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">DHCP (67/68)</span>
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">FTP / SFTP (21/22)</span>
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">SSH (22)</span>
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">SMTP / POP3 / IMAP</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Capa 3: Transporte -->
+                        <div class="col-md-6">
+                            <div class="tcp-layer-card">
+                                <div class="tcp-layer-header tcp-layer-3">
+                                    <div>
+                                        <i class="bi bi-arrow-left-right me-2"></i>Capa 3: Transporte
+                                    </div>
+                                    <span class="pdu-tag">PDU: Segmento (TCP) / Datagrama (UDP)</span>
+                                </div>
+                                <div class="tcp-layer-body">
+                                    <p class="text-secondary small mb-3">
+                                        Garantiza la comunicación origen a destino entre aplicaciones mediante el uso de <strong>Números de Puerto</strong>. Maneja la multiplexación, control de flujo y confiabilidad.
+                                    </p>
+                                    <h6 class="fw-bold text-dark mb-2 small"><i class="bi bi-tools text-success me-1"></i>Protocolos Principales:</h6>
+                                    <div class="d-flex flex-wrap gap-2 mb-2">
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">TCP (Transmission Control Protocol)</span>
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">UDP (User Datagram Protocol)</span>
+                                    </div>
+                                    <p class="text-muted small mb-0">
+                                        <em>Concepto Clave:</em> <strong>Socket = Dirección IP + Número de Puerto</strong> (Ejemplo: 192.168.1.10:443).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Capa 2: Internet -->
+                        <div class="col-md-6">
+                            <div class="tcp-layer-card">
+                                <div class="tcp-layer-header tcp-layer-2">
+                                    <div>
+                                        <i class="bi bi-diagram-2 me-2"></i>Capa 2: Internet
+                                    </div>
+                                    <span class="pdu-tag">PDU: Paquete IP</span>
+                                </div>
+                                <div class="tcp-layer-body">
+                                    <p class="text-secondary small mb-3">
+                                        Responsable del direccionamiento lógico universal y la determinación de rutas (enrutamiento) para trasladar paquetes a través de múltiples redes interconectadas.
+                                    </p>
+                                    <h6 class="fw-bold text-dark mb-2 small"><i class="bi bi-tools text-teal me-1"></i>Protocolos Principales:</h6>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">IPv4 / IPv6</span>
+                                        <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">ICMP (Ping / Traceroute)</span>
+                                        <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">ARP (Address Resolution Protocol)</span>
+                                        <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">IPsec</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Capa 1: Acceso a la Red -->
+                        <div class="col-md-6">
+                            <div class="tcp-layer-card">
+                                <div class="tcp-layer-header tcp-layer-1">
+                                    <div>
+                                        <i class="bi bi-ethernet me-2"></i>Capa 1: Acceso a la Red
+                                    </div>
+                                    <span class="pdu-tag">PDU: Trama (Frame) y Bits</span>
+                                </div>
+                                <div class="tcp-layer-body">
+                                    <p class="text-secondary small mb-3">
+                                        Especifica el formato con el que los datos deben estructurarse para ser transmitidos sobre los medios físicos y gestiona la entrega en el enlace local mediante direcciones físicas MAC.
+                                    </p>
+                                    <h6 class="fw-bold text-dark mb-2 small"><i class="bi bi-tools text-primary me-1"></i>Tecnologías y Estándares:</h6>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Ethernet (IEEE 802.3)</span>
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Wi-Fi (IEEE 802.11)</span>
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">PPP / Frame Relay</span>
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Drivers y Controladores NIC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--    SECCIÓN 3: TCP vs UDP Y HANDSHAKE      -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-arrow-repeat text-primary me-2"></i>3. Protocolos de Transporte: TCP vs UDP & Handshake</h3>
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="fw-bold text-success mb-0"><i class="bi bi-shield-check me-2"></i>TCP (Transmission Control Protocol)</h5>
+                                    <span class="badge bg-success">Confiable</span>
+                                </div>
+                                <ul class="list-unstyled text-secondary small mb-0">
+                                    <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i><strong>Orientado a Conexión:</strong> Requiere negociación previa (Handshake) antes de enviar datos.</li>
+                                    <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i><strong>Garantía de Entrega:</strong> Reenvía paquetes perdidos mediante confirmaciones (ACKs).</li>
+                                    <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i><strong>Secuenciamiento:</strong> Reordena los segmentos en el receptor según el número de secuencia.</li>
+                                    <li class="mb-0"><i class="bi bi-check2 text-success me-2"></i><strong>Control de Flujo:</strong> Ajusta la velocidad mediante Ventanas Deslizantes (Sliding Window).</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="interactive-box">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="fw-bold text-warning mb-0"><i class="bi bi-lightning-charge-fill me-2"></i>UDP (User Datagram Protocol)</h5>
+                                    <span class="badge bg-warning text-dark">Rápido / Best-Effort</span>
+                                </div>
+                                <ul class="list-unstyled text-secondary small mb-0">
+                                    <li class="mb-2"><i class="bi bi-x-circle text-danger me-2"></i><strong>Sin Conexión:</strong> Envía datagramas inmediatamente sin establecer sesión.</li>
+                                    <li class="mb-2"><i class="bi bi-x-circle text-danger me-2"></i><strong>Sin Confiabilidad incorporada:</strong> No realiza retransmisiones ni exige confirmación ACK.</li>
+                                    <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i><strong>Mínimo Overhead:</strong> Cabecera ultra ligera de solo 8 bytes (frente a los 20 bytes de TCP).</li>
+                                    <li class="mb-0"><i class="bi bi-check2 text-success me-2"></i><strong>Aplicaciones:</strong> Streaming de video/audio, VoIP, Juegos online, DNS, DHCP.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Handshake TCP 3-Way -->
+                    <div class="card border-0 shadow-sm rounded-4 p-4" style="background: var(--card-bg);">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-hand-thumbs-up me-2"></i>El Handshake de 3 Vías de TCP (Three-Way Handshake)</h5>
+                        <p class="text-secondary small mb-4">
+                            Para iniciar una transferencia confiable, el cliente y el servidor sincronizan sus números de secuencia iniciales (ISN) mediante 3 pasos fundamentales:
+                        </p>
+                        <div class="row g-3 text-center">
+                            <div class="col-md-4">
+                                <div class="p-3 rounded-3 bg-light border">
+                                    <span class="badge bg-primary mb-2">Paso 1: SYN</span>
+                                    <h6 class="fw-bold mb-1">Cliente → Servidor</h6>
+                                    <p class="text-muted extra-small mb-0">"Quiero conectarme. Mi número de secuencia inicial es Seq = X."</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 rounded-3 bg-light border">
+                                    <span class="badge bg-success mb-2">Paso 2: SYN-ACK</span>
+                                    <h6 class="fw-bold mb-1">Servidor → Cliente</h6>
+                                    <p class="text-muted extra-small mb-0">"Recibido tu SYN (Ack = X+1). Yo acepto y mi secuencia es Seq = Y."</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 rounded-3 bg-light border">
+                                    <span class="badge bg-info text-dark mb-2">Paso 3: ACK</span>
+                                    <h6 class="fw-bold mb-1">Cliente → Servidor</h6>
+                                    <p class="text-muted extra-small mb-0">"Recibido tu SYN (Ack = Y+1). ¡Conexión Establecida!"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--    SECCIÓN 4: CUADRO COMPARATIVO OSI vs TCP/IP -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-layout-split text-primary me-2"></i>4. Cuadro Comparativo Profundo: Modelo TCP/IP vs Modelo OSI</h3>
+                    <p class="text-secondary mb-4">
+                        Analiza detalladamente las convergencias, diferencias estructurales y equivalencias operativas entre el modelo académico OSI (7 capas) y la arquitectura funcional TCP/IP (4 capas).
+                    </p>
+
+                    <div class="table-responsive">
+                        <table class="table table-osi-tcp">
+                            <thead>
+                                <tr class="text-muted text-uppercase small">
+                                    <th style="width: 28%;">Modelo OSI (7 Capas)</th>
+                                    <th style="width: 25%;">Modelo TCP/IP (4 Capas)</th>
+                                    <th style="width: 20%;">PDU / Unidades</th>
+                                    <th style="width: 27%;">Diferencias y Criterios Operativos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-danger"><i class="bi bi-7-circle me-1"></i> 7. Aplicación</div>
+                                        <div class="fw-bold text-warning"><i class="bi bi-6-circle me-1"></i> 6. Presentación</div>
+                                        <div class="fw-bold text-warning-emphasis"><i class="bi bi-5-circle me-1"></i> 5. Sesión</div>
+                                    </td>
+                                    <td>
+                                        <div class="p-3 rounded-3 text-white tcp-layer-4 fw-bold">
+                                            <i class="bi bi-window-stack me-1"></i> Capa 4: Aplicación
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-danger-subtle text-danger fw-bold">Datos / Mensaje</span></td>
+                                    <td class="small text-secondary">
+                                        TCP/IP combina el formato (Presentación) y control de sesión dentro de los propios protocolos de aplicación (HTTP, SSH, TLS/SSL).
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-success"><i class="bi bi-4-circle me-1"></i> 4. Transporte</div>
+                                    </td>
+                                    <td>
+                                        <div class="p-3 rounded-3 text-white tcp-layer-3 fw-bold">
+                                            <i class="bi bi-arrow-left-right me-1"></i> Capa 3: Transporte
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-success-subtle text-success fw-bold">Segmento / Datagrama</span></td>
+                                    <td class="small text-secondary">
+                                        Misma función conceptual. TCP/IP ofrece la elección estricta entre protocolo confiable (TCP) o liviano (UDP).
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-info"><i class="bi bi-3-circle me-1"></i> 3. Red</div>
+                                    </td>
+                                    <td>
+                                        <div class="p-3 rounded-3 text-white tcp-layer-2 fw-bold">
+                                            <i class="bi bi-diagram-2 me-1"></i> Capa 2: Internet
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-info-subtle text-info-emphasis fw-bold">Paquete IP</span></td>
+                                    <td class="small text-secondary">
+                                        OSI soporta servicios de red con y sin conexión. En TCP/IP, el protocolo IP es estrictamente <strong>sin conexión (Connectionless)</strong>.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-primary"><i class="bi bi-2-circle me-1"></i> 2. Enlace de Datos</div>
+                                        <div class="fw-bold text-secondary"><i class="bi bi-1-circle me-1"></i> 1. Física</div>
+                                    </td>
+                                    <td>
+                                        <div class="p-3 rounded-3 text-white tcp-layer-1 fw-bold">
+                                            <i class="bi bi-ethernet me-1"></i> Capa 1: Acceso a la Red
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-primary-subtle text-primary fw-bold">Trama (Frame) y Bits</span></td>
+                                    <td class="small text-secondary">
+                                        TCP/IP no especifica protocolos físicos específicos; delega el entramado y señalización a los estándares de hardware de red (Ethernet, Wi-Fi).
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Resumen Metodológico de Diferencias -->
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 bg-light border text-secondary small">
+                                <h6 class="fw-bold text-dark mb-2"><i class="bi bi-check-all text-success me-1"></i>Modelo OSI (Estándar De Jure)</h6>
+                                <ul class="mb-0 ps-3">
+                                    <li>Desarrollado por la ISO como marco de referencia teórico.</li>
+                                    <li>Distinción estricta entre servicios, interfaces y protocolos.</li>
+                                    <li>Llegó tarde al mercado comercial; complejo de implementar íntegramente.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 bg-light border text-secondary small">
+                                <h6 class="fw-bold text-dark mb-2"><i class="bi bi-cpu text-primary me-1"></i>Modelo TCP/IP (Estándar De Facto)</h6>
+                                <ul class="mb-0 ps-3">
+                                    <li>Desarrollado con fondos del DoD basándose en código real (Unix BSD).</li>
+                                    <li>Protocolos definidos antes que el modelo teórico.</li>
+                                    <li>Dominante en la industria e infraestructura global de Internet.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--    SECCIÓN 5: SIMULADOR INTERACTIVO TCP/IP -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-play-btn-fill text-primary me-2"></i>5. Laboratorio Simulador: Panorama del Flujo TCP/IP</h3>
+                    <p class="text-secondary mb-4">
+                        Experimenta el proceso de <strong>Encapsulamiento y Desencapsulamiento</strong> de un paquete TCP/IP. Configura los parámetros de la aplicación, el protocolo de transporte y observa la construcción del paquete en tiempo real.
+                    </p>
+
+                    <div class="simulator-container">
+                        <!-- Panel de Controles -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label text-light small fw-bold">Servicio / Aplicación:</label>
+                                <select class="form-select form-select-sm bg-dark text-white border-secondary" id="sim-app-select">
+                                    <option value="HTTP">HTTP (Navegación Web - Port 80)</option>
+                                    <option value="HTTPS">HTTPS (Web Segura - Port 443)</option>
+                                    <option value="DNS">DNS Query (Resolución Nombres - Port 53)</option>
+                                    <option value="SSH">SSH Terminal (Acceso Remoto - Port 22)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-light small fw-bold">Protocolo de Transporte:</label>
+                                <select class="form-select form-select-sm bg-dark text-white border-secondary" id="sim-trans-select">
+                                    <option value="TCP">TCP (Orientado a Conexión - Reliable)</option>
+                                    <option value="UDP">UDP (Sin Conexión - Datagrama)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-light small fw-bold">IP Destino:</label>
+                                <input type="text" class="form-control form-control-sm bg-dark text-white border-secondary" id="sim-ip-dst" value="142.250.190.46">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-light small fw-bold">Modo de Simulación:</label>
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary active" id="btn-mode-encaps">Encapsular</button>
+                                    <button type="button" class="btn btn-sm btn-outline-info" id="btn-mode-decaps">Desencapsular</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Estado Actual de la Capa -->
+                        <div class="d-flex align-items-center justify-content-between mb-3 bg-secondary bg-opacity-25 p-3 rounded-3 border border-secondary">
+                            <div>
+                                <span class="badge bg-primary me-2" id="sim-layer-badge">Capa 4 de 4</span>
+                                <strong class="text-white me-3" id="sim-status">Capa Activa: Aplicación</strong>
+                                <span class="text-info small" id="sim-pdu-name">PDU: Datos</span>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-success me-2" id="btn-sim-next"><i class="bi bi-skip-forward-fill me-1"></i> Siguiente Paso</button>
+                                <button class="btn btn-sm btn-outline-light" id="btn-sim-reset"><i class="bi bi-arrow-counterclockwise me-1"></i> Reiniciar</button>
+                            </div>
+                        </div>
+
+                        <!-- Explicación de la Capa -->
+                        <div class="alert alert-dark border-secondary text-light small mb-4" id="sim-layer-desc">
+                            Capa 4 (Aplicación): Se genera la carga útil de datos enviada por el navegador o servicio.
+                        </div>
+
+                        <!-- Visualizador Gráfico PDU -->
+                        <label class="form-label text-muted small fw-bold mb-2">Estructura Gráfica de la PDU (Encabezados + Datos):</label>
+                        <div class="pdu-visualizer mb-4" id="pdu-container">
+                            <!-- Inyectado dinámicamente -->
+                        </div>
+
+                        <!-- Flujo Físico en Bits -->
+                        <label class="form-label text-muted small fw-bold mb-2">Señal Física / Cadena de Bits Transmitida:</label>
+                        <div class="bits-stream" id="sim-bits">
+                            01000111 01000101 01010100 00100000 00101111 00100000 01001000 01010100
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================== -->
+                <!--       SECCIÓN 6: CUESTIONARIO EVALUATIVO   -->
+                <!-- ========================================== -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-patch-question-fill text-primary me-2"></i>6. Cuestionario de Autoevaluación</h3>
+                    <p class="text-secondary mb-4">
+                        Responde a las siguientes 10 preguntas para verificar tu comprensión sobre el Modelo TCP/IP, sus capas, protocolos y diferencias con el modelo OSI.
+                    </p>
+
+                    <!-- Pregunta 1 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">1</span>
+                            <h6 class="fw-bold mb-0">¿Cuántas capas posee la arquitectura original del modelo TCP/IP desarrollada por el Departamento de Defensa (DoD)?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label text-secondary" for="q1a">7 capas</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label text-secondary" for="q1b">4 capas</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label text-secondary" for="q1c">5 capas estrictas</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">2</span>
+                            <h6 class="fw-bold mb-0">¿En qué capa del modelo TCP/IP opera el protocolo IP (IPv4 / IPv6)?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label text-secondary" for="q2a">Capa de Acceso a la Red</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label text-secondary" for="q2b">Capa de Internet</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label text-secondary" for="q2c">Capa de Transporte</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">3</span>
+                            <h6 class="fw-bold mb-0">¿Qué combinación define un "Socket" en las comunicaciones TCP/IP?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label text-secondary" for="q3a">Dirección MAC + Dirección IP</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label text-secondary" for="q3b">Dirección IP + Número de Puerto</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label text-secondary" for="q3c">Número de Puerto + Dirección MAC</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">4</span>
+                            <h6 class="fw-bold mb-0">¿Cuál es la diferencia fundamental en la Capa de Transporte entre TCP y UDP?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label text-secondary" for="q4a">TCP es orientado a conexión y confiable; UDP no exige conexión previa y prioriza velocidad.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label text-secondary" for="q4b">UDP reordena los segmentos mientras que TCP los destruye si hay error.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label text-secondary" for="q4c">TCP opera en la Capa de Internet y UDP en la Capa de Aplicación.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">5</span>
+                            <h6 class="fw-bold mb-0">¿Cuál es la secuencia correcta del Handshake de 3 Vías (Three-Way Handshake) de TCP?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label text-secondary" for="q5a">ACK → SYN → SYN-ACK</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label text-secondary" for="q5b">SYN → SYN-ACK → ACK</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label text-secondary" for="q5c">PING → PONG → OK</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 6 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">6</span>
+                            <h6 class="fw-bold mb-0">¿A qué capas del Modelo OSI equivale la Capa de Aplicación del Modelo TCP/IP?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6a" value="a">
+                                <label class="form-check-label text-secondary" for="q6a">Únicamente a la Capa 7 (Aplicación) de OSI</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6b" value="b">
+                                <label class="form-check-label text-secondary" for="q6b">A las Capas 7 (Aplicación), 6 (Presentación) y 5 (Sesión) de OSI</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q6" id="q6c" value="c">
+                                <label class="form-check-label text-secondary" for="q6c">A las Capas 4 (Transporte) y 3 (Red) de OSI</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 7 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">7</span>
+                            <h6 class="fw-bold mb-0">¿Cómo se denomina la Unidad de Datos del Protocolo (PDU) en la Capa de Internet de TCP/IP?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7a" value="a">
+                                <label class="form-check-label text-secondary" for="q7a">Trama (Frame)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7b" value="b">
+                                <label class="form-check-label text-secondary" for="q7b">Paquete (Packet)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q7" id="q7c" value="c">
+                                <label class="form-check-label text-secondary" for="q7c">Segmento (Segment)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 8 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">8</span>
+                            <h6 class="fw-bold mb-0">¿Qué protocolo de la Capa de Internet se utiliza para mapear una dirección IP conocida a una dirección física MAC?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8a" value="a">
+                                <label class="form-check-label text-secondary" for="q8a">ARP (Address Resolution Protocol)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8b" value="b">
+                                <label class="form-check-label text-secondary" for="q8b">DNS (Domain Name System)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q8" id="q8c" value="c">
+                                <label class="form-check-label text-secondary" for="q8c">DHCP (Dynamic Host Configuration Protocol)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 9 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">9</span>
+                            <h6 class="fw-bold mb-0">¿Por qué se considera a TCP/IP el estándar "De Facto" de las redes informáticas?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9a" value="a">
+                                <label class="form-check-label text-secondary" for="q9a">Porque fue impuesto por una norma formal de la ISO antes de construirse Internet.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9b" value="b">
+                                <label class="form-check-label text-secondary" for="q9b">Porque se impuso mediante su implementación práctica y adopción masiva en la realidad de Internet.</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q9" id="q9c" value="c">
+                                <label class="form-check-label text-secondary" for="q9c">Porque solo funciona con cables de cobre Ethernet.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 10 -->
+                    <div class="quiz-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="step-num">10</span>
+                            <h6 class="fw-bold mb-0">¿Qué campo del encabezado de la trama Ethernet (Capa de Acceso a Red) permite verificar si los datos sufrieron errores durante la transmisión física?</h6>
+                        </div>
+                        <div class="ps-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10a" value="a">
+                                <label class="form-check-label text-secondary" for="q10a">TTL (Time to Live)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10b" value="b">
+                                <label class="form-check-label text-secondary" for="q10b">FCS / CRC32 (Frame Check Sequence)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q10" id="q10c" value="c">
+                                <label class="form-check-label text-secondary" for="q10c">Window Size</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Evaluar -->
+                    <div class="d-flex align-items-center gap-3 mt-4">
+                        <button class="btn btn-primary-gradient fw-bold px-4 py-2 text-white" id="btn-evaluar-tcp">Comprobar Cuestionario</button>
+                        <span id="quiz-result-score" style="display: none;"></span>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: var(--sidebar-bg); border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+        <p class="mb-0" style="font-size: 0.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/main.js"></script>
+
+    <script>
+        // ==========================================
+        //      LÓGICA DEL SIMULADOR TCP/IP
+        // ==========================================
+        const tcpLayers = [
+            {
+                layer: 4,
+                name: "Capa 4: Aplicación",
+                pdu: "Datos / Payload",
+                desc: "Capa de Aplicación: Se genera la carga útil de datos enviada por el servicio (Ejemplo: Mensaje HTTP / DNS / SSH Payload).",
+                getHeaders: (app, trans, dst) => []
+            },
+            {
+                layer: 3,
+                name: "Capa 3: Transporte",
+                pdu: (trans) => trans === 'TCP' ? "Segmento TCP" : "Datagrama UDP",
+                desc: (trans, app) => `Capa de Transporte (${trans}): Se adjunta el encabezado con Puerto Origen dinámico (52140) y Puerto Destino de servicio (${app === 'HTTP' ? 80 : app === 'HTTPS' ? 443 : app === 'DNS' ? 53 : 22}).`,
+                getHeaders: (app, trans, dst) => [
+                    { title: `H-Trans: ${trans} (Port -> ${app === 'HTTP' ? 80 : app === 'HTTPS' ? 443 : app === 'DNS' ? 53 : 22})`, bg: "#27ae60" }
+                ]
+            },
+            {
+                layer: 2,
+                name: "Capa 2: Internet",
+                pdu: () => "Paquete IP",
+                desc: (trans, app, dst) => `Capa de Internet (IP): Se adjunta el encabezado IP con la IP Origen (192.168.1.100) y la IP Destino (${dst}). Se establece TTL=64.`,
+                getHeaders: (app, trans, dst) => [
+                    { title: `H-IP: 192.168.1.100 -> ${dst}`, bg: "#16a085" },
+                    { title: `H-Trans: ${trans}`, bg: "#27ae60" }
+                ]
+            },
+            {
+                layer: 1,
+                name: "Capa 1: Acceso a la Red",
+                pdu: () => "Trama Ethernet",
+                desc: (trans, app, dst) => `Capa de Acceso a la Red: Se encapsula en una trama Ethernet con Dirección MAC Origen (00:1A:2B:3C:4D:5E) y MAC del Gateway Destino (00:11:22:33:44:55), agregando la cola FCS CRC32.`,
+                getHeaders: (app, trans, dst) => [
+                    { title: "H-Eth: MAC (00:1A:2B... -> Gateway)", bg: "#2980b9" },
+                    { title: `H-IP: IP (-> ${dst})`, bg: "#16a085" },
+                    { title: `H-Trans: ${trans}`, bg: "#27ae60" }
+                ],
+                trailer: { title: "Trailer: FCS (CRC32)", bg: "#2980b9" }
+            }
+        ];
+
+        let currentStep = 0; // 0 = Aplicacion, 3 = Acceso Red
+        let isEncapsulating = true;
+
+        function updateTcpSimulator() {
+            const app = document.getElementById('sim-app-select').value;
+            const trans = document.getElementById('sim-trans-select').value;
+            const dst = document.getElementById('sim-ip-dst').value.trim() || "142.250.190.46";
+
+            const info = tcpLayers[currentStep];
+
+            const statusEl = document.getElementById('sim-status');
+            const badgeEl = document.getElementById('sim-layer-badge');
+            const pduEl = document.getElementById('sim-pdu-name');
+            const descEl = document.getElementById('sim-layer-desc');
+            const container = document.getElementById('pdu-container');
+            const bitsEl = document.getElementById('sim-bits');
+
+            const pduText = typeof info.pdu === 'function' ? info.pdu(trans) : info.pdu;
+            const descText = typeof info.desc === 'function' ? info.desc(trans, app, dst) : info.desc;
+
+            statusEl.textContent = `Capa Activa: ${info.name}`;
+            badgeEl.textContent = `Capa ${info.layer} de 4`;
+            pduEl.innerHTML = `PDU Actual: <strong>${pduText}</strong>`;
+            descEl.textContent = descText;
+
+            // Renderizar Bloque PDU
+            container.innerHTML = '';
+            const headers = info.getHeaders(app, trans, dst);
+
+            headers.forEach(h => {
+                const div = document.createElement('div');
+                div.className = 'header-block';
+                div.style.backgroundColor = h.bg;
+                div.textContent = h.title;
+                container.appendChild(div);
+            });
+
+            // Payload
+            const payload = document.createElement('div');
+            payload.className = 'payload-block';
+            payload.textContent = `[ Data ${app}: "${app === 'HTTP' ? 'GET /index.html' : app === 'DNS' ? 'Query: google.com' : 'Encrypted Stream'}" ]`;
+            container.appendChild(payload);
+
+            // Trailer
+            if (info.trailer) {
+                const tr = document.createElement('div');
+                tr.className = 'header-block';
+                tr.style.backgroundColor = info.trailer.bg;
+                tr.textContent = info.trailer.title;
+                container.appendChild(tr);
+            }
+
+            // Bits impresos aleatorios para simular físicos
+            let sampleBits = "01000111 01000101 01010100 00100000 00101111 00100000";
+            if (info.layer <= 2) {
+                sampleBits += " 11000000 10101000 00000001 01100100";
+            }
+            if (info.layer === 1) {
+                sampleBits += " 00000000 00011010 00101011 00111100 01001101 01011110";
+            }
+            bitsEl.textContent = sampleBits;
+        }
+
+        document.getElementById('btn-sim-next').addEventListener('click', () => {
+            if (isEncapsulating) {
+                if (currentStep < tcpLayers.length - 1) currentStep++;
+            } else {
+                if (currentStep > 0) currentStep--;
+            }
+            updateTcpSimulator();
+        });
+
+        document.getElementById('btn-sim-reset').addEventListener('click', () => {
+            currentStep = isEncapsulating ? 0 : tcpLayers.length - 1;
+            updateTcpSimulator();
+        });
+
+        document.getElementById('btn-mode-encaps').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-mode-decaps').classList.remove('active');
+            isEncapsulating = true;
+            currentStep = 0;
+            updateTcpSimulator();
+        });
+
+        document.getElementById('btn-mode-decaps').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-mode-encaps').classList.remove('active');
+            isEncapsulating = false;
+            currentStep = tcpLayers.length - 1;
+            updateTcpSimulator();
+        });
+
+        document.getElementById('sim-app-select').addEventListener('change', updateTcpSimulator);
+        document.getElementById('sim-trans-select').addEventListener('change', updateTcpSimulator);
+        document.getElementById('sim-ip-dst').addEventListener('input', updateTcpSimulator);
+
+        // Inicializar simulador
+        updateTcpSimulator();
+
+        // ==========================================
+        //      EVALUACIÓN DEL CUESTIONARIO TCP/IP
+        // ==========================================
+        document.getElementById('btn-evaluar-tcp').addEventListener('click', () => {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b',
+                q4: 'a',
+                q5: 'b',
+                q6: 'b',
+                q7: 'b',
+                q8: 'a',
+                q9: 'b',
+                q10: 'b'
+            };
+
+            let score = 0;
+            const total = 10;
+            let unanswered = false;
+
+            for (let i = 1; i <= total; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!checked) {
+                    unanswered = true;
+                    break;
+                }
+                if (checked.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            if (unanswered) {
+                alert('Por favor responde a todas las 10 preguntas antes de comprobar los resultados.');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result-score');
+            result.style.display = 'inline-block';
+            result.textContent = `Puntuación: ${score} / ${total} (${Math.round((score / total) * 100)}%)`;
+
+            if (score === total) {
+                result.className = 'fw-bold fs-5 text-success ms-3';
+            } else if (score >= 7) {
+                result.className = 'fw-bold fs-5 text-warning ms-3';
+            } else {
+                result.className = 'fw-bold fs-5 text-danger ms-3';
+            }
+        });
+    </script>
+</body>
+
+</html>

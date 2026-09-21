@@ -68,6 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 9: Panorama completo del modelo OSI">Clase 9: Panorama completo del modelo OSI</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase10redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 10: Panorama completo de modelo TCP/IP">Clase 10: Panorama completo de modelo TCP/IP</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
