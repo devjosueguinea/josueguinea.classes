@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 12: Taller Práctico FLSM y VLSM - Redes de Comunicaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .practice-card { background:var(--card-bg); border:1px solid var(--border-color); border-left:5px solid var(--primary); border-radius:16px; padding:26px; margin-bottom:28px; box-shadow:0 4px 15px rgba(0,0,0,.03); }
+        .practice-card.vlsm { border-left-color:#198754; }
+        .objective-card,.step-box { background:var(--hover-bg); border:1px solid var(--border-color); border-radius:14px; padding:20px; height:100%; }
+        .step-box { height:auto; margin-bottom:18px; }
+        .solution-box { display:none; margin-top:20px; padding:22px; background:#0d1117; color:#d0d7de; border-radius:12px; }
+        .solution-box.show { display:block; animation:fadeIn .25s ease-in-out; }
+        .solution-box .table { --bs-table-bg:transparent; --bs-table-color:#d0d7de; --bs-table-border-color:#30363d; }
+        @keyframes fadeIn { from {opacity:0;transform:translateY(-5px)} to {opacity:1;transform:translateY(0)} }
+    </style>
+</head>
+<body>
+    <div class="app-container"><main class="main-content">
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3"><a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice"><i class="bi bi-arrow-left"></i></a><div><h4 class="mb-0 fw-bold">Clase 12: Taller Práctico de Subnetting</h4><span class="text-muted" style="font-size:.85rem;">Redes de Comunicaciones • CCNA 1</span></div></div>
+            <div class="header-actions"><button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema"><i class="bi bi-moon-fill" id="theme-icon"></i></button><div class="profile-widget"><div class="profile-avatar">JG</div></div></div>
+        </header>
+        <div class="class-content-wrapper mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-3"><span class="badge-clase bg-primary text-white"><i class="bi bi-calculator-fill me-1"></i> Clase 12: Taller de Subredes</span><span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración: 120 minutos</span></div>
+            <h2 class="fw-bold mb-3">Taller Práctico: Diseño de Subredes FLSM y VLSM</h2>
+            <p class="text-secondary lead fs-6 mb-4">Pon en práctica el cálculo de dirección de red, máscara, rango de hosts y broadcast. Resolverás un caso con subredes de longitud fija y otro con subredes de longitud variable.</p>
+            <section class="mb-5"><div class="row g-3">
+                <div class="col-md-4"><div class="objective-card"><i class="bi bi-grid-3x3-gap-fill text-primary fs-4"></i><h6 class="fw-bold mt-2">FLSM</h6><p class="text-muted small mb-0">Usar una misma máscara en todas las subredes.</p></div></div>
+                <div class="col-md-4"><div class="objective-card"><i class="bi bi-diagram-2-fill text-success fs-4"></i><h6 class="fw-bold mt-2">VLSM</h6><p class="text-muted small mb-0">Ajustar cada bloque a su necesidad real de hosts.</p></div></div>
+                <div class="col-md-4"><div class="objective-card"><i class="bi bi-check2-square text-warning fs-4"></i><h6 class="fw-bold mt-2">Verificación</h6><p class="text-muted small mb-0">Evitar solapamientos y comprobar cada rango.</p></div></div>
+            </div></section>
+            <section class="mb-5">
+                <div class="practice-card">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3"><h4 class="fw-bold text-primary mb-0"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Ejercicio práctico 1: Subnetting FLSM</h4><span class="badge bg-primary">Nivel intermedio</span></div>
+                    <p class="text-secondary">El <strong>Centro Educativo Digital</strong> dispone de la red <code>192.168.40.0/24</code>. Necesita crear <strong>6 subredes iguales</strong> para los laboratorios A, B, C, D, Administración y Biblioteca.</p>
+                    <div class="step-box"><strong>Tu reto:</strong> determina la máscara CIDR y decimal, los hosts útiles por subred y completa las primeras seis subredes: red, primer host, último host y broadcast.</div>
+                    <div class="table-responsive mb-3"><table class="table table-bordered table-sm align-middle text-center"><thead class="table-light"><tr><th>Subred</th><th>Red</th><th>Primer host</th><th>Último host</th><th>Broadcast</th></tr></thead><tbody><tr><td>Laboratorio A</td><td>__________</td><td>__________</td><td>__________</td><td>__________</td></tr><tr><td>Laboratorio B</td><td>__________</td><td>__________</td><td>__________</td><td>__________</td></tr><tr><td>Laboratorio C</td><td>__________</td><td>__________</td><td>__________</td><td>__________</td></tr><tr><td>Laboratorio D</td><td>__________</td><td>__________</td><td>__________</td><td>__________</td></tr><tr><td>Administración</td><td>__________</td><td>__________</td><td>__________</td><td>__________</td></tr><tr><td>Biblioteca</td><td>__________</td><td>__________</td><td>__________</td><td>__________</td></tr></tbody></table></div>
+                    <button class="btn btn-outline-primary btn-sm fw-bold toggle-solution" data-target="solution-flsm"><i class="bi bi-eye-fill me-1"></i> Ver solución paso a paso</button>
+                    <div class="solution-box" id="solution-flsm"><h5 class="fw-bold text-white">Solución FLSM</h5><p>Se requieren 6 subredes. Como <code>2³ = 8</code>, se toman 3 bits: <strong>/24 + 3 = /27</strong>. Máscara: <strong>255.255.255.224</strong>. Cada bloque tiene 32 direcciones y <strong>30 hosts útiles</strong>.</p><div class="table-responsive"><table class="table table-sm text-center"><thead><tr><th>Subred</th><th>Red /27</th><th>Hosts útiles</th><th>Broadcast</th></tr></thead><tbody><tr><td>Laboratorio A</td><td>192.168.40.0</td><td>.1 – .30</td><td>.31</td></tr><tr><td>Laboratorio B</td><td>192.168.40.32</td><td>.33 – .62</td><td>.63</td></tr><tr><td>Laboratorio C</td><td>192.168.40.64</td><td>.65 – .94</td><td>.95</td></tr><tr><td>Laboratorio D</td><td>192.168.40.96</td><td>.97 – .126</td><td>.127</td></tr><tr><td>Administración</td><td>192.168.40.128</td><td>.129 – .158</td><td>.159</td></tr><tr><td>Biblioteca</td><td>192.168.40.160</td><td>.161 – .190</td><td>.191</td></tr></tbody></table></div></div>
+                </div>
+                <div class="practice-card vlsm">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3"><h4 class="fw-bold text-success mb-0"><i class="bi bi-diagram-2-fill me-2"></i>Ejercicio práctico 2: Subnetting VLSM</h4><span class="badge bg-success">Nivel intermedio</span></div>
+                    <p class="text-secondary">La empresa <strong>NetSolutions</strong> recibió la red <code>10.10.20.0/24</code> y debe asignarla a los siguientes segmentos:</p>
+                    <div class="table-responsive mb-3"><table class="table table-bordered table-sm text-center align-middle"><thead class="table-light"><tr><th>Segmento</th><th>Hosts requeridos</th></tr></thead><tbody><tr><td>Desarrollo</td><td>50</td></tr><tr><td>Ventas</td><td>25</td></tr><tr><td>Administración</td><td>12</td></tr><tr><td>Servidores</td><td>6</td></tr><tr><td>Enlace WAN entre routers</td><td>2</td></tr></tbody></table></div>
+                    <div class="step-box"><strong>Tu reto:</strong> ordena los requerimientos de mayor a menor y asigna para cada segmento la subred, máscara, rango de hosts y broadcast más eficiente.</div>
+                    <button class="btn btn-outline-success btn-sm fw-bold toggle-solution" data-target="solution-vlsm"><i class="bi bi-eye-fill me-1"></i> Ver solución paso a paso</button>
+                    <div class="solution-box" id="solution-vlsm"><h5 class="fw-bold text-white">Solución VLSM</h5><p>Se asigna desde la necesidad mayor: 50 hosts → <strong>/26</strong>, 25 → <strong>/27</strong>, 12 → <strong>/28</strong>, 6 → <strong>/29</strong> y 2 → <strong>/30</strong>.</p><div class="table-responsive"><table class="table table-sm text-center"><thead><tr><th>Segmento</th><th>Subred / máscara</th><th>Hosts útiles</th><th>Broadcast</th></tr></thead><tbody><tr><td>Desarrollo</td><td>10.10.20.0/26</td><td>.1 – .62</td><td>.63</td></tr><tr><td>Ventas</td><td>10.10.20.64/27</td><td>.65 – .94</td><td>.95</td></tr><tr><td>Administración</td><td>10.10.20.96/28</td><td>.97 – .110</td><td>.111</td></tr><tr><td>Servidores</td><td>10.10.20.112/29</td><td>.113 – .118</td><td>.119</td></tr><tr><td>Enlace WAN</td><td>10.10.20.120/30</td><td>.121 – .122</td><td>.123</td></tr></tbody></table></div><p class="mb-0"><i class="bi bi-lightbulb-fill text-warning me-1"></i> Quedan disponibles las direcciones desde <code>10.10.20.124</code> hasta <code>10.10.20.255</code> para futuras ampliaciones.</p></div>
+                </div>
+            </section>
+            <div class="alert alert-primary border-0 rounded-4"><i class="bi bi-mortarboard-fill me-2"></i><strong>Para cerrar:</strong> FLSM usa el mismo prefijo en todas las subredes; VLSM ajusta cada prefijo al número real de hosts. Siempre verifica red, broadcast y rango asignable.</div>
+        </div>
+    </main></div>
+    <footer class="text-center py-4" style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);"><p class="mb-0" style="font-size:.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script><script src="../../js/menu.js"></script><script src="../../js/main.js"></script>
+    <script>document.querySelectorAll('.toggle-solution').forEach(button => { button.addEventListener('click', () => { const solution=document.getElementById(button.dataset.target); const visible=solution.classList.toggle('show'); button.innerHTML=visible?'<i class="bi bi-eye-slash-fill me-1"></i> Ocultar solución':'<i class="bi bi-eye-fill me-1"></i> Ver solución paso a paso'; }); });</script>
+</body>
+</html>

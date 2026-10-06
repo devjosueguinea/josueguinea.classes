@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 12: Taller CRUD y Configuración de Sharding - Bases de Datos II</title>
+    <meta name="description" content="Taller práctico de operaciones CRUD y configuración de sharding en MongoDB.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        :root{--mongo-green:#00ed64;--mongo-dark:#001e2b;--code-bg:#0d1117;--code-border:#30363d;}
+        .badge-mongo{background:linear-gradient(135deg,#00ed64,#00684a);color:#001e2b;font-weight:800;padding:6px 14px;border-radius:30px;font-size:.82rem;}
+        .concept-card{background:var(--card-bg);border:1px solid var(--border-color);border-radius:16px;padding:22px;height:100%;}.exercise-card{background:var(--card-bg);border:1px solid var(--border-color);border-left:5px solid var(--mongo-green);border-radius:16px;padding:25px;margin-bottom:28px;}.exercise-card.sharding{border-left-color:#6f42c1;}
+        .code-block{background:var(--code-bg);color:#c9d1d9;border:1px solid var(--code-border);border-radius:12px;padding:18px;font-family:"Fira Code",monospace;font-size:.85rem;overflow-x:auto;}.solution-box{display:none;background:var(--code-bg);color:#c9d1d9;border-radius:12px;padding:20px;margin-top:16px;}.solution-box.show{display:block;animation:fadeIn .3s ease-in-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+    </style>
+</head>
+<body>
+    <div class="app-container"><main class="main-content">
+        <header class="header-top"><div class="d-flex align-items-center gap-3"><a href="bases-datos-ii.html" class="btn btn-icon" title="Volver al índice"><i class="bi bi-arrow-left"></i></a><div><h4 class="mb-0 fw-bold">Clase 12: Taller CRUD y Configuración de Sharding</h4><span class="text-muted" style="font-size:.85rem;">Bases de Datos II • MongoDB y NoSQL</span></div></div><div class="header-actions"><button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema"><i class="bi bi-moon-fill" id="theme-icon"></i></button><div class="profile-widget"><div class="profile-avatar">JG</div></div></div></header>
+        <div class="class-content-wrapper mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-3"><span class="badge-mongo"><i class="bi bi-database-fill me-1"></i> Clase 12: Taller MongoDB</span><span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración: 120 minutos</span></div>
+            <h2 class="fw-bold mb-3">Operaciones CRUD y Configuración de Sharding</h2>
+            <p class="text-secondary lead fs-6 mb-4">Aplica operaciones esenciales sobre documentos MongoDB y diseña una configuración de sharding que permita escalar una colección de manera horizontal.</p>
+            <section class="mb-5"><h3 class="fw-bold mb-3"><i class="bi bi-bookmark-star-fill text-success me-2"></i>1. Recordatorio de conceptos</h3><div class="row g-4"><div class="col-md-4"><div class="concept-card"><i class="bi bi-pencil-square text-success fs-3"></i><h5 class="fw-bold mt-3">CRUD</h5><p class="text-secondary small mb-0"><strong>Create, Read, Update y Delete</strong> son las cuatro operaciones básicas para administrar documentos de una colección.</p></div></div><div class="col-md-4"><div class="concept-card"><i class="bi bi-distribute-horizontal text-primary fs-3"></i><h5 class="fw-bold mt-3">Shard key</h5><p class="text-secondary small mb-0">Campo o combinación de campos que MongoDB usa para distribuir los documentos entre los shards.</p></div></div><div class="col-md-4"><div class="concept-card"><i class="bi bi-diagram-3-fill text-warning fs-3"></i><h5 class="fw-bold mt-3">Componentes</h5><p class="text-secondary small mb-0">Un clúster sharded incluye shards, servidores de configuración y el proceso <code>mongos</code> como router de consultas.</p></div></div></div></section>
+            <section class="mb-5"><h3 class="fw-bold mb-3"><i class="bi bi-pencil-square text-success me-2"></i>2. Ejercicio práctico 1: Operaciones CRUD</h3><div class="exercise-card"><p class="text-secondary">Trabaja sobre la colección <code>productos</code> de la base <code>tienda</code>. Inserta tres productos, consulta los que tengan stock menor a 10, actualiza el precio del producto <strong>Teclado Mecánico</strong> a 55 y elimina los productos descontinuados.</p><div class="code-block"><code>// Documento de ejemplo
+{ nombre: "Teclado Mecánico", categoria: "Periféricos", precio: 60, stock: 8, descontinuado: false }</code></div><div class="mt-3"><strong>Reto:</strong> escribe una instrucción MongoDB para cada operación solicitada. Considera que el producto "Mouse Óptico" está descontinuado.</div><button class="btn btn-outline-success btn-sm fw-bold mt-3 toggle-solution" data-target="crud-solution"><i class="bi bi-eye-fill me-1"></i> Ver solución</button><div class="solution-box" id="crud-solution"><h6 class="fw-bold text-white">Solución CRUD</h6><pre class="mb-0"><code>use tienda
+
+db.productos.insertMany([
+  { nombre: "Teclado Mecánico", categoria: "Periféricos", precio: 60, stock: 8, descontinuado: false },
+  { nombre: "Monitor 24", categoria: "Pantallas", precio: 180, stock: 15, descontinuado: false },
+  { nombre: "Mouse Óptico", categoria: "Periféricos", precio: 18, stock: 3, descontinuado: true }
+])
+
+db.productos.find({ stock: { $lt: 10 } })
+db.productos.updateOne({ nombre: "Teclado Mecánico" }, { $set: { precio: 55 } })
+db.productos.deleteMany({ descontinuado: true })</code></pre></div></div></section>
+            <section class="mb-5"><h3 class="fw-bold mb-3"><i class="bi bi-distribute-horizontal text-primary me-2"></i>3. Ejercicio práctico 2: Configuración de Sharding</h3><div class="exercise-card sharding"><p class="text-secondary">La plataforma <strong>PedidosExpress</strong> almacena millones de pedidos en la colección <code>ventas.pedidos</code>. Cada pedido posee <code>numeroPedido</code>, <code>clienteId</code>, <code>region</code>, <code>fecha</code> y <code>total</code>. Las consultas más frecuentes filtran por región y fecha.</p><div class="alert alert-light border"><strong>Reto:</strong> selecciona una shard key adecuada, habilita el sharding para la base de datos y prepara la colección. Explica en una línea por qué la clave propuesta favorece las consultas y la distribución.</div><button class="btn btn-outline-primary btn-sm fw-bold toggle-solution" data-target="sharding-solution"><i class="bi bi-eye-fill me-1"></i> Ver solución</button><div class="solution-box" id="sharding-solution"><h6 class="fw-bold text-white">Solución de referencia</h6><p>Una clave compuesta <code>{ region: 1, fecha: 1 }</code> permite direccionar consultas por región y acotar rangos temporales. En producción se debe revisar su cardinalidad y distribución real para evitar puntos calientes.</p><pre class="mb-0"><code>// Ejecutar mediante mongos con permisos administrativos
+sh.enableSharding("ventas")
+
+// Crear el índice que respalda la shard key
+db.pedidos.createIndex({ region: 1, fecha: 1 })
+
+// Fragmentar la colección usando la clave compuesta
+sh.shardCollection("ventas.pedidos", { region: 1, fecha: 1 })
+
+// Verificar estado
+sh.status()</code></pre></div></div></section>
+            <section class="mb-4"><div class="alert alert-success border-0 rounded-4"><i class="bi bi-lightbulb-fill me-2"></i><strong>Idea clave:</strong> CRUD modifica documentos; sharding distribuye los documentos entre nodos. La elección de la shard key debe basarse en los patrones de consulta y en una distribución equilibrada.</div></section>
+        </div>
+    </main></div>
+    <footer class="text-center py-4" style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);"><p class="mb-0" style="font-size:.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Bases de Datos II</p></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script><script src="../../js/menudb.js"></script><script src="../../js/menu.js"></script><script src="../../js/main.js"></script>
+    <script>document.querySelectorAll('.toggle-solution').forEach(button=>button.addEventListener('click',()=>{const solution=document.getElementById(button.dataset.target);const visible=solution.classList.toggle('show');button.innerHTML=visible?'<i class="bi bi-eye-slash-fill me-1"></i> Ocultar solución':'<i class="bi bi-eye-fill me-1"></i> Ver solución';}));</script>
+</body>
+</html>

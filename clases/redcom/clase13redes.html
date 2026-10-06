@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 13: Arquitectura LAN Conmutada y Configuración de Switches - Redes de Comunicaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .concept-card { background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:22px; height:100%; transition:transform .25s,box-shadow .25s; }
+        .concept-card:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+        .example-box { background:var(--hover-bg); border-left:5px solid var(--primary); border-radius:0 14px 14px 0; padding:20px; margin:20px 0; }
+        .switch-lab { background:#0d1117; color:#c9d1d9; border:1px solid #30363d; border-radius:16px; overflow:hidden; }
+        .terminal { background:#010409; color:#c9d1d9; font-family:Consolas,"Courier New",monospace; min-height:220px; padding:20px; white-space:pre-wrap; font-size:.9rem; }
+        .terminal .success { color:#56d364; }.terminal .warning { color:#e3b341; }.terminal .prompt { color:#79c0ff; }
+        .lab-controls { padding:20px; background:#161b22; border-top:1px solid #30363d; }
+        .solution-box { display:none; background:#0d1117; color:#d0d7de; border-radius:12px; padding:18px; margin-top:16px; }.solution-box.show{display:block;}
+        .quiz-card { background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:20px; margin-bottom:16px; }
+        .quiz-number { display:inline-flex; width:32px; height:32px; border-radius:50%; align-items:center; justify-content:center; background:var(--primary); color:white; font-weight:bold; margin-right:10px; }
+    </style>
+</head>
+<body>
+    <div class="app-container"><main class="main-content">
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3"><a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice"><i class="bi bi-arrow-left"></i></a><div><h4 class="mb-0 fw-bold">Clase 13: Arquitectura LAN Conmutada y Switches</h4><span class="text-muted" style="font-size:.85rem;">Redes de Comunicaciones • CCNA 1</span></div></div>
+            <div class="header-actions"><button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema"><i class="bi bi-moon-fill" id="theme-icon"></i></button><div class="profile-widget"><div class="profile-avatar">JG</div></div></div>
+        </header>
+        <div class="class-content-wrapper mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-3"><span class="badge-clase bg-info text-dark"><i class="bi bi-diagram-3-fill me-1"></i> Clase 13: LAN Conmutada</span><span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración: 120 minutos</span></div>
+            <h2 class="fw-bold mb-3">Arquitectura LAN Conmutada y Configuración de Switches</h2>
+            <p class="text-secondary lead fs-6 mb-4">Comprende cómo un switch toma decisiones de reenvío dentro de una LAN, cómo se organiza una red conmutada y cómo aplicar una configuración inicial segura desde la CLI.</p>
+
+            <section class="mb-5"><h3 class="fw-bold mb-3"><i class="bi bi-bookmark-star-fill text-primary me-2"></i>1. Fundamentos de una LAN conmutada</h3><div class="row g-4">
+                <div class="col-md-4"><div class="concept-card"><i class="bi bi-hdd-network-fill text-primary fs-3"></i><h5 class="fw-bold mt-3">Switch de capa 2</h5><p class="text-secondary small mb-0">Dispositivo que conecta equipos dentro de una LAN y toma decisiones basadas principalmente en direcciones MAC. Cada puerto representa un dominio de colisión independiente.</p></div></div>
+                <div class="col-md-4"><div class="concept-card"><i class="bi bi-table text-success fs-3"></i><h5 class="fw-bold mt-3">Tabla MAC (CAM)</h5><p class="text-secondary small mb-0">El switch aprende la MAC de origen y el puerto por el que llega una trama. Luego usa esa tabla para reenviar la trama solo por el puerto adecuado.</p></div></div>
+                <div class="col-md-4"><div class="concept-card"><i class="bi bi-broadcast-pin text-danger fs-3"></i><h5 class="fw-bold mt-3">Broadcast y VLAN</h5><p class="text-secondary small mb-0">Por defecto todos los puertos pertenecen a la VLAN 1. Una VLAN separa dominios de broadcast de manera lógica aunque los equipos compartan el mismo switch físico.</p></div></div>
+            </div>
+            <div class="example-box"><h6 class="fw-bold"><i class="bi bi-lightbulb-fill text-warning me-2"></i>Ejemplo de aprendizaje MAC</h6><p class="mb-0 text-secondary">Si PC-A (MAC <code>AA:AA</code>) envía una trama a PC-B (MAC <code>BB:BB</code>) por el puerto Fa0/1, el switch registra <code>AA:AA → Fa0/1</code>. Si aún no conoce la MAC de destino, inunda la trama por todos los puertos de la misma VLAN excepto Fa0/1. Cuando PC-B responde desde Fa0/2, registra <code>BB:BB → Fa0/2</code>. A partir de entonces reenvía tráfico entre ambas MAC solamente por esos puertos.</p></div></section>
+
+            <section class="mb-5"><h3 class="fw-bold mb-3"><i class="bi bi-layers-fill text-primary me-2"></i>2. Arquitectura de una LAN conmutada</h3><div class="row g-4"><div class="col-md-6"><div class="concept-card"><h5 class="fw-bold">Modelo jerárquico</h5><ul class="text-secondary small mb-0"><li><strong>Acceso:</strong> conecta dispositivos finales como PCs, impresoras y teléfonos IP.</li><li><strong>Distribución:</strong> agrega switches de acceso y aplica políticas, ACL o enrutamiento entre VLAN.</li><li><strong>Núcleo:</strong> proporciona transporte rápido y redundante entre bloques de distribución en redes grandes.</li></ul></div></div><div class="col-md-6"><div class="concept-card"><h5 class="fw-bold">Buenas prácticas</h5><ul class="text-secondary small mb-0"><li>Documentar puertos, VLAN y equipos conectados.</li><li>Usar nombres de host y contraseñas cifradas.</li><li>Deshabilitar puertos no utilizados y ubicarlos en una VLAN aislada.</li><li>Configurar PortFast únicamente en puertos de acceso conectados a equipos finales.</li></ul></div></div></div>
+            <div class="example-box" style="border-left-color:#198754;"><h6 class="fw-bold"><i class="bi bi-terminal-fill me-2"></i>Ejemplo de configuración inicial</h6><pre class="mb-0"><code>Switch&gt; enable
+Switch# configure terminal
+Switch(config)# hostname SW-ACCESO-01
+SW-ACCESO-01(config)# enable secret Clase13
+SW-ACCESO-01(config)# service password-encryption
+SW-ACCESO-01(config)# banner motd # Acceso autorizado únicamente #
+SW-ACCESO-01(config)# interface vlan 1
+SW-ACCESO-01(config-if)# ip address 192.168.1.2 255.255.255.0
+SW-ACCESO-01(config-if)# no shutdown</code></pre></div></section>
+
+            <section class="mb-5"><h3 class="fw-bold mb-3"><i class="bi bi-pencil-square text-primary me-2"></i>3. Ejercicios prácticos</h3>
+                <div class="concept-card mb-4">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3"><h5 class="fw-bold text-primary mb-0"><i class="bi bi-table me-2"></i>Ejercicio 1: Aprende y reenvía</h5><span class="badge bg-primary">Tabla MAC</span></div>
+                    <p class="text-secondary">Un switch tiene inicialmente vacía su tabla MAC. PC-A, con MAC <code>00AA</code>, está conectada a <code>Fa0/1</code>; PC-B, con MAC <code>00BB</code>, a <code>Fa0/2</code>; y PC-C, con MAC <code>00CC</code>, a <code>Fa0/3</code>. Todos pertenecen a la VLAN 10.</p>
+                    <ol class="text-secondary"><li>PC-A envía una trama a PC-B. Indica qué entrada aprende el switch y por cuáles puertos sale la trama.</li><li>PC-B responde a PC-A. Actualiza la tabla MAC e indica por cuál puerto reenvía el switch.</li><li>PC-C envía una trama a PC-A. Explica por cuál puerto se reenvía y por qué ya no se inunda.</li></ol>
+                    <button class="btn btn-outline-primary btn-sm toggle-exercise" data-target="exercise-mac-solution"><i class="bi bi-eye-fill me-1"></i> Ver solución</button>
+                    <div class="solution-box" id="exercise-mac-solution"><h6 class="fw-bold text-white">Solución</h6><ol class="mb-0"><li>Al recibir la trama por Fa0/1, aprende <code>00AA → Fa0/1</code>. Como no conoce <code>00BB</code>, inunda por Fa0/2 y Fa0/3, sin devolverla por Fa0/1.</li><li>Al recibir la respuesta por Fa0/2, aprende <code>00BB → Fa0/2</code>. Ya conoce a 00AA, por lo que reenvía exclusivamente por Fa0/1.</li><li>Al recibir la trama por Fa0/3, aprende <code>00CC → Fa0/3</code>. Como 00AA ya aparece en la tabla como Fa0/1, reenvía solamente por Fa0/1; no hace falta inundar.</li></ol></div>
+                </div>
+                <div class="concept-card">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3"><h5 class="fw-bold text-success mb-0"><i class="bi bi-diagram-2-fill me-2"></i>Ejercicio 2: Segmentación por VLAN</h5><span class="badge bg-success">Configuración CLI</span></div>
+                    <p class="text-secondary">En un switch de acceso debes separar los siguientes equipos: puertos <code>Fa0/1–Fa0/8</code> para <strong>Ventas</strong> (VLAN 10), puertos <code>Fa0/9–Fa0/16</code> para <strong>Soporte</strong> (VLAN 20) y puertos <code>Fa0/17–Fa0/24</code> sin uso en VLAN 999 y apagados.</p>
+                    <p class="text-secondary mb-3"><strong>Reto:</strong> escribe los comandos IOS necesarios para crear las VLAN, asignar los rangos de puertos como acceso y deshabilitar los puertos no utilizados.</p>
+                    <button class="btn btn-outline-success btn-sm toggle-exercise" data-target="exercise-vlan-solution"><i class="bi bi-eye-fill me-1"></i> Ver solución</button>
+                    <div class="solution-box" id="exercise-vlan-solution"><h6 class="fw-bold text-white">Solución de referencia</h6><pre class="mb-0 text-light"><code>Switch# configure terminal
+Switch(config)# vlan 10
+Switch(config-vlan)# name VENTAS
+Switch(config)# vlan 20
+Switch(config-vlan)# name SOPORTE
+Switch(config)# vlan 999
+Switch(config-vlan)# name PUERTOS_INACTIVOS
+Switch(config)# interface range fa0/1-8
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 10
+Switch(config)# interface range fa0/9-16
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 20
+Switch(config)# interface range fa0/17-24
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 999
+Switch(config-if-range)# shutdown</code></pre></div>
+                </div>
+            </section>
+
+            <section class="mb-5"><h3 class="fw-bold mb-3"><i class="bi bi-cpu-fill text-primary me-2"></i>4. Simulador: configuración inicial del switch</h3><p class="text-secondary">Selecciona los comandos en el orden correcto para configurar el nombre del switch, proteger el modo privilegiado y guardar la configuración.</p>
+                <div class="switch-lab"><div class="terminal" id="terminal-output"><span class="success">Switch IOS Simulator v1.0</span>
+<span class="prompt">Switch&gt;</span> Selecciona un comando para comenzar.</div><div class="lab-controls"><div class="row g-2"><div class="col-md-6"><select class="form-select" id="command-select"><option value="">-- Selecciona un comando --</option><option value="enable">enable</option><option value="configure terminal">configure terminal</option><option value="hostname SW-LAN-01">hostname SW-LAN-01</option><option value="enable secret Redes2026">enable secret Redes2026</option><option value="end">end</option><option value="copy running-config startup-config">copy running-config startup-config</option><option value="show mac address-table">show mac address-table</option></select></div><div class="col-md-3 d-grid"><button class="btn btn-primary" id="run-command"><i class="bi bi-play-fill"></i> Ejecutar</button></div><div class="col-md-3 d-grid"><button class="btn btn-outline-light" id="reset-lab"><i class="bi bi-arrow-counterclockwise"></i> Reiniciar</button></div></div><p class="small text-light-emphasis mb-0 mt-3">Meta: <code>enable → configure terminal → hostname → enable secret → end → copy running-config startup-config</code></p></div></div>
+                <div class="solution-box" id="lab-feedback"></div>
+            </section>
+
+            <section class="mb-4"><h3 class="fw-bold mb-3"><i class="bi bi-patch-question-fill text-primary me-2"></i>5. Cuestionario de comprobación</h3>
+                <form id="quiz-form">
+                    <div class="quiz-card"><div class="d-flex align-items-center mb-3"><span class="quiz-number">1</span><h6 class="fw-bold mb-0">¿Qué información aprende un switch de capa 2 al recibir una trama?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q1" value="a" id="q1a"><label class="form-check-label" for="q1a">La dirección IP de destino.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q1" value="b" id="q1b"><label class="form-check-label" for="q1b">La MAC de origen y el puerto de entrada.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q1" value="c" id="q1c"><label class="form-check-label" for="q1c">La contraseña de consola.</label></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-center mb-3"><span class="quiz-number">2</span><h6 class="fw-bold mb-0">¿Qué hace el switch si desconoce la MAC de destino de una trama unicast?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q2" value="a" id="q2a"><label class="form-check-label" for="q2a">La inunda por los puertos de la misma VLAN, excepto el de entrada.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q2" value="b" id="q2b"><label class="form-check-label" for="q2b">La descarta siempre.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q2" value="c" id="q2c"><label class="form-check-label" for="q2c">La envía directamente al gateway.</label></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-center mb-3"><span class="quiz-number">3</span><h6 class="fw-bold mb-0">¿Cuál es la función principal de una VLAN?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q3" value="a" id="q3a"><label class="form-check-label" for="q3a">Aumentar el número de puertos físicos.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q3" value="b" id="q3b"><label class="form-check-label" for="q3b">Separar dominios de broadcast de forma lógica.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q3" value="c" id="q3c"><label class="form-check-label" for="q3c">Sustituir un router en toda circunstancia.</label></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-center mb-3"><span class="quiz-number">4</span><h6 class="fw-bold mb-0">¿Qué comando cambia el nombre visible de un switch en modo de configuración global?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q4" value="a" id="q4a"><label class="form-check-label" for="q4a"><code>hostname SW-LAN-01</code></label></div><div class="form-check"><input class="form-check-input" type="radio" name="q4" value="b" id="q4b"><label class="form-check-label" for="q4b"><code>enable secret SW-LAN-01</code></label></div><div class="form-check"><input class="form-check-input" type="radio" name="q4" value="c" id="q4c"><label class="form-check-label" for="q4c"><code>copy running-config startup-config</code></label></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-center mb-3"><span class="quiz-number">5</span><h6 class="fw-bold mb-0">¿En qué capa del modelo jerárquico se conectan normalmente los dispositivos finales?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q5" value="a" id="q5a"><label class="form-check-label" for="q5a">Núcleo.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q5" value="b" id="q5b"><label class="form-check-label" for="q5b">Distribución.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q5" value="c" id="q5c"><label class="form-check-label" for="q5c">Acceso.</label></div></div>
+                    <button type="button" class="btn btn-primary px-4" id="evaluate-quiz"><i class="bi bi-check2-circle me-1"></i> Evaluar cuestionario</button><span class="fw-bold ms-3" id="quiz-result"></span>
+                </form>
+            </section>
+        </div>
+    </main></div>
+    <footer class="text-center py-4" style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);"><p class="mb-0" style="font-size:.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script><script src="../../js/menuredes.js"></script><script src="../../js/menu.js"></script><script src="../../js/main.js"></script>
+    <script>
+        const expected=['enable','configure terminal','hostname SW-LAN-01','enable secret Redes2026','end','copy running-config startup-config']; let step=0; const terminal=document.getElementById('terminal-output'); const feedback=document.getElementById('lab-feedback');
+        const prompts=['Switch>','Switch#','Switch(config)#','SW-LAN-01(config)#','SW-LAN-01(config)#','SW-LAN-01#'];
+        document.getElementById('run-command').addEventListener('click',()=>{const command=document.getElementById('command-select').value;if(!command)return;if(command==='show mac address-table'){terminal.innerHTML+='<br><span class="prompt">'+prompts[Math.min(step,5)]+'</span> '+command+'<br>Mac Address Table is empty.';return;} terminal.innerHTML+='<br><span class="prompt">'+prompts[Math.min(step,5)]+'</span> '+command;if(command!==expected[step]){terminal.innerHTML+='<br><span class="warning">% Comando fuera de secuencia. Revisa el modo de configuración requerido.</span>';return;}step++;if(step===expected.length){terminal.innerHTML+='<br><span class="success">Building configuration... [OK]</span>';feedback.className='solution-box show';feedback.innerHTML='<i class="bi bi-check-circle-fill text-success me-2"></i><strong>Configuración completada.</strong> El switch fue nombrado, protegido con una contraseña secreta y su configuración se guardó en NVRAM.';}else terminal.innerHTML+='<br><span class="success">Comando aceptado.</span>';});
+        document.getElementById('reset-lab').addEventListener('click',()=>{step=0;terminal.innerHTML='<span class="success">Switch IOS Simulator v1.0</span>\n<span class="prompt">Switch></span> Selecciona un comando para comenzar.';feedback.className='solution-box';});
+        document.querySelectorAll('.toggle-exercise').forEach(button=>button.addEventListener('click',()=>{const solution=document.getElementById(button.dataset.target);const visible=solution.classList.toggle('show');button.innerHTML=visible?'<i class="bi bi-eye-slash-fill me-1"></i> Ocultar solución':'<i class="bi bi-eye-fill me-1"></i> Ver solución';}));
+        document.getElementById('evaluate-quiz').addEventListener('click',()=>{const answers={q1:'b',q2:'a',q3:'b',q4:'a',q5:'c'};let score=0;for(const [q,a] of Object.entries(answers)){if(document.querySelector('input[name="'+q+'"]:checked')?.value===a)score++;}const result=document.getElementById('quiz-result');result.textContent='Resultado: '+score+' / 5';result.className='fw-bold ms-3 '+(score>=4?'text-success':score>=3?'text-warning':'text-danger');});
+    </script>
+</body>
+</html>

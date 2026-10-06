@@ -80,6 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 11: Repaso General y Preparación Examen Parcial">Clase 11: Repaso General y Preparación Examen Parcial</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase12redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 12: Taller Práctico de Subnetting FLSM y VLSM">Clase 12: Taller Práctico FLSM y VLSM</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clase13redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 13: Arquitectura LAN Conmutada y Configuración de Switches">Clase 13: LAN Conmutada y Switches</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
