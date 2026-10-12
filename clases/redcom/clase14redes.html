@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 14: Redes virtuales (VLAN) y enlaces troncales - Redes de Comunicaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .concept-card { background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:22px; height:100%; transition:transform .25s,box-shadow .25s; }
+        .concept-card:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+        .reading-box { background:var(--hover-bg); border-left:5px solid var(--primary); border-radius:0 14px 14px 0; padding:22px; margin:22px 0; }
+        .reading-box.success { border-left-color:#198754; }
+        .reading-box.warning { border-left-color:#ffc107; }
+        .reading-box.danger { border-left-color:#dc3545; }
+        .network-diagram { background:#0d1117; color:#d0d7de; border:1px solid #30363d; border-radius:16px; padding:24px; font-family:Consolas,"Courier New",monospace; white-space:pre; overflow-x:auto; line-height:1.45; }
+        .command-box { background:#010409; color:#c9d1d9; border:1px solid #30363d; border-radius:14px; padding:20px; overflow-x:auto; }
+        .command-box code { color:#c9d1d9; }
+        .command-comment { color:#8b949e; }
+        .term-table th { white-space:nowrap; }
+        .quiz-card { background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:20px; margin-bottom:16px; }
+        .quiz-number { display:inline-flex; width:34px; height:34px; flex:0 0 34px; border-radius:50%; align-items:center; justify-content:center; background:var(--primary); color:#fff; font-weight:bold; margin-right:10px; }
+        .question-feedback { display:none; border-radius:10px; padding:10px 14px; margin-top:12px; font-size:.92rem; }
+        .question-feedback.show { display:block; }
+        .reading-check { background:linear-gradient(135deg,rgba(13,110,253,.12),rgba(25,135,84,.10)); border:1px solid var(--border-color); border-radius:16px; padding:22px; }
+        .step-number { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:8px; background:var(--primary); color:white; font-weight:bold; margin-right:8px; }
+        pre { margin-bottom:0; white-space:pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="app-container"><main class="main-content">
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3">
+                <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice"><i class="bi bi-arrow-left"></i></a>
+                <div><h4 class="mb-0 fw-bold">Clase 14: VLAN y enlaces troncales</h4><span class="text-muted" style="font-size:.85rem;">Redes de Comunicaciones • CCNA 1</span></div>
+            </div>
+            <div class="header-actions"><button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema"><i class="bi bi-moon-fill" id="theme-icon"></i></button><div class="profile-widget"><div class="profile-avatar">JG</div></div></div>
+        </header>
+
+        <div class="class-content-wrapper mb-5">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                <span class="badge-clase bg-primary text-white"><i class="bi bi-layers-fill me-1"></i> Clase 14: Redes virtuales</span>
+                <span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración: 120 minutos</span>
+            </div>
+            <h2 class="fw-bold mb-3">Redes virtuales (VLAN) y enlaces troncales</h2>
+            <p class="text-secondary lead fs-6 mb-4">En esta clase estudiarás cómo dividir una red conmutada en grupos lógicos independientes, cómo transportar varias VLAN entre switches y cómo interpretar la etiqueta IEEE 802.1Q. La lectura conecta los conceptos con situaciones reales y comandos Cisco IOS.</p>
+
+            <section class="mb-5">
+                <div class="reading-check">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-primary me-2"></i>Propósitos de aprendizaje</h5>
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Definir una VLAN y explicar por qué crea un dominio de broadcast independiente.</div>
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Distinguir un puerto de acceso de un puerto troncal.</div>
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Describir el funcionamiento básico del estándar IEEE 802.1Q.</div>
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Configurar, verificar y diagnosticar VLAN y enlaces troncales.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-diagram-3-fill text-primary me-2"></i>1. ¿Qué es una VLAN?</h3>
+                <p class="text-secondary">Una <strong>red de área local virtual</strong> o <strong>VLAN</strong> (<em>Virtual Local Area Network</em>) es una división lógica de una red conmutada. Permite agrupar dispositivos como si estuvieran conectados al mismo switch independiente, aunque físicamente se encuentren en distintos puertos o incluso en switches diferentes. La pertenencia a una VLAN no depende necesariamente de la ubicación del usuario, sino de la configuración aplicada al puerto del switch.</p>
+                <p class="text-secondary">Sin VLAN, todos los puertos de un switch forman normalmente un único dominio de broadcast. Cuando un equipo envía una trama de broadcast, el switch la replica hacia todos los demás puertos activos. Al crear VLAN, el switch limita esa difusión a los puertos que pertenecen a la misma VLAN. Por ello, cada VLAN constituye un <strong>dominio de broadcast separado</strong>.</p>
+                <div class="row g-4 mt-1">
+                    <div class="col-md-4"><div class="concept-card"><i class="bi bi-broadcast text-danger fs-3"></i><h5 class="fw-bold mt-3">Menos difusión</h5><p class="text-secondary small mb-0">Los broadcasts de una VLAN no se propagan automáticamente a otra, lo cual reduce tráfico innecesario y mejora el control de la red.</p></div></div>
+                    <div class="col-md-4"><div class="concept-card"><i class="bi bi-shield-lock-fill text-success fs-3"></i><h5 class="fw-bold mt-3">Separación lógica</h5><p class="text-secondary small mb-0">Usuarios de áreas distintas pueden quedar aislados en capa 2. Comunicarse entre VLAN requiere un dispositivo que realice enrutamiento.</p></div></div>
+                    <div class="col-md-4"><div class="concept-card"><i class="bi bi-people-fill text-primary fs-3"></i><h5 class="fw-bold mt-3">Organización flexible</h5><p class="text-secondary small mb-0">Los equipos pueden agruparse por función —Ventas, Docentes o Invitados— y no solamente por el lugar físico donde están conectados.</p></div></div>
+                </div>
+                <div class="reading-box">
+                    <h6 class="fw-bold"><i class="bi bi-lightbulb-fill text-warning me-2"></i>Ejemplo institucional</h6>
+                    <p class="text-secondary mb-0">Un centro educativo posee computadoras administrativas, laboratorios para estudiantes y puntos de acceso para visitantes. Aunque todos los dispositivos estén conectados a la misma infraestructura de switches, pueden separarse en la <strong>VLAN 10 ADMINISTRACIÓN</strong>, la <strong>VLAN 20 ESTUDIANTES</strong> y la <strong>VLAN 30 INVITADOS</strong>. Un broadcast originado por un estudiante permanece en la VLAN 20 y no llega directamente a las computadoras administrativas.</p>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-tags-fill text-primary me-2"></i>2. Identificación y tipos de VLAN</h3>
+                <p class="text-secondary">Las VLAN se identifican mediante un número. En redes Ethernet con IEEE 802.1Q el campo de identificación admite 12 bits; existen valores reservados y, en la práctica de Cisco, se suele trabajar con el rango normal del <strong>1 al 1005</strong> o con el rango extendido del <strong>1006 al 4094</strong>. El número debe planificarse y documentarse: “VLAN 20” comunica menos información que “VLAN 20 DOCENTES”.</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle term-table">
+                        <thead class="table-light"><tr><th>Tipo</th><th>Función</th><th>Ejemplo</th></tr></thead>
+                        <tbody class="text-secondary">
+                            <tr><td><strong>VLAN de datos</strong></td><td>Transporta el tráfico habitual de los usuarios y sus aplicaciones.</td><td>VLAN 10 ADMINISTRACIÓN</td></tr>
+                            <tr><td><strong>VLAN de voz</strong></td><td>Se asigna a teléfonos IP y facilita políticas de calidad de servicio separadas.</td><td>VLAN 40 VOZ</td></tr>
+                            <tr><td><strong>VLAN de administración</strong></td><td>Se utiliza para acceder y gestionar switches, puntos de acceso u otros equipos.</td><td>VLAN 99 GESTIÓN</td></tr>
+                            <tr><td><strong>VLAN nativa</strong></td><td>En un troncal 802.1Q recibe, de forma predeterminada, las tramas que circulan sin etiqueta.</td><td>VLAN 999 NATIVA</td></tr>
+                            <tr><td><strong>VLAN predeterminada</strong></td><td>En switches Cisco es la VLAN 1; inicialmente todos los puertos pertenecen a ella.</td><td>VLAN 1 DEFAULT</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="reading-box warning"><strong>Importante:</strong> “VLAN predeterminada” y “VLAN nativa” no son sinónimos. En la configuración inicial de muchos switches ambas funciones recaen en la VLAN 1, pero el administrador puede —y normalmente debe— asignar una VLAN nativa diferente en los enlaces troncales.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-ethernet text-primary me-2"></i>3. Puertos de acceso y puertos troncales</h3>
+                <p class="text-secondary">Un switch necesita saber cómo tratar las tramas en cada interfaz. Dos modos fundamentales son <strong>acceso</strong> y <strong>troncal</strong>. Elegir el modo correcto evita pérdidas de conectividad y fugas de tráfico entre segmentos.</p>
+                <div class="row g-4">
+                    <div class="col-md-6"><div class="concept-card"><h5 class="fw-bold text-primary"><i class="bi bi-pc-display-horizontal me-2"></i>Puerto de acceso</h5><p class="text-secondary">Pertenece a una sola VLAN de datos y conecta normalmente un dispositivo final: computadora, impresora, cámara o servidor. El equipo final envía y recibe tramas Ethernet comunes, sin necesidad de comprender etiquetas VLAN.</p><p class="small text-secondary mb-0"><strong>Ejemplo:</strong> Fa0/3 está configurado como acceso en VLAN 20. Toda trama sin etiqueta que entra por Fa0/3 se asocia internamente con la VLAN 20.</p></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h5 class="fw-bold text-success"><i class="bi bi-arrow-left-right me-2"></i>Puerto troncal</h5><p class="text-secondary">Transporta tráfico de varias VLAN simultáneamente. Se usa entre switches, entre un switch y un router, entre un switch y un servidor compatible con VLAN o hacia ciertos puntos de acceso.</p><p class="small text-secondary mb-0"><strong>Ejemplo:</strong> Gi0/1 permite las VLAN 10, 20 y 30. Una sola conexión física sustituye tres enlaces separados.</p></div></div>
+                </div>
+                <div class="network-diagram mt-4" aria-label="Diagrama textual de dos switches unidos por un enlace troncal">PC-A ── Fa0/1 [VLAN 10]        [VLAN 10] Fa0/1 ── PC-C
+          ┌───────────┐  troncal 802.1Q  ┌───────────┐
+          │   SW-A    │ Gi0/1 ═══ Gi0/1 │   SW-B    │
+          └───────────┘ VLAN 10,20,30    └───────────┘
+PC-B ── Fa0/2 [VLAN 20]        [VLAN 20] Fa0/2 ── PC-D</div>
+                <p class="text-secondary mt-3">En el diagrama, PC-A y PC-C pueden pertenecer al mismo dominio de broadcast aunque estén conectados a switches distintos. El enlace Gi0/1 transporta tanto la VLAN 10 como la VLAN 20 y conserva la identificación de cada trama.</p>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-upc-scan text-primary me-2"></i>4. Etiquetado IEEE 802.1Q</h3>
+                <p class="text-secondary">Cuando una trama atraviesa un troncal, el switch receptor debe conocer a qué VLAN pertenece. El estándar <strong>IEEE 802.1Q</strong>, también llamado <strong>dot1q</strong>, agrega una etiqueta de cuatro bytes dentro de la trama Ethernet. Entre otros datos, la etiqueta incluye el identificador de VLAN o <strong>VID</strong>. Así, las tramas de diferentes VLAN pueden compartir el mismo enlace sin mezclarse.</p>
+                <ol class="text-secondary">
+                    <li class="mb-2"><strong>Entrada:</strong> una trama sin etiqueta llega a un puerto de acceso de la VLAN 20.</li>
+                    <li class="mb-2"><strong>Clasificación:</strong> el switch la asocia internamente con la VLAN 20.</li>
+                    <li class="mb-2"><strong>Salida por el troncal:</strong> el switch inserta una etiqueta 802.1Q con el VID 20.</li>
+                    <li class="mb-2"><strong>Recepción:</strong> el segundo switch lee la etiqueta y mantiene la trama dentro de la VLAN 20.</li>
+                    <li><strong>Salida al equipo final:</strong> al enviarla por un puerto de acceso, retira la etiqueta.</li>
+                </ol>
+                <div class="reading-box success"><h6 class="fw-bold">La VLAN nativa</h6><p class="text-secondary mb-0">En un troncal 802.1Q, las tramas de la VLAN nativa se transmiten sin etiqueta de manera predeterminada. Ambos extremos del enlace deben usar la <strong>misma VLAN nativa</strong>. Una discrepancia puede provocar mensajes de advertencia, tráfico enviado a la VLAN equivocada y riesgos de seguridad. Como buena práctica, se elige una VLAN que no se utilice para usuarios y se configura de forma explícita en ambos extremos.</p></div>
+                <div class="reading-box danger"><strong>No confundas etiqueta con cifrado:</strong> 802.1Q identifica la VLAN, pero no cifra ni oculta el contenido de la trama. La confidencialidad requiere otros mecanismos de seguridad.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-terminal-fill text-primary me-2"></i>5. Configuración básica en Cisco IOS</h3>
+                <p class="text-secondary">El siguiente escenario crea tres VLAN en dos switches. Los puertos para equipos finales funcionarán en modo de acceso y el enlace GigabitEthernet0/1 será un troncal. Los nombres ayudan a identificar el propósito de cada segmento, pero la comunicación se basa en el número de VLAN.</p>
+                <h5 class="fw-bold mt-4"><span class="step-number">1</span>Crear las VLAN</h5>
+                <div class="command-box"><pre><code>SW-A&gt; enable
+SW-A# configure terminal
+SW-A(config)# vlan 10
+SW-A(config-vlan)# name ADMINISTRACION
+SW-A(config-vlan)# exit
+SW-A(config)# vlan 20
+SW-A(config-vlan)# name ESTUDIANTES
+SW-A(config-vlan)# exit
+SW-A(config)# vlan 30
+SW-A(config-vlan)# name INVITADOS
+SW-A(config-vlan)# exit
+SW-A(config)# vlan 999
+SW-A(config-vlan)# name NATIVA</code></pre></div>
+                <h5 class="fw-bold mt-4"><span class="step-number">2</span>Asignar puertos de acceso</h5>
+                <div class="command-box"><pre><code>SW-A(config)# interface range fastEthernet 0/1-8
+SW-A(config-if-range)# switchport mode access
+SW-A(config-if-range)# switchport access vlan 10
+SW-A(config-if-range)# spanning-tree portfast
+
+SW-A(config)# interface range fastEthernet 0/9-16
+SW-A(config-if-range)# switchport mode access
+SW-A(config-if-range)# switchport access vlan 20</code></pre></div>
+                <p class="text-secondary small mt-2"><code>switchport mode access</code> fija el modo del puerto y <code>switchport access vlan</code> indica a qué VLAN pertenece. <code>PortFast</code> debe usarse en puertos conectados a dispositivos finales, no en enlaces entre switches.</p>
+                <h5 class="fw-bold mt-4"><span class="step-number">3</span>Configurar el troncal</h5>
+                <div class="command-box"><pre><code>SW-A(config)# interface gigabitEthernet 0/1
+SW-A(config-if)# description TRONCAL_HACIA_SW-B
+SW-A(config-if)# switchport mode trunk
+SW-A(config-if)# switchport trunk native vlan 999
+SW-A(config-if)# switchport trunk allowed vlan 10,20,30,999
+SW-A(config-if)# no shutdown</code></pre></div>
+                <p class="text-secondary small mt-2">La misma configuración de modo troncal, VLAN nativa y lista de VLAN permitidas debe ser compatible en SW-B. La lista <code>allowed</code> limita el tráfico que puede atravesar el enlace; si se omite, el troncal permite todas las VLAN de forma predeterminada.</p>
+                <h5 class="fw-bold mt-4"><span class="step-number">4</span>Verificar y guardar</h5>
+                <div class="command-box"><pre><code>SW-A# show vlan brief
+SW-A# show interfaces trunk
+SW-A# show interfaces gigabitEthernet 0/1 switchport
+SW-A# show mac address-table dynamic
+SW-A# copy running-config startup-config</code></pre></div>
+                <div class="table-responsive mt-4"><table class="table table-bordered align-middle"><thead class="table-light"><tr><th>Comando</th><th>Qué permite comprobar</th></tr></thead><tbody class="text-secondary"><tr><td><code>show vlan brief</code></td><td>VLAN existentes y puertos de acceso asociados.</td></tr><tr><td><code>show interfaces trunk</code></td><td>Troncales activos, encapsulación, VLAN nativa y VLAN permitidas.</td></tr><tr><td><code>show interfaces ... switchport</code></td><td>Modo administrativo y operativo de una interfaz concreta.</td></tr><tr><td><code>show mac address-table</code></td><td>Direcciones MAC aprendidas, VLAN correspondiente y puerto.</td></tr></tbody></table></div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-signpost-split-fill text-primary me-2"></i>6. Comunicación entre VLAN</h3>
+                <p class="text-secondary">Las VLAN separan dominios de broadcast y, por tanto, los equipos de VLAN distintas no pueden comunicarse directamente mediante un switch de capa 2. Aunque dos computadoras estén en el mismo edificio, la separación de capa 2 continúa existiendo. Para intercambiar tráfico necesitan <strong>enrutamiento inter-VLAN</strong>.</p>
+                <p class="text-secondary">El enrutamiento puede realizarlo un router mediante subinterfaces —método conocido como <em>router-on-a-stick</em>— o un switch multicapa mediante interfaces VLAN virtuales (SVI). En ambos casos, cada VLAN suele corresponder a una subred IP diferente y dispone de una puerta de enlace propia.</p>
+                <div class="table-responsive"><table class="table table-striped align-middle"><thead><tr><th>VLAN</th><th>Nombre</th><th>Subred</th><th>Puerta de enlace</th></tr></thead><tbody><tr><td>10</td><td>ADMINISTRACIÓN</td><td><code>192.168.10.0/24</code></td><td><code>192.168.10.1</code></td></tr><tr><td>20</td><td>ESTUDIANTES</td><td><code>192.168.20.0/24</code></td><td><code>192.168.20.1</code></td></tr><tr><td>30</td><td>INVITADOS</td><td><code>192.168.30.0/24</code></td><td><code>192.168.30.1</code></td></tr></tbody></table></div>
+                <div class="reading-box"><strong>Idea clave:</strong> una VLAN es una separación lógica de capa 2; una subred es una división lógica de capa 3. No son exactamente lo mismo, pero en un diseño ordenado suele existir una correspondencia de una VLAN por cada subred IP.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-shield-check text-primary me-2"></i>7. Diseño seguro y buenas prácticas</h3>
+                <div class="row g-4">
+                    <div class="col-md-6"><div class="concept-card"><h5 class="fw-bold">Planificación</h5><ul class="text-secondary small mb-0"><li>Crear una tabla con ID, nombre, subred, gateway y propósito de cada VLAN.</li><li>Usar nombres descriptivos y un esquema numérico consistente.</li><li>Separar usuarios, voz, servidores, invitados y administración según las necesidades.</li><li>Permitir en los troncales solamente las VLAN necesarias.</li></ul></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h5 class="fw-bold">Protección</h5><ul class="text-secondary small mb-0"><li>No usar la VLAN 1 para tráfico de usuarios o administración.</li><li>Configurar manualmente los enlaces como acceso o troncal.</li><li>Asignar puertos no utilizados a una VLAN aislada y apagarlos.</li><li>Evitar que un puerto de usuario negocie un troncal mediante DTP.</li></ul></div></div>
+                </div>
+                <p class="text-secondary mt-4"><strong>DTP</strong> (<em>Dynamic Trunking Protocol</em>) es un protocolo propietario de Cisco que puede negociar automáticamente si un enlace se convierte en troncal. Esta facilidad también puede producir configuraciones inesperadas. Por ello, en puertos de acceso se recomienda fijar <code>switchport mode access</code> y, si el modelo lo admite, usar <code>switchport nonegotiate</code>. En un troncal planificado se configura el modo explícitamente en ambos extremos.</p>
+                <div class="command-box"><pre><code><span class="command-comment">! Ejemplo para puertos no utilizados</span>
+SW-A(config)# vlan 998
+SW-A(config-vlan)# name NO_USAR
+SW-A(config)# interface range fastEthernet 0/17-24
+SW-A(config-if-range)# switchport mode access
+SW-A(config-if-range)# switchport access vlan 998
+SW-A(config-if-range)# shutdown</code></pre></div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-tools text-primary me-2"></i>8. Diagnóstico de fallas frecuentes</h3>
+                <p class="text-secondary">Cuando dos equipos de la misma VLAN no logran comunicarse, conviene revisar la red desde lo físico hacia lo lógico. Cambiar comandos al azar puede ocultar la causa real.</p>
+                <div class="table-responsive"><table class="table table-bordered align-middle"><thead class="table-light"><tr><th>Síntoma</th><th>Causa probable</th><th>Comprobación o solución</th></tr></thead><tbody class="text-secondary"><tr><td>Un equipo no alcanza a otros de su área.</td><td>Puerto asignado a la VLAN incorrecta.</td><td>Revisar <code>show vlan brief</code> y corregir <code>switchport access vlan</code>.</td></tr><tr><td>La VLAN funciona dentro de SW-A, pero no en SW-B.</td><td>La VLAN no existe en SW-B o no está permitida en el troncal.</td><td>Comparar la base de VLAN y <code>show interfaces trunk</code> en ambos equipos.</td></tr><tr><td>El troncal aparece caído.</td><td>Interfaz apagada, cableado defectuoso o modos incompatibles.</td><td>Revisar estado físico, <code>no shutdown</code> y modo operativo.</td></tr><tr><td>Aparece una advertencia de VLAN nativa.</td><td>Cada extremo tiene una VLAN nativa diferente.</td><td>Configurar el mismo ID nativo en ambos lados.</td></tr><tr><td>Equipos de VLAN diferentes no se comunican.</td><td>No existe enrutamiento inter-VLAN o el gateway es incorrecto.</td><td>Verificar router/SVI, subred y puerta de enlace del host.</td></tr></tbody></table></div>
+                <div class="reading-box success"><h6 class="fw-bold">Caso de análisis</h6><p class="text-secondary">SW-A y SW-B están unidos por un troncal que permite únicamente las VLAN 10 y 20. Se crea la VLAN 30 en ambos switches y se conectan dos computadoras a puertos de acceso de esa VLAN, una en cada switch. Las computadoras no pueden comunicarse.</p><p class="text-secondary mb-0"><strong>Explicación:</strong> que la VLAN exista en ambos equipos no significa que pueda cruzar el troncal. Debe agregarse a la lista permitida en ambos extremos, por ejemplo con <code>switchport trunk allowed vlan add 30</code>, y después verificar el resultado con <code>show interfaces trunk</code>.</p></div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-journal-check text-primary me-2"></i>9. Síntesis para el control de lectura</h3>
+                <div class="reading-check"><p class="mb-2">Una VLAN crea un dominio de broadcast lógico e independiente dentro de una infraestructura conmutada.</p><p class="mb-2">Los puertos de acceso conectan normalmente equipos finales y los asocian con una VLAN; los troncales transportan varias VLAN.</p><p class="mb-2">IEEE 802.1Q agrega información de identificación a las tramas que atraviesan un troncal. La VLAN nativa constituye un tratamiento especial y debe coincidir en ambos extremos.</p><p class="mb-2">Los switches de capa 2 no enrutan tráfico entre VLAN. Para ello se requiere un router o un switch multicapa.</p><p class="mb-0">La verificación forma parte de la configuración: crear una VLAN no basta si el puerto, el troncal, la lista permitida o el gateway están mal definidos.</p></div>
+            </section>
+
+            <section class="mb-4">
+                <h3 class="fw-bold mb-2"><i class="bi bi-patch-question-fill text-primary me-2"></i>10. Comprueba tu lectura: verdadero o falso</h3>
+                <p class="text-secondary">Selecciona una respuesta en cada afirmación y luego evalúa el cuestionario. La retroalimentación explica el concepto evaluado.</p>
+                <form id="quiz-form">
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">1</span><h6 class="fw-bold mb-0 pt-1">Una VLAN permite crear dominios de broadcast separados dentro de una misma infraestructura de switches.</h6></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q1" id="q1v" value="v"><label class="form-check-label" for="q1v">Verdadero</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q1" id="q1f" value="f"><label class="form-check-label" for="q1f">Falso</label></div><div class="question-feedback" id="q1-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">2</span><h6 class="fw-bold mb-0 pt-1">Un puerto de acceso transporta normalmente el tráfico de todas las VLAN configuradas en el switch.</h6></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q2" id="q2v" value="v"><label class="form-check-label" for="q2v">Verdadero</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q2" id="q2f" value="f"><label class="form-check-label" for="q2f">Falso</label></div><div class="question-feedback" id="q2-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">3</span><h6 class="fw-bold mb-0 pt-1">El estándar IEEE 802.1Q permite identificar a qué VLAN pertenece una trama que viaja por un enlace troncal.</h6></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q3" id="q3v" value="v"><label class="form-check-label" for="q3v">Verdadero</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q3" id="q3f" value="f"><label class="form-check-label" for="q3f">Falso</label></div><div class="question-feedback" id="q3-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">4</span><h6 class="fw-bold mb-0 pt-1">Los dos extremos de un enlace troncal pueden usar VLAN nativas diferentes sin provocar problemas de operación o seguridad.</h6></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q4" id="q4v" value="v"><label class="form-check-label" for="q4v">Verdadero</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q4" id="q4f" value="f"><label class="form-check-label" for="q4f">Falso</label></div><div class="question-feedback" id="q4-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">5</span><h6 class="fw-bold mb-0 pt-1">Para que dos equipos ubicados en VLAN distintas se comuniquen, se necesita enrutamiento inter-VLAN.</h6></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q5" id="q5v" value="v"><label class="form-check-label" for="q5v">Verdadero</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="q5" id="q5f" value="f"><label class="form-check-label" for="q5f">Falso</label></div><div class="question-feedback" id="q5-feedback"></div></div>
+                    <div class="d-flex align-items-center flex-wrap gap-3"><button type="button" class="btn btn-primary px-4" id="evaluate-quiz"><i class="bi bi-check2-circle me-1"></i> Evaluar respuestas</button><button type="reset" class="btn btn-outline-secondary" id="reset-quiz"><i class="bi bi-arrow-counterclockwise me-1"></i> Reiniciar</button><span class="fw-bold" id="quiz-result" aria-live="polite"></span></div>
+                </form>
+            </section>
+        </div>
+    </main></div>
+    <footer class="text-center py-4" style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);"><p class="mb-0" style="font-size:.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script><script src="../../js/menu.js"></script><script src="../../js/main.js"></script>
+    <script>
+        const quizAnswers = {
+            q1: { answer: 'v', explanation: 'Verdadero. Cada VLAN constituye un dominio de broadcast independiente.' },
+            q2: { answer: 'f', explanation: 'Falso. Un puerto de acceso se asocia normalmente con una sola VLAN de datos; un troncal transporta varias VLAN.' },
+            q3: { answer: 'v', explanation: 'Verdadero. La etiqueta 802.1Q incluye el identificador de VLAN que utiliza el switch receptor.' },
+            q4: { answer: 'f', explanation: 'Falso. La VLAN nativa debe coincidir en ambos extremos para evitar tráfico mal clasificado y riesgos de seguridad.' },
+            q5: { answer: 'v', explanation: 'Verdadero. La comunicación entre dominios de capa 2 diferentes requiere un router o un switch multicapa.' }
+        };
+        document.getElementById('evaluate-quiz').addEventListener('click', () => {
+            let score = 0; let answered = 0;
+            Object.entries(quizAnswers).forEach(([question, data]) => {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                const feedback = document.getElementById(`${question}-feedback`);
+                if (!selected) { feedback.className = 'question-feedback show bg-warning-subtle text-warning-emphasis'; feedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i>Selecciona verdadero o falso antes de evaluar esta afirmación.'; return; }
+                answered++; const correct = selected.value === data.answer; if (correct) score++;
+                feedback.className = `question-feedback show ${correct ? 'bg-success-subtle text-success-emphasis' : 'bg-danger-subtle text-danger-emphasis'}`;
+                feedback.innerHTML = `<i class="bi ${correct ? 'bi-check-circle-fill' : 'bi-x-circle-fill'} me-2"></i>${data.explanation}`;
+            });
+            const result = document.getElementById('quiz-result');
+            result.textContent = answered < 5 ? `Respondidas: ${answered}/5 • Aciertos: ${score}` : `Resultado: ${score} de 5`;
+            result.className = `fw-bold ${score >= 4 && answered === 5 ? 'text-success' : score >= 3 ? 'text-warning' : 'text-danger'}`;
+        });
+        document.getElementById('reset-quiz').addEventListener('click', () => {
+            document.querySelectorAll('.question-feedback').forEach(item => { item.className = 'question-feedback'; item.innerHTML = ''; });
+            const result = document.getElementById('quiz-result'); result.textContent = ''; result.className = 'fw-bold';
+        });
+    </script>
+</body>
+</html>

@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <li><a href="clase11db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 11: Repaso y Taller Power BI con MongoDB</span></a></li>
                     <li><a href="clase12db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 12: Taller CRUD y Sharding</span></a></li>
                     <li><a href="clase13db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 13: Introducción a Cassandra</span></a></li>
+                    <li><a href="clase14db.html" class="class-item text-decoration-none"><i class="bi bi-journal-text"></i> <span class="class-item-text">Clase 14: CRUD y claves en Cassandra</span></a></li>
                 </ul>
             </div>
         </div>

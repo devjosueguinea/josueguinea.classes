@@ -92,6 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 13: Arquitectura LAN Conmutada y Configuración de Switches">Clase 13: LAN Conmutada y Switches</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase14redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 14: Redes virtuales (VLAN) y enlaces troncales">Clase 14: VLAN y enlaces troncales</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
