@@ -98,6 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 14: Redes virtuales (VLAN) y enlaces troncales">Clase 14: VLAN y enlaces troncales</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase15redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 15: Operaciones VTP y enrutamiento inter-VLAN">Clase 15: VTP y enrutamiento inter-VLAN</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

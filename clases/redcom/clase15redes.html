@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 15: Operaciones VTP y enrutamiento inter-VLAN - Redes de Comunicaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .concept-card { background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:22px; height:100%; transition:transform .25s,box-shadow .25s; }
+        .concept-card:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+        .reading-box { background:var(--hover-bg); border-left:5px solid var(--primary); border-radius:0 14px 14px 0; padding:22px; margin:22px 0; }
+        .reading-box.success { border-left-color:#198754; }
+        .reading-box.warning { border-left-color:#ffc107; }
+        .reading-box.danger { border-left-color:#dc3545; }
+        .network-diagram { background:#0d1117; color:#d0d7de; border:1px solid #30363d; border-radius:16px; padding:24px; font-family:Consolas,"Courier New",monospace; white-space:pre; overflow-x:auto; line-height:1.45; }
+        .command-box { background:#010409; color:#c9d1d9; border:1px solid #30363d; border-radius:14px; padding:20px; overflow-x:auto; }
+        .command-box code { color:#c9d1d9; }
+        .command-comment { color:#8b949e; }
+        .term-table th { white-space:nowrap; }
+        .quiz-card { background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:20px; margin-bottom:16px; }
+        .quiz-number { display:inline-flex; width:34px; height:34px; flex:0 0 34px; border-radius:50%; align-items:center; justify-content:center; background:var(--primary); color:#fff; font-weight:bold; margin-right:10px; }
+        .question-feedback { display:none; border-radius:10px; padding:10px 14px; margin-top:12px; font-size:.92rem; }
+        .question-feedback.show { display:block; }
+        .learning-panel { background:linear-gradient(135deg,rgba(13,110,253,.12),rgba(25,135,84,.10)); border:1px solid var(--border-color); border-radius:16px; padding:22px; }
+        .step-number { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:8px; background:var(--primary); color:white; font-weight:bold; margin-right:8px; }
+        .flow-step { position:relative; padding-left:48px; margin-bottom:22px; }
+        .flow-step::before { content:attr(data-step); position:absolute; left:0; top:0; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--primary); color:#fff; font-weight:bold; }
+        .flow-step:not(:last-child)::after { content:""; position:absolute; left:16px; top:37px; width:2px; height:calc(100% - 10px); background:var(--border-color); }
+        .exercise-card { background:linear-gradient(135deg,rgba(255,193,7,.13),rgba(13,110,253,.08)); border:2px dashed #d39e00; border-radius:18px; padding:25px; }
+        pre { margin-bottom:0; white-space:pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="app-container"><main class="main-content">
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3">
+                <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice"><i class="bi bi-arrow-left"></i></a>
+                <div><h4 class="mb-0 fw-bold">Clase 15: VTP y enrutamiento inter-VLAN</h4><span class="text-muted" style="font-size:.85rem;">Redes de Comunicaciones • CCNA</span></div>
+            </div>
+            <div class="header-actions"><button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema"><i class="bi bi-moon-fill" id="theme-icon"></i></button><div class="profile-widget"><div class="profile-avatar">JG</div></div></div>
+        </header>
+
+        <div class="class-content-wrapper mb-5">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                <span class="badge-clase bg-primary text-white"><i class="bi bi-diagram-3-fill me-1"></i> Clase 15: Administración y comunicación entre VLAN</span>
+                <span class="text-muted small fw-bold"><i class="bi bi-clock-history me-1"></i> Duración estimada: 150 minutos</span>
+            </div>
+            <h2 class="fw-bold mb-3">Operaciones VTP y enrutamiento inter-VLAN</h2>
+            <p class="text-secondary lead fs-6 mb-4">Crear VLAN en un solo switch es sencillo; mantenerlas consistentes en una red con muchos switches y permitir una comunicación controlada entre ellas exige comprender dos funciones diferentes. <strong>VTP</strong> distribuye información de VLAN entre switches Cisco y el <strong>enrutamiento inter-VLAN</strong> mueve paquetes entre subredes asociadas con VLAN distintas. Esta clase estudia ambos procesos, su configuración, sus riesgos y su diagnóstico.</p>
+
+            <section class="mb-5">
+                <div class="learning-panel">
+                    <h5 class="fw-bold"><i class="bi bi-bullseye text-primary me-2"></i>Resultados de aprendizaje</h5>
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Definir VTP e identificar dominios, modos, anuncios y número de revisión.</div>
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Explicar cómo un switch procesa y propaga información de VLAN.</div>
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Comparar enrutamiento heredado, router-on-a-stick y switch multicapa.</div>
+                        <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i>Configurar, verificar y diagnosticar un escenario inter-VLAN.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-arrow-repeat text-primary me-2"></i>1. Fundamentos de VTP</h3>
+                <p class="text-secondary"><strong>VTP</strong> (<em>VLAN Trunking Protocol</em>) es un protocolo propietario de Cisco que distribuye información sobre las VLAN a través de enlaces troncales entre switches pertenecientes a un mismo dominio VTP. Su propósito es ayudar a conservar una base de datos de VLAN coherente, especialmente cuando la infraestructura contiene varios switches.</p>
+                <p class="text-secondary">VTP no transporta el tráfico de los usuarios ni sustituye a IEEE 802.1Q. El troncal 802.1Q lleva las tramas de múltiples VLAN; VTP utiliza esos enlaces para intercambiar mensajes de control acerca de la existencia, nombre y estado de las VLAN. Tampoco asigna automáticamente los puertos de acceso: aunque una VLAN sea aprendida mediante VTP, cada interfaz debe asociarse con la VLAN correspondiente.</p>
+                <div class="row g-4 mt-1">
+                    <div class="col-md-4"><div class="concept-card"><i class="bi bi-collection-fill text-primary fs-3"></i><h5 class="fw-bold mt-3">Dominio VTP</h5><p class="text-secondary small mb-0">Conjunto administrativo de switches que comparten información de VLAN. El nombre del dominio debe coincidir exactamente, incluidas mayúsculas y minúsculas según la plataforma.</p></div></div>
+                    <div class="col-md-4"><div class="concept-card"><i class="bi bi-hash text-success fs-3"></i><h5 class="fw-bold mt-3">Número de revisión</h5><p class="text-secondary small mb-0">Contador que representa la versión de la base de VLAN. Una revisión superior puede reemplazar información con una revisión inferior.</p></div></div>
+                    <div class="col-md-4"><div class="concept-card"><i class="bi bi-megaphone-fill text-warning fs-3"></i><h5 class="fw-bold mt-3">Anuncio VTP</h5><p class="text-secondary small mb-0">Mensaje de control que comunica cambios o solicita información de VLAN dentro del dominio.</p></div></div>
+                </div>
+                <div class="reading-box warning"><strong>VTP es una herramienta de administración, no un requisito de las VLAN.</strong> Una red puede funcionar correctamente con VLAN configuradas manualmente en cada switch. En redes pequeñas, la configuración manual suele ser más predecible; en redes grandes, VTP puede reducir tareas repetitivas si se administra con disciplina.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-sliders text-primary me-2"></i>2. Versiones y modos de operación</h3>
+                <p class="text-secondary">Los equipos Cisco pueden implementar VTP versión 1, 2 o 3. Las capacidades exactas dependen del modelo y de la versión de IOS. VTPv1 y VTPv2 se encuentran con frecuencia en laboratorios académicos; VTPv3 agrega controles útiles, como el rol de servidor primario, mejor soporte para VLAN de rango extendido y una protección mayor contra cambios accidentales.</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle term-table">
+                        <thead class="table-light"><tr><th>Modo</th><th>Comportamiento</th><th>Uso y observaciones</th></tr></thead>
+                        <tbody class="text-secondary">
+                            <tr><td><strong>Servidor</strong></td><td>Puede crear, modificar y eliminar VLAN; origina y reenvía anuncios VTP. En VTPv1/v2 los cambios pueden realizarse en cualquier servidor.</td><td>Adecuado para el punto de administración. En VTPv3 debe designarse un servidor primario para efectuar cambios.</td></tr>
+                            <tr><td><strong>Cliente</strong></td><td>No permite administrar localmente la base de VLAN en VTPv1/v2; aprende cambios válidos y reenvía anuncios.</td><td>Útil en switches que deben recibir una base centralizada.</td></tr>
+                            <tr><td><strong>Transparente</strong></td><td>Mantiene sus VLAN localmente. No sincroniza su base con el dominio, aunque normalmente reenvía anuncios por sus troncales.</td><td>Ofrece control local y reduce el riesgo de sobrescritura involuntaria.</td></tr>
+                            <tr><td><strong>Off</strong></td><td>No participa en la sincronización y no reenvía mensajes VTP.</td><td>Disponible en algunas versiones/plataformas; proporciona aislamiento total respecto de VTP.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="reading-box"><h6 class="fw-bold">¿Qué cambia entre VTPv1/v2 y VTPv3?</h6><p class="text-secondary mb-0">En VTPv1 y VTPv2, un switch servidor con una revisión más alta puede introducir una base no deseada. VTPv3 incorpora un <strong>servidor primario</strong> autorizado para modificar la base y utiliza mecanismos de autenticación más robustos. Esto reduce errores, pero no elimina la necesidad de verificar dominio, versión, contraseña, revisión y topología antes de conectar un equipo.</p></div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-send-fill text-primary me-2"></i>3. Anuncios y proceso de sincronización</h3>
+                <p class="text-secondary">VTP opera mediante anuncios enviados a través de enlaces troncales. Para decidir si acepta la información, un switch evalúa parámetros como dominio, versión, autenticación y número de revisión. Los términos exactos pueden variar entre versiones, pero se reconocen tres clases clásicas de mensajes:</p>
+                <div class="row g-4">
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-primary">Anuncio de resumen</h5><p class="text-secondary small mb-0">Identifica el dominio y comunica el número de revisión. Se envía periódicamente y cuando se produce un cambio.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-success">Anuncio de subconjunto</h5><p class="text-secondary small mb-0">Contiene detalles de las VLAN, como identificador, nombre, tipo y estado. Puede acompañar un cambio de revisión.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-warning">Solicitud de anuncio</h5><p class="text-secondary small mb-0">Pide información actualizada, por ejemplo cuando un switch se reinicia, cambia de dominio o detecta una revisión superior.</p></div></div>
+                </div>
+                <h5 class="fw-bold mt-4">Secuencia conceptual de una actualización</h5>
+                <div class="flow-step" data-step="1"><h6 class="fw-bold mb-1">Cambio autorizado</h6><p class="text-secondary mb-0">El administrador crea la VLAN 40 en el servidor VTP.</p></div>
+                <div class="flow-step" data-step="2"><h6 class="fw-bold mb-1">Aumento de revisión</h6><p class="text-secondary mb-0">El servidor incrementa el número de revisión de la base de VLAN.</p></div>
+                <div class="flow-step" data-step="3"><h6 class="fw-bold mb-1">Propagación</h6><p class="text-secondary mb-0">El servidor envía anuncios por sus enlaces troncales; los switches intermedios pueden reenviarlos.</p></div>
+                <div class="flow-step" data-step="4"><h6 class="fw-bold mb-1">Validación y actualización</h6><p class="text-secondary mb-0">Un cliente compatible valida los parámetros, compara la revisión y actualiza su base.</p></div>
+                <div class="flow-step" data-step="5"><h6 class="fw-bold mb-1">Uso de la VLAN</h6><p class="text-secondary mb-0">La VLAN ya existe en el cliente, pero el administrador aún debe asignar puertos y permitirla en los troncales requeridos.</p></div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>4. Riesgo del número de revisión y operación segura</h3>
+                <p class="text-secondary">El número de revisión no representa la antigüedad física del switch; representa cuántas modificaciones ha registrado su base VTP. En VTPv1/v2, conectar al dominio un switch que conserva una revisión superior y una base incorrecta puede provocar que otros equipos acepten esa información. El resultado puede ser la eliminación lógica de VLAN y una interrupción extensa.</p>
+                <div class="reading-box danger"><h6 class="fw-bold">Escenario de riesgo</h6><p class="text-secondary mb-0">Un switch retirado de otra red conserva el mismo nombre de dominio, una revisión 48 y una base casi vacía. La red actual está en revisión 12. Si el dispositivo se conecta como servidor o cliente compatible a un troncal, su revisión superior puede ser considerada más reciente. Antes de incorporarlo hay que neutralizar su información VTP y configurarlo de acuerdo con la política de la red.</p></div>
+                <h5 class="fw-bold mt-4">Procedimiento recomendado antes de incorporar un switch</h5>
+                <ol class="text-secondary">
+                    <li class="mb-2">Mantener desconectados los enlaces troncales hacia producción.</li>
+                    <li class="mb-2">Consultar <code>show vtp status</code> y documentar dominio, versión, modo y revisión.</li>
+                    <li class="mb-2">Cambiar temporalmente el dominio o establecer el modo transparente para reiniciar/neutralizar la revisión según la plataforma.</li>
+                    <li class="mb-2">Configurar explícitamente versión, dominio, modo y autenticación requeridos.</li>
+                    <li>Conectar de forma controlada, observar los anuncios y verificar la base de VLAN.</li>
+                </ol>
+                <div class="reading-box success"><strong>Principio operativo:</strong> no se debe conectar un switch reutilizado a un troncal de producción sin inspeccionar primero su estado VTP. Un respaldo de configuraciones y de la tabla de VLAN facilita la recuperación.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-funnel-fill text-primary me-2"></i>5. VTP pruning</h3>
+                <p class="text-secondary"><strong>VTP pruning</strong> o poda VTP evita que cierto tráfico de broadcast, multicast y unicast desconocido viaje por enlaces troncales hacia switches que no tienen puertos activos en la VLAN correspondiente. Su objetivo es utilizar mejor el ancho de banda de los troncales.</p>
+                <p class="text-secondary">Supongamos que la VLAN 30 solo posee usuarios en SW-A y SW-B. Si SW-C no tiene ningún puerto activo en VLAN 30, enviar hacia él las difusiones de esa VLAN no aporta utilidad. La poda puede retirar dinámicamente ese tráfico del tramo que conduce a SW-C. La VLAN continúa existiendo; únicamente se limita su tráfico innecesario en determinados enlaces.</p>
+                <div class="reading-box warning"><strong>No confundir:</strong> la lista <code>switchport trunk allowed vlan</code> es una decisión administrativa estática sobre qué VLAN pueden usar un troncal. VTP pruning toma decisiones dinámicas para reducir tráfico inundado. Además, no poda todo tipo de tráfico ni reemplaza un diseño explícito de VLAN permitidas.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-terminal-fill text-primary me-2"></i>6. Configuración y verificación de VTP</h3>
+                <p class="text-secondary">El siguiente ejemplo utiliza sintaxis común de Cisco IOS para un laboratorio VTPv2. Los comandos disponibles pueden variar según el modelo. El dominio será <code>CAMPUS</code>, el switch de distribución funcionará como servidor y el switch de acceso como cliente.</p>
+                <div class="row g-4">
+                    <div class="col-lg-6"><h5 class="fw-bold"><span class="step-number">1</span>Servidor VTP</h5><div class="command-box"><pre><code>DISTRIBUCION# configure terminal
+DISTRIBUCION(config)# vtp domain CAMPUS
+DISTRIBUCION(config)# vtp version 2
+DISTRIBUCION(config)# vtp mode server
+DISTRIBUCION(config)# vtp password ClaveVTP
+DISTRIBUCION(config)# vtp pruning
+DISTRIBUCION(config)# vlan 10
+DISTRIBUCION(config-vlan)# name ADMINISTRACION
+DISTRIBUCION(config)# vlan 20
+DISTRIBUCION(config-vlan)# name DOCENTES
+DISTRIBUCION(config)# vlan 30
+DISTRIBUCION(config-vlan)# name ESTUDIANTES</code></pre></div></div>
+                    <div class="col-lg-6"><h5 class="fw-bold"><span class="step-number">2</span>Cliente VTP</h5><div class="command-box"><pre><code>ACCESO-1# configure terminal
+ACCESO-1(config)# vtp domain CAMPUS
+ACCESO-1(config)# vtp version 2
+ACCESO-1(config)# vtp mode client
+ACCESO-1(config)# vtp password ClaveVTP
+ACCESO-1(config)# interface gigabitEthernet 0/1
+ACCESO-1(config-if)# switchport mode trunk
+ACCESO-1(config-if)# switchport trunk allowed vlan 10,20,30
+ACCESO-1(config-if)# no shutdown</code></pre></div></div>
+                </div>
+                <div class="table-responsive mt-4"><table class="table table-bordered align-middle"><thead class="table-light"><tr><th>Comando</th><th>Información que aporta</th></tr></thead><tbody class="text-secondary"><tr><td><code>show vtp status</code></td><td>Versión, dominio, modo, revisión y cantidad de VLAN conocidas.</td></tr><tr><td><code>show vtp password</code></td><td>Confirma si existe una contraseña VTP configurada; úsese con cuidado al documentar salidas.</td></tr><tr><td><code>show vlan brief</code></td><td>Muestra si las VLAN fueron aprendidas y qué puertos de acceso están asociados.</td></tr><tr><td><code>show interfaces trunk</code></td><td>Confirma que el enlace troncal está operativo y qué VLAN admite.</td></tr></tbody></table></div>
+                <div class="reading-box"><strong>Sobre la contraseña:</strong> los switches del dominio deben utilizar parámetros compatibles. La contraseña ayuda a autenticar anuncios, pero no convierte a VTP en un sistema de cifrado para el tráfico de los usuarios.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-signpost-split-fill text-primary me-2"></i>7. ¿Qué es el enrutamiento inter-VLAN?</h3>
+                <p class="text-secondary">Cada VLAN constituye un dominio de broadcast de capa 2 y normalmente se asocia con una subred IP distinta. Un switch de capa 2 puede reenviar tramas dentro de una VLAN, pero no puede transferir por sí solo un paquete desde una subred hacia otra. El <strong>enrutamiento inter-VLAN</strong> es el proceso de recibir tráfico en una VLAN, tomar una decisión de capa 3 y reenviarlo hacia otra VLAN.</p>
+                <p class="text-secondary">Cada host necesita una <strong>puerta de enlace predeterminada</strong>: una dirección IP del router o switch multicapa ubicada en su misma subred. Cuando el destino está fuera de la red local, el host encapsula el paquete en una trama dirigida a la dirección MAC de esa puerta de enlace.</p>
+                <div class="table-responsive"><table class="table table-striped align-middle"><thead><tr><th>VLAN</th><th>Propósito</th><th>Subred</th><th>Gateway</th></tr></thead><tbody><tr><td>10</td><td>Administración</td><td><code>192.168.10.0/24</code></td><td><code>192.168.10.1</code></td></tr><tr><td>20</td><td>Docentes</td><td><code>192.168.20.0/24</code></td><td><code>192.168.20.1</code></td></tr><tr><td>30</td><td>Estudiantes</td><td><code>192.168.30.0/24</code></td><td><code>192.168.30.1</code></td></tr></tbody></table></div>
+                <div class="reading-box"><strong>Relación entre capas:</strong> VTP ayuda a distribuir definiciones de VLAN en capa 2. El enrutamiento inter-VLAN proporciona comunicación entre sus subredes en capa 3. Aprender una VLAN por VTP no crea automáticamente su gateway ni autoriza el tráfico entre redes.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-bezier2 text-primary me-2"></i>8. Métodos de enrutamiento inter-VLAN</h3>
+                <div class="table-responsive"><table class="table table-bordered align-middle"><thead class="table-light"><tr><th>Método</th><th>Funcionamiento</th><th>Ventajas</th><th>Limitaciones</th></tr></thead><tbody class="text-secondary"><tr><td><strong>Enrutamiento heredado</strong></td><td>Una interfaz física del router por cada VLAN; cada puerto del switch conectado al router es de acceso.</td><td>Concepto simple y separación física clara.</td><td>Consume interfaces y cables; escala muy poco.</td></tr><tr><td><strong>Router-on-a-stick</strong></td><td>Una interfaz física del router se divide en subinterfaces 802.1Q; el enlace al switch es troncal.</td><td>Económico y apropiado para laboratorios o redes pequeñas.</td><td>El enlace y el router pueden ser cuello de botella y punto único de falla.</td></tr><tr><td><strong>Switch multicapa con SVI</strong></td><td>El switch crea una interfaz VLAN virtual por subred y enruta internamente.</td><td>Alto rendimiento, baja latencia y buena escalabilidad.</td><td>Requiere un equipo de capa 3 y habilitar el enrutamiento.</td></tr></tbody></table></div>
+                <p class="text-secondary mt-3"><strong>SVI</strong> (<em>Switched Virtual Interface</em>) es una interfaz lógica asociada con una VLAN. Puede utilizarse para administrar un switch de capa 2 o actuar como gateway y enrutar en un switch multicapa. Una SVI suele quedar operativamente activa cuando la VLAN existe y al menos un puerto de capa 2 perteneciente a ella está activo.</p>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-router-fill text-primary me-2"></i>9. Router-on-a-stick: configuración y recorrido del paquete</h3>
+                <div class="network-diagram" aria-label="Diagrama de router-on-a-stick">PC-A VLAN 10 ──┐
+               ├── SW1 Gi0/1 ═══ troncal 802.1Q ═══ Gi0/0 ROUTER
+PC-B VLAN 20 ──┘                              ├── Gi0/0.10  192.168.10.1
+                                             └── Gi0/0.20  192.168.20.1</div>
+                <p class="text-secondary mt-3">Una <strong>subinterfaz</strong> es una división lógica de una interfaz física del router. Cada subinterfaz se vincula con una VLAN mediante <code>encapsulation dot1Q</code> y recibe una dirección IP que funciona como gateway de esa subred.</p>
+                <div class="row g-4">
+                    <div class="col-lg-6"><h5 class="fw-bold">Configuración del switch</h5><div class="command-box"><pre><code>SW1(config)# vlan 10
+SW1(config-vlan)# name ADMINISTRACION
+SW1(config)# vlan 20
+SW1(config-vlan)# name DOCENTES
+SW1(config)# interface gigabitEthernet 0/1
+SW1(config-if)# description TRONCAL_A_R1
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk allowed vlan 10,20
+SW1(config-if)# no shutdown</code></pre></div></div>
+                    <div class="col-lg-6"><h5 class="fw-bold">Configuración del router</h5><div class="command-box"><pre><code>R1(config)# interface gigabitEthernet 0/0
+R1(config-if)# no shutdown
+R1(config)# interface gigabitEthernet 0/0.10
+R1(config-subif)# encapsulation dot1Q 10
+R1(config-subif)# ip address 192.168.10.1 255.255.255.0
+R1(config)# interface gigabitEthernet 0/0.20
+R1(config-subif)# encapsulation dot1Q 20
+R1(config-subif)# ip address 192.168.20.1 255.255.255.0</code></pre></div></div>
+                </div>
+                <h5 class="fw-bold mt-4">¿Cómo viaja un paquete de PC-A a PC-B?</h5>
+                <ol class="text-secondary"><li class="mb-2">PC-A compara su IP con la del destino y determina que PC-B está en otra subred.</li><li class="mb-2">PC-A obtiene mediante ARP la MAC de su gateway <code>192.168.10.1</code> y le envía la trama.</li><li class="mb-2">SW1 etiqueta la trama como VLAN 10 al enviarla por el troncal.</li><li class="mb-2">R1 recibe el paquete en Gi0/0.10, consulta su tabla de enrutamiento y selecciona la red <code>192.168.20.0/24</code>.</li><li>R1 vuelve a encapsular el paquete para VLAN 20; SW1 retira la etiqueta al entregarlo por el puerto de acceso de PC-B.</li></ol>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-hdd-network-fill text-primary me-2"></i>10. Enrutamiento con un switch multicapa</h3>
+                <p class="text-secondary">Un <strong>switch multicapa</strong> combina conmutación de capa 2 y enrutamiento de capa 3. Las SVI actúan como puertas de enlace de las VLAN, mientras el comando <code>ip routing</code> habilita el reenvío de paquetes entre redes. El tráfico puede ser procesado por hardware especializado, por lo que suele superar el rendimiento de router-on-a-stick.</p>
+                <div class="command-box"><pre><code>SW-CAPA3(config)# vlan 10
+SW-CAPA3(config-vlan)# name ADMINISTRACION
+SW-CAPA3(config)# vlan 20
+SW-CAPA3(config-vlan)# name DOCENTES
+
+SW-CAPA3(config)# interface vlan 10
+SW-CAPA3(config-if)# ip address 192.168.10.1 255.255.255.0
+SW-CAPA3(config-if)# no shutdown
+SW-CAPA3(config)# interface vlan 20
+SW-CAPA3(config-if)# ip address 192.168.20.1 255.255.255.0
+SW-CAPA3(config-if)# no shutdown
+
+SW-CAPA3(config)# ip routing
+
+<span class="command-comment">! Enlace de capa 3 hacia otro router</span>
+SW-CAPA3(config)# interface gigabitEthernet 0/24
+SW-CAPA3(config-if)# no switchport
+SW-CAPA3(config-if)# ip address 10.0.0.2 255.255.255.252
+SW-CAPA3(config-if)# no shutdown</code></pre></div>
+                <p class="text-secondary mt-3">El comando <code>no switchport</code> convierte una interfaz compatible en <strong>puerto enrutado</strong>: deja de pertenecer a una VLAN y acepta una dirección IP directamente. Para alcanzar redes externas, el switch multicapa también necesita rutas estáticas o un protocolo de enrutamiento.</p>
+                <div class="reading-box warning"><strong>Error común:</strong> crear las SVI sin habilitar <code>ip routing</code>. El switch puede responder en sus propias direcciones, pero no reenviará paquetes entre VLAN como se espera.</div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-shield-lock-fill text-primary me-2"></i>11. Control, seguridad y buenas prácticas</h3>
+                <p class="text-secondary">El enrutamiento elimina el aislamiento total entre VLAN, pero no obliga a permitir toda comunicación. Las <strong>listas de control de acceso (ACL)</strong> pueden definir qué orígenes, destinos y protocolos están autorizados. Por ejemplo, los estudiantes podrían acceder a un servidor web institucional, pero no a los equipos de administración.</p>
+                <div class="row g-4">
+                    <div class="col-md-6"><div class="concept-card"><h5 class="fw-bold">Para VTP</h5><ul class="text-secondary small mb-0"><li>Usar VTP solo cuando exista una necesidad administrativa clara.</li><li>Documentar versión, dominio, modo, autenticación y servidor autorizado.</li><li>Verificar la revisión antes de conectar equipos reutilizados.</li><li>Respaldar configuraciones y mantener control físico de los troncales.</li></ul></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h5 class="fw-bold">Para inter-VLAN</h5><ul class="text-secondary small mb-0"><li>Asignar una subred única y un gateway correcto a cada VLAN.</li><li>Limitar las VLAN permitidas en los troncales.</li><li>Aplicar ACL según el principio de mínimo privilegio.</li><li>Evitar usar VLAN 1 para usuarios o administración.</li></ul></div></div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-tools text-primary me-2"></i>12. Verificación y diagnóstico sistemático</h3>
+                <p class="text-secondary">Un diagnóstico eficiente avanza desde el host y la capa física hasta la información de VLAN y el enrutamiento. No basta con que una interfaz muestre estado activo: la VLAN, el etiquetado, el direccionamiento y las rutas también deben coincidir.</p>
+                <div class="table-responsive"><table class="table table-bordered align-middle"><thead class="table-light"><tr><th>Síntoma</th><th>Causa probable</th><th>Verificación</th></tr></thead><tbody class="text-secondary"><tr><td>El cliente VTP no aprende VLAN.</td><td>Dominio, versión o contraseña diferentes; no existe troncal.</td><td><code>show vtp status</code>, <code>show interfaces trunk</code>.</td></tr><tr><td>La VLAN existe, pero no cruza un enlace.</td><td>No está permitida en el troncal o hay discrepancia de VLAN nativa.</td><td><code>show interfaces trunk</code>.</td></tr><tr><td>Hosts de la misma VLAN no se comunican.</td><td>Puerto incorrecto, VLAN ausente, enlace caído o dirección IP errónea.</td><td><code>show vlan brief</code>, tabla MAC, IP y máscara del host.</td></tr><tr><td>Hosts de VLAN distintas no se comunican.</td><td>Gateway incorrecto, subinterfaz/SVI caída, falta <code>ip routing</code> o ACL restrictiva.</td><td><code>show ip interface brief</code>, <code>show ip route</code>, configuración y ACL.</td></tr><tr><td>Solo una VLAN falla en router-on-a-stick.</td><td>ID de <code>encapsulation dot1Q</code> incorrecto o VLAN omitida del troncal.</td><td>Comparar subinterfaz, VLAN y lista permitida.</td></tr></tbody></table></div>
+                <div class="command-box"><pre><code><span class="command-comment">! Comandos útiles de verificación</span>
+SW# show vtp status
+SW# show vlan brief
+SW# show interfaces trunk
+SW# show interfaces switchport
+SW# show mac address-table dynamic
+R1# show ip interface brief
+R1# show ip route
+R1# show running-config interface gigabitEthernet 0/0.10
+R1# ping 192.168.20.1
+R1# traceroute 192.168.20.10</code></pre></div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-journal-check text-primary me-2"></i>13. Síntesis de la clase</h3>
+                <div class="learning-panel"><p class="mb-2">VTP distribuye información de VLAN dentro de un dominio, pero no configura puertos de acceso, gateways ni políticas de seguridad.</p><p class="mb-2">Los parámetros compatibles y el número de revisión determinan la sincronización; por eso un switch reutilizado debe revisarse antes de conectarlo.</p><p class="mb-2">VTP pruning reduce tráfico inundado innecesario, mientras la lista de VLAN permitidas controla administrativamente qué VLAN atraviesan un troncal.</p><p class="mb-2">El enrutamiento inter-VLAN comunica subredes mediante interfaces físicas, subinterfaces de router o SVI de un switch multicapa.</p><p class="mb-0">Una solución completa requiere comprobar capa física, VLAN, troncales, direccionamiento, gateway, tabla de rutas y políticas de acceso.</p></div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-3"><i class="bi bi-pencil-square text-warning me-2"></i>14. Ejercicio de aplicación</h3>
+                <div class="exercise-card">
+                    <h5 class="fw-bold">Caso: red del Centro de Formación Horizonte</h5>
+                    <p class="text-secondary">La institución dispone de un switch multicapa llamado <strong>SW-DIST</strong> y dos switches de acceso, <strong>SW-A1</strong> y <strong>SW-A2</strong>. Se requiere centralizar la información de VLAN con VTPv2 y realizar el enrutamiento en SW-DIST.</p>
+                    <div class="table-responsive"><table class="table table-sm table-bordered bg-body align-middle"><thead><tr><th>VLAN</th><th>Nombre</th><th>Subred</th><th>Gateway</th></tr></thead><tbody><tr><td>10</td><td>ADMIN</td><td><code>172.16.10.0/24</code></td><td><code>172.16.10.1</code></td></tr><tr><td>20</td><td>DOCENTES</td><td><code>172.16.20.0/24</code></td><td><code>172.16.20.1</code></td></tr><tr><td>30</td><td>ALUMNOS</td><td><code>172.16.30.0/24</code></td><td><code>172.16.30.1</code></td></tr><tr><td>99</td><td>GESTION</td><td><code>172.16.99.0/24</code></td><td><code>172.16.99.1</code></td></tr></tbody></table></div>
+                    <p class="fw-bold mb-2">Condiciones:</p>
+                    <ul class="text-secondary"><li>Dominio VTP: <code>HORIZONTE</code>; contraseña: <code>Aula2026</code>.</li><li>SW-DIST será servidor; SW-A1 y SW-A2 serán clientes.</li><li>Los enlaces Gi0/1 y Gi0/2 de SW-DIST serán troncales y permitirán únicamente las VLAN 10, 20, 30 y 99.</li><li>SW-DIST realizará el enrutamiento mediante SVI.</li><li>Un equipo de VLAN 10 deberá poder comunicarse con uno de VLAN 20.</li></ul>
+                    <p class="fw-bold mb-2">Trabajo solicitado:</p>
+                    <ol class="text-secondary mb-3"><li>Elabora un diagrama lógico e identifica enlaces troncales, puertos de acceso y gateways.</li><li>Escribe la configuración de VTP para los tres switches.</li><li>Crea las VLAN en SW-DIST y explica cómo aparecerán en los clientes.</li><li>Configura las cuatro SVI y habilita el enrutamiento de capa 3.</li><li>Asigna al menos un puerto de acceso a cada VLAN en los switches de acceso.</li><li>Propón seis comandos de verificación e indica qué evidencia esperas obtener.</li></ol>
+                    <p class="fw-bold mb-2">Situación de diagnóstico:</p>
+                    <p class="text-secondary mb-0">SW-A2 muestra el dominio correcto, pero permanece con revisión 0 y no aprende ninguna VLAN. Su enlace Gi0/1 aparece en modo de acceso. Explica la causa, escribe la corrección y describe cómo confirmarías que la sincronización y el enrutamiento funcionan. Entrega comandos, resultados esperados y una breve justificación técnica.</p>
+                </div>
+            </section>
+
+            <section class="mb-4">
+                <h3 class="fw-bold mb-2"><i class="bi bi-patch-question-fill text-primary me-2"></i>15. Cuestionario de verificación</h3>
+                <p class="text-secondary">Selecciona la mejor respuesta en cada pregunta y luego evalúa el cuestionario.</p>
+                <form id="quiz-form">
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">1</span><h6 class="fw-bold mb-0 pt-1">¿Cuál es la función principal de VTP?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q1" id="q1a" value="a"><label class="form-check-label" for="q1a">Enrutar paquetes entre subredes.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q1" id="q1b" value="b"><label class="form-check-label" for="q1b">Distribuir información de VLAN entre switches de un dominio.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q1" id="q1c" value="c"><label class="form-check-label" for="q1c">Asignar direcciones IP por DHCP.</label></div><div class="question-feedback" id="q1-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">2</span><h6 class="fw-bold mb-0 pt-1">¿Por qué es peligroso conectar sin revisión previa un switch usado a un dominio VTPv2?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q2" id="q2a" value="a"><label class="form-check-label" for="q2a">Una revisión superior con datos incorrectos puede reemplazar la base de VLAN.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q2" id="q2b" value="b"><label class="form-check-label" for="q2b">El switch convierte todos los enlaces en puertos enrutados.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q2" id="q2c" value="c"><label class="form-check-label" for="q2c">VTP cambia las direcciones IP de los hosts.</label></div><div class="question-feedback" id="q2-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">3</span><h6 class="fw-bold mb-0 pt-1">En router-on-a-stick, ¿qué elemento relaciona una subinterfaz con su VLAN?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q3" id="q3a" value="a"><label class="form-check-label" for="q3a"><code>switchport access vlan</code></label></div><div class="form-check"><input class="form-check-input" type="radio" name="q3" id="q3b" value="b"><label class="form-check-label" for="q3b"><code>encapsulation dot1Q</code> con el ID de VLAN.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q3" id="q3c" value="c"><label class="form-check-label" for="q3c"><code>vtp pruning</code></label></div><div class="question-feedback" id="q3-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">4</span><h6 class="fw-bold mb-0 pt-1">¿Qué se requiere para que un switch multicapa reenvíe tráfico entre sus SVI?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q4" id="q4a" value="a"><label class="form-check-label" for="q4a">Habilitar <code>ip routing</code> y disponer de SVI operativas con direcciones correctas.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q4" id="q4b" value="b"><label class="form-check-label" for="q4b">Configurar todas las interfaces como puertos de acceso de VLAN 1.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q4" id="q4c" value="c"><label class="form-check-label" for="q4c">Eliminar las puertas de enlace de los hosts.</label></div><div class="question-feedback" id="q4-feedback"></div></div>
+                    <div class="quiz-card"><div class="d-flex align-items-start mb-3"><span class="quiz-number">5</span><h6 class="fw-bold mb-0 pt-1">Una VLAN fue aprendida mediante VTP, pero no aparece como permitida en el troncal hacia el router. ¿Qué resultado es más probable?</h6></div><div class="form-check"><input class="form-check-input" type="radio" name="q5" id="q5a" value="a"><label class="form-check-label" for="q5a">La VLAN funcionará porque VTP reemplaza la lista del troncal.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q5" id="q5b" value="b"><label class="form-check-label" for="q5b">El tráfico de esa VLAN no llegará al router y fallará su enrutamiento inter-VLAN.</label></div><div class="form-check"><input class="form-check-input" type="radio" name="q5" id="q5c" value="c"><label class="form-check-label" for="q5c">El router creará automáticamente una nueva subinterfaz.</label></div><div class="question-feedback" id="q5-feedback"></div></div>
+                    <div class="d-flex align-items-center flex-wrap gap-3"><button type="button" class="btn btn-primary px-4" id="evaluate-quiz"><i class="bi bi-check2-circle me-1"></i> Evaluar respuestas</button><button type="reset" class="btn btn-outline-secondary" id="reset-quiz"><i class="bi bi-arrow-counterclockwise me-1"></i> Reiniciar</button><span class="fw-bold" id="quiz-result" aria-live="polite"></span></div>
+                </form>
+            </section>
+        </div>
+    </main></div>
+
+    <footer class="text-center py-4" style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);"><p class="mb-0" style="font-size:.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script><script src="../../js/menu.js"></script><script src="../../js/main.js"></script>
+    <script>
+        const quizAnswers = {
+            q1: { answer: 'b', explanation: 'Correcto. VTP distribuye información de VLAN entre switches compatibles que pertenecen al mismo dominio.' },
+            q2: { answer: 'a', explanation: 'Correcto. En VTPv1/v2, una base incorrecta con revisión superior puede propagarse y sustituir información válida.' },
+            q3: { answer: 'b', explanation: 'Correcto. El comando encapsulation dot1Q seguido del ID vincula la subinterfaz con una VLAN.' },
+            q4: { answer: 'a', explanation: 'Correcto. Las SVI proporcionan los gateways y el comando ip routing habilita el reenvío entre redes.' },
+            q5: { answer: 'b', explanation: 'Correcto. Que la VLAN exista no significa que esté autorizada en el troncal; sin ese transporte no alcanzará la subinterfaz del router.' }
+        };
+        document.getElementById('evaluate-quiz').addEventListener('click', () => {
+            let score = 0;
+            let answered = 0;
+            Object.entries(quizAnswers).forEach(([question, data]) => {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                const feedback = document.getElementById(`${question}-feedback`);
+                if (!selected) {
+                    feedback.className = 'question-feedback show bg-warning-subtle text-warning-emphasis';
+                    feedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i>Selecciona una opción antes de evaluar esta pregunta.';
+                    return;
+                }
+                answered++;
+                const correct = selected.value === data.answer;
+                if (correct) score++;
+                feedback.className = `question-feedback show ${correct ? 'bg-success-subtle text-success-emphasis' : 'bg-danger-subtle text-danger-emphasis'}`;
+                feedback.innerHTML = `<i class="bi ${correct ? 'bi-check-circle-fill' : 'bi-x-circle-fill'} me-2"></i>${data.explanation}`;
+            });
+            const result = document.getElementById('quiz-result');
+            result.textContent = answered < 5 ? `Respondidas: ${answered}/5 • Aciertos: ${score}` : `Resultado: ${score} de 5`;
+            result.className = `fw-bold ${score >= 4 && answered === 5 ? 'text-success' : score >= 3 ? 'text-warning' : 'text-danger'}`;
+        });
+        document.getElementById('reset-quiz').addEventListener('click', () => {
+            document.querySelectorAll('.question-feedback').forEach(item => { item.className = 'question-feedback'; item.innerHTML = ''; });
+            const result = document.getElementById('quiz-result');
+            result.textContent = '';
+            result.className = 'fw-bold';
+        });
+    </script>
+</body>
+</html>
