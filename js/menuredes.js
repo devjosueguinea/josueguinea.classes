@@ -104,6 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 15: Operaciones VTP y enrutamiento inter-VLAN">Clase 15: VTP y enrutamiento inter-VLAN</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase16redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 16: Redundancia en Capa 2 y Redes Convergentes">Clase 16: Redundancia en Capa 2</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

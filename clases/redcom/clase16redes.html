@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Clase 16 sobre redundancia de capa 2, STP, RSTP, EtherChannel y convergencia en redes conmutadas.">
+    <title>Clase 16: Redundancia en Capa 2 y Redes Convergentes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        :root { --stp-blue:#2563eb; --stp-cyan:#0891b2; --stp-green:#059669; --stp-amber:#d97706; --stp-red:#dc2626; }
+        html { scroll-behavior:smooth; scroll-padding-top:95px; }
+        .hero-network { position:relative; overflow:hidden; padding:30px; border-radius:22px; color:#fff; background:linear-gradient(125deg,#0f172a 0%,#123b70 56%,#0e7490 100%); box-shadow:0 18px 50px rgba(15,23,42,.22); }
+        .hero-network::after { content:""; position:absolute; width:280px; height:280px; right:-90px; top:-110px; border:1px solid rgba(255,255,255,.18); border-radius:50%; box-shadow:0 0 0 36px rgba(255,255,255,.04),0 0 0 72px rgba(255,255,255,.03); }
+        .hero-network > * { position:relative; z-index:1; }
+        .lesson-nav { position:sticky; top:72px; z-index:20; display:flex; gap:8px; overflow-x:auto; padding:10px; margin:20px 0 34px; background:color-mix(in srgb,var(--card-bg) 92%,transparent); border:1px solid var(--border-color); border-radius:14px; backdrop-filter:blur(10px); }
+        .lesson-nav a { flex:0 0 auto; padding:7px 13px; border-radius:9px; color:var(--text-secondary); font-size:.82rem; font-weight:700; text-decoration:none; }
+        .lesson-nav a:hover,.lesson-nav a.active { color:white; background:var(--stp-blue); }
+        .reading-progress { position:fixed; top:0; left:0; height:4px; width:0; z-index:2000; background:linear-gradient(90deg,var(--stp-blue),var(--stp-cyan),var(--stp-green)); }
+        .concept-card,.lab-card,.quiz-card { height:100%; padding:22px; background:var(--card-bg); border:1px solid var(--border-color); border-radius:17px; }
+        .concept-card { transition:transform .22s,box-shadow .22s; }
+        .concept-card:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+        .icon-tile { display:inline-grid; place-items:center; width:44px; height:44px; border-radius:12px; color:#fff; background:linear-gradient(135deg,var(--stp-blue),var(--stp-cyan)); font-size:1.2rem; }
+        .callout { margin:22px 0; padding:18px 20px; background:var(--hover-bg); border-left:5px solid var(--stp-blue); border-radius:0 13px 13px 0; }
+        .callout.warning { border-color:var(--stp-amber); }
+        .callout.danger { border-color:var(--stp-red); }
+        .callout.success { border-color:var(--stp-green); }
+        .network-diagram,.command-box { overflow-x:auto; padding:21px; color:#d7e1ee; background:#07111f; border:1px solid #26364a; border-radius:15px; }
+        .network-diagram { white-space:pre; font:600 .9rem/1.55 Consolas,monospace; }
+        .command-box pre { margin:0; color:inherit; white-space:pre-wrap; }
+        .command-comment { color:#7dd3fc; }
+        .role-pill { display:inline-block; min-width:96px; padding:5px 10px; border-radius:99px; color:#fff; font-size:.76rem; font-weight:800; text-align:center; }
+        .root-role { background:var(--stp-green); } .designated-role { background:var(--stp-blue); } .alternate-role { background:var(--stp-amber); } .disabled-role { background:#64748b; }
+        .process-step { position:relative; margin-left:16px; padding:0 0 24px 42px; border-left:2px solid var(--border-color); }
+        .process-step:last-child { border-color:transparent; padding-bottom:0; }
+        .process-step .step { position:absolute; left:-17px; top:-2px; display:grid; place-items:center; width:32px; height:32px; color:white; background:var(--stp-blue); border-radius:50%; font-weight:800; }
+        .storm-stage { position:relative; height:260px; background:radial-gradient(circle at center,#172554,#07111f 72%); border:1px solid #26364a; border-radius:18px; overflow:hidden; }
+        .switch-node { position:absolute; z-index:2; width:78px; padding:9px 5px; color:#e0f2fe; background:#164e63; border:2px solid #67e8f9; border-radius:11px; text-align:center; font-weight:800; }
+        .sw-a { left:calc(50% - 39px); top:24px; } .sw-b { left:13%; bottom:27px; } .sw-c { right:13%; bottom:27px; }
+        .link-line { position:absolute; height:4px; background:#38bdf8; transform-origin:left center; opacity:.72; }
+        .link-ab { width:43%; left:47%; top:83px; transform:rotate(138deg); } .link-ac { width:43%; left:53%; top:83px; transform:rotate(42deg); } .link-bc { width:58%; left:21%; bottom:65px; }
+        .packet { position:absolute; z-index:3; width:14px; height:14px; border-radius:4px; background:#fbbf24; box-shadow:0 0 13px #f59e0b; opacity:0; }
+        .storming .packet { opacity:1; animation:packet-loop 2.2s linear infinite; }
+        .packet:nth-of-type(7) { animation-delay:.35s; } .packet:nth-of-type(8) { animation-delay:.7s; } .packet:nth-of-type(9) { animation-delay:1.05s; } .packet:nth-of-type(10) { animation-delay:1.4s; }
+        @keyframes packet-loop { 0%{left:49%;top:73px} 33%{left:18%;top:195px} 66%{left:79%;top:195px} 100%{left:49%;top:73px} }
+        .metric { padding:18px; background:var(--hover-bg); border-radius:14px; text-align:center; }
+        .metric strong { display:block; color:var(--stp-blue); font-size:1.8rem; }
+        .sim-result { min-height:104px; padding:17px; background:var(--hover-bg); border:1px dashed var(--border-color); border-radius:13px; }
+        .table { --bs-table-bg:transparent; --bs-table-color:var(--text-primary); --bs-table-border-color:var(--border-color); }
+        .table thead th { background:var(--hover-bg); }
+        .state-path { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+        .state-box { padding:14px 8px; border-radius:11px; color:white; background:#64748b; text-align:center; font-size:.8rem; font-weight:800; }
+        .state-box.forward { background:var(--stp-green); }
+        .state-box.rstp { grid-column:span 2; background:var(--stp-blue); }
+        .exercise-card { padding:25px; background:linear-gradient(135deg,rgba(37,99,235,.10),rgba(8,145,178,.09)); border:2px dashed var(--stp-blue); border-radius:19px; }
+        .homework-card { padding:26px; color:#f8fafc; background:linear-gradient(135deg,#3b0764,#4c1d95 55%,#312e81); border-radius:19px; box-shadow:0 16px 36px rgba(49,46,129,.22); }
+        .check-item { display:flex; gap:10px; align-items:flex-start; padding:10px 12px; margin-bottom:8px; background:var(--card-bg); border:1px solid var(--border-color); border-radius:10px; cursor:pointer; }
+        .check-item.completed { border-color:var(--stp-green); background:rgba(5,150,105,.09); }
+        .question-feedback { display:none; margin-top:10px; padding:10px 13px; border-radius:9px; }
+        .question-feedback.show { display:block; }
+        .quiz-card { margin-bottom:14px; }
+        .quiz-number { display:inline-grid; place-items:center; width:32px; height:32px; flex:0 0 32px; color:white; background:var(--stp-blue); border-radius:50%; font-weight:800; }
+        .glossary-btn { width:100%; padding:14px 0; color:var(--text-primary); background:none; border:0; text-align:left; font-weight:800; }
+        @media(max-width:767px){ .hero-network{padding:23px}.lesson-nav{top:66px}.state-path{grid-template-columns:1fr 1fr}.state-box.rstp{grid-column:span 1}.storm-stage{height:225px}.switch-node{width:68px}.sw-b{left:5%}.sw-c{right:5%} }
+        @media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto}.storming .packet{animation:none;opacity:0}.concept-card{transition:none} }
+    </style>
+</head>
+<body>
+    <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+    <div class="app-container"><main class="main-content">
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3">
+                <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice"><i class="bi bi-arrow-left"></i></a>
+                <div><h4 class="mb-0 fw-bold">Clase 16: Redundancia en Capa 2</h4><span class="text-muted" style="font-size:.85rem;">Redes de Comunicaciones • CCNA</span></div>
+            </div>
+            <div class="header-actions"><button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema"><i class="bi bi-moon-fill" id="theme-icon"></i></button><div class="profile-widget"><div class="profile-avatar">JG</div></div></div>
+        </header>
+
+        <div class="class-content-wrapper mb-5">
+            <section class="hero-network" id="inicio">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <span class="badge text-bg-light text-primary mb-3"><i class="bi bi-bezier2 me-1"></i> Clase 16 • 180 minutos</span>
+                        <h1 class="display-6 fw-bold mb-3">Redundancia en Capa 2 y Redes Convergentes</h1>
+                        <p class="lead mb-0 opacity-75">Cómo construir LAN disponibles sin provocar bucles: STP, Rapid STP, selección de puertos, EtherChannel, verificación y diagnóstico de la convergencia.</p>
+                    </div>
+                    <div class="col-lg-4"><div class="p-3 rounded-4" style="background:rgba(255,255,255,.1);"><div class="small text-uppercase opacity-75 fw-bold">Pregunta guía</div><div class="fs-5 fw-bold mt-2">¿Cómo puede una red tener caminos de respaldo sin reenviar tramas indefinidamente?</div></div></div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav" aria-label="Navegación de la clase">
+                <a href="#fundamentos">Fundamentos</a><a href="#stp">STP</a><a href="#eleccion">Elección</a><a href="#convergencia">Convergencia</a><a href="#variantes">Variantes</a><a href="#etherchannel">EtherChannel</a><a href="#diagnostico">Diagnóstico</a><a href="#practica">Práctica</a><a href="#tarea">Tarea</a>
+            </nav>
+
+            <section class="mb-5">
+                <div class="row g-3">
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-shield-check"></i></span><h5 class="fw-bold mt-3">Disponibilidad</h5><p class="text-secondary small mb-0">Explicar por qué los enlaces alternativos mantienen el servicio ante una falla.</p></div></div>
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-diagram-3"></i></span><h5 class="fw-bold mt-3">Árbol de expansión</h5><p class="text-secondary small mb-0">Determinar puente raíz, puertos raíz, designados y alternos.</p></div></div>
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-stopwatch"></i></span><h5 class="fw-bold mt-3">Convergencia</h5><p class="text-secondary small mb-0">Comparar STP clásico con RSTP y reconocer sus mecanismos.</p></div></div>
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-tools"></i></span><h5 class="fw-bold mt-3">Operación</h5><p class="text-secondary small mb-0">Configurar, verificar y resolver fallas con un método ordenado.</p></div></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="fundamentos">
+                <h2 class="fw-bold mb-3"><i class="bi bi-intersect text-primary me-2"></i>1. ¿Por qué necesitamos redundancia?</h2>
+                <p class="text-secondary">La redundancia consiste en disponer de más de un camino, enlace o dispositivo capaz de sostener un servicio. En una LAN empresarial, un solo enlace entre acceso y distribución constituye un <strong>punto único de falla</strong>: si el cable, un puerto o el switch intermedio deja de funcionar, los usuarios pueden quedar aislados. Agregar un segundo enlace mejora la tolerancia a fallos, pero crea un nuevo problema en capa 2: Ethernet no posee un campo equivalente al TTL de IP que descarte una trama después de cierto número de saltos.</p>
+                <p class="text-secondary">Una red <strong>convergente</strong> alcanza un estado estable en el que todos los switches coinciden sobre la topología activa. Cuando ocurre un cambio, los protocolos intercambian información, recalculan caminos y habilitan una ruta alternativa. El tiempo entre la falla y la recuperación se denomina <strong>tiempo de convergencia</strong>.</p>
+                <div class="row g-4 mt-1">
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-danger"><i class="bi bi-broadcast-pin me-2"></i>Tormenta de broadcast</h5><p class="text-secondary small mb-0">Una difusión se replica y vuelve a entrar al ciclo. Las copias crecen, consumen ancho de banda y CPU, y pueden inutilizar la LAN.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-warning"><i class="bi bi-arrow-left-right me-2"></i>Inestabilidad MAC</h5><p class="text-secondary small mb-0">La misma MAC de origen aparece alternativamente por puertos distintos; el switch cambia su tabla y reenvía de manera errática.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-primary"><i class="bi bi-files me-2"></i>Tramas duplicadas</h5><p class="text-secondary small mb-0">Un host puede recibir varias copias de la misma trama, lo que altera aplicaciones y aumenta la congestión.</p></div></div>
+                </div>
+                <div class="callout danger"><strong>Idea esencial:</strong> la redundancia física sin un mecanismo de prevención de bucles no produce alta disponibilidad; puede producir una interrupción total. STP conserva los enlaces redundantes, pero coloca algunos puertos en una función de descarte hasta que sean necesarios.</div>
+
+                <div class="row g-4 align-items-stretch mt-1">
+                    <div class="col-lg-7">
+                        <div class="storm-stage" id="storm-stage" aria-label="Demostración animada de un bucle entre tres switches">
+                            <div class="switch-node sw-a">SW-A</div><div class="switch-node sw-b">SW-B</div><div class="switch-node sw-c">SW-C</div>
+                            <span class="link-line link-ab"></span><span class="link-line link-ac"></span><span class="link-line link-bc"></span>
+                            <span class="packet"></span><span class="packet"></span><span class="packet"></span><span class="packet"></span><span class="packet"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <h5 class="fw-bold">Observa el efecto de un ciclo</h5>
+                        <p class="text-secondary small">La animación es conceptual: cada bloque representa una copia de una trama de broadcast que vuelve a circular porque todos los enlaces reenvían.</p>
+                        <button class="btn btn-danger align-self-start" id="storm-toggle" type="button"><i class="bi bi-play-fill me-1"></i> Iniciar tormenta</button>
+                        <p class="small fw-bold mt-3 mb-0" id="storm-status" aria-live="polite">Topología estable; demostración detenida.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="stp">
+                <h2 class="fw-bold mb-3"><i class="bi bi-share-fill text-primary me-2"></i>2. Spanning Tree Protocol</h2>
+                <p class="text-secondary"><strong>STP (IEEE 802.1D)</strong> crea una topología lógica libre de bucles sobre una topología física redundante. Los switches intercambian <strong>BPDU</strong> (<em>Bridge Protocol Data Units</em>) para elegir un puente raíz, calcular el mejor camino hacia él y decidir qué puertos reenvían o descartan tramas. Si el camino activo falla, STP puede activar un camino alternativo.</p>
+                <div class="network-diagram" aria-label="Topología redundante con un enlace bloqueado">                    SW1 — PUENTE RAÍZ
+                   /                  \
+        enlace activo                enlace activo
+                 /                      \
+              SW2 ───── enlace alterno ───── SW3
+                     (un extremo descarta)
+
+La topología física conserva 3 enlaces; la topología lógica usa 2.</div>
+                <h5 class="fw-bold mt-4">Información fundamental de una BPDU</h5>
+                <div class="table-responsive"><table class="table table-bordered align-middle"><thead><tr><th>Campo o concepto</th><th>Propósito</th><th>Regla comparativa</th></tr></thead><tbody><tr><td><strong>Root ID</strong></td><td>Identifica el switch que se anuncia como raíz.</td><td>Se prefiere el BID menor.</td></tr><tr><td><strong>Root path cost</strong></td><td>Costo acumulado desde el emisor hasta el puente raíz.</td><td>Se prefiere el costo menor.</td></tr><tr><td><strong>Sender Bridge ID</strong></td><td>Identifica al switch que transmitió la BPDU.</td><td>Desempata por BID menor.</td></tr><tr><td><strong>Sender Port ID</strong></td><td>Identifica el puerto emisor.</td><td>Desempata por Port ID menor.</td></tr><tr><td><strong>Timers</strong></td><td>Comunican Hello, Max Age y Forward Delay.</td><td>La raíz establece los valores usados por el árbol.</td></tr></tbody></table></div>
+                <div class="callout"><strong>Bridge ID (BID):</strong> combina prioridad, identificador extendido del sistema —frecuentemente el ID de VLAN— y dirección MAC. El valor predeterminado habitual es 32768; las prioridades configurables avanzan en incrementos de 4096. Gana el BID numéricamente menor.</div>
+            </section>
+
+            <section class="mb-5" id="eleccion">
+                <h2 class="fw-bold mb-3"><i class="bi bi-trophy-fill text-warning me-2"></i>3. Elección del árbol y roles de puerto</h2>
+                <div class="process-step"><span class="step">1</span><h5 class="fw-bold mb-1">Elegir el puente raíz</h5><p class="text-secondary mb-0">Todos parten suponiendo ser raíz. Al recibir una BPDU superior —mejor— conservan la información del BID más bajo.</p></div>
+                <div class="process-step"><span class="step">2</span><h5 class="fw-bold mb-1">Elegir un puerto raíz en cada switch no raíz</h5><p class="text-secondary mb-0">Es el puerto que ofrece el menor costo total hacia la raíz. Cada switch no raíz posee uno por instancia STP.</p></div>
+                <div class="process-step"><span class="step">3</span><h5 class="fw-bold mb-1">Elegir un puerto designado por segmento</h5><p class="text-secondary mb-0">Es el puerto que anuncia el mejor camino hacia la raíz en ese segmento. Todos los puertos del puente raíz son designados.</p></div>
+                <div class="process-step"><span class="step">4</span><h5 class="fw-bold mb-1">Colocar los demás puertos como alternos/no designados</h5><p class="text-secondary mb-0">Estos puertos no reenvían tráfico de usuario mientras el camino principal esté disponible, pero conservan la redundancia.</p></div>
+
+                <div class="table-responsive mt-4"><table class="table table-striped align-middle"><thead><tr><th>Rol</th><th>Ubicación</th><th>Comportamiento</th></tr></thead><tbody><tr><td><span class="role-pill root-role">Root Port</span></td><td>Uno en cada switch no raíz.</td><td>Mejor camino hacia el puente raíz; reenvía.</td></tr><tr><td><span class="role-pill designated-role">Designated</span></td><td>Uno por cada segmento de red.</td><td>Mejor puerto del segmento; reenvía.</td></tr><tr><td><span class="role-pill alternate-role">Alternate</span></td><td>Camino redundante hacia la raíz.</td><td>Descarta tráfico de usuario; puede asumir el reenvío.</td></tr><tr><td><span class="role-pill disabled-role">Disabled</span></td><td>Puerto deshabilitado administrativamente.</td><td>No participa en STP ni en el reenvío.</td></tr></tbody></table></div>
+
+                <div class="lab-card mt-4">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3"><div><span class="badge text-bg-primary mb-2">Laboratorio dinámico</span><h4 class="fw-bold mb-1">Simulador de elección del puente raíz</h4><p class="text-secondary small mb-0">Configura las prioridades. Si empatan, gana la MAC menor. Se simula la instancia de VLAN 10.</p></div><i class="bi bi-cpu fs-1 text-primary"></i></div>
+                    <div class="row g-3" id="bridge-inputs">
+                        <div class="col-md-4"><label class="form-label fw-bold" for="p1">SW1 • MAC 00:00:00:00:00:11</label><select class="form-select bridge-priority" id="p1" data-name="SW1" data-mac="000000000011"><option>32768</option><option>28672</option><option>24576</option><option>4096</option></select></div>
+                        <div class="col-md-4"><label class="form-label fw-bold" for="p2">SW2 • MAC 00:00:00:00:00:22</label><select class="form-select bridge-priority" id="p2" data-name="SW2" data-mac="000000000022"><option>32768</option><option>28672</option><option>24576</option><option>4096</option></select></div>
+                        <div class="col-md-4"><label class="form-label fw-bold" for="p3">SW3 • MAC 00:00:00:00:00:33</label><select class="form-select bridge-priority" id="p3" data-name="SW3" data-mac="000000000033"><option>32768</option><option>28672</option><option>24576</option><option>4096</option></select></div>
+                    </div>
+                    <button class="btn btn-primary mt-3" id="elect-root" type="button"><i class="bi bi-calculator me-1"></i> Calcular elección</button>
+                    <div class="sim-result mt-3" id="root-result" aria-live="polite"><span class="text-secondary">Selecciona prioridades y ejecuta la elección.</span></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="convergencia">
+                <h2 class="fw-bold mb-3"><i class="bi bi-stopwatch-fill text-primary me-2"></i>4. Estados y convergencia</h2>
+                <p class="text-secondary">En STP clásico, un puerto no pasa inmediatamente a reenviar porque hacerlo sin información suficiente podría crear un bucle. Los estados permiten escuchar BPDUs y aprender direcciones antes de transportar tráfico. Los valores predeterminados clásicos suelen ser: <strong>Hello 2 s</strong>, <strong>Max Age 20 s</strong> y <strong>Forward Delay 15 s</strong>.</p>
+                <div class="state-path mb-3"><div class="state-box">Blocking<br><small>solo BPDU</small></div><div class="state-box">Listening<br><small>elige topología</small></div><div class="state-box">Learning<br><small>aprende MAC</small></div><div class="state-box forward">Forwarding<br><small>reenvía</small></div><div class="state-box">Disabled<br><small>sin participación</small></div></div>
+                <p class="text-secondary small">RSTP simplifica los estados a <strong>Discarding, Learning y Forwarding</strong> y utiliza un proceso de propuesta/acuerdo en enlaces punto a punto para acelerar transiciones seguras.</p>
+                <div class="row g-4 mt-2">
+                    <div class="col-lg-6"><div class="concept-card"><h5 class="fw-bold">STP 802.1D</h5><ul class="text-secondary small"><li>Depende en mayor medida de temporizadores.</li><li>Un cambio indirecto puede tardar decenas de segundos.</li><li>Los puertos no designados brindan respaldo, pero convergen con mayor lentitud.</li></ul><div class="metric"><strong>≈ 30–50 s</strong><span class="small text-secondary">rango didáctico según tipo de falla</span></div></div></div>
+                    <div class="col-lg-6"><div class="concept-card"><h5 class="fw-bold">RSTP 802.1w</h5><ul class="text-secondary small"><li>Define roles alterno y de respaldo.</li><li>Detecta enlaces punto a punto y negocia transiciones.</li><li>Puede reaccionar rápidamente sin esperar todos los temporizadores clásicos.</li></ul><div class="metric"><strong>≈ 1–6 s</strong><span class="small text-secondary">estimación didáctica; depende del escenario</span></div></div></div>
+                </div>
+                <div class="lab-card mt-4"><h5 class="fw-bold">Explorador de impacto de la convergencia</h5><label class="form-label text-secondary" for="criticality">Mueve el control para representar cuántos servicios dependen del enlace afectado:</label><input type="range" class="form-range" min="1" max="10" value="5" id="criticality"><div class="row g-3"><div class="col-sm-4"><div class="metric"><strong id="service-count">5</strong><span class="small text-secondary">servicios afectados</span></div></div><div class="col-sm-4"><div class="metric"><strong id="stp-impact">200 s</strong><span class="small text-secondary">segundos-servicio con STP*</span></div></div><div class="col-sm-4"><div class="metric"><strong id="rstp-impact">15 s</strong><span class="small text-secondary">segundos-servicio con RSTP*</span></div></div></div><p class="small text-secondary mt-2 mb-0">*Modelo ilustrativo: 40 s por servicio para STP y 3 s para RSTP; no es una predicción de producción.</p></div>
+            </section>
+
+            <section class="mb-5" id="variantes">
+                <h2 class="fw-bold mb-3"><i class="bi bi-diagram-2-fill text-primary me-2"></i>5. Variantes de Spanning Tree</h2>
+                <div class="table-responsive"><table class="table table-bordered align-middle"><thead><tr><th>Variante</th><th>Instancia</th><th>Convergencia</th><th>Uso conceptual</th></tr></thead><tbody><tr><td><strong>STP 802.1D</strong></td><td>Una instancia común.</td><td>Lenta frente a RSTP.</td><td>Base histórica y conceptual del árbol de expansión.</td></tr><tr><td><strong>PVST+</strong></td><td>Una instancia por VLAN.</td><td>Temporizadores de STP.</td><td>Permite elegir raíces distintas y balancear VLAN en entornos Cisco.</td></tr><tr><td><strong>Rapid PVST+</strong></td><td>Una instancia RSTP por VLAN.</td><td>Rápida.</td><td>Frecuente en laboratorios Cisco; combina rapidez con control por VLAN.</td></tr><tr><td><strong>MST (802.1s)</strong></td><td>Agrupa varias VLAN en pocas instancias.</td><td>Basada en RSTP.</td><td>Reduce la carga cuando existen muchas VLAN y exige configuración regional coherente.</td></tr></tbody></table></div>
+                <div class="callout warning"><strong>La raíz debe diseñarse, no dejarse al azar.</strong> Conviene ubicar el root bridge primario y secundario en switches de distribución con capacidad y conectividad adecuadas. La elección predeterminada por MAC puede colocar la raíz en un switch de acceso.</div>
+                <div class="command-box"><pre><code><span class="command-comment">! Rapid PVST+ y elección intencional para VLAN 10</span>
+SW-D1(config)# spanning-tree mode rapid-pvst
+SW-D1(config)# spanning-tree vlan 10 root primary
+SW-D2(config)# spanning-tree vlan 10 root secondary
+
+<span class="command-comment">! Alternativa con prioridad explícita</span>
+SW-D1(config)# spanning-tree vlan 10 priority 24576
+
+<span class="command-comment">! Comprobación</span>
+SW-D1# show spanning-tree vlan 10
+SW-D1# show spanning-tree root</code></pre></div>
+            </section>
+
+            <section class="mb-5" id="etherchannel">
+                <h2 class="fw-bold mb-3"><i class="bi bi-link-45deg text-primary me-2"></i>6. EtherChannel: redundancia y capacidad sin bloquear cada enlace</h2>
+                <p class="text-secondary"><strong>EtherChannel</strong> agrupa varios enlaces físicos compatibles en un único enlace lógico llamado <em>port-channel</em>. STP observa el grupo como una sola conexión, de modo que todos sus enlaces miembros pueden transportar tráfico. Si uno falla, el port-channel continúa operando con menor capacidad.</p>
+                <div class="row g-4"><div class="col-lg-6"><div class="concept-card"><h5 class="fw-bold">Protocolos de negociación</h5><ul class="text-secondary mb-0"><li><strong>LACP (IEEE 802.3ad/802.1AX):</strong> modos active y passive.</li><li><strong>PAgP (Cisco):</strong> modos desirable y auto.</li><li><strong>On:</strong> fuerza el canal sin negociar; una discrepancia puede ser peligrosa.</li></ul></div></div><div class="col-lg-6"><div class="concept-card"><h5 class="fw-bold">Parámetros que deben coincidir</h5><ul class="text-secondary mb-0"><li>Velocidad, dúplex y tipo de puerto.</li><li>Modo acceso/troncal, VLAN nativa y VLAN permitidas.</li><li>Configuración coherente en ambos extremos.</li></ul></div></div></div>
+                <div class="command-box mt-4"><pre><code><span class="command-comment">! Agrupar Gi0/1 y Gi0/2 con LACP</span>
+SW1(config)# interface range gigabitEthernet 0/1-2
+SW1(config-if-range)# channel-group 1 mode active
+SW1(config-if-range)# exit
+SW1(config)# interface port-channel 1
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk allowed vlan 10,20,30,99
+
+SW1# show etherchannel summary
+SW1# show interfaces port-channel 1</code></pre></div>
+                <div class="callout success"><strong>No confundir funciones:</strong> STP evita bucles y mantiene caminos alternativos; EtherChannel convierte varios enlaces paralelos en un solo enlace lógico utilizable. Ambos se complementan.</div>
+            </section>
+
+            <section class="mb-5" id="diagnostico">
+                <h2 class="fw-bold mb-3"><i class="bi bi-wrench-adjustable-circle-fill text-primary me-2"></i>7. Protección, verificación y diagnóstico</h2>
+                <div class="row g-4"><div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold">PortFast</h5><p class="text-secondary small">Lleva rápidamente a forwarding un puerto de borde conectado a un host. No elimina STP. No debe habilitarse indiscriminadamente en enlaces entre switches.</p></div></div><div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold">BPDU Guard</h5><p class="text-secondary small">Protege puertos de borde. Si recibe una BPDU, coloca el puerto en estado de error para evitar que un switch no autorizado altere la topología.</p></div></div><div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold">Root Guard</h5><p class="text-secondary small">Impide que un puerto acepte BPDUs superiores y que un switch inesperado se convierta en raíz a través de ese enlace.</p></div></div></div>
+                <div class="command-box mt-4"><pre><code><span class="command-comment">! Puerto de acceso hacia un equipo final</span>
+SW-A(config)# interface gigabitEthernet 0/10
+SW-A(config-if)# switchport mode access
+SW-A(config-if)# switchport access vlan 20
+SW-A(config-if)# spanning-tree portfast
+SW-A(config-if)# spanning-tree bpduguard enable
+
+<span class="command-comment">! Comandos de diagnóstico</span>
+SW-A# show spanning-tree
+SW-A# show spanning-tree vlan 20 detail
+SW-A# show spanning-tree interface gi0/1 detail
+SW-A# show interfaces trunk
+SW-A# show etherchannel summary
+SW-A# show err-disabled recovery</code></pre></div>
+                <div class="table-responsive mt-4"><table class="table table-bordered align-middle"><thead><tr><th>Síntoma</th><th>Posible causa</th><th>Prueba</th></tr></thead><tbody><tr><td>Un enlace redundante no transporta usuarios.</td><td>Puede ser el puerto alterno normal de STP.</td><td>Revisar rol/estado con <code>show spanning-tree</code>.</td></tr><tr><td>La raíz es un switch de acceso.</td><td>Prioridades predeterminadas y desempate por MAC.</td><td>Consultar Root ID y Bridge ID; configurar raíz primaria/secundaria.</td></tr><tr><td>Puerto de usuario en err-disabled.</td><td>BPDU Guard detectó una BPDU.</td><td>Inspeccionar logs, cableado y configuración antes de recuperar.</td></tr><tr><td>EtherChannel suspendido o inconsistente.</td><td>Modo, VLAN, troncal, velocidad o protocolo no coinciden.</td><td><code>show etherchannel summary</code> y comparar ambos extremos.</td></tr><tr><td>Recuperación lenta tras una falla.</td><td>STP clásico, enlace compartido o negociación incorrecta.</td><td>Confirmar modo STP, tipo de enlace y eventos de topología.</td></tr></tbody></table></div>
+                <div class="callout"><strong>Método recomendado:</strong> documenta la raíz esperada; confirma modo e instancia; identifica roles y costos; inspecciona el puerto afectado; revisa protecciones y consistencia; provoca una sola prueba controlada; compara el antes y el después.</div>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="fw-bold mb-3"><i class="bi bi-journal-check text-primary me-2"></i>8. Síntesis y glosario</h2>
+                <div class="row g-3 mb-4"><div class="col-md-4"><div class="metric"><strong>1 raíz</strong><span class="text-secondary small">por instancia STP</span></div></div><div class="col-md-4"><div class="metric"><strong>1 root port</strong><span class="text-secondary small">por switch no raíz</span></div></div><div class="col-md-4"><div class="metric"><strong>1 designado</strong><span class="text-secondary small">por segmento</span></div></div></div>
+                <div class="accordion" id="glossary">
+                    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#g1">BPDU y Bridge ID</button></h3><div id="g1" class="accordion-collapse collapse show" data-bs-parent="#glossary"><div class="accordion-body text-secondary">La BPDU transporta la información con la que se construye el árbol. El Bridge ID identifica y ordena a los switches mediante prioridad, ID extendido y MAC.</div></div></div>
+                    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#g2">Costo de camino</button></h3><div id="g2" class="accordion-collapse collapse" data-bs-parent="#glossary"><div class="accordion-body text-secondary">Métrica de STP asociada con el ancho de banda. Los costos de los enlaces de entrada se acumulan; el menor costo total hacia la raíz es preferido.</div></div></div>
+                    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#g3">Topología convergente</button></h3><div id="g3" class="accordion-collapse collapse" data-bs-parent="#glossary"><div class="accordion-body text-secondary">Estado estable después de que los dispositivos procesan el cambio, acuerdan caminos y vuelven a ofrecer conectividad sin bucles.</div></div></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="practica">
+                <h2 class="fw-bold mb-3"><i class="bi bi-laptop text-primary me-2"></i>9. Ejercicio para realizar por cuenta propia</h2>
+                <div class="exercise-card">
+                    <h4 class="fw-bold">Laboratorio: Campus Aurora sin bucles</h4>
+                    <p class="text-secondary">Construye en Cisco Packet Tracer una topología triangular con <strong>SW-D1, SW-D2 y SW-A1</strong>. Conecta un PC a SW-A1 en VLAN 10 y otro PC a SW-D2 en VLAN 10. Usa dos enlaces Gigabit entre los switches de distribución como EtherChannel LACP y conserva caminos redundantes hacia SW-A1.</p>
+                    <div class="row g-4"><div class="col-lg-7"><h5 class="fw-bold">Requisitos</h5><ol class="text-secondary"><li>Crea VLAN 10 <code>USUARIOS</code> en los tres switches.</li><li>Configura los enlaces entre switches como troncales y permite únicamente VLAN 10 y 99.</li><li>Activa Rapid PVST+.</li><li>Haz que SW-D1 sea root primary y SW-D2 root secondary para VLAN 10.</li><li>Agrupa dos enlaces entre SW-D1 y SW-D2 en Port-channel 1 mediante LACP.</li><li>Configura PortFast y BPDU Guard solamente en puertos conectados a PCs.</li><li>Verifica roles, estados, raíz y EtherChannel.</li><li>Apaga el enlace activo de SW-A1, mide la recuperación y documenta el nuevo camino.</li></ol></div><div class="col-lg-5"><h5 class="fw-bold">Progreso personal</h5><p class="text-secondary small">Marca cada evidencia; el avance se guarda en este navegador.</p><div id="practice-checklist"><label class="check-item"><input class="form-check-input practice-check" type="checkbox"> Topología y VLAN listas</label><label class="check-item"><input class="form-check-input practice-check" type="checkbox"> Troncales verificados</label><label class="check-item"><input class="form-check-input practice-check" type="checkbox"> Raíz primaria/secundaria correctas</label><label class="check-item"><input class="form-check-input practice-check" type="checkbox"> EtherChannel operativo</label><label class="check-item"><input class="form-check-input practice-check" type="checkbox"> Prueba de falla documentada</label></div><div class="progress mt-3" role="progressbar" aria-label="Progreso del laboratorio"><div class="progress-bar" id="practice-progress" style="width:0%">0%</div></div></div></div>
+                    <div class="d-flex flex-wrap gap-2 mt-3"><button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#exercise-hints"><i class="bi bi-lightbulb me-1"></i> Ver pistas</button><button class="btn btn-outline-secondary" type="button" id="copy-evidence"><i class="bi bi-clipboard me-1"></i> Copiar lista de evidencias</button></div>
+                    <div class="collapse mt-3" id="exercise-hints"><div class="callout mb-0"><strong>Pistas:</strong> configura primero la capa 2 básica y guarda salidas de referencia. Aplica el canal a las interfaces físicas, pero la configuración del troncal al port-channel. Usa <code>show spanning-tree vlan 10</code>, <code>show interfaces trunk</code> y <code>show etherchannel summary</code>. La prueba es válida solo si anotas el puerto que reenviaba antes y el que reenvía después.</div></div>
+                    <p class="small fw-bold mt-3 mb-0" id="copy-status" aria-live="polite"></p>
+                </div>
+            </section>
+
+            <section class="mb-5" id="tarea">
+                <h2 class="fw-bold mb-3"><i class="bi bi-house-check-fill text-primary me-2"></i>10. Tarea</h2>
+                <div class="homework-card">
+                    <span class="badge text-bg-warning text-dark mb-3">Trabajo individual</span>
+                    <h4 class="fw-bold">Diseño redundante para el Instituto Nuevo Horizonte</h4>
+                    <p>Diseña y simula una LAN con dos switches de distribución y dos de acceso para las VLAN 10 Administración, 20 Docentes, 30 Estudiantes y 99 Gestión. La solución debe seguir funcionando cuando falle un enlace de acceso a distribución.</p>
+                    <div class="row g-4"><div class="col-lg-7"><h5 class="fw-bold">Entregables</h5><ol><li>Diagrama con nombres, puertos, VLAN, troncales y port-channels.</li><li>Tabla que indique raíz primaria y secundaria por VLAN. Distribuye las raíces: VLAN 10/20 en SW-D1 y VLAN 30/99 en SW-D2.</li><li>Configuración completa de Rapid PVST+, dos EtherChannel LACP y protecciones de puertos de borde.</li><li>Salidas comentadas de al menos cuatro comandos de verificación.</li><li>Dos pruebas de falla: un enlace miembro de EtherChannel y un uplink de acceso.</li><li>Conclusión de 200–300 palabras: diferencia entre redundancia, prevención de bucles y convergencia.</li></ol></div><div class="col-lg-5"><h5 class="fw-bold">Criterios de evaluación</h5><div class="table-responsive"><table class="table table-sm table-dark table-bordered align-middle mb-0"><tbody><tr><td>Diseño y direccionamiento lógico</td><td class="text-end">20%</td></tr><tr><td>STP y elección de raíces</td><td class="text-end">25%</td></tr><tr><td>EtherChannel y troncales</td><td class="text-end">20%</td></tr><tr><td>Pruebas y evidencias</td><td class="text-end">25%</td></tr><tr><td>Claridad técnica</td><td class="text-end">10%</td></tr></tbody></table></div></div></div>
+                    <div class="mt-3 p-3 rounded-3" style="background:rgba(255,255,255,.1);"><strong>Formato sugerido:</strong> archivo <code>.pkt</code> + informe PDF. Nombra los archivos <code>Apellido_Nombre_Clase16</code>. No se incluye solución para que el diseño y la justificación sean propios.</div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="fw-bold mb-3"><i class="bi bi-patch-question-fill text-primary me-2"></i>11. Comprobación de aprendizaje</h2>
+                <form id="quiz-form">
+                    <div class="quiz-card"><div class="d-flex gap-2 align-items-start"><span class="quiz-number">1</span><div><h6 class="fw-bold">¿Qué condición hace peligrosos los caminos redundantes de capa 2?</h6><label class="d-block"><input type="radio" name="q1" value="a"> Ethernet no limita por sí sola la vida de una trama que circula en un bucle.</label><label class="d-block"><input type="radio" name="q1" value="b"> Todas las tramas tienen TTL de 255.</label><label class="d-block"><input type="radio" name="q1" value="c"> Los switches no aprenden direcciones MAC.</label><div class="question-feedback" id="q1-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-2 align-items-start"><span class="quiz-number">2</span><div><h6 class="fw-bold">¿Cómo se elige el puente raíz?</h6><label class="d-block"><input type="radio" name="q2" value="a"> Mayor costo acumulado.</label><label class="d-block"><input type="radio" name="q2" value="b"> Bridge ID más bajo.</label><label class="d-block"><input type="radio" name="q2" value="c"> Mayor cantidad de puertos.</label><div class="question-feedback" id="q2-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-2 align-items-start"><span class="quiz-number">3</span><div><h6 class="fw-bold">¿Qué puerto elige un switch no raíz como mejor camino al root bridge?</h6><label class="d-block"><input type="radio" name="q3" value="a"> Root port.</label><label class="d-block"><input type="radio" name="q3" value="b"> Puerto disabled.</label><label class="d-block"><input type="radio" name="q3" value="c"> Puerto de consola.</label><div class="question-feedback" id="q3-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-2 align-items-start"><span class="quiz-number">4</span><div><h6 class="fw-bold">¿Qué aporta RSTP frente a STP clásico?</h6><label class="d-block"><input type="radio" name="q4" value="a"> Elimina la necesidad de BPDUs.</label><label class="d-block"><input type="radio" name="q4" value="b"> Convergencia más rápida mediante roles y negociación mejorados.</label><label class="d-block"><input type="radio" name="q4" value="c"> Enruta paquetes entre VLAN.</label><div class="question-feedback" id="q4-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-2 align-items-start"><span class="quiz-number">5</span><div><h6 class="fw-bold">¿Por qué EtherChannel mejora el diseño redundante?</h6><label class="d-block"><input type="radio" name="q5" value="a"> Agrupa enlaces físicos y STP ve un único enlace lógico.</label><label class="d-block"><input type="radio" name="q5" value="b"> Desactiva permanentemente STP.</label><label class="d-block"><input type="radio" name="q5" value="c"> Convierte switches de capa 2 en routers.</label><div class="question-feedback" id="q5-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-2 align-items-start"><span class="quiz-number">6</span><div><h6 class="fw-bold">¿Dónde es apropiado combinar PortFast y BPDU Guard?</h6><label class="d-block"><input type="radio" name="q6" value="a"> En un enlace troncal entre switches.</label><label class="d-block"><input type="radio" name="q6" value="b"> En un puerto de borde conectado a un host final.</label><label class="d-block"><input type="radio" name="q6" value="c"> En todos los puertos del puente raíz.</label><div class="question-feedback" id="q6-feedback"></div></div></div></div>
+                    <div class="d-flex align-items-center flex-wrap gap-3"><button class="btn btn-primary px-4" type="button" id="evaluate-quiz"><i class="bi bi-check2-circle me-1"></i> Evaluar</button><button class="btn btn-outline-secondary" type="reset" id="reset-quiz"><i class="bi bi-arrow-counterclockwise me-1"></i> Reiniciar</button><strong id="quiz-result" aria-live="polite"></strong></div>
+                </form>
+            </section>
+        </div>
+    </main></div>
+
+    <footer class="text-center py-4" style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);"><p class="mb-0" style="font-size:.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script><script src="../../js/menu.js"></script><script src="../../js/main.js"></script>
+    <script>
+        (() => {
+            const progress = document.getElementById('reading-progress');
+            const updateReadingProgress = () => { const max = document.documentElement.scrollHeight - innerHeight; progress.style.width = `${max > 0 ? (scrollY / max) * 100 : 0}%`; };
+            addEventListener('scroll', updateReadingProgress, { passive:true }); updateReadingProgress();
+
+            const navLinks = [...document.querySelectorAll('.lesson-nav a')];
+            const sections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+            const sectionObserver = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`)); } }); }, { rootMargin:'-25% 0px -65% 0px' });
+            sections.forEach(section => sectionObserver.observe(section));
+
+            const stormStage = document.getElementById('storm-stage');
+            const stormButton = document.getElementById('storm-toggle');
+            const stormStatus = document.getElementById('storm-status');
+            stormButton.addEventListener('click', () => { const active = stormStage.classList.toggle('storming'); stormButton.className = `btn ${active ? 'btn-outline-danger' : 'btn-danger'} align-self-start`; stormButton.innerHTML = active ? '<i class="bi bi-stop-fill me-1"></i> Detener tormenta' : '<i class="bi bi-play-fill me-1"></i> Iniciar tormenta'; stormStatus.textContent = active ? 'Las copias circulan y consumen recursos. STP debe bloquear un camino.' : 'Topología estable; demostración detenida.'; });
+
+            document.getElementById('elect-root').addEventListener('click', () => {
+                const bridges = [...document.querySelectorAll('.bridge-priority')].map(el => ({ name:el.dataset.name, priority:Number(el.value), extended:Number(el.value) + 10, mac:el.dataset.mac }));
+                bridges.sort((a,b) => a.extended - b.extended || a.mac.localeCompare(b.mac));
+                const winner = bridges[0]; const tie = bridges.filter(b => b.extended === winner.extended).length > 1;
+                document.getElementById('root-result').innerHTML = `<div class="d-flex gap-3 align-items-start"><i class="bi bi-trophy-fill text-warning fs-2"></i><div><strong class="fs-5">${winner.name} es el puente raíz de VLAN 10</strong><div class="text-secondary small mt-1">BID comparado: prioridad extendida ${winner.extended} + MAC ${winner.mac.match(/.{2}/g).join(':')}. ${tie ? 'Hubo empate de prioridad; decidió la MAC más baja.' : 'Ganó por tener la prioridad más baja.'}</div></div></div>`;
+            });
+
+            const range = document.getElementById('criticality');
+            const updateImpact = () => { const n = Number(range.value); document.getElementById('service-count').textContent = n; document.getElementById('stp-impact').textContent = `${n * 40} s`; document.getElementById('rstp-impact').textContent = `${n * 3} s`; };
+            range.addEventListener('input', updateImpact); updateImpact();
+
+            const checks = [...document.querySelectorAll('.practice-check')];
+            const updatePractice = () => { checks.forEach((check,i) => { check.closest('.check-item').classList.toggle('completed', check.checked); localStorage.setItem(`redes16_practice_${i}`, check.checked); }); const pct = Math.round(checks.filter(c => c.checked).length / checks.length * 100); const bar = document.getElementById('practice-progress'); bar.style.width = `${pct}%`; bar.textContent = `${pct}%`; };
+            checks.forEach((check,i) => { check.checked = localStorage.getItem(`redes16_practice_${i}`) === 'true'; check.addEventListener('change', updatePractice); }); updatePractice();
+
+            document.getElementById('copy-evidence').addEventListener('click', async () => { const text = 'Evidencias Clase 16:\n- show spanning-tree vlan 10\n- show spanning-tree root\n- show interfaces trunk\n- show etherchannel summary\n- Captura antes de la falla\n- Captura y tiempo después de la falla'; const status = document.getElementById('copy-status'); try { await navigator.clipboard.writeText(text); status.textContent = 'Lista copiada al portapapeles.'; status.className = 'small fw-bold mt-3 mb-0 text-success'; } catch { status.textContent = 'No fue posible copiar automáticamente. Selecciona las evidencias desde la guía.'; status.className = 'small fw-bold mt-3 mb-0 text-warning'; } });
+
+            const answers = { q1:['a','Las tramas Ethernet no tienen un TTL de capa 2; un ciclo puede mantenerlas circulando.'], q2:['b','El BID menor gana: primero prioridad y, si empata, la MAC.'], q3:['a','El root port ofrece el mejor camino desde un switch no raíz hacia el puente raíz.'], q4:['b','RSTP usa roles y mecanismos de propuesta/acuerdo para acelerar una transición segura.'], q5:['a','El port-channel es un enlace lógico que distribuye tráfico entre miembros compatibles.'], q6:['b','Son protecciones de borde para puertos conectados a dispositivos finales.'] };
+            document.getElementById('evaluate-quiz').addEventListener('click', () => { let score=0,answered=0; Object.entries(answers).forEach(([q,[correct,explanation]]) => { const selected=document.querySelector(`input[name="${q}"]:checked`); const feedback=document.getElementById(`${q}-feedback`); if(!selected){ feedback.className='question-feedback show bg-warning-subtle text-warning-emphasis'; feedback.textContent='Selecciona una respuesta.'; return; } answered++; const ok=selected.value===correct; if(ok) score++; feedback.className=`question-feedback show ${ok?'bg-success-subtle text-success-emphasis':'bg-danger-subtle text-danger-emphasis'}`; feedback.innerHTML=`<i class="bi ${ok?'bi-check-circle-fill':'bi-x-circle-fill'} me-1"></i>${explanation}`; }); const result=document.getElementById('quiz-result'); result.textContent=answered<6?`Respondidas ${answered}/6 • Aciertos ${score}`:`Resultado: ${score} de 6`; result.className=score>=5&&answered===6?'text-success':score>=3?'text-warning':'text-danger'; });
+            document.getElementById('reset-quiz').addEventListener('click', () => { document.querySelectorAll('.question-feedback').forEach(el => { el.className='question-feedback'; el.textContent=''; }); const result=document.getElementById('quiz-result'); result.textContent=''; result.className=''; });
+        })();
+    </script>
+</body>
+</html>
