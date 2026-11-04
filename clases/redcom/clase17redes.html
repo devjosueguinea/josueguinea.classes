@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Clase 17 sobre servicios de red, puertos, protocolos y fundamentos de seguridad para redes empresariales.">
+    <title>Clase 17: Servicios de red y seguridad básica</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        :root { --svc-blue:#2563eb; --svc-cyan:#0891b2; --svc-green:#059669; --svc-amber:#d97706; --svc-red:#dc2626; --svc-purple:#7c3aed; }
+        html { scroll-behavior:smooth; scroll-padding-top:98px; }
+        .reading-progress { position:fixed; inset:0 auto auto 0; z-index:2000; width:0; height:4px; background:linear-gradient(90deg,var(--svc-blue),var(--svc-cyan),var(--svc-green)); }
+        .hero-services { position:relative; overflow:hidden; padding:34px; color:#fff; background:linear-gradient(125deg,#07111f 0%,#123b70 52%,#0f766e 100%); border-radius:22px; box-shadow:0 18px 50px rgba(15,23,42,.24); }
+        .hero-services::before,.hero-services::after { content:""; position:absolute; border:1px solid rgba(255,255,255,.16); border-radius:50%; }
+        .hero-services::before { width:300px; height:300px; right:-90px; top:-130px; box-shadow:0 0 0 40px rgba(255,255,255,.035),0 0 0 80px rgba(255,255,255,.025); }
+        .hero-services::after { width:110px; height:110px; right:22%; bottom:-70px; background:rgba(34,211,238,.08); }
+        .hero-services > * { position:relative; z-index:1; }
+        .lesson-nav { position:sticky; top:72px; z-index:20; display:flex; gap:8px; overflow-x:auto; margin:20px 0 34px; padding:10px; background:color-mix(in srgb,var(--card-bg) 92%,transparent); border:1px solid var(--border-color); border-radius:14px; backdrop-filter:blur(10px); }
+        .lesson-nav a { flex:0 0 auto; padding:7px 13px; color:var(--text-secondary); border-radius:9px; font-size:.82rem; font-weight:700; text-decoration:none; }
+        .lesson-nav a:hover,.lesson-nav a.active { color:#fff; background:var(--svc-blue); }
+        .concept-card,.service-card,.quiz-card,.lab-card { height:100%; padding:22px; background:var(--card-bg); border:1px solid var(--border-color); border-radius:17px; }
+        .concept-card,.service-card { transition:transform .2s,box-shadow .2s,border-color .2s; }
+        .concept-card:hover,.service-card:hover { transform:translateY(-3px); border-color:color-mix(in srgb,var(--svc-blue) 45%,var(--border-color)); box-shadow:var(--shadow); }
+        .icon-tile { display:inline-grid; place-items:center; width:46px; height:46px; color:#fff; background:linear-gradient(135deg,var(--svc-blue),var(--svc-cyan)); border-radius:13px; font-size:1.25rem; }
+        .service-card[data-group="infra"] .icon-tile { background:linear-gradient(135deg,var(--svc-blue),var(--svc-cyan)); }
+        .service-card[data-group="app"] .icon-tile { background:linear-gradient(135deg,var(--svc-purple),#a855f7); }
+        .service-card[data-group="admin"] .icon-tile { background:linear-gradient(135deg,var(--svc-green),#14b8a6); }
+        .port-pill { display:inline-block; margin:2px 3px 2px 0; padding:4px 9px; color:var(--svc-blue); background:rgba(37,99,235,.10); border:1px solid rgba(37,99,235,.18); border-radius:99px; font:700 .74rem Consolas,monospace; }
+        .callout { margin:22px 0; padding:18px 20px; background:var(--hover-bg); border-left:5px solid var(--svc-blue); border-radius:0 13px 13px 0; }
+        .callout.warning { border-color:var(--svc-amber); } .callout.danger { border-color:var(--svc-red); } .callout.success { border-color:var(--svc-green); }
+        .network-diagram,.command-box { overflow-x:auto; padding:21px; color:#d7e1ee; background:#07111f; border:1px solid #26364a; border-radius:15px; }
+        .network-diagram { white-space:pre; font:600 .88rem/1.55 Consolas,monospace; }
+        .command-box pre { margin:0; color:inherit; white-space:pre-wrap; }
+        .command-comment { color:#7dd3fc; }
+        .table { --bs-table-bg:transparent; --bs-table-color:var(--text-primary); --bs-table-border-color:var(--border-color); }
+        .table thead th { background:var(--hover-bg); }
+        .flow-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; align-items:stretch; }
+        .flow-step { position:relative; padding:17px 10px; color:var(--text-primary); background:var(--card-bg); border:1px solid var(--border-color); border-radius:13px; text-align:center; font-size:.82rem; font-weight:700; }
+        .flow-step:not(:last-child)::after { content:"→"; position:absolute; right:-17px; top:50%; z-index:2; width:24px; color:var(--svc-cyan); transform:translateY(-50%); font-size:1.25rem; }
+        .defense-layer { display:flex; gap:16px; align-items:flex-start; margin-bottom:12px; padding:16px; background:var(--card-bg); border:1px solid var(--border-color); border-radius:14px; }
+        .layer-number { display:grid; flex:0 0 36px; place-items:center; width:36px; height:36px; color:#fff; background:var(--svc-blue); border-radius:50%; font-weight:800; }
+        .filter-bar { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 22px; }
+        .filter-btn { padding:7px 14px; color:var(--text-secondary); background:var(--card-bg); border:1px solid var(--border-color); border-radius:99px; font-size:.82rem; font-weight:700; }
+        .filter-btn.active,.filter-btn:hover { color:#fff; background:var(--svc-blue); border-color:var(--svc-blue); }
+        .service-card.hidden { display:none; }
+        .scenario-panel { min-height:160px; padding:20px; background:var(--hover-bg); border:1px dashed var(--border-color); border-radius:14px; }
+        .scenario-option { display:block; width:100%; margin-bottom:9px; padding:12px 14px; color:var(--text-primary); background:var(--card-bg); border:1px solid var(--border-color); border-radius:11px; text-align:left; }
+        .scenario-option:hover { border-color:var(--svc-blue); }
+        .scenario-option.correct { border-color:var(--svc-green); background:rgba(5,150,105,.10); }
+        .scenario-option.incorrect { border-color:var(--svc-red); background:rgba(220,38,38,.09); }
+        .check-item { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; padding:11px 13px; background:var(--card-bg); border:1px solid var(--border-color); border-radius:10px; cursor:pointer; }
+        .check-item.completed { border-color:var(--svc-green); background:rgba(5,150,105,.09); }
+        .quiz-card { margin-bottom:14px; }
+        .quiz-number { display:inline-grid; flex:0 0 32px; place-items:center; width:32px; height:32px; color:#fff; background:var(--svc-blue); border-radius:50%; font-weight:800; }
+        .question-feedback { display:none; margin-top:10px; padding:10px 13px; border-radius:9px; }
+        .question-feedback.show { display:block; }
+        .homework-card { padding:27px; color:#f8fafc; background:linear-gradient(135deg,#172554,#312e81 52%,#134e4a); border-radius:19px; box-shadow:0 16px 36px rgba(30,41,59,.22); }
+        @media(max-width:900px){ .flow-grid{grid-template-columns:1fr 1fr}.flow-step:not(:last-child)::after{display:none} }
+        @media(max-width:767px){ .hero-services{padding:24px}.lesson-nav{top:66px}.flow-grid{grid-template-columns:1fr}.network-diagram{font-size:.72rem} }
+        @media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto}.concept-card,.service-card{transition:none} }
+    </style>
+</head>
+<body>
+    <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+    <div class="app-container"><main class="main-content">
+        <header class="header-top">
+            <div class="d-flex align-items-center gap-3">
+                <a href="redes-comunicaciones.html" class="btn btn-icon" title="Volver al índice"><i class="bi bi-arrow-left"></i></a>
+                <div><h4 class="mb-0 fw-bold">Clase 17: Servicios y seguridad</h4><span class="text-muted" style="font-size:.85rem;">Redes de Comunicaciones • Fundamentos</span></div>
+            </div>
+            <div class="header-actions"><button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema"><i class="bi bi-moon-fill" id="theme-icon"></i></button><div class="profile-widget"><div class="profile-avatar">JG</div></div></div>
+        </header>
+
+        <div class="class-content-wrapper mb-5">
+            <section class="hero-services" id="inicio">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <span class="badge text-bg-light text-primary mb-3"><i class="bi bi-hdd-network-fill me-1"></i> Clase 17 • 210 minutos</span>
+                        <h1 class="display-6 fw-bold mb-3">Servicios de red y seguridad básica</h1>
+                        <p class="lead mb-0 opacity-75">De una red que solamente conecta equipos a una infraestructura que entrega nombres, direcciones, aplicaciones, administración y protección de forma confiable.</p>
+                    </div>
+                    <div class="col-lg-4"><div class="p-3 rounded-4" style="background:rgba(255,255,255,.10);"><div class="small text-uppercase opacity-75 fw-bold">Pregunta guía</div><div class="fs-5 fw-bold mt-2">¿Qué servicios hacen útil una red y cómo podemos reducir sus riesgos sin complicarla innecesariamente?</div></div></div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav" aria-label="Navegación de la clase">
+                <a href="#fundamentos">Fundamentos</a><a href="#infraestructura">Infraestructura</a><a href="#aplicaciones">Aplicaciones</a><a href="#administracion">Administración</a><a href="#puertos">Puertos</a><a href="#seguridad">Seguridad</a><a href="#controles">Controles</a><a href="#operacion">Operación</a><a href="#practica">Práctica</a><a href="#evaluacion">Evaluación</a>
+            </nav>
+
+            <section class="mb-5" aria-labelledby="objetivos-title">
+                <h2 class="visually-hidden" id="objetivos-title">Objetivos de aprendizaje</h2>
+                <div class="row g-3">
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-boxes"></i></span><h5 class="fw-bold mt-3">Distinguir servicios</h5><p class="text-secondary small mb-0">Clasificar servicios de infraestructura, aplicación y administración según la necesidad que resuelven.</p></div></div>
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-ethernet"></i></span><h5 class="fw-bold mt-3">Relacionar protocolos</h5><p class="text-secondary small mb-0">Asociar protocolos, puertos, transporte y flujo cliente-servidor sin memorizar datos aislados.</p></div></div>
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-shield-lock"></i></span><h5 class="fw-bold mt-3">Comprender el riesgo</h5><p class="text-secondary small mb-0">Reconocer amenazas comunes y evaluar su efecto sobre confidencialidad, integridad y disponibilidad.</p></div></div>
+                    <div class="col-md-6 col-xl-3"><div class="concept-card"><span class="icon-tile"><i class="bi bi-layers-half"></i></span><h5 class="fw-bold mt-3">Aplicar controles</h5><p class="text-secondary small mb-0">Proponer una defensa básica por capas con segmentación, acceso mínimo, cifrado, monitoreo y respaldo.</p></div></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="fundamentos">
+                <h2 class="fw-bold mb-3"><i class="bi bi-diagram-3-fill text-primary me-2"></i>1. ¿Qué es un servicio de red?</h2>
+                <p class="text-secondary">Una red física proporciona conectividad, pero la conectividad por sí sola no entrega una experiencia útil. Un <strong>servicio de red</strong> es una función disponible a través de la red que responde a una necesidad: asignar parámetros IP, traducir nombres, alojar páginas, intercambiar archivos, autenticar usuarios, sincronizar relojes o registrar eventos. El servicio se implementa mediante uno o varios procesos que escuchan solicitudes y responden conforme a un protocolo.</p>
+                <p class="text-secondary">En el modelo <strong>cliente-servidor</strong>, el cliente inicia la comunicación y el servidor mantiene el recurso o la función. El servidor suele escuchar en un puerto conocido y el cliente usa un puerto efímero. En un modelo <strong>entre pares</strong> cada dispositivo puede solicitar y ofrecer recursos; resulta sencillo para grupos pequeños, pero complica el control, el respaldo y la trazabilidad cuando la red crece.</p>
+                <div class="network-diagram" aria-label="Flujo conceptual entre cliente y servicios">USUARIO / CLIENTE                         SERVICIOS CENTRALES
+┌────────────────────┐                    ┌────────────────────────┐
+│ Laptop 192.168.10.25│ ── consulta DNS ─▶│ DNS: nombre → dirección │
+│ Puerto efímero      │ ── solicitud web ▶│ HTTPS: aplicación       │
+└────────────────────┘                    └────────────────────────┘
+          │                                           │
+          └──── tráfico inspeccionado por controles ──┘
+                switch • VLAN • ACL • firewall</div>
+                <div class="callout"><strong>Protocolo no es lo mismo que servicio.</strong> El servicio es la capacidad ofrecida; el protocolo define las reglas para comunicarla. Por ejemplo, “resolución de nombres” es el servicio y DNS es el protocolo principal que lo hace posible.</div>
+                <h5 class="fw-bold mt-4">Tres familias para estudiar el tema</h5>
+                <div class="row g-3">
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-primary"><i class="bi bi-gear-wide-connected me-2"></i>Infraestructura</h5><p class="text-secondary small mb-0">Permiten que la red funcione: DHCP, DNS, NTP, directorio, autenticación y enrutamiento. Normalmente son dependencias de muchos otros servicios.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold" style="color:var(--svc-purple);"><i class="bi bi-window-stack me-2"></i>Aplicaciones</h5><p class="text-secondary small mb-0">Entregan valor al usuario: web, correo, transferencia de archivos, impresión, voz, video y bases de datos.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><h5 class="fw-bold text-success"><i class="bi bi-activity me-2"></i>Administración</h5><p class="text-secondary small mb-0">Ayudan a operar y observar: SSH, SNMP, Syslog, copias de seguridad, telemetría y acceso remoto seguro.</p></div></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="infraestructura">
+                <h2 class="fw-bold mb-3"><i class="bi bi-router-fill text-primary me-2"></i>2. Servicios esenciales de infraestructura</h2>
+                <p class="text-secondary">Estos servicios suelen ser invisibles para el usuario, pero una falla en ellos puede parecer una falla total de Internet. Comprender el orden en que participan permite diagnosticar con lógica: primero configuración IP, luego alcance a la puerta de enlace, después resolución de nombres y, por último, la aplicación.</p>
+                <div class="filter-bar" aria-label="Filtros de servicios"><button class="filter-btn active" type="button" data-filter="all">Todos</button><button class="filter-btn" type="button" data-filter="infra">Infraestructura</button><button class="filter-btn" type="button" data-filter="app">Aplicaciones</button><button class="filter-btn" type="button" data-filter="admin">Administración</button></div>
+                <div class="row g-4" id="services-grid">
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="infra"><span class="icon-tile"><i class="bi bi-pc-display-horizontal"></i></span><h4 class="h5 fw-bold mt-3">DHCP</h4><p class="text-secondary small">Asigna de forma automática dirección IP, máscara, puerta de enlace, DNS y otros parámetros. El proceso DORA recorre <strong>Discover, Offer, Request y Acknowledge</strong>. El cliente inicia con difusión porque todavía no conoce su red.</p><span class="port-pill">UDP 67 servidor</span><span class="port-pill">UDP 68 cliente</span><div class="callout warning small mb-0"><strong>Seguridad:</strong> limitar servidores autorizados con DHCP Snooping y planificar exclusiones, reservas y tiempo de concesión.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="infra"><span class="icon-tile"><i class="bi bi-signpost-split"></i></span><h4 class="h5 fw-bold mt-3">DNS</h4><p class="text-secondary small">Traduce nombres como <em>campus.ejemplo.edu</em> a direcciones IP y también publica información de correo y servicios. Usa consultas recursivas, referencias iterativas y caché. Registros comunes: A, AAAA, CNAME, MX, NS, PTR y TXT.</p><span class="port-pill">UDP 53</span><span class="port-pill">TCP 53</span><div class="callout warning small mb-0"><strong>Seguridad:</strong> restringir transferencias de zona, mantener software actualizado y separar el DNS autoritativo del recursivo cuando corresponda.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="infra"><span class="icon-tile"><i class="bi bi-clock-history"></i></span><h4 class="h5 fw-bold mt-3">NTP</h4><p class="text-secondary small">Sincroniza la hora de hosts y equipos de red mediante una jerarquía de fuentes. La hora coherente es indispensable para certificados, autenticación, correlación de logs, auditoría e investigación de incidentes.</p><span class="port-pill">UDP 123</span><div class="callout success small mb-0"><strong>Buena práctica:</strong> todos los dispositivos deben usar fuentes confiables y una zona horaria documentada.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="infra"><span class="icon-tile"><i class="bi bi-person-badge-fill"></i></span><h4 class="h5 fw-bold mt-3">Directorio y AAA</h4><p class="text-secondary small">Un directorio centraliza identidades, grupos y recursos. AAA separa <strong>autenticación</strong> —quién eres—, <strong>autorización</strong> —qué puedes hacer— y <strong>accounting</strong> —qué acciones quedan registradas—.</p><span class="port-pill">LDAP 389</span><span class="port-pill">LDAPS 636</span><span class="port-pill">RADIUS 1812/1813</span><div class="callout success small mb-0"><strong>Ventaja:</strong> evita cuentas locales dispersas y facilita revocar acceso desde un punto central.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="app"><span class="icon-tile"><i class="bi bi-globe2"></i></span><h4 class="h5 fw-bold mt-3">Web: HTTP y HTTPS</h4><p class="text-secondary small">HTTP intercambia solicitudes y respuestas para páginas y API. HTTPS agrega TLS, que protege la confidencialidad e integridad y permite autenticar al servidor mediante certificados digitales.</p><span class="port-pill">TCP 80</span><span class="port-pill">TCP 443</span><div class="callout danger small mb-0"><strong>Preferencia:</strong> usar HTTPS; HTTP en texto claro no protege credenciales ni contenido.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="app"><span class="icon-tile"><i class="bi bi-envelope-at-fill"></i></span><h4 class="h5 fw-bold mt-3">Correo electrónico</h4><p class="text-secondary small">SMTP envía y retransmite mensajes. IMAP mantiene y sincroniza buzones en el servidor; POP3 suele descargar mensajes. La entrega real combina servidores, DNS/MX, filtros antispam y autenticación.</p><span class="port-pill">SMTP 25/587</span><span class="port-pill">IMAPS 993</span><span class="port-pill">POP3S 995</span><div class="callout warning small mb-0"><strong>Riesgos:</strong> phishing, adjuntos maliciosos, suplantación y credenciales reutilizadas.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="app"><span class="icon-tile"><i class="bi bi-folder-symlink-fill"></i></span><h4 class="h5 fw-bold mt-3">Archivos e impresión</h4><p class="text-secondary small">SMB comparte archivos e impresoras en redes Windows; NFS es común en Unix/Linux. FTP transfiere archivos pero no cifra por defecto. SFTP funciona sobre SSH y FTPS protege FTP mediante TLS.</p><span class="port-pill">SMB TCP 445</span><span class="port-pill">FTP 20/21</span><span class="port-pill">SFTP TCP 22</span><div class="callout warning small mb-0"><strong>Control:</strong> permisos por grupos, mínimo privilegio, cuotas, versiones y copias de seguridad.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="app"><span class="icon-tile"><i class="bi bi-telephone-fill"></i></span><h4 class="h5 fw-bold mt-3">Voz y video</h4><p class="text-secondary small">La señalización establece y finaliza sesiones; RTP suele transportar el audio o video en tiempo real. Estos flujos son sensibles a latencia, variación del retardo y pérdida, por lo que pueden requerir QoS.</p><span class="port-pill">SIP 5060/5061</span><span class="port-pill">RTP dinámico</span><div class="callout success small mb-0"><strong>Diseño:</strong> separar voz, aplicar QoS y proteger la señalización cuando sea posible.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="admin"><span class="icon-tile"><i class="bi bi-terminal-fill"></i></span><h4 class="h5 fw-bold mt-3">Acceso administrativo</h4><p class="text-secondary small">SSH ofrece terminal y transferencia segura. Telnet transmite todo en texto claro y debe evitarse. Una VPN crea un túnel protegido para usuarios o sedes, pero no convierte automáticamente en confiable al equipo remoto.</p><span class="port-pill">SSH TCP 22</span><span class="port-pill">Telnet TCP 23</span><div class="callout danger small mb-0"><strong>Regla:</strong> administrar desde una red autorizada, con MFA y cuentas individuales.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="admin"><span class="icon-tile"><i class="bi bi-graph-up-arrow"></i></span><h4 class="h5 fw-bold mt-3">SNMP</h4><p class="text-secondary small">Consulta métricas, estado e inventario de dispositivos y puede recibir notificaciones <em>trap</em>. Un gestor consulta agentes mediante identificadores de objetos definidos en MIB.</p><span class="port-pill">UDP 161</span><span class="port-pill">UDP 162 traps</span><div class="callout warning small mb-0"><strong>Preferencia:</strong> SNMPv3 por autenticación y privacidad; evitar comunidades predeterminadas.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="admin"><span class="icon-tile"><i class="bi bi-journal-code"></i></span><h4 class="h5 fw-bold mt-3">Syslog y registros</h4><p class="text-secondary small">Centraliza mensajes sobre cambios, errores, accesos y eventos de seguridad. Sus niveles van de emergencia a depuración. Un registro útil necesita hora correcta, retención, protección e identificación de origen.</p><span class="port-pill">UDP 514</span><span class="port-pill">TCP/TLS según diseño</span><div class="callout success small mb-0"><strong>Valor:</strong> permite reconstruir una secuencia de hechos y detectar comportamientos anómalos.</div></article></div>
+                    <div class="col-md-6 col-xl-4 service-item"><article class="service-card" data-group="admin"><span class="icon-tile"><i class="bi bi-cloud-arrow-down-fill"></i></span><h4 class="h5 fw-bold mt-3">Proxy, caché y respaldo</h4><p class="text-secondary small">Un proxy intermedia solicitudes, aplica políticas o almacena contenido. Los respaldos preservan información y configuración para recuperar servicios; deben probarse, protegerse y mantenerse separados del sistema original.</p><span class="port-pill">Puerto según solución</span><div class="callout success small mb-0"><strong>Principio 3-2-1:</strong> tres copias, dos medios y una copia fuera del entorno principal.</div></article></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="aplicaciones">
+                <h2 class="fw-bold mb-3"><i class="bi bi-arrow-left-right text-primary me-2"></i>3. Cómo consume un usuario un servicio</h2>
+                <p class="text-secondary">Cuando el usuario escribe una dirección web ocurren varias operaciones coordinadas. Observar la cadena completa evita atribuir todo problema al “Internet”. Cada etapa depende de la anterior y puede tener sus propios controles de seguridad.</p>
+                <div class="flow-grid my-4"><div class="flow-step"><i class="bi bi-1-circle-fill text-primary d-block fs-4 mb-2"></i>DHCP entrega IP, gateway y DNS</div><div class="flow-step"><i class="bi bi-2-circle-fill text-primary d-block fs-4 mb-2"></i>DNS resuelve el nombre</div><div class="flow-step"><i class="bi bi-3-circle-fill text-primary d-block fs-4 mb-2"></i>TCP establece la sesión</div><div class="flow-step"><i class="bi bi-4-circle-fill text-primary d-block fs-4 mb-2"></i>TLS valida y cifra</div><div class="flow-step"><i class="bi bi-5-circle-fill text-primary d-block fs-4 mb-2"></i>HTTP intercambia contenido</div></div>
+                <div class="row g-4">
+                    <div class="col-lg-6"><div class="concept-card"><h5 class="fw-bold"><i class="bi bi-check2-circle text-success me-2"></i>TCP cuando importa la entrega ordenada</h5><p class="text-secondary small">Establece una sesión, confirma segmentos, retransmite pérdidas y regula el flujo. Es común en web, correo, SSH y archivos. La confiabilidad agrega control y, por tanto, cierto costo.</p></div></div>
+                    <div class="col-lg-6"><div class="concept-card"><h5 class="fw-bold"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>UDP cuando importa la sencillez o el tiempo</h5><p class="text-secondary small">No establece una sesión ni confirma cada datagrama. Es común en DNS, DHCP, NTP, voz y telemetría; la aplicación decide cómo manejar pérdidas o respuestas ausentes.</p></div></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="administracion">
+                <h2 class="fw-bold mb-3"><i class="bi bi-sliders2-vertical text-primary me-2"></i>4. Servicios de administración y observabilidad</h2>
+                <p class="text-secondary">Operar una red significa conocer su estado, aplicar cambios controlados y conservar evidencia. La administración segura usa un plano separado o restringido, protocolos cifrados y cuentas identificables. La observabilidad combina <strong>métricas</strong> —qué tanto se usa—, <strong>registros</strong> —qué sucedió— y <strong>alertas</strong> —qué requiere atención—.</p>
+                <div class="table-responsive"><table class="table table-bordered align-middle"><thead><tr><th>Necesidad</th><th>Servicio o herramienta</th><th>Pregunta que responde</th><th>Control básico</th></tr></thead><tbody>
+                    <tr><td>Acceso a CLI</td><td>SSH</td><td>¿Cómo configuro el dispositivo?</td><td>Clave pública o contraseña robusta, MFA donde exista, ACL de administración.</td></tr>
+                    <tr><td>Estado y rendimiento</td><td>SNMP/telemetría</td><td>¿Está disponible y cuánto recurso consume?</td><td>SNMPv3, consultas solo desde gestores autorizados.</td></tr>
+                    <tr><td>Eventos</td><td>Syslog</td><td>¿Qué ocurrió y cuándo?</td><td>Servidor central, NTP, retención y permisos de solo lectura para auditores.</td></tr>
+                    <tr><td>Identidad administrativa</td><td>RADIUS/TACACS+</td><td>¿Quién entró y qué ejecutó?</td><td>Cuentas nominales, roles y registro de sesiones/comandos según plataforma.</td></tr>
+                    <tr><td>Recuperación</td><td>Backup de configuración</td><td>¿Cómo restauro el servicio?</td><td>Copia automática, cifrada, versionada y probada.</td></tr>
+                </tbody></table></div>
+                <div class="command-box mt-3"><pre><span class="command-comment"># Secuencia lógica de verificación desde un cliente</span>
+ipconfig /all                 <span class="command-comment"># ¿Recibió parámetros correctos?</span>
+ping 192.168.10.1             <span class="command-comment"># ¿Alcanza la puerta de enlace?</span>
+nslookup campus.ejemplo.edu   <span class="command-comment"># ¿DNS responde?</span>
+tracert campus.ejemplo.edu    <span class="command-comment"># ¿Dónde se interrumpe el camino?</span>
+curl -I https://campus.ejemplo.edu <span class="command-comment"># ¿Responde el servicio web?</span></pre></div>
+            </section>
+
+            <section class="mb-5" id="puertos">
+                <h2 class="fw-bold mb-3"><i class="bi bi-door-open-fill text-primary me-2"></i>5. Puertos: identificar conversaciones, no “abrir puertas” sin criterio</h2>
+                <p class="text-secondary">Una dirección IP identifica un host o interfaz; el <strong>puerto</strong> identifica el proceso que participa en la conversación. Los puertos del 0 al 1023 son conocidos, del 1024 al 49151 están registrados y del 49152 al 65535 se usan habitualmente como dinámicos o privados. Un puerto abierto solamente tiene sentido si existe un servicio escuchando y una política permite llegar hasta él.</p>
+                <div class="table-responsive"><table class="table table-striped align-middle"><thead><tr><th>Servicio</th><th>Puerto/transporte típico</th><th>Uso</th><th>Alternativa o protección</th></tr></thead><tbody>
+                    <tr><td>DNS</td><td>53 UDP/TCP</td><td>Resolución y transferencias</td><td>Restringir recursión y transferencias; validar origen.</td></tr><tr><td>DHCP</td><td>67/68 UDP</td><td>Configuración automática</td><td>DHCP Snooping; relay controlado.</td></tr><tr><td>HTTP / HTTPS</td><td>80 / 443 TCP</td><td>Web y API</td><td>Redirigir a HTTPS, TLS actualizado.</td></tr><tr><td>SSH / Telnet</td><td>22 / 23 TCP</td><td>Administración remota</td><td>SSH; bloquear Telnet.</td></tr><tr><td>SMTP</td><td>25, 465, 587 TCP</td><td>Transporte o envío autenticado</td><td>TLS, autenticación y filtros.</td></tr><tr><td>SMB</td><td>445 TCP</td><td>Archivos e impresión</td><td>No exponer a Internet; permisos mínimos.</td></tr><tr><td>SNMP</td><td>161/162 UDP</td><td>Consulta y notificaciones</td><td>SNMPv3 y ACL de gestión.</td></tr><tr><td>NTP</td><td>123 UDP</td><td>Sincronización horaria</td><td>Fuentes confiables y acceso limitado.</td></tr>
+                </tbody></table></div>
+                <div class="callout danger"><strong>Error frecuente:</strong> permitir “cualquier origen, cualquier destino, cualquier servicio” para resolver rápidamente un problema. Una regla temporal demasiado amplia puede convertirse en una exposición permanente. Debe definirse origen, destino, protocolo, puerto, propósito, responsable y fecha de revisión.</div>
+            </section>
+
+            <section class="mb-5" id="seguridad">
+                <h2 class="fw-bold mb-3"><i class="bi bi-shield-shaded text-primary me-2"></i>6. Fundamentos de seguridad de red</h2>
+                <p class="text-secondary">La seguridad no significa eliminar todo riesgo —algo imposible—, sino reducirlo hasta un nivel aceptable. Una forma sencilla de expresarlo es: <strong>riesgo = probabilidad × impacto</strong>. Primero se identifican activos y dependencias; después amenazas y vulnerabilidades; finalmente se eligen controles proporcionales.</p>
+                <div class="row g-4 my-2">
+                    <div class="col-lg-4"><div class="concept-card"><span class="icon-tile"><i class="bi bi-eye-slash-fill"></i></span><h5 class="fw-bold mt-3">Confidencialidad</h5><p class="text-secondary small mb-0">Solo personas y sistemas autorizados pueden leer la información. Controles: cifrado, permisos, segmentación y clasificación de datos.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><span class="icon-tile"><i class="bi bi-fingerprint"></i></span><h5 class="fw-bold mt-3">Integridad</h5><p class="text-secondary small mb-0">Los datos y configuraciones no se alteran sin autorización. Controles: hashes, firmas, control de cambios y registros protegidos.</p></div></div>
+                    <div class="col-lg-4"><div class="concept-card"><span class="icon-tile"><i class="bi bi-heart-pulse-fill"></i></span><h5 class="fw-bold mt-3">Disponibilidad</h5><p class="text-secondary small mb-0">Los servicios están accesibles cuando se necesitan. Controles: redundancia, capacidad, respaldo, mantenimiento y mitigación de ataques.</p></div></div>
+                </div>
+                <h5 class="fw-bold mt-4">Amenaza, vulnerabilidad, riesgo y control</h5>
+                <div class="table-responsive"><table class="table table-bordered align-middle"><thead><tr><th>Concepto</th><th>Definición práctica</th><th>Ejemplo</th></tr></thead><tbody><tr><td><strong>Activo</strong></td><td>Algo valioso que debe protegerse.</td><td>Servidor DNS, credenciales, configuración del firewall.</td></tr><tr><td><strong>Amenaza</strong></td><td>Actor o evento capaz de causar daño.</td><td>Atacante, malware, error humano, corte eléctrico.</td></tr><tr><td><strong>Vulnerabilidad</strong></td><td>Debilidad que una amenaza puede aprovechar.</td><td>Contraseña predeterminada, software sin parches, puerto expuesto.</td></tr><tr><td><strong>Riesgo</strong></td><td>Posibilidad y consecuencia de que ocurra el daño.</td><td>Interrupción del DNS y pérdida de acceso a aplicaciones por nombre.</td></tr><tr><td><strong>Control</strong></td><td>Medida que previene, detecta, corrige o recupera.</td><td>MFA, ACL, monitoreo, parche, respaldo probado.</td></tr></tbody></table></div>
+                <h5 class="fw-bold mt-4">Amenazas comunes en una red</h5>
+                <div class="row g-3">
+                    <div class="col-md-6"><div class="concept-card"><h6 class="fw-bold text-danger"><i class="bi bi-bug-fill me-2"></i>Malware y ransomware</h6><p class="text-secondary small mb-0">Código que roba, altera, cifra o destruye información. Puede ingresar por correo, software no confiable, vulnerabilidades o dispositivos externos.</p></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h6 class="fw-bold text-danger"><i class="bi bi-person-fill-exclamation me-2"></i>Ingeniería social</h6><p class="text-secondary small mb-0">Manipula a una persona para obtener acceso o información. El phishing combina urgencia, suplantación y enlaces o adjuntos engañosos.</p></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h6 class="fw-bold text-warning"><i class="bi bi-broadcast-pin me-2"></i>Denegación de servicio</h6><p class="text-secondary small mb-0">Consume recursos o ancho de banda para degradar la disponibilidad. La capacidad, filtrado y redundancia ayudan, pero no existe una única defensa.</p></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h6 class="fw-bold text-warning"><i class="bi bi-person-lock me-2"></i>Acceso no autorizado</h6><p class="text-secondary small mb-0">Aprovecha contraseñas débiles, cuentas compartidas, permisos excesivos o servicios inseguros para ingresar o elevar privilegios.</p></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h6 class="fw-bold text-primary"><i class="bi bi-wifi-off me-2"></i>Intercepción o suplantación</h6><p class="text-secondary small mb-0">Un tercero observa o altera comunicaciones, o se presenta como otro sistema. El cifrado y la validación de identidad reducen el riesgo.</p></div></div>
+                    <div class="col-md-6"><div class="concept-card"><h6 class="fw-bold text-primary"><i class="bi bi-tools me-2"></i>Error y mala configuración</h6><p class="text-secondary small mb-0">Reglas amplias, VLAN incorrectas, copias inexistentes y cambios no probados causan incidentes incluso sin un atacante.</p></div></div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="controles">
+                <h2 class="fw-bold mb-3"><i class="bi bi-layers-fill text-primary me-2"></i>7. Defensa en profundidad: controles básicos por capas</h2>
+                <p class="text-secondary">Ningún control es perfecto. La <strong>defensa en profundidad</strong> combina medidas para que el fallo de una no entregue acceso completo. Los controles pueden ser preventivos, detectivos, correctivos o de recuperación; una red equilibrada necesita los cuatro tipos.</p>
+                <div class="defense-layer"><span class="layer-number">1</span><div><h5 class="fw-bold mb-1">Inventario y configuración segura</h5><p class="text-secondary small mb-0">Conocer dispositivos, software, dueños y servicios; cambiar credenciales predeterminadas; deshabilitar interfaces y servicios innecesarios; usar SSH/HTTPS; guardar configuraciones; actualizar firmware y sistema operativo.</p></div></div>
+                <div class="defense-layer"><span class="layer-number">2</span><div><h5 class="fw-bold mb-1">Identidad y mínimo privilegio</h5><p class="text-secondary small mb-0">Cuentas individuales, contraseñas únicas, MFA, roles, caducidad o revisión de cuentas y acceso solo a lo necesario. Separar la cuenta cotidiana de la cuenta administrativa.</p></div></div>
+                <div class="defense-layer"><span class="layer-number">3</span><div><h5 class="fw-bold mb-1">Segmentación</h5><p class="text-secondary small mb-0">Separar usuarios, servidores, invitados, voz, IoT y administración mediante VLAN y subredes. El tráfico entre segmentos pasa por un dispositivo capaz de aplicar políticas.</p></div></div>
+                <div class="defense-layer"><span class="layer-number">4</span><div><h5 class="fw-bold mb-1">Filtrado y firewall</h5><p class="text-secondary small mb-0">Permitir únicamente flujos necesarios por origen, destino, protocolo y puerto. Un firewall con estado relaciona respuestas con conexiones iniciadas; una ACL filtra según reglas y posición.</p></div></div>
+                <div class="defense-layer"><span class="layer-number">5</span><div><h5 class="fw-bold mb-1">Cifrado y acceso remoto</h5><p class="text-secondary small mb-0">HTTPS, SSH, VPN y protocolos seguros protegen datos en tránsito. El cifrado no sustituye permisos, parches ni validación del dispositivo remoto.</p></div></div>
+                <div class="defense-layer"><span class="layer-number">6</span><div><h5 class="fw-bold mb-1">Monitoreo, respaldo y respuesta</h5><p class="text-secondary small mb-0">Centralizar logs, definir alertas útiles, conservar línea base, respaldar configuraciones y datos, probar restauraciones y mantener un procedimiento para contener y recuperar.</p></div></div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-lg-6"><div class="lab-card"><h5 class="fw-bold"><i class="bi bi-wifi text-primary me-2"></i>Seguridad inalámbrica básica</h5><ul class="text-secondary small mb-0"><li>Preferir WPA3; usar WPA2-AES cuando la compatibilidad lo requiera.</li><li>Evitar WEP y WPA antiguos.</li><li>Separar invitados de la red interna.</li><li>Usar una frase robusta o autenticación empresarial 802.1X.</li><li>Deshabilitar WPS si no es necesario y actualizar puntos de acceso.</li><li>No considerar “ocultar el SSID” como una defensa real.</li></ul></div></div>
+                    <div class="col-lg-6"><div class="lab-card"><h5 class="fw-bold"><i class="bi bi-hdd-rack-fill text-primary me-2"></i>Endurecimiento de switches y routers</h5><ul class="text-secondary small mb-0"><li>SSH, AAA y ACL para el plano de administración.</li><li>Puertos no usados apagados y ubicados en una VLAN no operativa.</li><li>Port Security según el entorno; DHCP Snooping y Dynamic ARP Inspection.</li><li>BPDU Guard en puertos de borde y protección del protocolo de enrutamiento.</li><li>SNMPv3, Syslog, NTP y respaldo periódico de configuración.</li><li>Documentar y revisar cambios antes y después de aplicarlos.</li></ul></div></div>
+                </div>
+                <div class="callout success"><strong>Política predeterminada recomendada:</strong> denegar lo que no esté justificado y permitir de forma explícita lo necesario. En una red nueva se diseña así desde el inicio; en una red existente se migra con inventario, observación y pruebas para no interrumpir servicios legítimos.</div>
+            </section>
+
+            <section class="mb-5" id="operacion">
+                <h2 class="fw-bold mb-3"><i class="bi bi-clipboard2-pulse-fill text-primary me-2"></i>8. Operación segura del ciclo de vida</h2>
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="concept-card"><h5 class="fw-bold">Antes del cambio</h5><ol class="text-secondary small"><li>Definir objetivo, alcance, responsable y ventana.</li><li>Respaldar configuración y conocer el estado normal.</li><li>Evaluar dependencias: DNS, rutas, ACL, certificados y autenticación.</li><li>Preparar prueba de éxito y procedimiento de reversión.</li></ol><h5 class="fw-bold">Durante y después</h5><ol class="text-secondary small mb-0" start="5"><li>Aplicar el cambio mínimo y registrar lo realizado.</li><li>Verificar conectividad, resolución, puerto y experiencia de aplicación.</li><li>Revisar logs, métricas y alertas.</li><li>Documentar resultado y eliminar permisos temporales.</li></ol></div>
+                    </div>
+                    <div class="col-lg-5"><div class="concept-card"><h5 class="fw-bold">Respuesta básica a incidentes</h5><div class="small text-secondary"><p><strong>1. Preparar:</strong> contactos, copias, herramientas y roles.</p><p><strong>2. Identificar:</strong> validar el evento, alcance y activos afectados.</p><p><strong>3. Contener:</strong> limitar propagación sin destruir evidencia.</p><p><strong>4. Erradicar:</strong> retirar la causa y corregir vulnerabilidades.</p><p><strong>5. Recuperar:</strong> restaurar y vigilar el servicio.</p><p class="mb-0"><strong>6. Aprender:</strong> documentar y mejorar controles.</p></div></div></div>
+                </div>
+                <div class="callout warning"><strong>No improvisar durante un incidente.</strong> Desconectar o borrar un sistema puede ser necesario para contener, pero también puede perder evidencia o afectar un servicio crítico. La decisión debe seguir el procedimiento y la autoridad definida por la organización.</div>
+            </section>
+
+            <section class="mb-5" id="practica">
+                <h2 class="fw-bold mb-3"><i class="bi bi-bezier2 text-primary me-2"></i>9. Caso integrador: red de un centro educativo</h2>
+                <p class="text-secondary">El centro posee 120 estudiantes, 20 docentes, laboratorio, servidores internos, Wi-Fi de invitados, telefonía IP y administración remota. Diseña una propuesta básica sin configurar aún comandos específicos.</p>
+                <div class="network-diagram" aria-label="Diseño lógico propuesto">                         INTERNET
+                            │
+                      [ FIREWALL ]
+                       /         \
+              DMZ: web público   LAN interna
+                                      │
+                   ┌──────────────────┼──────────────────┐
+              VLAN usuarios     VLAN servidores    VLAN gestión
+              DHCP por relay    DNS/archivos/AAA   SSH/SNMP/Syslog
+                   │                  │                   │
+              VLAN invitados ── solo Internet      solo administradores
+              VLAN voz ──────── QoS + telefonía</div>
+                <div class="row g-4 mt-2">
+                    <div class="col-lg-6"><div class="lab-card"><h5 class="fw-bold">Decisiones esperadas</h5><ul class="text-secondary small mb-0"><li>DHCP central con ámbitos por VLAN y relay en el gateway.</li><li>DNS interno para recursos privados y resolución externa controlada.</li><li>Web pública en DMZ; no dentro de la VLAN de servidores internos.</li><li>Invitados con salida a Internet, sin acceso a redes privadas.</li><li>Administración desde VLAN de gestión mediante SSH y MFA/AAA.</li><li>Syslog, SNMPv3 y NTP para observar y correlacionar.</li><li>Respaldos separados y restauración probada.</li></ul></div></div>
+                    <div class="col-lg-6"><div class="lab-card"><h5 class="fw-bold">Lista de revisión del estudiante</h5><div id="practice-list"><label class="check-item"><input class="practice-check mt-1" type="checkbox"> Identifiqué todos los activos y servicios necesarios.</label><label class="check-item"><input class="practice-check mt-1" type="checkbox"> Separé usuarios, invitados, servidores y administración.</label><label class="check-item"><input class="practice-check mt-1" type="checkbox"> Definí qué flujos se permiten entre segmentos.</label><label class="check-item"><input class="practice-check mt-1" type="checkbox"> Elegí protocolos seguros para administración y usuarios.</label><label class="check-item"><input class="practice-check mt-1" type="checkbox"> Incluí monitoreo, respaldo y recuperación.</label></div><div class="progress mt-3" role="progressbar" aria-label="Progreso del caso"><div class="progress-bar" id="practice-progress" style="width:0%">0%</div></div></div></div>
+                </div>
+
+                <div class="lab-card mt-4"><h5 class="fw-bold"><i class="bi bi-shield-check text-primary me-2"></i>Mini simulador de decisiones</h5><p class="text-secondary small">Selecciona la medida más adecuada para cada situación.</p><div class="row g-4"><div class="col-lg-5"><label class="form-label fw-bold" for="scenario-select">Situación</label><select class="form-select" id="scenario-select"><option value="guest">Los visitantes necesitan Wi-Fi e Internet.</option><option value="admin">Los técnicos administran switches remotamente.</option><option value="files">Los docentes comparten documentos internos.</option><option value="logs">Se investiga un acceso ocurrido ayer.</option></select></div><div class="col-lg-7"><div class="scenario-panel" id="scenario-panel" aria-live="polite"></div></div></div></div>
+            </section>
+
+            <section class="mb-5" id="evaluacion">
+                <h2 class="fw-bold mb-3"><i class="bi bi-patch-question-fill text-primary me-2"></i>10. Comprobación de aprendizaje</h2>
+                <form id="quiz-form">
+                    <div class="quiz-card"><div class="d-flex gap-3"><span class="quiz-number">1</span><div class="flex-grow-1"><h6 class="fw-bold">¿Qué servicio entrega automáticamente dirección IP, gateway y DNS?</h6><label class="d-block"><input type="radio" name="q1" value="a"> DHCP</label><label class="d-block"><input type="radio" name="q1" value="b"> DNS</label><label class="d-block"><input type="radio" name="q1" value="c"> SNMP</label><div class="question-feedback" id="q1-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-3"><span class="quiz-number">2</span><div class="flex-grow-1"><h6 class="fw-bold">¿Cuál es la diferencia principal entre HTTP y HTTPS?</h6><label class="d-block"><input type="radio" name="q2" value="a"> HTTPS solo funciona dentro de una LAN.</label><label class="d-block"><input type="radio" name="q2" value="b"> HTTPS agrega protección TLS y autenticación del servidor.</label><label class="d-block"><input type="radio" name="q2" value="c"> HTTP usa DNS y HTTPS no.</label><div class="question-feedback" id="q2-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-3"><span class="quiz-number">3</span><div class="flex-grow-1"><h6 class="fw-bold">¿Qué principio limita cada cuenta a las acciones estrictamente necesarias?</h6><label class="d-block"><input type="radio" name="q3" value="a"> Alta disponibilidad</label><label class="d-block"><input type="radio" name="q3" value="b"> Mínimo privilegio</label><label class="d-block"><input type="radio" name="q3" value="c"> Conmutación por difusión</label><div class="question-feedback" id="q3-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-3"><span class="quiz-number">4</span><div class="flex-grow-1"><h6 class="fw-bold">¿Por qué es importante NTP para la seguridad?</h6><label class="d-block"><input type="radio" name="q4" value="a"> Porque cifra todo el tráfico.</label><label class="d-block"><input type="radio" name="q4" value="b"> Porque reemplaza el firewall.</label><label class="d-block"><input type="radio" name="q4" value="c"> Porque permite correlacionar eventos y validar procesos dependientes de tiempo.</label><div class="question-feedback" id="q4-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-3"><span class="quiz-number">5</span><div class="flex-grow-1"><h6 class="fw-bold">¿Cuál es la mejor ubicación lógica para visitantes?</h6><label class="d-block"><input type="radio" name="q5" value="a"> La misma VLAN de servidores para reducir saltos.</label><label class="d-block"><input type="radio" name="q5" value="b"> Un segmento aislado con salida controlada a Internet.</label><label class="d-block"><input type="radio" name="q5" value="c"> La VLAN de gestión.</label><div class="question-feedback" id="q5-feedback"></div></div></div></div>
+                    <div class="quiz-card"><div class="d-flex gap-3"><span class="quiz-number">6</span><div class="flex-grow-1"><h6 class="fw-bold">¿Qué combinación mejora la trazabilidad administrativa?</h6><label class="d-block"><input type="radio" name="q6" value="a"> Cuenta compartida y Telnet.</label><label class="d-block"><input type="radio" name="q6" value="b"> Cuentas individuales, AAA, SSH y registros centralizados.</label><label class="d-block"><input type="radio" name="q6" value="c"> Deshabilitar NTP y Syslog.</label><div class="question-feedback" id="q6-feedback"></div></div></div></div>
+                    <div class="d-flex align-items-center flex-wrap gap-3"><button class="btn btn-primary px-4" type="button" id="evaluate-quiz"><i class="bi bi-check2-circle me-1"></i> Evaluar</button><button class="btn btn-outline-secondary" type="reset" id="reset-quiz"><i class="bi bi-arrow-counterclockwise me-1"></i> Reiniciar</button><strong id="quiz-result" aria-live="polite"></strong></div>
+                </form>
+            </section>
+
+            <section class="homework-card mb-5" id="tarea">
+                <div class="row g-4 align-items-center"><div class="col-lg-8"><span class="badge text-bg-light text-primary mb-2">Actividad de cierre</span><h2 class="h3 fw-bold">Diseño seguro de servicios para una pequeña organización</h2><p class="opacity-75">Entrega un diagrama lógico y una matriz con: servicio, usuarios, servidor, protocolo/puerto, segmento, riesgo principal, control preventivo, control detectivo y forma de recuperación. Incluye como mínimo DHCP, DNS, web, archivos, administración y registros.</p><ol class="small opacity-75 mb-0"><li>Justifica cinco decisiones de diseño.</li><li>Escribe seis reglas de comunicación en lenguaje natural.</li><li>Propón una prueba funcional y una prueba de seguridad para cada servicio.</li><li>Describe qué harías si el DNS deja de responder.</li></ol></div><div class="col-lg-4 text-center"><i class="bi bi-network-wired" style="font-size:5rem;opacity:.75;"></i><p class="fw-bold mt-2 mb-0">Producto: diagrama + matriz + plan de pruebas</p></div></div>
+            </section>
+        </div>
+    </main></div>
+
+    <footer class="text-center py-4" style="background-color:var(--sidebar-bg);border-top:1px solid var(--border-color);color:var(--text-secondary);"><p class="mb-0" style="font-size:.9rem;">&copy; 2026 - Msc. Josue A. Guinea Henríquez. Redes de Comunicaciones</p></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/menuredes.js"></script><script src="../../js/menu.js"></script><script src="../../js/main.js"></script>
+    <script>
+        (() => {
+            const progress = document.getElementById('reading-progress');
+            const updateProgress = () => { const max = document.documentElement.scrollHeight - innerHeight; progress.style.width = `${max > 0 ? scrollY / max * 100 : 0}%`; };
+            addEventListener('scroll', updateProgress, { passive:true }); updateProgress();
+
+            const navLinks = [...document.querySelectorAll('.lesson-nav a')];
+            const observed = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+            const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`)); }), { rootMargin:'-25% 0px -65% 0px' });
+            observed.forEach(section => observer.observe(section));
+
+            const filters = [...document.querySelectorAll('.filter-btn')];
+            const services = [...document.querySelectorAll('.service-item')];
+            filters.forEach(button => button.addEventListener('click', () => { filters.forEach(b => b.classList.remove('active')); button.classList.add('active'); const filter = button.dataset.filter; services.forEach(item => item.classList.toggle('d-none', filter !== 'all' && item.querySelector('.service-card').dataset.group !== filter)); }));
+
+            const scenarios = {
+                guest:{ title:'Wi-Fi para visitantes', options:['Conectarlos a la VLAN de administración.','Crear una VLAN de invitados aislada, con salida a Internet y sin acceso a redes privadas.','Compartir la contraseña de la red interna.'], correct:1, explanation:'La segmentación limita el alcance de un equipo no administrado y conserva el acceso que el visitante necesita.' },
+                admin:{ title:'Administración remota', options:['Permitir Telnet desde cualquier red.','Usar una cuenta compartida para ahorrar tiempo.','Restringir SSH a la VLAN de gestión, usar cuentas individuales/AAA y registrar accesos.'], correct:2, explanation:'El acceso cifrado, restringido e identificable mejora confidencialidad, control y trazabilidad.' },
+                files:{ title:'Archivos de docentes', options:['SMB con permisos por grupos, respaldo y acceso solo desde segmentos autorizados.','FTP anónimo desde Internet.','Una carpeta sin permisos para evitar bloqueos.'], correct:0, explanation:'Los permisos por función, el alcance limitado y el respaldo protegen los documentos sin impedir el trabajo.' },
+                logs:{ title:'Investigación de un acceso', options:['Reiniciar todos los equipos y borrar registros.','Comparar Syslog central, AAA y eventos de los servidores usando marcas de tiempo sincronizadas.','Preguntar únicamente quién estaba de turno.'], correct:1, explanation:'Los registros centralizados y NTP permiten construir una secuencia verificable de eventos.' }
+            };
+            const select = document.getElementById('scenario-select'); const panel = document.getElementById('scenario-panel');
+            const renderScenario = () => { const scenario = scenarios[select.value]; panel.innerHTML = `<h6 class="fw-bold">${scenario.title}</h6>${scenario.options.map((option,i) => `<button type="button" class="scenario-option" data-index="${i}">${option}</button>`).join('')}<p class="small mb-0" id="scenario-feedback"></p>`; panel.querySelectorAll('.scenario-option').forEach(btn => btn.addEventListener('click', () => { panel.querySelectorAll('.scenario-option').forEach(b => { b.disabled = true; b.classList.toggle('correct', Number(b.dataset.index) === scenario.correct); }); const chosen = Number(btn.dataset.index); if (chosen !== scenario.correct) btn.classList.add('incorrect'); const feedback = document.getElementById('scenario-feedback'); feedback.className = `small mb-0 fw-bold ${chosen === scenario.correct ? 'text-success' : 'text-danger'}`; feedback.textContent = scenario.explanation; })); };
+            select.addEventListener('change', renderScenario); renderScenario();
+
+            const checks = [...document.querySelectorAll('.practice-check')];
+            const updateChecklist = () => { checks.forEach((check,i) => { check.closest('.check-item').classList.toggle('completed', check.checked); localStorage.setItem(`redes17_practice_${i}`, check.checked); }); const pct = Math.round(checks.filter(c => c.checked).length / checks.length * 100); const bar = document.getElementById('practice-progress'); bar.style.width = `${pct}%`; bar.textContent = `${pct}%`; };
+            checks.forEach((check,i) => { check.checked = localStorage.getItem(`redes17_practice_${i}`) === 'true'; check.addEventListener('change', updateChecklist); }); updateChecklist();
+
+            const answers = { q1:['a','DHCP entrega automáticamente la configuración de red.'], q2:['b','HTTPS protege HTTP mediante TLS y permite validar la identidad del servidor.'], q3:['b','Mínimo privilegio concede únicamente los permisos requeridos.'], q4:['c','La hora común permite ordenar eventos y es necesaria para varios mecanismos de autenticación y certificados.'], q5:['b','Los visitantes deben estar aislados de recursos internos y recibir solo el acceso requerido.'], q6:['b','Las cuentas individuales, AAA, SSH y logs relacionan cada acción con una identidad.'] };
+            document.getElementById('evaluate-quiz').addEventListener('click', () => { let score=0,answered=0; Object.entries(answers).forEach(([q,[correct,explanation]]) => { const selected=document.querySelector(`input[name="${q}"]:checked`); const feedback=document.getElementById(`${q}-feedback`); if(!selected){ feedback.className='question-feedback show bg-warning-subtle text-warning-emphasis'; feedback.textContent='Selecciona una respuesta.'; return; } answered++; const ok=selected.value===correct; if(ok) score++; feedback.className=`question-feedback show ${ok?'bg-success-subtle text-success-emphasis':'bg-danger-subtle text-danger-emphasis'}`; feedback.innerHTML=`<i class="bi ${ok?'bi-check-circle-fill':'bi-x-circle-fill'} me-1"></i>${explanation}`; }); const result=document.getElementById('quiz-result'); result.textContent=answered<6?`Respondidas ${answered}/6 • Aciertos ${score}`:`Resultado: ${score} de 6`; result.className=score>=5&&answered===6?'text-success':score>=3?'text-warning':'text-danger'; });
+            document.getElementById('reset-quiz').addEventListener('click', () => { document.querySelectorAll('.question-feedback').forEach(el => { el.className='question-feedback'; el.textContent=''; }); const result=document.getElementById('quiz-result'); result.textContent=''; result.className=''; });
+        })();
+    </script>
+</body>
+</html>

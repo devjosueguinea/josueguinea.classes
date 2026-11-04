@@ -110,6 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="class-item-text" title="Clase 16: Redundancia en Capa 2 y Redes Convergentes">Clase 16: Redundancia en Capa 2</span>
                     </a>
                 </li>
+                <li>
+                    <a href="clase17redes.html" class="class-item text-decoration-none">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="class-item-text" title="Clase 17: Servicios de red y seguridad básica">Clase 17: Servicios y seguridad</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
