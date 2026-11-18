@@ -592,6 +592,77 @@ body {
 
 /* Responsive */
 
+/* Acceso por PIN de materias */
+.teacher-pin-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    background: rgba(108, 92, 231, 0.1);
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.teacher-pin-button:hover {
+    color: white;
+    background: var(--primary);
+}
+
+.access-modal-content {
+    color: var(--text-primary);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.access-modal-content .btn-close {
+    filter: var(--bs-btn-close-white-filter, none);
+}
+
+[data-theme="dark"] .access-modal-content .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.access-modal-content .form-control,
+.access-modal-content .form-select {
+    color: var(--text-primary);
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+}
+
+.access-modal-content .form-control:focus,
+.access-modal-content .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.18);
+}
+
+.access-modal-icon {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: var(--primary-gradient);
+    border-radius: 14px;
+    font-size: 1.25rem;
+}
+
+.access-pin-input {
+    font-size: 1.4rem;
+    letter-spacing: 0.45rem;
+    text-align: center;
+}
+
+.teacher-session-bar {
+    padding: 10px 12px;
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
 @media (max-width: 768px) {
     .app-container {
         flex-direction: column;

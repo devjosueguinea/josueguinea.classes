@@ -26,6 +26,10 @@
                     <input type="text" id="dashboard-search" placeholder="Buscar materias...">
                 </div>
                 <div class="header-actions">
+                    <button class="btn teacher-pin-button" id="teacher-pin-button" type="button">
+                        <i class="bi bi-shield-lock"></i>
+                        <span class="d-none d-sm-inline">Configurar PIN</span>
+                    </button>
                     <button class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
                         <i class="bi bi-moon-fill" id="theme-icon"></i>
                     </button>
@@ -112,7 +116,8 @@
                             </div>
                         </div>
                         <div class="subject-footer">
-                            <a href="clases/redcom/redes-comunicaciones.html" class="subject-link">
+                            <a href="clases/redcom/redes-comunicaciones.html" class="subject-link"
+                                data-subject-id="redes" data-subject-name="Redes de Comunicaciones">
                                 <span>Acceder a materia</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
@@ -142,7 +147,8 @@
                             </div>
                         </div>
                         <div class="subject-footer">
-                            <a href="clases/bdr/bases-datos-relacionales.html" class="subject-link">
+                            <a href="clases/bdr/bases-datos-relacionales.html" class="subject-link"
+                                data-subject-id="bdr" data-subject-name="Bases de Datos I (SQL)">
                                 <span>Acceder a materia</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
@@ -172,7 +178,8 @@
                             </div>
                         </div>
                         <div class="subject-footer">
-                            <a href="clases/bd2/bases-datos-ii.html" class="subject-link">
+                            <a href="clases/bd2/bases-datos-ii.html" class="subject-link"
+                                data-subject-id="bd2" data-subject-name="Bases de Datos II (NoSQL)">
                                 <span>Acceder a materia</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
@@ -202,7 +209,8 @@
                             </div>
                         </div>
                         <div class="subject-footer">
-                            <a href="#" class="subject-link">
+                            <a href="#" class="subject-link" data-subject-id="so"
+                                data-subject-name="Sistemas Operativos">
                                 <span>Acceder a materia</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
@@ -234,7 +242,8 @@
                             </div>
                         </div>
                         <div class="subject-footer">
-                            <a href="clases/ads/ads.html" class="subject-link">
+                            <a href="clases/ads/ads.html" class="subject-link"
+                                data-subject-id="ads" data-subject-name="Análisis y Diseño de Sistemas (UML)">
                                 <span>Acceder a materia</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
@@ -266,7 +275,8 @@
                             </div>
                         </div>
                         <div class="subject-footer">
-                            <a href="clases/poo/programacion-orientada-objetos.html" class="subject-link">
+                            <a href="clases/poo/programacion-orientada-objetos.html" class="subject-link"
+                                data-subject-id="poo" data-subject-name="Programación Orientada a Objetos">
                                 <span>Acceder a materia</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
@@ -311,10 +321,111 @@
             reservados.</p>
     </footer>
 
+    <!-- Acceso del estudiante -->
+    <div class="modal fade" id="subject-access-modal" tabindex="-1" aria-labelledby="subject-access-title"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content access-modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div>
+                        <span class="access-modal-icon"><i class="bi bi-key-fill"></i></span>
+                        <h5 class="modal-title mt-3" id="subject-access-title">Acceso a la materia</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <form id="subject-access-form">
+                    <div class="modal-body">
+                        <p class="text-secondary mb-3">Ingresa el PIN proporcionado por tu docente para acceder a
+                            <strong id="subject-access-name"></strong>.</p>
+                        <label for="subject-access-pin" class="form-label fw-semibold">PIN de acceso</label>
+                        <input type="password" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8"
+                            autocomplete="one-time-code" class="form-control access-pin-input"
+                            id="subject-access-pin" placeholder="••••" required>
+                        <div class="alert alert-danger d-none mt-3 mb-0" id="subject-access-error" role="alert"></div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="subject-access-submit">Ingresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Administración del docente -->
+    <div class="modal fade" id="teacher-pin-modal" tabindex="-1" aria-labelledby="teacher-pin-title"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content access-modal-content">
+                <div class="modal-header border-0">
+                    <div>
+                        <h5 class="modal-title" id="teacher-pin-title">Administrar PIN de materias</h5>
+                        <small class="text-secondary">Área exclusiva para el docente</small>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <div class="alert alert-danger d-none" id="teacher-pin-error" role="alert"></div>
+                    <div class="alert alert-success d-none" id="teacher-pin-success" role="status"></div>
+
+                    <form id="teacher-login-form">
+                        <div class="mb-3">
+                            <label for="teacher-email" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="teacher-email" autocomplete="username"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="teacher-password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="teacher-password"
+                                autocomplete="current-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+                    </form>
+
+                    <div class="d-none" id="teacher-session">
+                        <div class="d-flex justify-content-between align-items-center teacher-session-bar mb-3">
+                            <small>Sesión: <strong id="teacher-email-current"></strong></small>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                id="teacher-logout">Salir</button>
+                        </div>
+                        <form id="teacher-pin-form">
+                            <div class="mb-3">
+                                <label for="teacher-subject" class="form-label">Materia</label>
+                                <select class="form-select" id="teacher-subject" required>
+                                    <option value="redes">Redes de Comunicaciones</option>
+                                    <option value="bdr">Bases de Datos I (SQL)</option>
+                                    <option value="bd2">Bases de Datos II (NoSQL)</option>
+                                    <option value="so">Sistemas Operativos</option>
+                                    <option value="ads">Análisis y Diseño de Sistemas (UML)</option>
+                                    <option value="poo">Programación Orientada a Objetos</option>
+                                </select>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-sm-6">
+                                    <label for="teacher-new-pin" class="form-label">Nuevo PIN</label>
+                                    <input type="password" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8"
+                                        class="form-control" id="teacher-new-pin" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="teacher-confirm-pin" class="form-label">Confirmar PIN</label>
+                                    <input type="password" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8"
+                                        class="form-control" id="teacher-confirm-pin" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Guardar PIN</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/access-config.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/subject-access.js"></script>
 </body>
 
 </html>

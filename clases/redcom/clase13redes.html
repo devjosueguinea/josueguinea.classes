@@ -110,5 +110,6 @@ Switch(config-if-range)# shutdown</code></pre></div>
         document.querySelectorAll('.toggle-exercise').forEach(button=>button.addEventListener('click',()=>{const solution=document.getElementById(button.dataset.target);const visible=solution.classList.toggle('show');button.innerHTML=visible?'<i class="bi bi-eye-slash-fill me-1"></i> Ocultar solución':'<i class="bi bi-eye-fill me-1"></i> Ver solución';}));
         document.getElementById('evaluate-quiz').addEventListener('click',()=>{const answers={q1:'b',q2:'a',q3:'b',q4:'a',q5:'c'};let score=0;for(const [q,a] of Object.entries(answers)){if(document.querySelector('input[name="'+q+'"]:checked')?.value===a)score++;}const result=document.getElementById('quiz-result');result.textContent='Resultado: '+score+' / 5';result.className='fw-bold ms-3 '+(score>=4?'text-success':score>=3?'text-warning':'text-danger');});
     </script>
+    <script src="../../js/subject-guard.js"></script>
 </body>
 </html>
